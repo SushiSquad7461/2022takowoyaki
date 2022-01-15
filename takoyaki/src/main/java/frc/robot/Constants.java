@@ -13,10 +13,10 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final class kIntake {
-        public static final int FALCON_MOTOR_ID = -1;
-        public static final int SOLENOID_FRONT = 1;
-        public static final int SOLENOID_BACK = 0;
-        public static final float INTAKE_SPEED = 0.9f;
+    public static final class kShooter {
+        public static final int LEFT_MOTOR_ID = -1;
+        public static final int RIGHT_MOTOR_ID = -1;
+        public static final float SPEED = 0.9f;
+
     }
 }
