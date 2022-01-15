@@ -15,8 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           cd takoyaki
-          ./gradlew downloadAll
-          ./gradlew jar
+          ./gradlew build
 
   lint:
     name: Run checkstyle linter
@@ -26,5 +25,4 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           cd takoyaki
-          ./gradlew downloadAll
           ./gradlew check
