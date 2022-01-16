@@ -22,10 +22,10 @@ public class Shooter extends SubsystemBase {
   private double goal;
 
   public Shooter() {
-		left.setNeutralMode(NeutralMode.Brake);
+    left.setNeutralMode(NeutralMode.Brake);
 		right.setNeutralMode(NeutralMode.Brake);
 
-		left.setInverted(TalonFXInvertType.CounterClockwise);
+    left.setInverted(TalonFXInvertType.CounterClockwise);
 		right.setInverted(TalonFXInvertType.Clockwise);
 	
     left.config_kP(0, Constants.kShooter.kP, 100);
