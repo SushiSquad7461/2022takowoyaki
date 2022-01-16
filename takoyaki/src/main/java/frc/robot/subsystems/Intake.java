@@ -40,7 +40,6 @@ public class Intake extends SubsystemBase {
     falcon.set(ControlMode.PercentOutput, -Constants.kIntake.INTAKE_SPEED);
   }
 
-
   public void actuateIntake() {
     solenoid.set(Value.kReverse);
   }

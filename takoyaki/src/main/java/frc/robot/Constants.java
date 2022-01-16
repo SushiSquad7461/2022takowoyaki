@@ -22,10 +22,10 @@ public final class Constants {
     public static final float INTAKE_SPEED = 0.9f;
 
     public static final int RETRACT_INTAKE = XboxController.Button.kY.value;
-    public static final int ACUATE_INTAK = XboxController.Button.kA.value;
+    public static final int ACTUATE_INTAKE  = XboxController.Button.kA.value;
     
-    public static final int RUN_INTACT = XboxController.Button.kX.value;
-    public static final int REVERSE_INTACT = XboxController.Button.kB.value;
+    public static final int RUN_INTAKE = XboxController.Button.kX.value;
+    public static final int REVERSE_INTAKE = XboxController.Button.kB.value;
   }
 
   public static final class kOI {

@@ -38,21 +38,21 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Extend Intake
-    new JoystickButton(driveController, Constants.kIntake.ACUATE_INTAK)
+    // Actuate Intake
+    new JoystickButton(driveController, Constants.kIntake.ACTUATE_INTAKE)
       .whenPressed(new InstantCommand(intake::actuateIntake, intake));
 
-    // Revert Intake
+    // Retract Intake
     new JoystickButton(driveController, Constants.kIntake.RETRACT_INTAKE)
       .whenPressed(new InstantCommand(intake::retractIntake, intake));
       
     // Run Intake
-    new JoystickButton(driveController, Constants.kIntake.RUN_INTACT)
+    new JoystickButton(driveController, Constants.kIntake.RUN_INTAKE)
       .whenPressed(new InstantCommand(intake::startIntake, intake))
       .whenReleased(new InstantCommand(intake::stopIntake, intake));
 
-    // Reserve Intake
-    new JoystickButton(driveController, Constants.kIntake.REVERSE_INTACT)
+    // Reverse Intake
+    new JoystickButton(driveController, Constants.kIntake.REVERSE_INTAKE)
       .whenPressed(new InstantCommand(intake::startReverse, intake))
       .whenReleased(new InstantCommand(intake::stopIntake, intake));
   }
