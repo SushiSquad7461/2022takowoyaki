@@ -23,10 +23,10 @@ public class Shooter extends SubsystemBase {
 
   public Shooter() {
     left.setNeutralMode(NeutralMode.Brake);
-		right.setNeutralMode(NeutralMode.Brake);
+    right.setNeutralMode(NeutralMode.Brake);
 
     left.setInverted(TalonFXInvertType.CounterClockwise);
-		right.setInverted(TalonFXInvertType.Clockwise);
+    right.setInverted(TalonFXInvertType.Clockwise);
 	
     left.config_kP(0, Constants.kShooter.kP, 100);
     left.config_kI(0, Constants.kShooter.kI, 100);
