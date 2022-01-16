@@ -10,12 +10,12 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    container: gradle:jdk11
+    container: wpilib/roborio-cross-ubuntu:2022-18.04
     steps:
       - uses: actions/checkout@v2
       - run: |
           cd takoyaki
-          ./gradlew build
+          ./gradlew assemble
 
   lint:
     name: Run checkstyle linter
