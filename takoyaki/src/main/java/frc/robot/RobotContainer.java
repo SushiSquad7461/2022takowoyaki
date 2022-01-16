@@ -39,12 +39,12 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Run Intake
-    new JoystickButton(driveController, Constants.kHooper.RUN_HOPPER)
+    new JoystickButton(driveController, Constants.kHopper.RUN_HOPPER)
       .whenPressed(new InstantCommand(hopper::runForward, hopper))
       .whenReleased(new InstantCommand(hopper::stop, hopper));
 
-    // Reserve Intake
-    new JoystickButton(driveController, Constants.kHooper.REVERSE_HOPPER)
+    // Reverse Intake
+    new JoystickButton(driveController, Constants.kHopper.REVERSE_HOPPER)
       .whenPressed(new InstantCommand(hopper::runBackward, hopper))
       .whenReleased(new InstantCommand(hopper::stop, hopper));
   }

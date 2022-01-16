@@ -15,15 +15,16 @@ import edu.wpi.first.wpilibj.XboxController;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public final static class kHooper {
-    public final static int MOTOR_ID = -1;
-    public final static boolean INVERTED = false;
-    public final static int CURRENT_LIMIT = 30;
-    public final static double SPEED = 0.9;
+  public static final class kHopper {
+    public static final int MOTOR_ID = -1;
+    public static final boolean INVERTED = false;
+    public static final int CURRENT_LIMIT = 30;
+    public static final double SPEED = 0.9;
 
     public static final int RUN_HOPPER = XboxController.Button.kX.value;
     public static final int REVERSE_HOPPER = XboxController.Button.kB.value;
   }
+  
   public static final class kOI {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;

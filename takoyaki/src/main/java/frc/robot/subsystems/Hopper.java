@@ -11,28 +11,27 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Hopper extends SubsystemBase {
-  WPI_TalonSRX floor = new WPI_TalonSRX(Constants.kHooper.MOTOR_ID);
+  private final WPI_TalonSRX floor = new WPI_TalonSRX(Constants.kHopper.MOTOR_ID);
 
   public Hopper() {
     floor.configFactoryDefault();
-    floor.setInverted(Constants.kHooper.INVERTED);
+    floor.setInverted(Constants.kHopper.INVERTED);
     floor.setNeutralMode(NeutralMode.Coast);
-    floor.configPeakCurrentLimit(Constants.kHooper.CURRENT_LIMIT);
+    floor.configPeakCurrentLimit(Constants.kHopper.CURRENT_LIMIT);
     floor.enableCurrentLimit(true);
   }
 
   public void runForward() {
-    floor.set(ControlMode.PercentOutput, Constants.kHooper.SPEED);
+    floor.set(ControlMode.PercentOutput, Constants.kHopper.SPEED);
   }
 
   public void runBackward() {
-    floor.set(ControlMode.PercentOutput, -Constants.kHooper.SPEED);
+    floor.set(ControlMode.PercentOutput, -Constants.kHopper.SPEED);
   }
 
   public void stop() {
     floor.set(ControlMode.PercentOutput, 0);
   }
-
 
   @Override 
   public void periodic() { }
