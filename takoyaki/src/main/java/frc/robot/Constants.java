@@ -16,7 +16,7 @@ public final class Constants {
     public static final class kShooter {
         public static final int LEFT_MOTOR_ID = -1;
         public static final int RIGHT_MOTOR_ID = -1;
-        public static final float SPEED = 0.9f;
+        public static final double SPEED = 0.9;
         public static final int CURRENT_LIMIT = 35;
         public static final double kP = 0.0;
         public static final double kI = 0.0;
