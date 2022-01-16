@@ -14,10 +14,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
 public class Shooter extends SubsystemBase {
-  private WPI_TalonFX left = new WPI_TalonFX(Constants.kShooter.LEFT_MOTOR_ID);
-  private WPI_TalonFX right = new WPI_TalonFX(Constants.kShooter.RIGHT_MOTOR_ID);
+  private final WPI_TalonFX left = new WPI_TalonFX(Constants.kShooter.LEFT_MOTOR_ID);
+  private final WPI_TalonFX right = new WPI_TalonFX(Constants.kShooter.RIGHT_MOTOR_ID);
 
-  private SimpleMotorFeedforward fForward;
+  private final SimpleMotorFeedforward fForward;
 
   private double goal;
 
@@ -28,9 +28,9 @@ public class Shooter extends SubsystemBase {
     left.setInverted(TalonFXInvertType.CounterClockwise);
     right.setInverted(TalonFXInvertType.Clockwise);
 	
-    left.config_kP(0, Constants.kShooter.kP, 100);
-    left.config_kI(0, Constants.kShooter.kI, 100);
-    left.config_kD(0, Constants.kShooter.kD, 100);
+    left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kP, Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
+    left.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kI, Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
+    left.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kD, Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
 
     right.follow(left);
 
@@ -43,6 +43,10 @@ public class Shooter extends SubsystemBase {
 
   public void setGoal(double goal) {
     this.goal = goal;
+  }
+
+  public void zeroGoal() {
+    this.goal = 0;
   }
 
   public void setGoal() {
