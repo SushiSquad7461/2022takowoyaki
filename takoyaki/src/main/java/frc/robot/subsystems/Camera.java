@@ -6,11 +6,11 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.util.Units;
 
-public class Camera extends SubsystemBase{
+
+public class Camera {
   private PhotonCamera camera;
   private String name;
   public Camera(String name) {
@@ -19,7 +19,7 @@ public class Camera extends SubsystemBase{
   }
 
   public void periodic() {
-    SmartDashboard.putBoolean("Camera Sees Targets", camera.getLatestResult().hasTargets());
+    SmartDashboard.putBoolean("Camera \"" + name + "\" Sees Targets", camera.getLatestResult().hasTargets());
   }
   
   public boolean hasTargets() {
