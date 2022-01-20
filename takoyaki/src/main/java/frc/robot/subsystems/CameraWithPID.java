@@ -19,4 +19,13 @@ public class CameraWithPID {
     this.controller = controller;
   }
   
+  public void alignToTarget () {
+    try {
+      if (camera.hasTargets()) {
+        controller.setSetpoint(camera.getYaw());
+      }
+    } catch (Exception e) {
+      SmartDashboard.putString("Errors", e.getMessage());
+    }
+  }
 }
