@@ -31,6 +31,16 @@ public final class Constants {
 
     public static final int RUN_SHOOTER = XboxController.Button.kX.value;
   }  
+  public static final class kHopper {
+    public static final int MOTOR_ID = -1;
+    public static final boolean INVERTED = false;
+    public static final int CURRENT_LIMIT = 30;
+    public static final double SPEED = 0.9;
+
+    public static final int RUN_HOPPER = XboxController.Button.kX.value;
+    public static final int REVERSE_HOPPER = XboxController.Button.kB.value;
+  }
+  
   public static final class kOI {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;
