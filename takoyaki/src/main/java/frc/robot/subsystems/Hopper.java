@@ -6,31 +6,36 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Hopper extends SubsystemBase {
-  private final WPI_TalonSRX floor = new WPI_TalonSRX(Constants.kHopper.MOTOR_ID);
+  private final WPI_VictorSPX floor = new WPI_VictorSPX(Constants.kHopper.MOTOR_ID);
 
   public Hopper() {
     floor.configFactoryDefault();
     floor.setInverted(Constants.kHopper.INVERTED);
     floor.setNeutralMode(NeutralMode.Coast);
-    floor.configPeakCurrentLimit(Constants.kHopper.CURRENT_LIMIT);
-    floor.enableCurrentLimit(true);
+    // floor.configPeakCurrentLimit(Constants.kHopper.CURRENT_LIMIT);
+    // floor.enableCurrentLimit(true);
   }
 
   public void runForward() {
     floor.set(ControlMode.PercentOutput, Constants.kHopper.SPEED);
+    SmartDashboard.putString("Running hopper", "forward");
   }
 
   public void runBackward() {
     floor.set(ControlMode.PercentOutput, -Constants.kHopper.SPEED);
+    SmartDashboard.putString("Running hopper", "backward");
   }
 
   public void stop() {
     floor.set(ControlMode.PercentOutput, 0);
+    SmartDashboard.putString("Running hopper", "stop");
   }
 
   @Override 

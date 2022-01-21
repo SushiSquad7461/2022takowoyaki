@@ -6,8 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -22,7 +20,6 @@ import frc.robot.subsystems.Hopper;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Shooter shooter = new Shooter();
   // Subsytems, and commands
   private final Hopper hopper = new Hopper();
@@ -30,9 +27,6 @@ public class RobotContainer {
   // Controllers
   private final XboxController driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
   private final XboxController operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
-
-  // Controllers
-  private final XboxController driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -49,8 +43,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Run shooter
     new JoystickButton(driveController, Constants.kShooter.RUN_SHOOTER)
-          .whenPressed(new InstantCommand(shooter::setGoal, shooter))
-          .whenReleased(new InstantCommand(shooter::zeroGoal, shooter));
+          .whenPressed(new InstantCommand(shooter::run, shooter))
+          .whenReleased(new InstantCommand(shooter::stop, shooter));
     // Run Intake
     new JoystickButton(driveController, Constants.kHopper.RUN_HOPPER)
       .whenPressed(new InstantCommand(hopper::runForward, hopper))
