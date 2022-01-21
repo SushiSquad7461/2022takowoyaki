@@ -22,8 +22,8 @@ public class Shooter extends SubsystemBase {
   private double goal;
 
   public Shooter() {
-    left.setNeutralMode(NeutralMode.Brake);
-    right.setNeutralMode(NeutralMode.Brake);
+    left.setNeutralMode(NeutralMode.Coast);
+    right.setNeutralMode(NeutralMode.Coast);
 
     left.setInverted(TalonFXInvertType.CounterClockwise);
     right.setInverted(TalonFXInvertType.Clockwise);
@@ -39,6 +39,10 @@ public class Shooter extends SubsystemBase {
 
   public void run() {
     left.set(ControlMode.PercentOutput, Constants.kShooter.SPEED);
+  }
+
+  public void stop() {
+    left.set(ControlMode.PercentOutput, 0);
   }
 
   public void setGoal(double goal) {
