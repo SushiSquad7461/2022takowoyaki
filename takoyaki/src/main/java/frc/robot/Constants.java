@@ -18,6 +18,7 @@ public final class Constants {
   public static final class kShooter {
     public static final int LEFT_MOTOR_ID = -1;
     public static final int RIGHT_MOTOR_ID = -1;
+    public static final int KICKER_MOTOR_ID = -1;
     public static final double SPEED = 0.9;
     public static final int CURRENT_LIMIT = 35;
     public static final double kP = 0.0;
@@ -30,6 +31,10 @@ public final class Constants {
     public static final int DEFAULT_CONFIG_TIMEOUT = 100;
 
     public static final int RUN_SHOOTER = XboxController.Button.kX.value;
+
+    public static final boolean KICKER_INVERSION = true;
+
+    public static final double SPEED_KICKER = 1;
   }  
   public static final class kOI {
     public static final int DRIVE_CONTROLLER = 0;
