@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public final class Constants {
   public static final class kShooter {
-    public static final int LEFT_MOTOR_ID = -1;
-    public static final int RIGHT_MOTOR_ID = -1;
+    public static final int LEFT_MOTOR_ID = 15;
+    public static final int RIGHT_MOTOR_ID = 14;
     public static final double SPEED = 0.9;
     public static final int CURRENT_LIMIT = 35;
     public static final double kP = 0.0;
@@ -31,6 +31,16 @@ public final class Constants {
 
     public static final int RUN_SHOOTER = XboxController.Button.kX.value;
   }  
+  public static final class kHopper {
+    public static final int MOTOR_ID = 10;
+    public static final boolean INVERTED = false;
+    public static final int CURRENT_LIMIT = 30;
+    public static final double SPEED = 0.5;
+
+    public static final int RUN_HOPPER = XboxController.Button.kX.value;
+    public static final int REVERSE_HOPPER = XboxController.Button.kB.value;
+  }
+  
   public static final class kOI {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;

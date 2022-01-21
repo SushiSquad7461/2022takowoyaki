@@ -6,12 +6,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.Hopper;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -21,13 +23,15 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Shooter shooter = new Shooter();
-
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  // Subsytems, and commands
+  private final Hopper hopper = new Hopper();
 
   // Controllers
   private final XboxController driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
+  private final XboxController operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
+
+  // Controllers
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -46,6 +50,15 @@ public class RobotContainer {
     new JoystickButton(driveController, Constants.kShooter.RUN_SHOOTER)
           .whenPressed(new InstantCommand(shooter::setGoal, shooter))
           .whenReleased(new InstantCommand(shooter::zeroGoal, shooter));
+    // Run Intake
+    new JoystickButton(driveController, Constants.kHopper.RUN_HOPPER)
+      .whenPressed(new InstantCommand(hopper::runForward, hopper))
+      .whenReleased(new InstantCommand(hopper::stop, hopper));
+
+    // Reverse Intake
+    new JoystickButton(driveController, Constants.kHopper.REVERSE_HOPPER)
+      .whenPressed(new InstantCommand(hopper::runBackward, hopper))
+      .whenReleased(new InstantCommand(hopper::stop, hopper));
   }
 
   /**
@@ -55,6 +68,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return null;
   }
 }

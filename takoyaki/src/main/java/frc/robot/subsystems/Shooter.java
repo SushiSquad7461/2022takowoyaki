@@ -12,33 +12,35 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 
 public class Shooter extends SubsystemBase {
-  private final WPI_TalonFX left = new WPI_TalonFX(Constants.kShooter.LEFT_MOTOR_ID);
-  private final WPI_TalonFX right = new WPI_TalonFX(Constants.kShooter.RIGHT_MOTOR_ID);
+  private final CANSparkMax left = new CANSparkMax(Constants.kShooter.LEFT_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+  private final CANSparkMax right = new CANSparkMax(Constants.kShooter.RIGHT_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-  private final SimpleMotorFeedforward fForward;
+  //private final SimpleMotorFeedforward fForward;
 
   private double goal;
 
   public Shooter() {
-    left.setNeutralMode(NeutralMode.Brake);
-    right.setNeutralMode(NeutralMode.Brake);
+    left.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    right.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-    left.setInverted(TalonFXInvertType.CounterClockwise);
-    right.setInverted(TalonFXInvertType.Clockwise);
+    left.setInverted(true);
+    right.setInverted(false);
 	
-    left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kP, Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kI, Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kD, Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
+    // left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kP, Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
+    // left.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kI, Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
+    // left.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kD, Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
 
-    right.follow(left);
+    right.follow(left, false);
 
-    fForward = new SimpleMotorFeedforward(Constants.kShooter.kS, Constants.kShooter.kV);
+    // fForward = new SimpleMotorFeedforward(Constants.kShooter.kS, Constants.kShooter.kV);
   }
 
   public void run() {
-    left.set(ControlMode.PercentOutput, Constants.kShooter.SPEED);
+    left.set(Constants.kShooter.SPEED);
   }
 
   public void setGoal(double goal) {
@@ -50,12 +52,12 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setGoal() {
-    this.goal = Constants.kShooter.GOAL;
+    this.goal = Constants.kShooter.SPEED;
   }
 
   @Override
   public void periodic() { 
-    left.set(ControlMode.Velocity, goal, DemandType.ArbitraryFeedForward, fForward.calculate(goal));
+    left.set(goal);
   }
 
   @Override
