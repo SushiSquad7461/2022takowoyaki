@@ -5,37 +5,50 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
-  WPI_TalonFX rightFront = new WPI_TalonFX(Constants.kDrive.FRONT_RIGHT_ID);
-  WPI_TalonFX rightBack = new WPI_TalonFX(Constants.kDrive.BACK_RIGHT_ID);
-  WPI_TalonFX leftFront = new WPI_TalonFX(Constants.kDrive.FRONT_LEFT_ID);
-  WPI_TalonFX leftBack = new WPI_TalonFX(Constants.kDrive.BACK_LEFT_ID);
+  private WPI_TalonFX frontRight;
+  private WPI_TalonFX backRight;
+  private WPI_TalonFX frontLeft;
+  private WPI_TalonFX backLeft;
 
-  DifferentialDrive diffDrive = new DifferentialDrive(leftFront, rightFront);
-
-  private int angleInvert;
+  private DifferentialDrive diffDrive;
 
   public Drivetrain() {
+
+    frontRight = new WPI_TalonFX(Constants.kDrive.FRONT_RIGHT_ID);
+    backRight = new WPI_TalonFX(Constants.kDrive.BACK_RIGHT_ID);
+    frontLeft = new WPI_TalonFX(Constants.kDrive.FRONT_LEFT_ID);
+    backLeft = new WPI_TalonFX(Constants.kDrive.BACK_LEFT_ID);
+
     /* factory default values */
-    rightFront.configFactoryDefault();
-    rightBack.configFactoryDefault();
-    leftFront.configFactoryDefault();
-    leftBack.configFactoryDefault();
+    frontRight.configFactoryDefault();
+    backRight.configFactoryDefault();
+    frontLeft.configFactoryDefault();
+    backLeft.configFactoryDefault();
 
     /* set up followers */
-    rightBack.follow(rightFront);
-    leftBack.follow(leftFront);
+    backRight.follow(frontRight);
+    backLeft.follow(frontLeft);
 
-    rightFront.setInverted(TalonFXInvertType.CounterClockwise);
-    leftFront.setInverted(TalonFXInvertType.Clockwise);
-    rightBack.setInverted(TalonFXInvertType.CounterClockwise);
-    leftBack.setInverted(TalonFXInvertType.Clockwise);
+    frontRight.setInverted(TalonFXInvertType.CounterClockwise);
+    frontLeft.setInverted(TalonFXInvertType.Clockwise);
+    backRight.setInverted(TalonFXInvertType.CounterClockwise);
+    backLeft.setInverted(TalonFXInvertType.Clockwise);
 
+    frontRight.setNeutralMode(NeutralMode.Coast);
+    frontLeft.setNeutralMode(NeutralMode.Coast);
+    backRight.setNeutralMode(NeutralMode.Coast);
+    backLeft.setNeutralMode(NeutralMode.Coast);
+
+    
+    diffDrive = new DifferentialDrive(frontLeft, frontRight);
     /*
      * WPI drivetrain classes defaultly assume left and right are opposite. call
      * this so we can apply + to both sides when moving forward. DO NOT CHANGE
@@ -44,9 +57,9 @@ public class Drivetrain extends SubsystemBase {
 
   public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn) {
     if (isQuickturn) {
-      angularVelocity /= 2;
+      angularVelocity /= 3;
     }
-    diffDrive.curvatureDrive(linearVelocity, angularVelocity * angleInvert, isQuickturn);
+    diffDrive.curvatureDrive(linearVelocity, angularVelocity, isQuickturn);
   }
 
   @Override

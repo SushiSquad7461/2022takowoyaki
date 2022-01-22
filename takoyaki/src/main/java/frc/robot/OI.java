@@ -9,7 +9,7 @@ public class OI {
   }
 
   public static double getLeftStick(XboxController controller) {
-    return Math.pow(controller.getRightX(), 3);
+    return Math.pow(controller.getLeftX(), 3);
   }
 
   public static double getRightStick(XboxController controller) {
