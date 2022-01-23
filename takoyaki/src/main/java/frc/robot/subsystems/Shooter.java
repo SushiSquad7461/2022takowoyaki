@@ -14,13 +14,16 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Shooter extends SubsystemBase {
   private final CANSparkMax left = new CANSparkMax(Constants.kShooter.LEFT_MOTOR_ID, MotorType.kBrushless);
   private final CANSparkMax right = new CANSparkMax(Constants.kShooter.RIGHT_MOTOR_ID, MotorType.kBrushless);
+  private final RelativeEncoder leftEncoder = left.getEncoder();
 
   private final SimpleMotorFeedforward fForward;
 
@@ -33,7 +36,7 @@ public class Shooter extends SubsystemBase {
     left.setIdleMode(CANSparkMax.IdleMode.kCoast);
     right.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
-    left.setInverted(true);
+    left.setInverted(false);
 	
     // left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kP, Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
     // left.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kI, Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
@@ -69,6 +72,7 @@ public class Shooter extends SubsystemBase {
   public void periodic() { 
     //left.set(ControlMode.Velocity, goal, DemandType.ArbitraryFeedForward, fForward.calculate(goal));
     SmartDashboard.putNumber("spark faults", left.getStickyFaults());
+    SmartDashboard.putNumber("spark rpm", leftEncoder.getVelocity());
   }
 
   @Override

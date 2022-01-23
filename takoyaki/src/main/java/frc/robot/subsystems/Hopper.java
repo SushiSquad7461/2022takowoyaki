@@ -14,17 +14,23 @@ import frc.robot.Constants;
 
 public class Hopper extends SubsystemBase {
   private final WPI_VictorSPX floor = new WPI_VictorSPX(Constants.kHopper.MOTOR_ID);
+  private final WPI_VictorSPX kicker = new WPI_VictorSPX(Constants.kHopper.KICKER_ID);
 
   public Hopper() {
     floor.configFactoryDefault();
     floor.setInverted(Constants.kHopper.INVERTED);
     floor.setNeutralMode(NeutralMode.Coast);
+
+    kicker.configFactoryDefault();
+    kicker.setInverted(!Constants.kHopper.INVERTED);
+    kicker.setNeutralMode(NeutralMode.Coast);
     // floor.configPeakCurrentLimit(Constants.kHopper.CURRENT_LIMIT);
     // floor.enableCurrentLimit(true);
   }
 
   public void runForward() {
     floor.set(ControlMode.PercentOutput, Constants.kHopper.SPEED);
+    kicker.set(ControlMode.PercentOutput, 1);
     SmartDashboard.putString("Running hopper", "forward");
   }
 
@@ -35,6 +41,7 @@ public class Hopper extends SubsystemBase {
 
   public void stop() {
     floor.set(ControlMode.PercentOutput, 0);
+    kicker.set(ControlMode.PercentOutput, 0);
     SmartDashboard.putString("Running hopper", "stop");
   }
 
