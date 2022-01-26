@@ -31,8 +31,6 @@ public class RobotContainer {
   private final XboxController driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
   private final XboxController operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
 
-  // Controllers
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -48,8 +46,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Run shooter
     new JoystickButton(driveController, Constants.kShooter.RUN_SHOOTER)
-          .whenPressed(new InstantCommand(shooter::setGoal, shooter))
-          .whenReleased(new InstantCommand(shooter::zeroGoal, shooter));
+          .whenPressed(new InstantCommand(shooter::run, shooter))
+          .whenReleased(new InstantCommand(shooter::stop, shooter));
     // Run Intake
     new JoystickButton(driveController, Constants.kHopper.RUN_HOPPER)
       .whenPressed(new InstantCommand(hopper::runForward, hopper))
