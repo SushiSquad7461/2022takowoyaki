@@ -5,6 +5,20 @@ plugins {
     id "edu.wpi.first.GradleRIO" version "2022.1.1"
 }
 
+repositories {
+    maven {
+        url = uri("https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit")
+        credentials {
+            username = "Mechanical-Advantage-Bot"
+            password = "ghp_ykO20iuCY5H2i" + "LgmNxz8VIKJ2uQa6g1DdV0i"
+        }
+    }
+}
+
+configurations.all {
+    exclude group: "edu.wpi.first.wpilibj"
+}
+
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
