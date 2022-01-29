@@ -54,7 +54,7 @@ public class Camera {
   }
 
   class NoTargetsException extends Exception {
-    public NoTargetsException (String message) {
+    public NoTargetsException(String message) {
       super(message);
     }
   }
