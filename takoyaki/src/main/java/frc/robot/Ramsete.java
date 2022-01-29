@@ -22,8 +22,20 @@ public class Ramsete {
   
   // path enums
   public enum RamsetePath {
-    FORWARD("paths/output/forward.wpilib.json"),
-    CURVE("paths/output/curve.wpilib.json");
+    FARBALL_SHOOT("output/farball-shoot.wpilib.json"),
+    MIDBALL_SHOOT("output/midball-shoot.wpilib.json"),
+    MIDBALL_WALLBALL("output/midball-wallball.wpilib.json"),
+    SHOOT_MIDBALL_1_REVERSE("output/shoot-midball-1-reverse.wpilib.json"),
+    SHOOT_MIDBALL_2("output/shoot_midball-2.wpilib.json"),
+    SHOOT_TARMAC_REVERSE("output/shoot-tarmac-reverse.wpilib.json"),
+    SHOOT_TERMINAL_1_REVERSE("output/shoot-terminal-1-reverse.wpilib.json"),
+    SHOOT_TERMINAL_2("output/shoot-terminal-2.wpilib.json"),
+    TARMAC_FARBALL("output/tarmac-farball.wpilib.json"),
+    TARMAC_MIDBALL("output/tarmac-midball.wpilib.json"),
+    TARMAC_WALLBALL("output/tarmac-wallball.wpilib.json"),
+    TERMINAL_SHOOT_1_REVERSE("output/terminal-shoot-1-reverse.wpilib.json"),
+    TERMINAL_SHOOT_2("output/terminal-shoot-2.wpilib.json"),
+    WALLBALL_SHOOT("output/wallball-shoot.wpilib.json");
 
     private String json;
     RamsetePath(String json) {
