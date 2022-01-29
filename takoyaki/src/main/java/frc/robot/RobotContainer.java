@@ -54,7 +54,6 @@ public class RobotContainer {
     SmartDashboard.putData("field", field);
 
     // set up chooser
-    
     SmartDashboard.putData("auto options", autoChooser);
 
     // Configure the button bindings
