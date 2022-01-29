@@ -12,6 +12,8 @@ public final class Constants {
   public static final class kOI {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;
+
+    public static final String TRAJECTORY_NAME = "path";
   }
   
   public static final class kHopper {
