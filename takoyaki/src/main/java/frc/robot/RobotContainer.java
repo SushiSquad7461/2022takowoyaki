@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -14,7 +15,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class RobotContainer {
+
   // The robot's subsystems and commands are defined here...
+  private final Hopper hopper = new Hopper();
   private final Intake intake = new Intake();
   private final Drivetrain drivetrain = new Drivetrain();
   
@@ -35,6 +38,16 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // run hopper
+    new JoystickButton(driveController, Constants.kHopper.RUN_HOPPER)
+      .whenPressed(new InstantCommand(hopper::runForward, hopper))
+      .whenReleased(new InstantCommand(hopper::stop, hopper));
+
+    // reverse hopper
+    new JoystickButton(driveController, Constants.kHopper.REVERSE_HOPPER)
+      .whenPressed(new InstantCommand(hopper::runBackward, hopper))
+      .whenReleased(new InstantCommand(hopper::stop, hopper));
+
     // Actuate Intake
     new JoystickButton(driveController, Constants.kIntake.ACTUATE_INTAKE)
       .whenPressed(new InstantCommand(intake::actuateIntake, intake));
