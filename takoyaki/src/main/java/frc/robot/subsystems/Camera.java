@@ -11,8 +11,8 @@ import edu.wpi.first.math.util.Units;
 
 
 public class Camera {
-  private PhotonCamera camera;
-  private String name;
+  private final PhotonCamera camera;
+  private final String name;
   public Camera(String name) {
     this.camera = new PhotonCamera(name);
     this.name = name;
