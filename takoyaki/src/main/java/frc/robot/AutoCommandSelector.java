@@ -37,7 +37,7 @@ public class AutoCommandSelector {
   public final RamsetePath[] fiveBallPaths = { RamsetePath.SHOOT_MIDBALL_1_REVERSE,
                                                RamsetePath.SHOOT_MIDBALL_2,
                                                RamsetePath.MIDBALL_WALLBALL,
-                                               RamsetePath.MIDBALL_SHOOT,
+                                               RamsetePath.WALLBALL_SHOOT,
                                                RamsetePath.SHOOT_TERMINAL_1_REVERSE,
                                                RamsetePath.SHOOT_TERMINAL_2,
                                                RamsetePath.TERMINAL_SHOOT_1_REVERSE,

@@ -48,6 +48,11 @@
       "/SmartDashboard/field": "Field2d"
     },
     "windows": {
+      "/SmartDashboard/auto options": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/field": {
         "window": {
           "visible": true
