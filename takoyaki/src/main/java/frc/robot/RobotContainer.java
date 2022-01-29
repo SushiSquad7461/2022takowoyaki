@@ -4,12 +4,18 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.Ramsete.RamsetePath;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -18,71 +24,115 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
-  private final Hopper hopper = new Hopper();
-  private final Intake intake = new Intake();
-  private final Shooter shooter = new Shooter();
-  private final Drivetrain drivetrain = new Drivetrain();
+  private final Hopper s_hopper;
+  private final Intake s_intake;
+  private final Drivetrain s_drivetrain;
+  private final Shooter s_shooter;
   
   // Controllers
   private final XboxController driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
   private final XboxController operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
 
+  // auto stuff
+  private final Ramsete ramsete;
+  private final Field2d field;
+  private final AutoCommandSelector autoSelector;
+  private SendableChooser<SequentialCommandGroup> autoChooser;
+
   public RobotContainer() {
+    s_hopper = new Hopper();
+    s_intake = new Intake();
+    s_drivetrain = new Drivetrain();
+    s_shooter = new Shooter();
+
+    ramsete = new Ramsete(s_drivetrain);
+    autoChooser = new SendableChooser<>();
+    autoSelector = new AutoCommandSelector(s_drivetrain, ramsete);
+    field = new Field2d();
+
+    // put field object to dashboard
+    SmartDashboard.putData("field", field);
+
+    // set up chooser
+    autoChooser.setDefaultOption("forward", autoSelector.forward);
+    autoChooser.addOption("forward", autoSelector.forward);
+    autoChooser.addOption("curve", autoSelector.curve);
+    autoChooser.addOption("test", autoSelector.test);
+
+    SmartDashboard.putData("auto options", autoChooser);
+
     // Configure the button bindings
     configureButtonBindings();
   }
 
   private void configureButtonBindings() {
-    // run hopper
+    // run s_hopper
     new JoystickButton(driveController, Constants.kOI.RUN_HOPPER)
       .whenPressed(new ParallelCommandGroup(
-        new InstantCommand(shooter::runKicker, intake),
-        new InstantCommand(hopper::runHopper, hopper)))
+        new InstantCommand(s_shooter::runKicker, s_intake),
+        new InstantCommand(s_hopper::runHopper, s_hopper)))
       .whenReleased(new ParallelCommandGroup(
-        new InstantCommand(shooter::stopKicker, intake),
-        new InstantCommand(hopper::stop, hopper)));
+        new InstantCommand(s_shooter::stopKicker, s_intake),
+        new InstantCommand(s_hopper::stop, s_hopper)));
 
-    // reverse hopper
+    // reverse s_hopper
     new JoystickButton(driveController, Constants.kOI.REVERSE_HOPPER)
       .whenPressed(new ParallelCommandGroup(
-        new InstantCommand(intake::actuateIntake, intake),
-        new InstantCommand(intake::reverseIntake, intake),
-        new InstantCommand(hopper::reverseHopper, hopper)))
+        new InstantCommand(s_intake::actuateIntake, s_intake),
+        new InstantCommand(s_intake::reverseIntake, s_intake),
+        new InstantCommand(s_hopper::reverseHopper, s_hopper)))
       .whenReleased(new ParallelCommandGroup(
-        new InstantCommand(intake::retractIntake, intake),
-        new InstantCommand(intake::stop, intake),
-        new InstantCommand(hopper::stop, hopper)));
+        new InstantCommand(s_intake::retractIntake, s_intake),
+        new InstantCommand(s_intake::stop, s_intake),
+        new InstantCommand(s_hopper::stop, s_hopper)));
 
     // Actuate Intake
     // new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
-    //   .whenPressed(new InstantCommand(intake::toggleIntake, intake));
+    //   .whenPressed(new InstantCommand(s_intake::toggleIntake, s_intake));
       
     // Run Intake
     new JoystickButton(driveController, Constants.kOI.RUN_INTAKE)
       .whenPressed(new ParallelCommandGroup(
-        new InstantCommand(intake::actuateIntake, intake),
-        new InstantCommand(intake::runIntake, intake),
-        new InstantCommand(hopper::runHopper, hopper)))
+        new InstantCommand(s_intake::actuateIntake, s_intake),
+        new InstantCommand(s_intake::runIntake, s_intake),
+        new InstantCommand(s_hopper::runHopper, s_hopper)))
       .whenReleased(new ParallelCommandGroup(
-        new InstantCommand(intake::retractIntake, intake),
-        new InstantCommand(intake::stop, intake),
-        new InstantCommand(hopper::stop, hopper)));
+        new InstantCommand(s_intake::retractIntake, s_intake),
+        new InstantCommand(s_intake::stop, s_intake),
+        new InstantCommand(s_hopper::stop, s_hopper)));
 
     // Reverse Intake
     new JoystickButton(driveController, Constants.kOI.REVERSE_INTAKE)
-      .whenPressed(new InstantCommand(intake::reverseIntake, intake))
-      .whenReleased(new InstantCommand(intake::stop, intake));
+      .whenPressed(new InstantCommand(s_intake::reverseIntake, s_intake))
+      .whenReleased(new InstantCommand(s_intake::stop, s_intake));
 
     // Run Shooter
     new JoystickButton(driveController, Constants.kOI.RUN_SHOOTER)
-      .whenPressed(new InstantCommand(shooter::runShooter, shooter))
-      .whenReleased(new InstantCommand(shooter::stopShooter));
+      .whenPressed(new InstantCommand(s_shooter::runShooter, s_shooter))
+      .whenReleased(new InstantCommand(s_shooter::stopShooter));
 
-    drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
-      OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
+    s_drivetrain.setDefaultCommand(new RunCommand(() -> s_drivetrain.curveDrive(OI.getTriggers(driveController),
+      OI.getLeftStick(driveController), driveController.getXButton()), s_drivetrain));
   }
 
   public Command getAutonomousCommand() {
-    return null;
+    return autoChooser.getSelected();
   }
+
+  public void updateRobotPose() {
+    field.setRobotPose(s_drivetrain.getPose());
+  }
+
+  public void setFieldTrajectory() {
+    Trajectory concatTrajectory = new Trajectory();
+    for(RamsetePath p : autoSelector.pathArrayMap.get(autoChooser.getSelected())) {
+      concatTrajectory = concatTrajectory.concatenate(p.getTrajectory());
+    }
+    field.getObject(Constants.kOI.TRAJECTORY_NAME).setTrajectory(concatTrajectory);
+  }
+
+  public void setInitialPose() {
+    autoSelector.setInitialDrivePose(autoChooser.getSelected());
+  }
+
 }

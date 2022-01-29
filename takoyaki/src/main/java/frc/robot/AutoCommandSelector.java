@@ -8,7 +8,7 @@ import frc.robot.Ramsete.RamsetePath;
 import frc.robot.subsystems.Drivetrain;
 
 public class AutoCommandSelector {
-  private final Drivetrain Drivetrain;
+  private final Drivetrain drivetrain;
   private final Ramsete ramsete;
 
   // sequential command groups
@@ -20,14 +20,14 @@ public class AutoCommandSelector {
   public final RamsetePath[] forwardPath = { Ramsete.RamsetePath.FORWARD }; 
   public final RamsetePath[] curvePath = { Ramsete.RamsetePath.CURVE };
 
-  public final Map<SequentialCommandGroup, RamsetePath[]> firstTrajectoryMap;
+  public final Map<SequentialCommandGroup, RamsetePath[]> pathArrayMap;
 
-  public AutoCommandSelector(Drivetrain Drivetrain, Ramsete ramsete) {
+  public AutoCommandSelector(Drivetrain drivetrain, Ramsete ramsete) {
     // instantiate dependencies
-    this.Drivetrain = Drivetrain;
+    this.drivetrain = drivetrain;
     this.ramsete = ramsete;
 
-    this.firstTrajectoryMap = new HashMap<SequentialCommandGroup, RamsetePath[]>();
+    this.pathArrayMap = new HashMap<SequentialCommandGroup, RamsetePath[]>();
 
     // create command groups
     test = new SequentialCommandGroup(
@@ -37,14 +37,14 @@ public class AutoCommandSelector {
     curve = new SequentialCommandGroup(ramsete.createRamseteCommand(Ramsete.RamsetePath.CURVE));
     
     // trajectory map
-    firstTrajectoryMap.put(test, testPath);
-    firstTrajectoryMap.put(forward, forwardPath);
-    firstTrajectoryMap.put(curve, curvePath);
+    pathArrayMap.put(test, testPath);
+    pathArrayMap.put(forward, forwardPath);
+    pathArrayMap.put(curve, curvePath);
   }
 
   public void setInitialDrivePose(SequentialCommandGroup auto) {
-    if(firstTrajectoryMap.containsKey(auto)) {
-      Drivetrain.setOdometry(firstTrajectoryMap.get(auto)[0].getTrajectory());
+    if(pathArrayMap.containsKey(auto)) {
+      drivetrain.setOdometry(pathArrayMap.get(auto)[0].getTrajectory());
     }  
   }
 }

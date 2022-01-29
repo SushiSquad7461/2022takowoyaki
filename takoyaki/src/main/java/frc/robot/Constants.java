@@ -25,6 +25,8 @@ public final class Constants {
 
     // shooter buttons
     public static final int RUN_SHOOTER = XboxController.Button.kB.value;
+
+    public static final String TRAJECTORY_NAME = "path";
   }
   
   public static final class kHopper {
