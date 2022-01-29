@@ -19,7 +19,7 @@ public class CameraWithPID {
     this.controller = controller;
   }
   
-  public void alignToTarget () {
+  public void alignToTarget() {
     try {
       if (camera.hasTargets()) {
         controller.setSetpoint(camera.getYaw());
