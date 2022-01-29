@@ -50,8 +50,7 @@ public class Camera {
   }
 
   public double getYaw() throws NoTargetsException {
-    double yaw = getBestTarget().getYaw();
-    return yaw;
+    return getBestTarget().getYaw();
   }
 
   class NoTargetsException extends Exception {
