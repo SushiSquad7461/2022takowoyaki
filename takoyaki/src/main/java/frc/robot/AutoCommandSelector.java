@@ -1,8 +1,11 @@
 package frc.robot;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Ramsete.RamsetePath;
@@ -13,15 +16,13 @@ public class AutoCommandSelector {
   private final Drivetrain drivetrain;
   private final Ramsete ramsete;
   private final Intake intake;
-  
+
   // sequential command groups
   public final SequentialCommandGroup twoBallWall;
   public final SequentialCommandGroup twoBallMid;
   public final SequentialCommandGroup twoBallFar;
   public final SequentialCommandGroup threeBall;
   public final SequentialCommandGroup fiveBall;
-
-  private InstantCommand actuateIntake;
 
   public final RamsetePath[] twoBallWallPaths = { RamsetePath.TARMAC_WALLBALL,
                                                   RamsetePath.WALLBALL_SHOOT };
@@ -50,19 +51,19 @@ public class AutoCommandSelector {
     this.ramsete = ramsete;
     this.intake = intake;
 
-    actuateIntake = new InstantCommand(intake::actuateIntake, intake);
-
     this.pathArrayMap = new HashMap<SequentialCommandGroup, RamsetePath[]>();
 
     // create command groups
     twoBallWall = new SequentialCommandGroup(
-      
+      new InstantCommand(intake::actuateIntake, intake),
       ramsete.createRamseteCommand(RamsetePath.TARMAC_WALLBALL),
       ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT));
     twoBallMid = new SequentialCommandGroup(
+      new InstantCommand(intake::actuateIntake, intake),
       ramsete.createRamseteCommand(RamsetePath.TARMAC_MIDBALL),
       ramsete.createRamseteCommand(RamsetePath.MIDBALL_SHOOT));
     twoBallFar = new SequentialCommandGroup(
+      new InstantCommand(intake::actuateIntake, intake),
       ramsete.createRamseteCommand(RamsetePath.TARMAC_FARBALL),
       ramsete.createRamseteCommand(RamsetePath.FARBALL_SHOOT));
     threeBall = new SequentialCommandGroup(

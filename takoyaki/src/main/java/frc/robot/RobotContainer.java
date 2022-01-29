@@ -46,6 +46,12 @@ public class RobotContainer {
     autoSelector = new AutoCommandSelector(s_drivetrain, ramsete, s_intake);
     field = new Field2d();
 
+    autoChooser.setDefaultOption("two ball mid", autoSelector.twoBallMid);
+    autoChooser.addOption("two ball far", autoSelector.twoBallFar);
+    autoChooser.addOption("two ball wall", autoSelector.twoBallWall);
+    autoChooser.addOption("three ball", autoSelector.threeBall);
+    autoChooser.addOption("five ball", autoSelector.fiveBall);
+
     // put field object to dashboard
     SmartDashboard.putData("field", field);
 
