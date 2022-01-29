@@ -40,7 +40,7 @@ public class Camera {
     return camera.getLatestResult().getBestTarget();
   }
 
-  public double getDistance(double CAMERA_HEIGHT, double TARGET_HEIGHT, double PITCH_RADIANS) throws NoTargetsException {
+  public double getDistance(double cameraHeight, double targetHeight, double pitchRadians) throws NoTargetsException {
     double range = PhotonUtils.calculateDistanceToTargetMeters(
       CAMERA_HEIGHT, 
       TARGET_HEIGHT,
