@@ -3,43 +3,90 @@ package frc.robot;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Ramsete.RamsetePath;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
 
 public class AutoCommandSelector {
   private final Drivetrain drivetrain;
   private final Ramsete ramsete;
-
+  private final Intake intake;
+  
   // sequential command groups
-  public final SequentialCommandGroup test;
-  public final SequentialCommandGroup forward;
-  public final SequentialCommandGroup curve;
+  public final SequentialCommandGroup twoBallWall;
+  public final SequentialCommandGroup twoBallMid;
+  public final SequentialCommandGroup twoBallFar;
+  public final SequentialCommandGroup threeBall;
+  public final SequentialCommandGroup fiveBall;
 
-  public final RamsetePath[] testPath = { Ramsete.RamsetePath.FORWARD, Ramsete.RamsetePath.CURVE };
-  public final RamsetePath[] forwardPath = { Ramsete.RamsetePath.FORWARD }; 
-  public final RamsetePath[] curvePath = { Ramsete.RamsetePath.CURVE };
+  private InstantCommand actuateIntake;
+
+  public final RamsetePath[] twoBallWallPaths = { RamsetePath.TARMAC_WALLBALL,
+                                                  RamsetePath.WALLBALL_SHOOT };
+  public final RamsetePath[] twoBallMidPaths = { RamsetePath.TARMAC_MIDBALL,
+                                                 RamsetePath.MIDBALL_SHOOT }; 
+  public final RamsetePath[] twoBallFarPaths = { RamsetePath.TARMAC_FARBALL,
+                                                 RamsetePath.FARBALL_SHOOT };
+  public final RamsetePath[] threeBallPaths = { RamsetePath.SHOOT_MIDBALL_1_REVERSE,
+                                                RamsetePath.SHOOT_MIDBALL_2,
+                                                RamsetePath.MIDBALL_WALLBALL,
+                                                RamsetePath.WALLBALL_SHOOT };
+  public final RamsetePath[] fiveBallPaths = { RamsetePath.SHOOT_MIDBALL_1_REVERSE,
+                                               RamsetePath.SHOOT_MIDBALL_2,
+                                               RamsetePath.MIDBALL_WALLBALL,
+                                               RamsetePath.MIDBALL_SHOOT,
+                                               RamsetePath.SHOOT_TERMINAL_1_REVERSE,
+                                               RamsetePath.SHOOT_TERMINAL_2,
+                                               RamsetePath.TERMINAL_SHOOT_1_REVERSE,
+                                               RamsetePath.TERMINAL_SHOOT_2  };
 
   public final Map<SequentialCommandGroup, RamsetePath[]> pathArrayMap;
 
-  public AutoCommandSelector(Drivetrain drivetrain, Ramsete ramsete) {
+  public AutoCommandSelector(Drivetrain drivetrain, Ramsete ramsete, Intake intake) {
     // instantiate dependencies
     this.drivetrain = drivetrain;
     this.ramsete = ramsete;
+    this.intake = intake;
+
+    actuateIntake = new InstantCommand(intake::actuateIntake, intake);
 
     this.pathArrayMap = new HashMap<SequentialCommandGroup, RamsetePath[]>();
 
     // create command groups
-    test = new SequentialCommandGroup(
-      ramsete.createRamseteCommand(Ramsete.RamsetePath.FORWARD),
-      ramsete.createRamseteCommand(Ramsete.RamsetePath.CURVE));
-    forward = new SequentialCommandGroup(ramsete.createRamseteCommand(Ramsete.RamsetePath.FORWARD));
-    curve = new SequentialCommandGroup(ramsete.createRamseteCommand(Ramsete.RamsetePath.CURVE));
+    twoBallWall = new SequentialCommandGroup(
+      
+      ramsete.createRamseteCommand(RamsetePath.TARMAC_WALLBALL),
+      ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT));
+    twoBallMid = new SequentialCommandGroup(
+      ramsete.createRamseteCommand(RamsetePath.TARMAC_MIDBALL),
+      ramsete.createRamseteCommand(RamsetePath.MIDBALL_SHOOT));
+    twoBallFar = new SequentialCommandGroup(
+      ramsete.createRamseteCommand(RamsetePath.TARMAC_FARBALL),
+      ramsete.createRamseteCommand(RamsetePath.FARBALL_SHOOT));
+    threeBall = new SequentialCommandGroup(
+      ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE),
+      ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_2),
+      ramsete.createRamseteCommand(RamsetePath.MIDBALL_WALLBALL),
+      ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT));
+    fiveBall = new SequentialCommandGroup(
+      ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE),
+      ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_2),
+      ramsete.createRamseteCommand(RamsetePath.MIDBALL_WALLBALL),
+      ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT),
+      ramsete.createRamseteCommand(RamsetePath.SHOOT_TERMINAL_1_REVERSE),
+      ramsete.createRamseteCommand(RamsetePath.SHOOT_TERMINAL_2),
+      ramsete.createRamseteCommand(RamsetePath.TERMINAL_SHOOT_1_REVERSE),
+      ramsete.createRamseteCommand(RamsetePath.TERMINAL_SHOOT_2));
+      
     
     // trajectory map
-    pathArrayMap.put(test, testPath);
-    pathArrayMap.put(forward, forwardPath);
-    pathArrayMap.put(curve, curvePath);
+    pathArrayMap.put(twoBallWall, twoBallWallPaths);
+    pathArrayMap.put(twoBallMid, twoBallMidPaths);
+    pathArrayMap.put(twoBallFar, twoBallFarPaths);
+    pathArrayMap.put(threeBall, threeBallPaths);
+    pathArrayMap.put(fiveBall, fiveBallPaths);
   }
 
   public void setInitialDrivePose(SequentialCommandGroup auto) {

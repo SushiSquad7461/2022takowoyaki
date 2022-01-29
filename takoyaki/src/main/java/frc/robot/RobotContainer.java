@@ -43,18 +43,14 @@ public class RobotContainer {
 
     ramsete = new Ramsete(s_drivetrain);
     autoChooser = new SendableChooser<>();
-    autoSelector = new AutoCommandSelector(s_drivetrain, ramsete);
+    autoSelector = new AutoCommandSelector(s_drivetrain, ramsete, s_intake);
     field = new Field2d();
 
     // put field object to dashboard
     SmartDashboard.putData("field", field);
 
     // set up chooser
-    autoChooser.setDefaultOption("forward", autoSelector.forward);
-    autoChooser.addOption("forward", autoSelector.forward);
-    autoChooser.addOption("curve", autoSelector.curve);
-    autoChooser.addOption("test", autoSelector.test);
-
+    
     SmartDashboard.putData("auto options", autoChooser);
 
     // Configure the button bindings
