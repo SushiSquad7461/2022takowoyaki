@@ -15,7 +15,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class Intake extends SubsystemBase {
-  private final WPI_TalonFX falcon = new WPI_TalonFX(Constants.kIntake.FALCON_MOTOR_ID);
+  private final WPI_TalonFX falcon = new WPI_TalonFX(Constants.kIntake.MOTOR_ID);
   private final DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.kIntake.SOLENOID_FRONT, Constants.kIntake.SOLENOID_BACK);
 
   public Intake() {
@@ -26,7 +26,6 @@ public class Intake extends SubsystemBase {
     solenoid.set(DoubleSolenoid.Value.kOff);
     solenoid.set(DoubleSolenoid.Value.kReverse);
   }
-
   
   public void startIntake() {
     falcon.set(ControlMode.PercentOutput, Constants.kIntake.INTAKE_SPEED);

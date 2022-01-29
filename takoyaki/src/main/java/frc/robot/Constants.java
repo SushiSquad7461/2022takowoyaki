@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public final class Constants {
   public static final class kIntake {
-    public static final int FALCON_MOTOR_ID = -1;
+    public static final int MOTOR_ID = -1;
     public static final int SOLENOID_FRONT = 1;
     public static final int SOLENOID_BACK = 0;
     public static final float INTAKE_SPEED = 0.9f;
