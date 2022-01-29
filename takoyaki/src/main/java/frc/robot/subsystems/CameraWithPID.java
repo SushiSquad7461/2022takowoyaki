@@ -11,8 +11,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.controller.PIDController;
 
 public class CameraWithPID {
-  private Camera camera;
-  private PIDController controller;
+  private final Camera camera;
+  private final PIDController controller;
 
   public CameraWithPID(String name, PIDController controller) {
     this.camera = new Camera(name);
