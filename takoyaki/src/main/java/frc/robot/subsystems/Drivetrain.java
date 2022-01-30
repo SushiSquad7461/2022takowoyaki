@@ -33,6 +33,7 @@ public class Drivetrain extends SubsystemBase {
   // odometry and autonomous
   private final DifferentialDriveOdometry odometry;
   private final AHRS nav;
+  private double zeroOffset;
   private double angleOffset;
   boolean navZeroed;
 
@@ -71,20 +72,15 @@ public class Drivetrain extends SubsystemBase {
      * this so we can apply + to both sides when moving forward. DO NOT CHANGE
      */ 
 
-    frontRight.setNeutralMode(NeutralMode.Brake);
-    frontLeft.setNeutralMode(NeutralMode.Brake);
-    backRight.setNeutralMode(NeutralMode.Brake);
-    backLeft.setNeutralMode(NeutralMode.Brake);
-
     // config odometry and auto values
     nav = new AHRS(SPI.Port.kMXP);
     nav.enableBoardlevelYawReset(false);
 
+    zeroOffset = 0;
     angleOffset = 0;
     navZeroed = false;
 
     odometry = new DifferentialDriveOdometry(nav.getRotation2d());
-    resetOdometry(new Pose2d());
   }
 
   public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn) {
@@ -98,7 +94,7 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     // find IMU zero offset after calibration
     if (!nav.isCalibrating() && !navZeroed) {
-      angleOffset = nav.getYaw();
+      zeroOffset = nav.getYaw();
       navZeroed = true;
     }
 
@@ -106,7 +102,7 @@ public class Drivetrain extends SubsystemBase {
     frontLeft.getSelectedSensorPosition() * Constants.kDrive.TICKS_TO_METERS,
     frontRight.getSelectedSensorPosition() * Constants.kDrive.TICKS_TO_METERS);
   
-    SmartDashboard.putNumber("heading", -(nav.getYaw() - angleOffset));
+    SmartDashboard.putNumber("heading", -(nav.getYaw() - zeroOffset));
     SmartDashboard.putNumber("odometry x", odometry.getPoseMeters().getX());
     SmartDashboard.putNumber("odometry y", odometry.getPoseMeters().getY());
   }
@@ -130,10 +126,12 @@ public class Drivetrain extends SubsystemBase {
   // reset odometry to given pose
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    odometry.resetPosition(pose, new Rotation2d(-(nav.getYaw() - angleOffset)));
+    odometry.resetPosition(pose, new Rotation2d(-(nav.getYaw() - zeroOffset)));
   }
 
   public void setOdometry(Trajectory traj) {
+    resetOdometry(new Pose2d());
+    angleOffset = traj.getInitialPose().getRotation().getDegrees() + zeroOffset;
     odometry.resetPosition(traj.getInitialPose(), traj.getInitialPose().getRotation());
   }
 
@@ -174,6 +172,22 @@ public class Drivetrain extends SubsystemBase {
   public double getTurnRate() {
     // negative since navx's positive direction is opposite of the expected/wpilib standard
     return -nav.getRate();
+  }
+
+  // set motors to brake mode
+  public void setBrake() {
+    frontLeft.setNeutralMode(NeutralMode.Brake);
+    frontRight.setNeutralMode(NeutralMode.Brake);
+    backLeft.setNeutralMode(NeutralMode.Brake);
+    backRight.setNeutralMode(NeutralMode.Brake);
+  }
+
+  // set motors to brake mode
+  public void setCoast() {
+    frontLeft.setNeutralMode(NeutralMode.Coast);
+    frontRight.setNeutralMode(NeutralMode.Coast);
+    backLeft.setNeutralMode(NeutralMode.Coast);
+    backRight.setNeutralMode(NeutralMode.Coast);
   }
   
 }
