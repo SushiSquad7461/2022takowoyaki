@@ -91,8 +91,8 @@ public class RobotContainer {
       .whenPressed(new InstantCommand(s_intake::startReverse, s_intake))
       .whenReleased(new InstantCommand(s_intake::stopIntake, s_intake));
 
-    s_drivetrain.setDefaultCommand(new RunCommand(() -> s_drivetrain.curveDrive(OI.getTriggers(driveController),
-      OI.getLeftStick(driveController), driveController.getXButton()), s_drivetrain));
+    //s_drivetrain.setDefaultCommand(new RunCommand(() -> s_drivetrain.curveDrive(OI.getTriggers(driveController),
+    //  OI.getLeftStick(driveController), driveController.getXButton()), s_drivetrain));
   }
 
   public Command getAutonomousCommand() {
@@ -113,6 +113,14 @@ public class RobotContainer {
 
   public void setInitialPose() {
     autoSelector.setInitialDrivePose(autoChooser.getSelected());
+  }
+
+  public void setDriveBrake() {
+    s_drivetrain.setBrake();
+  }
+
+  public void setDriveCoast() {
+    s_drivetrain.setCoast();
   }
 
 }
