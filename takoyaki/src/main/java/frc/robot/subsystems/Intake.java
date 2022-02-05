@@ -38,12 +38,20 @@ public class Intake extends SubsystemBase {
     intakeMotor.set(-Constants.kIntake.INTAKE_SPEED);
   }
 
-  public void toggleIntake() {
-    if(solenoid.get() == Value.kReverse) {
-      solenoid.set(Value.kForward);
-    } else {
-      solenoid.set(Value.kReverse);
-    }
+  // public void toggleIntake() {
+  //   if(solenoid.get() == Value.kReverse) {
+  //     solenoid.set(Value.kForward);
+  //   } else {
+  //     solenoid.set(Value.kReverse);
+  //   }
+  // }
+
+  public void actuateIntake() {
+    solenoid.set(Value.kForward);
+  }
+
+  public void retractIntake() {
+    solenoid.set(Value.kReverse);
   }
 
   @Override
