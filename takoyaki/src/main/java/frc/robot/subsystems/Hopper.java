@@ -20,11 +20,11 @@ public class Hopper extends SubsystemBase {
     floor.setNeutralMode(NeutralMode.Coast);
   }
 
-  public void runForward() {
+  public void runHopper() {
     floor.set(ControlMode.PercentOutput, Constants.kHopper.SPEED);
   }
 
-  public void runBackward() {
+  public void reverseHopper() {
     floor.set(ControlMode.PercentOutput, -Constants.kHopper.SPEED);
   }
 
