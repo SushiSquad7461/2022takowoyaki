@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -38,16 +40,22 @@ public final class Constants {
   }
 
   public static final class kIntake {
+    public static final class kFalcon {
+      public static final TalonFXInvertType INVERT_TYPE = TalonFXInvertType.Clockwise;
+      public static final TalonFXControlMode CONTROL_MODE = TalonFXControlMode.PercentOutput;
+    }
+
+    public static final class kSpark {
+      public static final CANSparkMaxLowLevel.MotorType MOTOR_TYPE = CANSparkMaxLowLevel.MotorType.kBrushless;
+      public static final int CURRENT_LIMIT = 35;
+      public static final int OPEN_LOOP_RAMP_RATE = 0;
+      public static final boolean INVERTED = true;
+    }
+
     public static final int MOTOR_ID = -1;
     public static final int SOLENOID_FRONT = 1;
     public static final int SOLENOID_BACK = 0;
     public static final float INTAKE_SPEED = 0.9f;
-
-    public static final CANSparkMaxLowLevel.MotorType MOTOR_TYPE = CANSparkMaxLowLevel.MotorType.kBrushless;
-
-    public static final int CURRENT_LIMIT = 35;
-    public static final int OPEN_LOOP_RAMP_RATE = 0;
-    public static final boolean INVERTED = true;
   }
 
   public static final class kDrive {

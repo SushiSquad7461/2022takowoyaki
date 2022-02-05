@@ -9,35 +9,31 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.Constants;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
 
-public class SparkSolenoidIntake extends Intake {
-  private final CANSparkMax intakeMotor = new CANSparkMax(Constants.kIntake.MOTOR_ID,
-      Constants.kIntake.kSpark.MOTOR_TYPE);
+public class FalconSolenoidIntake extends Intake {
+  private final TalonFX intakeMotor = new TalonFX(Constants.kIntake.MOTOR_ID);
   private final DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
       Constants.kIntake.SOLENOID_FRONT, Constants.kIntake.SOLENOID_BACK);
 
-  public SparkSolenoidIntake() {
-    intakeMotor.restoreFactoryDefaults();
-    intakeMotor.setInverted(Constants.kIntake.kSpark.INVERTED);
-    intakeMotor.setOpenLoopRampRate(Constants.kIntake.kSpark.OPEN_LOOP_RAMP_RATE);
-    intakeMotor.setSmartCurrentLimit(Constants.kIntake.kSpark.CURRENT_LIMIT);
-    intakeMotor.burnFlash();
+  public FalconSolenoidIntake() {
+    intakeMotor.setInverted(Constants.kIntake.kFalcon.INVERT_TYPE);
 
     solenoid.set(DoubleSolenoid.Value.kOff);
     solenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void runIntake() {
-    intakeMotor.set(Constants.kIntake.INTAKE_SPEED);
+    intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, Constants.kIntake.INTAKE_SPEED);
   }
 
   public void stop() {
-    intakeMotor.set(0);
+    intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, 0);
   }
 
   public void reverseIntake() {
-    intakeMotor.set(-Constants.kIntake.INTAKE_SPEED);
+    intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, -Constants.kIntake.INTAKE_SPEED);
   }
 
   public void toggleIntake() {

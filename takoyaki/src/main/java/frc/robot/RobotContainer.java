@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Hopper.VictorHopper;
+import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
+import frc.robot.subsystems.Intake.FalconSolenoidIntake;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.SparkSolenoidIntake;
 import frc.robot.subsystems.Shooter.Shooter;
@@ -24,7 +26,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final Hopper hopper = new VictorHopper();
-  private final Intake intake = new SparkSolenoidIntake();
+  private final Intake intake = new FalconSolenoidIntake();
   private final Shooter shooter = new ClosedLoopFalconShooter();
   private final Drivetrain drivetrain = new FalconDrivetrain();
 
@@ -103,4 +105,5 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     return null;
   }
+
 }
