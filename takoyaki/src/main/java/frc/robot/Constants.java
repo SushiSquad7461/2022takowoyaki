@@ -13,6 +13,19 @@ public final class Constants {
   public static final class kOI {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;
+    
+    // hopper buttons
+    public static final int RUN_HOPPER = XboxController.Button.kRightBumper.value;
+    public static final int REVERSE_HOPPER = XboxController.Button.kBack.value;
+
+    // intake buttons    
+    public static final int TOGGLE_INTAKE = XboxController.Button.kLeftBumper.value;
+
+    public static final int RUN_INTAKE = XboxController.Button.kA.value;
+    public static final int REVERSE_INTAKE = XboxController.Button.kStart.value;
+
+    // shooter buttons
+    public static final int RUN_SHOOTER = XboxController.Button.kB.value;
   }
   
   public static final class kHopper {
@@ -21,8 +34,6 @@ public final class Constants {
     public static final int CURRENT_LIMIT = 30;
     public static final double SPEED = 0.9;
 
-    public static final int RUN_HOPPER = XboxController.Button.kX.value;
-    public static final int REVERSE_HOPPER = XboxController.Button.kB.value;
     public static final double OPEN_LOOP_RAMP_RATE = 0;
   }
   
@@ -32,14 +43,9 @@ public final class Constants {
     public static final int SOLENOID_BACK = 0;
     public static final float INTAKE_SPEED = 0.9f;
 
-    public static final int RETRACT_INTAKE = XboxController.Button.kY.value;
-    public static final int ACTUATE_INTAKE = XboxController.Button.kA.value;
-
-    public static final int RUN_INTAKE = XboxController.Button.kX.value;
-    public static final int REVERSE_INTAKE = XboxController.Button.kB.value;
-
     public static final CANSparkMaxLowLevel.MotorType MOTOR_TYPE =
                                       CANSparkMaxLowLevel.MotorType.kBrushless;
+
     public static final int CURRENT_LIMIT = 35;
     public static final int OPEN_LOOP_RAMP_RATE = 0;
     public static final boolean INVERTED = true;
@@ -66,8 +72,6 @@ public final class Constants {
     public static final double GOAL = 3000;
     public static final int DEFAULT_PROFILE_SLOT = 0;
     public static final int DEFAULT_CONFIG_TIMEOUT = 100;
-
-    public static final int RUN_SHOOTER = XboxController.Button.kX.value;
 
     public static final boolean KICKER_INVERSION = true;
 
