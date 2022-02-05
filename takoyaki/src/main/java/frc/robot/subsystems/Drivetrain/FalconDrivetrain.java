@@ -2,9 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+package frc.robot.subsystems.Drivetrain;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
@@ -12,7 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants;
 
-public class Drivetrain extends SubsystemBase {
+public class FalconDrivetrain extends Drivetrain {
   private final WPI_TalonFX frontLeft;
   private final WPI_TalonFX backLeft;
   private final WPI_TalonFX frontRight;
@@ -20,7 +18,7 @@ public class Drivetrain extends SubsystemBase {
 
   private final DifferentialDrive diffDrive;
 
-  public Drivetrain() {
+  public FalconDrivetrain() {
     // instantiate motors
     frontLeft = new WPI_TalonFX(Constants.kDrive.FRONT_LEFT_ID);
     backLeft = new WPI_TalonFX(Constants.kDrive.BACK_LEFT_ID);
@@ -52,7 +50,7 @@ public class Drivetrain extends SubsystemBase {
     /*
      * WPI drivetrain classes defaultly assume left and right are opposite. call
      * this so we can apply + to both sides when moving forward. DO NOT CHANGE
-     */ 
+     */
   }
 
   public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn) {

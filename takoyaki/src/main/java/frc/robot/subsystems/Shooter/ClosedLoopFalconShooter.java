@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -15,16 +15,16 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
-public class Shooter extends SubsystemBase {
+public class ClosedLoopFalconShooter extends Shooter {
   private final WPI_TalonFX left = new WPI_TalonFX(Constants.kShooter.LEFT_MOTOR_ID);
   private final WPI_TalonFX right = new WPI_TalonFX(Constants.kShooter.RIGHT_MOTOR_ID);
   private final WPI_VictorSPX kicker = new WPI_VictorSPX(Constants.kShooter.KICKER_MOTOR_ID);
 
   private final SimpleMotorFeedforward fForward;
 
-  private double goal;
+  private double setpoint;
 
-  public Shooter() {
+  public ClosedLoopFalconShooter() {
     left.setNeutralMode(NeutralMode.Coast);
     right.setNeutralMode(NeutralMode.Coast);
     kicker.setNeutralMode(NeutralMode.Brake);
@@ -61,21 +61,22 @@ public class Shooter extends SubsystemBase {
     kicker.set(ControlMode.PercentOutput, 0);
   }
 
-  public void setGoal(double goal) {
-    this.goal = goal;
+  @Override
+  public void setSetpoint(double setpoint) {
+    this.setpoint = setpoint;
   }
 
-  public void zeroGoal() {
-    this.goal = 0;
+  public void zeroSetpoint() {
+    this.setpoint = 0;
   }
 
-  public void setGoal() {
-    this.goal = Constants.kShooter.GOAL;
+  public void setSetpoint() {
+    this.setpoint = Constants.kShooter.SETPOINT;
   }
 
   @Override
   public void periodic() {
-    left.set(ControlMode.Velocity, goal, DemandType.ArbitraryFeedForward, fForward.calculate(goal));
+    left.set(ControlMode.Velocity, setpoint, DemandType.ArbitraryFeedForward, fForward.calculate(setpoint));
   }
 
   @Override
