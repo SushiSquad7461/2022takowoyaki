@@ -13,30 +13,33 @@ import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.revrobotics.CANSparkMax;
 
 public class Intake extends SubsystemBase {
-  private final WPI_TalonFX falcon = new WPI_TalonFX(Constants.kIntake.MOTOR_ID);
+  private final CANSparkMax intakeMotor = new CANSparkMax(Constants.kIntake.MOTOR_ID, Constants.kIntake.MOTOR_TYPE);
   private final DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.kIntake.SOLENOID_FRONT, Constants.kIntake.SOLENOID_BACK);
 
   public Intake() {
-    falcon.configFactoryDefault();
-
-    falcon.setInverted(TalonFXInvertType.Clockwise);
+    intakeMotor.restoreFactoryDefaults();
+    intakeMotor.setInverted(Constants.kIntake.INVERTED);
+    intakeMotor.setOpenLoopRampRate(Constants.kIntake.OPEN_LOOP_RAMP_RATE);
+    intakeMotor.setSmartCurrentLimit(Constants.kIntake.CURRENT_LIMIT);
+    intakeMotor.burnFlash();
     
     solenoid.set(DoubleSolenoid.Value.kOff);
     solenoid.set(DoubleSolenoid.Value.kReverse);
   }
   
   public void startIntake() {
-    falcon.set(ControlMode.PercentOutput, Constants.kIntake.INTAKE_SPEED);
+    intakeMotor.set(Constants.kIntake.INTAKE_SPEED);
   }
 
   public void stopIntake() {
-    falcon.set(ControlMode.PercentOutput, 0);
+    intakeMotor.set(0);
   }
 
   public void startReverse() {
-    falcon.set(ControlMode.PercentOutput, -Constants.kIntake.INTAKE_SPEED);
+    intakeMotor.set(-Constants.kIntake.INTAKE_SPEED);
   }
 
   public void actuateIntake() {
