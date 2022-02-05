@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,8 +18,6 @@ public class Hopper extends SubsystemBase {
     floor.configFactoryDefault();
     floor.setInverted(Constants.kHopper.INVERTED);
     floor.setNeutralMode(NeutralMode.Coast);
-    // floor.configPeakCurrentLimit(Constants.kHopper.CURRENT_LIMIT);
-    // floor.enableCurrentLimit(true);
   }
 
   public void runForward() {
