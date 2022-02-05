@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import com.revrobotics.CANSparkMaxLowLevel;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -43,9 +43,6 @@ public final class Constants {
     public static final int SOLENOID_BACK = 0;
     public static final float INTAKE_SPEED = 0.9f;
 
-    public static final CANSparkMaxLowLevel.MotorType MOTOR_TYPE =
-                                      CANSparkMaxLowLevel.MotorType.kBrushless;
-
     public static final int CURRENT_LIMIT = 35;
     public static final int OPEN_LOOP_RAMP_RATE = 0;
     public static final boolean INVERTED = true;
@@ -74,6 +71,8 @@ public final class Constants {
     public static final int DEFAULT_CONFIG_TIMEOUT = 100;
 
     public static final boolean KICKER_INVERSION = true;
+    public static final TalonFXInvertType LEFT_INVERSION = TalonFXInvertType.CounterClockwise;
+    public static final TalonFXInvertType RIGHT_INVERSION = TalonFXInvertType.Clockwise;
 
     public static final double SPEED_KICKER = 1;
   }  

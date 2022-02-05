@@ -12,9 +12,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Hopper extends SubsystemBase {
-  private final WPI_VictorSPX floor = new WPI_VictorSPX(Constants.kHopper.MOTOR_ID);
+  private final WPI_VictorSPX floor;
 
   public Hopper() {
+    // instantiate and configure motor
+    floor = new WPI_VictorSPX(Constants.kHopper.MOTOR_ID);
     floor.configFactoryDefault();
     floor.setInverted(Constants.kHopper.INVERTED);
     floor.setNeutralMode(NeutralMode.Coast);
@@ -28,7 +30,7 @@ public class Hopper extends SubsystemBase {
     floor.set(ControlMode.PercentOutput, -Constants.kHopper.SPEED);
   }
 
-  public void stop() {
+  public void stopHopper() {
     floor.set(ControlMode.PercentOutput, 0);
   }
 
