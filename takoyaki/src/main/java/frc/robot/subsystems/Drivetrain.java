@@ -13,42 +13,42 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
-  private WPI_TalonFX frontRight;
-  private WPI_TalonFX backRight;
-  private WPI_TalonFX frontLeft;
-  private WPI_TalonFX backLeft;
+  private final WPI_TalonFX frontLeft;
+  private final WPI_TalonFX backLeft;
+  private final WPI_TalonFX frontRight;
+  private final WPI_TalonFX backRight;
 
-  private DifferentialDrive diffDrive;
+  private final DifferentialDrive diffDrive;
 
   public Drivetrain() {
-
-    frontRight = new WPI_TalonFX(Constants.kDrive.FRONT_RIGHT_ID);
-    backRight = new WPI_TalonFX(Constants.kDrive.BACK_RIGHT_ID);
+    // instantiate motors
     frontLeft = new WPI_TalonFX(Constants.kDrive.FRONT_LEFT_ID);
     backLeft = new WPI_TalonFX(Constants.kDrive.BACK_LEFT_ID);
+    frontRight = new WPI_TalonFX(Constants.kDrive.FRONT_RIGHT_ID);
+    backRight = new WPI_TalonFX(Constants.kDrive.BACK_RIGHT_ID);
+
+    // instantiate differential drive
+    diffDrive = new DifferentialDrive(frontLeft, frontRight);
 
     /* factory default values */
-    frontRight.configFactoryDefault();
-    backRight.configFactoryDefault();
     frontLeft.configFactoryDefault();
     backLeft.configFactoryDefault();
+    frontRight.configFactoryDefault();
+    backRight.configFactoryDefault();
+
+    frontLeft.setNeutralMode(NeutralMode.Brake);
+    backLeft.setNeutralMode(NeutralMode.Brake);
+    frontRight.setNeutralMode(NeutralMode.Brake);
+    backRight.setNeutralMode(NeutralMode.Brake);
 
     /* set up followers */
-    backRight.follow(frontRight);
     backLeft.follow(frontLeft);
+    backRight.follow(frontRight);
 
-    frontRight.setInverted(TalonFXInvertType.CounterClockwise);
     frontLeft.setInverted(TalonFXInvertType.Clockwise);
-    backRight.setInverted(TalonFXInvertType.CounterClockwise);
     backLeft.setInverted(TalonFXInvertType.Clockwise);
-
-    frontRight.setNeutralMode(NeutralMode.Coast);
-    frontLeft.setNeutralMode(NeutralMode.Coast);
-    backRight.setNeutralMode(NeutralMode.Coast);
-    backLeft.setNeutralMode(NeutralMode.Coast);
-
-    
-    diffDrive = new DifferentialDrive(frontLeft, frontRight);
+    frontRight.setInverted(TalonFXInvertType.CounterClockwise);
+    backRight.setInverted(TalonFXInvertType.CounterClockwise);
     /*
      * WPI drivetrain classes defaultly assume left and right are opposite. call
      * this so we can apply + to both sides when moving forward. DO NOT CHANGE
