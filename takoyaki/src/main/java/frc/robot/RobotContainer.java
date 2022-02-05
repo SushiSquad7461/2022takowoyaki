@@ -53,22 +53,26 @@ public class RobotContainer {
     // reverse hopper
     new JoystickButton(driveController, Constants.kOI.REVERSE_HOPPER)
       .whenPressed(new ParallelCommandGroup(
+        new InstantCommand(intake::actuateIntake, intake),
         new InstantCommand(intake::reverseIntake, intake),
         new InstantCommand(hopper::reverseHopper, hopper)))
       .whenReleased(new ParallelCommandGroup(
+        new InstantCommand(intake::retractIntake, intake),
         new InstantCommand(intake::stop, intake),
         new InstantCommand(hopper::stop, hopper)));
 
     // Actuate Intake
-    new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
-      .whenPressed(new InstantCommand(intake::toggleIntake, intake));
+    // new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
+    //   .whenPressed(new InstantCommand(intake::toggleIntake, intake));
       
     // Run Intake
     new JoystickButton(driveController, Constants.kOI.RUN_INTAKE)
       .whenPressed(new ParallelCommandGroup(
+        new InstantCommand(intake::actuateIntake, intake),
         new InstantCommand(intake::runIntake, intake),
         new InstantCommand(hopper::runHopper, hopper)))
       .whenReleased(new ParallelCommandGroup(
+        new InstantCommand(intake::retractIntake, intake),
         new InstantCommand(intake::stop, intake),
         new InstantCommand(hopper::stop, hopper)));
 
