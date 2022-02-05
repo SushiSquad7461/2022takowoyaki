@@ -30,24 +30,24 @@ public class Intake extends SubsystemBase {
     solenoid.set(DoubleSolenoid.Value.kReverse);
   }
   
-  public void startIntake() {
+  public void runIntake() {
     intakeMotor.set(Constants.kIntake.INTAKE_SPEED);
   }
 
-  public void stopIntake() {
+  public void stop() {
     intakeMotor.set(0);
   }
 
-  public void startReverse() {
+  public void reverseIntake() {
     intakeMotor.set(-Constants.kIntake.INTAKE_SPEED);
   }
 
-  public void actuateIntake() {
-    solenoid.set(Value.kReverse);
-  }
-
-  public void retractIntake() {
-    solenoid.set(Value.kForward);
+  public void toggleIntake() {
+    if(solenoid.get() == Value.kReverse) {
+      solenoid.set(Value.kForward);
+    } else {
+      solenoid.set(Value.kReverse);
+    }
   }
 
   @Override
