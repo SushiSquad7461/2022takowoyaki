@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMaxLowLevel;
+
 import edu.wpi.first.wpilibj.XboxController;
 
 public final class Constants {
@@ -21,6 +23,7 @@ public final class Constants {
 
     public static final int RUN_HOPPER = XboxController.Button.kX.value;
     public static final int REVERSE_HOPPER = XboxController.Button.kB.value;
+    public static final double OPEN_LOOP_RAMP_RATE = 0;
   }
   
   public static final class kIntake {
@@ -34,6 +37,12 @@ public final class Constants {
 
     public static final int RUN_INTAKE = XboxController.Button.kX.value;
     public static final int REVERSE_INTAKE = XboxController.Button.kB.value;
+
+    public static final CANSparkMaxLowLevel.MotorType MOTOR_TYPE =
+                                      CANSparkMaxLowLevel.MotorType.kBrushless;
+    public static final int CURRENT_LIMIT = 35;
+    public static final int OPEN_LOOP_RAMP_RATE = 0;
+    public static final boolean INVERTED = true;
   }
 
   public static final class kDrive {
@@ -43,4 +52,25 @@ public final class Constants {
     public static final int BACK_LEFT_ID = 2;
   }
 
+  public static final class kShooter {
+    public static final int LEFT_MOTOR_ID = -1;
+    public static final int RIGHT_MOTOR_ID = -1;
+    public static final int KICKER_MOTOR_ID = -1;
+    public static final double SPEED = 0.9;
+    public static final int CURRENT_LIMIT = 35;
+    public static final double kP = 0.0;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+    public static final double kS = 0.0;
+    public static final double kV = 0.0;
+    public static final double GOAL = 3000;
+    public static final int DEFAULT_PROFILE_SLOT = 0;
+    public static final int DEFAULT_CONFIG_TIMEOUT = 100;
+
+    public static final int RUN_SHOOTER = XboxController.Button.kX.value;
+
+    public static final boolean KICKER_INVERSION = true;
+
+    public static final double SPEED_KICKER = 1;
+  }  
 }
