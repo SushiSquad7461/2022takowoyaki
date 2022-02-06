@@ -53,11 +53,9 @@ public class RobotContainer {
     // reverse hopper
     new JoystickButton(driveController, Constants.kOI.REVERSE_HOPPER)
       .whenPressed(new ParallelCommandGroup(
-        new InstantCommand(intake::actuateIntake, intake),
         new InstantCommand(intake::reverseIntake, intake),
         new InstantCommand(hopper::reverseHopper, hopper)))
       .whenReleased(new ParallelCommandGroup(
-        new InstantCommand(intake::retractIntake, intake),
         new InstantCommand(intake::stopIntake, intake),
         new InstantCommand(hopper::stopHopper, hopper)));
 
@@ -68,11 +66,9 @@ public class RobotContainer {
     // Run Intake
     new JoystickButton(driveController, Constants.kOI.RUN_INTAKE)
       .whenPressed(new ParallelCommandGroup(
-        new InstantCommand(intake::actuateIntake, intake),
         new InstantCommand(intake::runIntake, intake),
         new InstantCommand(hopper::runHopper, hopper)))
       .whenReleased(new ParallelCommandGroup(
-        new InstantCommand(intake::retractIntake, intake),
         new InstantCommand(intake::stopIntake, intake),
         new InstantCommand(hopper::stopHopper, hopper)));
 
@@ -83,8 +79,8 @@ public class RobotContainer {
 
     // Run Shooter
     new JoystickButton(driveController, Constants.kOI.RUN_SHOOTER)
-      .whenPressed(new InstantCommand(shooter::runShooter, shooter))
-      .whenReleased(new InstantCommand(shooter::stopShooter));
+      .whenPressed(new RunCommand(shooter::runShooter, shooter))
+      .whenReleased(new RunCommand(shooter::stopShooter, shooter));
 
     drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
       OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));

@@ -29,14 +29,17 @@ public class Intake extends SubsystemBase {
   }
   
   public void runIntake() {
+    actuateIntake();
     intakeMotor.set(Constants.kIntake.INTAKE_SPEED);
   }
 
   public void stopIntake() {
+    retractIntake();
     intakeMotor.set(0);
   }
 
   public void reverseIntake() {
+    actuateIntake();
     intakeMotor.set(-Constants.kIntake.INTAKE_SPEED);
   }
 
