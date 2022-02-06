@@ -45,10 +45,10 @@ public class Drivetrain extends SubsystemBase {
     backLeft.follow(frontLeft);
     backRight.follow(frontRight);
 
-    frontLeft.setInverted(TalonFXInvertType.Clockwise);
-    backLeft.setInverted(TalonFXInvertType.Clockwise);
-    frontRight.setInverted(TalonFXInvertType.CounterClockwise);
-    backRight.setInverted(TalonFXInvertType.CounterClockwise);
+    frontLeft.setInverted(TalonFXInvertType.CounterClockwise);
+    backLeft.setInverted(TalonFXInvertType.CounterClockwise);
+    frontRight.setInverted(TalonFXInvertType.Clockwise);
+    backRight.setInverted(TalonFXInvertType.Clockwise);
     /*
      * WPI drivetrain classes defaultly assume left and right are opposite. call
      * this so we can apply + to both sides when moving forward. DO NOT CHANGE
