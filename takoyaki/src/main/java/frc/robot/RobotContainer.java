@@ -11,6 +11,7 @@ import frc.robot.subsystems.Hopper.VictorHopper;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
+import frc.robot.subsystems.Intake.FalconNoDeploymentIntake;
 import frc.robot.subsystems.Intake.FalconSolenoidIntake;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.SparkSolenoidIntake;
@@ -26,7 +27,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final Hopper hopper = new VictorHopper();
-  private final Intake intake = new FalconSolenoidIntake();
+  private final Intake intake = new FalconNoDeploymentIntake();
   private final Shooter shooter = new ClosedLoopFalconShooter();
   private final Drivetrain drivetrain = new FalconDrivetrain();
 
@@ -89,8 +90,8 @@ public class RobotContainer {
 
     // Run Shooter
     new JoystickButton(driveController, Constants.kOI.RUN_SHOOTER)
-        .whenPressed(new InstantCommand(shooter::runShooter, shooter))
-        .whenReleased(new InstantCommand(shooter::stopShooter));
+        .whenPressed(new RunCommand(() -> shooter.setSetpoint(100), shooter))
+        .whenReleased(new RunCommand(() -> shooter.setSetpoint(0), shooter));
 
     drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
         OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
