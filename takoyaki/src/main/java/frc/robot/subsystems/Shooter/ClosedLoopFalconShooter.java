@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClosedLoopFalconShooter extends Shooter {
   private final WPI_TalonFX left = new WPI_TalonFX(Constants.kShooter.LEFT_MOTOR_ID);
@@ -22,6 +23,8 @@ public class ClosedLoopFalconShooter extends Shooter {
   private final WPI_VictorSPX kicker = new WPI_VictorSPX(Constants.kShooter.KICKER_MOTOR_ID);
 
   private final SimpleMotorFeedforward fForward;
+
+  private double change;
 
   private double setpoint;
 
@@ -43,7 +46,9 @@ public class ClosedLoopFalconShooter extends Shooter {
 
     right.follow(left);
 
-    fForward = new SimpleMotorFeedforward(Constants.kShooter.kS, Constants.kShooter.kV);
+    fForward = new SimpleMotorFeedforward(Constants.kShooter.kS, Constants.kShooter.kV, Constants.kShooter.kA);
+
+    this.zeroSetpoint();
   }
 
   public void runShooter() {
@@ -77,7 +82,15 @@ public class ClosedLoopFalconShooter extends Shooter {
 
   @Override
   public void periodic() {
-    left.set(ControlMode.Velocity, setpoint, DemandType.ArbitraryFeedForward, fForward.calculate(setpoint));
+    SmartDashboard.putNumber("Current RMP", left.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Setpoint", setpoint);
+    SmartDashboard.putNumber("applied output", left.getMotorOutputPercent());
+    SmartDashboard.putNumber("feed forward", fForward.calculate(setpoint));
+    SmartDashboard.putNumber("shooter position change", left.getSelectedSensorPosition() - change);
+    change = left.getSelectedSensorPosition();
+    left.set(ControlMode.Velocity, fForward.calculate(setpoint),
+        DemandType.AuxPID, setpoint);
+    // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
   }
 
   @Override
