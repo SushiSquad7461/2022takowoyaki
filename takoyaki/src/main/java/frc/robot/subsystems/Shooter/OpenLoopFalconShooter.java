@@ -17,18 +17,16 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ClosedLoopFalconShooter extends Shooter {
+public class OpenLoopFalconShooter extends Shooter {
   private final WPI_TalonFX left = new WPI_TalonFX(Constants.kShooter.LEFT_MOTOR_ID);
   private final WPI_TalonFX right = new WPI_TalonFX(Constants.kShooter.RIGHT_MOTOR_ID);
   private final WPI_VictorSPX kicker = new WPI_VictorSPX(Constants.kShooter.KICKER_MOTOR_ID);
 
-  private final SimpleMotorFeedforward fForward;
-
-  private double change;
+  double maxRPM;
 
   private double setpoint;
 
-  public ClosedLoopFalconShooter() {
+  public OpenLoopFalconShooter() {
     left.setNeutralMode(NeutralMode.Coast);
     right.setNeutralMode(NeutralMode.Coast);
     kicker.setNeutralMode(NeutralMode.Brake);
@@ -36,25 +34,15 @@ public class ClosedLoopFalconShooter extends Shooter {
     left.setInverted(TalonFXInvertType.CounterClockwise);
     right.setInverted(TalonFXInvertType.Clockwise);
     kicker.setInverted(Constants.kShooter.KICKER_INVERSION);
-
-    left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kP,
-        Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kI,
-        Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kD,
-        Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kF,
-        Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-
     right.follow(left);
 
-    fForward = new SimpleMotorFeedforward(Constants.kShooter.kS, Constants.kShooter.kV, Constants.kShooter.kA);
-
     this.zeroSetpoint();
+
+    maxRPM = 0;
   }
 
   public void runShooter() {
-    left.set(ControlMode.PercentOutput, Constants.kShooter.SPEED);
+    left.set(ControlMode.PercentOutput, Constants.kShooter.kOpenLoop.SETPOINT);
   }
 
   public void stopShooter() {
@@ -81,19 +69,19 @@ public class ClosedLoopFalconShooter extends Shooter {
   }
 
   public void setSetpoint() {
-    this.setpoint = Constants.kShooter.kClosedLoop.SETPOINT;
+    this.setpoint = Constants.kShooter.kOpenLoop.SETPOINT;
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Current encoder ticks per 100 ms", left.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Current rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
+    if (left.getSelectedSensorVelocity() > maxRPM) {
+      maxRPM = left.getSelectedSensorVelocity();
+    }
+    SmartDashboard.putNumber("maxrpm", maxRPM);
+    SmartDashboard.putNumber("Current RMP", left.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Setpoint", setpoint);
     SmartDashboard.putNumber("applied output", left.getMotorOutputPercent());
-    SmartDashboard.putNumber("feed forward", fForward.calculate(setpoint));
-    SmartDashboard.putNumber("shooter position change", left.getSelectedSensorPosition() - change);
-    change = left.getSelectedSensorPosition();
-    left.set(ControlMode.Velocity, setpoint);
+    left.set(ControlMode.PercentOutput, setpoint);
     // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
   }
 
