@@ -93,7 +93,12 @@ public class ClosedLoopFalconShooter extends Shooter {
     SmartDashboard.putNumber("feed forward", fForward.calculate(setpoint));
     SmartDashboard.putNumber("shooter position change", left.getSelectedSensorPosition() - change);
     change = left.getSelectedSensorPosition();
-    left.set(ControlMode.Velocity, setpoint);
+
+    if (setpoint == 0) {
+      left.set(ControlMode.PercentOutput, 0);
+    } else {
+      left.set(ControlMode.Velocity, setpoint);
+    }
     // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
   }
 

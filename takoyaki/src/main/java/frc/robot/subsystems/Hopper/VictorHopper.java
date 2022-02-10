@@ -4,10 +4,13 @@
 
 package frc.robot.subsystems.Hopper;
 
+import java.sql.Time;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class VictorHopper extends Hopper {
@@ -16,15 +19,18 @@ public class VictorHopper extends Hopper {
   public VictorHopper() {
     floor.configFactoryDefault();
     floor.setInverted(Constants.kHopper.INVERTED);
-    floor.setNeutralMode(NeutralMode.Coast);
+    floor.setNeutralMode(NeutralMode.Brake);
   }
 
   public void runHopper() {
-    floor.set(ControlMode.PercentOutput, Constants.kHopper.SPEED);
+    SmartDashboard.putNumber("Hopper output", floor.getMotorOutputPercent());
+    floor.set(ControlMode.PercentOutput,
+        Constants.kHopper.SPEED * Math.abs(Math.sin(System.currentTimeMillis() / 10)));
   }
 
   public void reverseHopper() {
-    floor.set(ControlMode.PercentOutput, -Constants.kHopper.SPEED);
+    floor.set(ControlMode.PercentOutput,
+        -Constants.kHopper.SPEED * Math.abs(Math.sin(System.currentTimeMillis() / 1000)));
   }
 
   public void stop() {

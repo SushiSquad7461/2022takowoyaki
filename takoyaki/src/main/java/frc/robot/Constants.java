@@ -71,7 +71,7 @@ public final class Constants {
     }
 
     public static final class kClosedLoop {
-      public static final double SETPOINT = 3700.0 * 2048.0 / 600.0;
+      public static final double SETPOINT = 3330.0 * 2048.0 / 600.0;
     }
 
     public static final int LEFT_MOTOR_ID = 12;
