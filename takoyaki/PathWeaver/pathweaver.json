@@ -5,5 +5,5 @@
   "maxAcceleration": 3.0,
   "trackWidth": 0.69,
   "gameName": "Rapid React",
-  "outputDir": "../takoyaki/src/main/deploy"
+  "outputDir": "../src/main/deploy"
 }

@@ -23,6 +23,7 @@ public class AutoCommandSelector {
   public final SequentialCommandGroup twoBallFar;
   public final SequentialCommandGroup threeBall;
   public final SequentialCommandGroup fiveBall;
+  public final SequentialCommandGroup reverseSpline;
 
   public final RamsetePath[] twoBallWallPaths = { RamsetePath.TARMAC_WALLBALL,
                                                   RamsetePath.WALLBALL_SHOOT };
@@ -42,6 +43,7 @@ public class AutoCommandSelector {
                                                RamsetePath.SHOOT_TERMINAL_2,
                                                RamsetePath.TERMINAL_SHOOT_1_REVERSE,
                                                RamsetePath.TERMINAL_SHOOT_2  };
+  public final RamsetePath[] reverseSplinePaths = { RamsetePath.SHOOT_TARMAC_REVERSE };
 
   public final Map<SequentialCommandGroup, RamsetePath[]> pathArrayMap;
 
@@ -80,6 +82,9 @@ public class AutoCommandSelector {
       ramsete.createRamseteCommand(RamsetePath.SHOOT_TERMINAL_2),
       ramsete.createRamseteCommand(RamsetePath.TERMINAL_SHOOT_1_REVERSE),
       ramsete.createRamseteCommand(RamsetePath.TERMINAL_SHOOT_2));
+    reverseSpline = new SequentialCommandGroup(
+      ramsete.createRamseteCommand(RamsetePath.SHOOT_TARMAC_REVERSE)
+    );
       
     
     // trajectory map
@@ -88,6 +93,7 @@ public class AutoCommandSelector {
     pathArrayMap.put(twoBallFar, twoBallFarPaths);
     pathArrayMap.put(threeBall, threeBallPaths);
     pathArrayMap.put(fiveBall, fiveBallPaths);
+    pathArrayMap.put(reverseSpline, reverseSplinePaths);
   }
 
   public void setInitialDrivePose(SequentialCommandGroup auto) {

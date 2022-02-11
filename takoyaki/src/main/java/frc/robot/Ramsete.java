@@ -26,7 +26,7 @@ public class Ramsete {
     MIDBALL_SHOOT("output/midball-shoot.wpilib.json"),
     MIDBALL_WALLBALL("output/midball-wallball.wpilib.json"),
     SHOOT_MIDBALL_1_REVERSE("output/shoot-midball-1-reverse.wpilib.json"),
-    SHOOT_MIDBALL_2("output/shoot_midball-2.wpilib.json"),
+    SHOOT_MIDBALL_2("output/shoot-midball-2.wpilib.json"),
     SHOOT_TARMAC_REVERSE("output/shoot-tarmac-reverse.wpilib.json"),
     SHOOT_TERMINAL_1_REVERSE("output/shoot-terminal-1-reverse.wpilib.json"),
     SHOOT_TERMINAL_2("output/shoot-terminal-2.wpilib.json"),

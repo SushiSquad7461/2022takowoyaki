@@ -55,7 +55,7 @@ public class RobotContainer {
     autoChooser.addOption("two ball wall", autoSelector.twoBallWall);
     autoChooser.addOption("three ball", autoSelector.threeBall);
     autoChooser.addOption("five ball", autoSelector.fiveBall);
-
+    autoChooser.addOption("reverse testig", autoSelector.reverseSpline);
     // put field object to dashboard
     SmartDashboard.putData("field", field);
 
