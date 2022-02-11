@@ -111,7 +111,7 @@ public class RobotContainer {
     new JoystickButton(driveController, Constants.kOI.RUN_SHOOTER)
       .whenPressed(new InstantCommand(s_shooter::runShooter, s_shooter))
       .whenReleased(new InstantCommand(s_shooter::stopShooter));
-
+      
     //s_drivetrain.setDefaultCommand(new RunCommand(() -> s_drivetrain.curveDrive(OI.getTriggers(driveController),
     //  OI.getLeftStick(driveController), driveController.getXButton()), s_drivetrain));
   }
