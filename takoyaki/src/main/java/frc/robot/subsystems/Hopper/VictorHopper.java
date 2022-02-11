@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.Constants.kHopper;
 
 public class VictorHopper extends Hopper {
   private final WPI_VictorSPX floor = new WPI_VictorSPX(Constants.kHopper.MOTOR_ID);
@@ -25,12 +26,12 @@ public class VictorHopper extends Hopper {
   public void runHopper() {
     SmartDashboard.putNumber("Hopper output", floor.getMotorOutputPercent());
     floor.set(ControlMode.PercentOutput,
-        Constants.kHopper.SPEED * Math.abs(Math.sin(System.currentTimeMillis() / 10)));
+        Constants.kHopper.SPEED * Math.abs(Math.sin(System.currentTimeMillis() / Constants.kHopper.JERKINESS)));
   }
 
   public void reverseHopper() {
     floor.set(ControlMode.PercentOutput,
-        -Constants.kHopper.SPEED * Math.abs(Math.sin(System.currentTimeMillis() / 1000)));
+        -Constants.kHopper.SPEED);
   }
 
   public void stop() {

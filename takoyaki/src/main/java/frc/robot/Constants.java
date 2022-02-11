@@ -37,6 +37,7 @@ public final class Constants {
     public static final double SPEED = 0.9;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
+    public static final long JERKINESS = 100;
   }
 
   public static final class kIntake {
@@ -71,7 +72,7 @@ public final class Constants {
     }
 
     public static final class kClosedLoop {
-      public static final double SETPOINT = 3330.0 * 2048.0 / 600.0;
+      public static final double SETPOINT = 3360.0 * 2048.0 / 600.0;
     }
 
     public static final int LEFT_MOTOR_ID = 12;
@@ -79,9 +80,9 @@ public final class Constants {
     public static final int KICKER_MOTOR_ID = 5;
     public static final double SPEED = 0.9;
     public static final int CURRENT_LIMIT = 35;
-    public static final double kP = 0.07;
-    public static final double kI = 0.00001;
-    public static final double kD = 0.0;
+    public static final double kP = 0.15;
+    public static final double kI = 0.0000;
+    public static final double kD = .0;
     public static final double kF = 0.045;
     public static final double kS = 0.61716 / 12.0;
     public static final double kV = 0.10724 / 12.0;
