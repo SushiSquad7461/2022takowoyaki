@@ -7,15 +7,24 @@ import java.util.concurrent.Callable;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Ramsete.RamsetePath;
+import frc.robot.commands.AutoShoot;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 public class AutoCommandSelector {
   private final Drivetrain drivetrain;
   private final Ramsete ramsete;
   private final Intake intake;
+  private final Shooter shooter;
+  private final Hopper hopper;
+
+  private final AutoShoot autoShoot;
 
   // sequential command groups
   public final SequentialCommandGroup twoBallWall;
@@ -47,11 +56,16 @@ public class AutoCommandSelector {
 
   public final Map<SequentialCommandGroup, RamsetePath[]> pathArrayMap;
 
-  public AutoCommandSelector(Drivetrain drivetrain, Ramsete ramsete, Intake intake) {
+  public AutoCommandSelector(Drivetrain drivetrain, Ramsete ramsete, Intake intake, Shooter shooter, Hopper hopper) {
     // instantiate dependencies
     this.drivetrain = drivetrain;
     this.ramsete = ramsete;
     this.intake = intake;
+    this.shooter = shooter;
+    this.hopper = hopper;
+
+    // not sure if this should be this.shooter and this.hopper or just shooter, hopper
+    autoShoot = new AutoShoot(shooter, hopper);
 
     this.pathArrayMap = new HashMap<SequentialCommandGroup, RamsetePath[]>();
 
@@ -59,29 +73,54 @@ public class AutoCommandSelector {
     twoBallWall = new SequentialCommandGroup(
       new InstantCommand(intake::actuateIntake, intake),
       ramsete.createRamseteCommand(RamsetePath.TARMAC_WALLBALL),
-      ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT));
+      ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT),
+      autoShoot);
+
     twoBallMid = new SequentialCommandGroup(
       new InstantCommand(intake::actuateIntake, intake),
       ramsete.createRamseteCommand(RamsetePath.TARMAC_MIDBALL),
-      ramsete.createRamseteCommand(RamsetePath.MIDBALL_SHOOT));
+      ramsete.createRamseteCommand(RamsetePath.MIDBALL_SHOOT),
+      autoShoot);
+
     twoBallFar = new SequentialCommandGroup(
       new InstantCommand(intake::actuateIntake, intake),
       ramsete.createRamseteCommand(RamsetePath.TARMAC_FARBALL),
-      ramsete.createRamseteCommand(RamsetePath.FARBALL_SHOOT));
+      ramsete.createRamseteCommand(RamsetePath.FARBALL_SHOOT),
+      autoShoot);
+
     threeBall = new SequentialCommandGroup(
+      autoShoot.withTimeout(1),
       ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE),
       ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_2),
       ramsete.createRamseteCommand(RamsetePath.MIDBALL_WALLBALL),
-      ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT));
+      new ParallelCommandGroup(new RunCommand(shooter::setGoal, shooter),
+        ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT)),
+      new ParallelCommandGroup(new RunCommand(shooter::runKicker, shooter),
+                               new RunCommand(hopper::runHopper, hopper))
+                               .withTimeout(2)
+                               .andThen(new RunCommand(() -> shooter.setGoal(0), shooter))
+                               .andThen(new ParallelCommandGroup(new RunCommand(shooter::stopKicker, shooter),
+                                                                 new RunCommand(hopper::stop, hopper))));
+
     fiveBall = new SequentialCommandGroup(
+      autoShoot.withTimeout(1),
       ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE),
       ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_2),
-      ramsete.createRamseteCommand(RamsetePath.MIDBALL_WALLBALL),
+      new ParallelCommandGroup(new RunCommand(shooter::setGoal, shooter),
+        ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT)),
+      new ParallelCommandGroup(new RunCommand(shooter::runKicker, shooter),
+                               new RunCommand(hopper::runHopper, hopper))
+                               .withTimeout(2)
+                               .andThen(new RunCommand(() -> shooter.setGoal(0), shooter))
+                               .andThen(new ParallelCommandGroup(new RunCommand(shooter::stopKicker, shooter),
+                                                                 new RunCommand(hopper::stop, hopper))),
       ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT),
       ramsete.createRamseteCommand(RamsetePath.SHOOT_TERMINAL_1_REVERSE),
       ramsete.createRamseteCommand(RamsetePath.SHOOT_TERMINAL_2),
       ramsete.createRamseteCommand(RamsetePath.TERMINAL_SHOOT_1_REVERSE),
-      ramsete.createRamseteCommand(RamsetePath.TERMINAL_SHOOT_2));
+      ramsete.createRamseteCommand(RamsetePath.TERMINAL_SHOOT_2),
+      autoShoot);
+      
     reverseSpline = new SequentialCommandGroup(
       ramsete.createRamseteCommand(RamsetePath.SHOOT_TARMAC_REVERSE)
     );

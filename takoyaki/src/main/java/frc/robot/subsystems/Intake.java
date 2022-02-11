@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.revrobotics.CANSparkMax;
 
 public class Intake extends SubsystemBase {
   private final WPI_TalonFX intakeMotor = new WPI_TalonFX(Constants.kIntake.MOTOR_ID);

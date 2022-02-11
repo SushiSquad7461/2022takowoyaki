@@ -47,7 +47,7 @@ public class RobotContainer {
 
     ramsete = new Ramsete(s_drivetrain);
     autoChooser = new SendableChooser<>();
-    autoSelector = new AutoCommandSelector(s_drivetrain, ramsete, s_intake);
+    autoSelector = new AutoCommandSelector(s_drivetrain, ramsete, s_intake, s_shooter, s_hopper);
     field = new Field2d();
 
     autoChooser.setDefaultOption("two ball mid", autoSelector.twoBallMid);

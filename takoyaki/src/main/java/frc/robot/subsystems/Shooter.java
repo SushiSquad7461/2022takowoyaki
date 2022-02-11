@@ -39,6 +39,8 @@ public class Shooter extends SubsystemBase {
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
     left.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kD,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
+    left.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kF,
+        Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
 
     right.follow(left);
 
@@ -73,9 +75,21 @@ public class Shooter extends SubsystemBase {
     this.goal = Constants.kShooter.GOAL;
   }
 
+  public boolean isAtSpeed() {
+    if((left.getSelectedSensorVelocity() * 2048.0 / 600.0) >= (Constants.kShooter.GOAL * 0.9)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @Override
   public void periodic() {
-    left.set(ControlMode.Velocity, goal, DemandType.ArbitraryFeedForward, fForward.calculate(goal));
+    if(goal == 0) {
+      left.set(ControlMode.PercentOutput, 0);
+    } else {
+      left.set(ControlMode.Velocity, goal);
+    }
   }
 
   @Override
