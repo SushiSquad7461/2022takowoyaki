@@ -37,7 +37,7 @@ public class Constants {
   }
 
   public static final class kHopper {
-    public static int MOTOR_ID = 10;
+    public static int MOTOR_ID;
     public static final boolean INVERTED = false;
     public static final int CURRENT_LIMIT = 30;
     public static final double SPEED = 0.9;
@@ -59,17 +59,17 @@ public class Constants {
       public static final boolean INVERTED = true;
     }
 
-    public static int MOTOR_ID = 8;
-    public static int SOLENOID_FRONT = 1;
-    public static int SOLENOID_BACK = 0;
+    public static int MOTOR_ID;
+    public static int SOLENOID_FRONT;
+    public static int SOLENOID_BACK;
     public static final double INTAKE_SPEED = 0.9;
   }
 
   public static final class kDrive {
-    public static int FRONT_RIGHT_ID = 3;
-    public static int FRONT_LEFT_ID = 1;
-    public static int BACK_RIGHT_ID = 4;
-    public static int BACK_LEFT_ID = 2;
+    public static int FRONT_RIGHT_ID;
+    public static int FRONT_LEFT_ID;
+    public static int BACK_RIGHT_ID;
+    public static int BACK_LEFT_ID;
   }
 
   public static final class kShooter {
@@ -81,9 +81,9 @@ public class Constants {
       public static final double SETPOINT = 3360.0 * 2048.0 / 600.0;
     }
 
-    public static int LEFT_MOTOR_ID = 12;
-    public static int RIGHT_MOTOR_ID = 15;
-    public static int KICKER_MOTOR_ID = 5;
+    public static int LEFT_MOTOR_ID;
+    public static int RIGHT_MOTOR_ID;
+    public static int KICKER_MOTOR_ID;
     public static final double SPEED = 0.9;
     public static final int CURRENT_LIMIT = 35;
     public static double kP = 0.15;
