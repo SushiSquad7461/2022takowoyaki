@@ -95,10 +95,10 @@ public final class Constants {
     public static final int KICKER_MOTOR_ID = 5;
     public static final double SPEED = 0.9;
     public static final int CURRENT_LIMIT = 35;
-    public static final double kP = 0.0;
+    public static final double kP = 0.15;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
-    public static final double kF = 0.0;
+    public static final double kF = 0.045;
     public static final double kS = 0.0;
     public static final double kV = 0.0;
     public static final double GOAL = 3000;
