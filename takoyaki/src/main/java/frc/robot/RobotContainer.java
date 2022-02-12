@@ -26,86 +26,93 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class RobotContainer {
 
-    // The robot's subsystems and commands are defined here...
-    private final Hopper hopper = new VictorHopper();
-    private final Intake intake = new FalconNoDeploymentIntake();
-    private final Shooter shooter = new ClosedLoopFalconShooter();
-    private final Drivetrain drivetrain = new FalconDrivetrain();
+  // The robot's subsystems and commands are defined here...
+  private final Hopper hopper;
+  private final Intake intake;
+  private final Shooter shooter;
+  private final Drivetrain drivetrain;
 
-    // Controllers
-    private final XboxController driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
-    private final XboxController operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
+  // Controllers
+  private final XboxController driveController;
+  private final XboxController operatorController;
 
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
-     */
-    public RobotContainer() {
-        // Configure the button bindings
-        configureButtonBindings();
-    }
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
+  public RobotContainer() {
+    // Configure the button bindings
+    Constants.setup();
+    hopper = new VictorHopper();
+    intake = new FalconNoDeploymentIntake();
+    shooter = new ClosedLoopFalconShooter();
+    drivetrain = new FalconDrivetrain();
+    driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
+    operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
+    configureButtonBindings();
+  }
 
-    /**
-     * Use this method to define your button->command mappings. Buttons can be
-     * created by
-     * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-     * it to a {@link
-     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-     */
-    private void configureButtonBindings() {
-        // run hopper
-        new JoystickButton(driveController, Constants.kOI.RUN_HOPPER)
-                .whenPressed(new ParallelCommandGroup(
-                        new InstantCommand(shooter::runKicker, intake),
-                        new RunCommand(hopper::runHopper, hopper)))
-                .whenReleased(new ParallelCommandGroup(
-                        new InstantCommand(shooter::stopKicker, intake),
-                        new RunCommand(hopper::stop, hopper)));
+  /**
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by
+   * instantiating a {@link GenericHID} or one of its subclasses ({@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+   * it to a {@link
+   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   */
+  private void configureButtonBindings() {
+    // run hopper
+    new JoystickButton(driveController, Constants.kOI.RUN_HOPPER)
+      .whenPressed(new ParallelCommandGroup(
+      new InstantCommand(shooter::runKicker, intake),
+      new RunCommand(hopper::runHopper, hopper)))
+      .whenReleased(new ParallelCommandGroup(
+      new InstantCommand(shooter::stopKicker, intake),
+      new RunCommand(hopper::stop, hopper)));
 
-        // reverse hopper
-        new JoystickButton(driveController, Constants.kOI.REVERSE_HOPPER)
-                .whenPressed(new ParallelCommandGroup(
-                        new InstantCommand(intake::reverseIntake, intake),
-                        new RunCommand(hopper::reverseHopper, hopper)))
-                .whenReleased(new ParallelCommandGroup(
-                        new InstantCommand(intake::stop, intake),
-                        new RunCommand(hopper::stop, hopper)));
+    // reverse hopper
+    new JoystickButton(driveController, Constants.kOI.REVERSE_HOPPER)
+      .whenPressed(new ParallelCommandGroup(
+      new InstantCommand(intake::reverseIntake, intake),
+      new RunCommand(hopper::reverseHopper, hopper)))
+      .whenReleased(new ParallelCommandGroup(
+      new InstantCommand(intake::stop, intake),
+      new RunCommand(hopper::stop, hopper)));
 
-        // Actuate Intake
-        new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
-                .whenPressed(new InstantCommand(intake::toggleIntake, intake));
+    // Actuate Intake
+    new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
+      .whenPressed(new InstantCommand(intake::toggleIntake, intake));
 
-        // Run Intake
-        new JoystickButton(driveController, Constants.kOI.RUN_INTAKE)
-                .whenPressed(new ParallelCommandGroup(
-                        new InstantCommand(intake::runIntake, intake),
-                        new InstantCommand(hopper::runHopper, hopper)))
-                .whenReleased(new ParallelCommandGroup(
-                        new InstantCommand(intake::stop, intake),
-                        new InstantCommand(hopper::stop, hopper)));
+    // Run Intake
+    new JoystickButton(driveController, Constants.kOI.RUN_INTAKE)
+      .whenPressed(new ParallelCommandGroup(
+      new InstantCommand(intake::runIntake, intake),
+      new InstantCommand(hopper::runHopper, hopper)))
+      .whenReleased(new ParallelCommandGroup(
+      new InstantCommand(intake::stop, intake),
+      new InstantCommand(hopper::stop, hopper)));
 
-        // Reverse Intake
-        new JoystickButton(driveController, Constants.kOI.REVERSE_INTAKE)
-                .whenPressed(new InstantCommand(intake::reverseIntake, intake))
-                .whenReleased(new InstantCommand(intake::stop, intake));
+    // Reverse Intake
+    new JoystickButton(driveController, Constants.kOI.REVERSE_INTAKE)
+      .whenPressed(new InstantCommand(intake::reverseIntake, intake))
+      .whenReleased(new InstantCommand(intake::stop, intake));
 
-        // Run Shooter
-        new JoystickButton(driveController, Constants.kOI.RUN_SHOOTER)
-                .whenPressed(new RunCommand(() -> shooter.setSetpoint(), shooter))
-                .whenReleased(new RunCommand(() -> shooter.zeroSetpoint(), shooter));
+    // Run Shooter
+    new JoystickButton(driveController, Constants.kOI.RUN_SHOOTER)
+      .whenPressed(new RunCommand(() -> shooter.setSetpoint(), shooter))
+      .whenReleased(new RunCommand(() -> shooter.zeroSetpoint(), shooter));
 
-        drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
-                OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
-    }
+    drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
+      OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
+  }
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        return null;
-    }
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+    // An ExampleCommand will run in autonomous
+    return null;
+  }
 
 }

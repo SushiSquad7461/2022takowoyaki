@@ -10,7 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.wpilibj.XboxController;
 
-public final class Constants {
+public class Constants {
 
   public static final class kOI {
     public static final int DRIVE_CONTROLLER = 0;
@@ -31,7 +31,7 @@ public final class Constants {
   }
 
   public static final class kHopper {
-    public static final int MOTOR_ID = 10;
+    public static int MOTOR_ID = 10;
     public static final boolean INVERTED = false;
     public static final int CURRENT_LIMIT = 30;
     public static final double SPEED = 0.9;
@@ -53,17 +53,17 @@ public final class Constants {
       public static final boolean INVERTED = true;
     }
 
-    public static final int MOTOR_ID = 8;
-    public static final int SOLENOID_FRONT = 1;
-    public static final int SOLENOID_BACK = 0;
+    public static int MOTOR_ID = 8;
+    public static int SOLENOID_FRONT = 1;
+    public static int SOLENOID_BACK = 0;
     public static final double INTAKE_SPEED = 0.9;
   }
 
   public static final class kDrive {
-    public static final int FRONT_RIGHT_ID = 3;
-    public static final int FRONT_LEFT_ID = 1;
-    public static final int BACK_RIGHT_ID = 4;
-    public static final int BACK_LEFT_ID = 2;
+    public static int FRONT_RIGHT_ID = 3;
+    public static int FRONT_LEFT_ID = 1;
+    public static int BACK_RIGHT_ID = 4;
+    public static int BACK_LEFT_ID = 2;
   }
 
   public static final class kShooter {
@@ -75,23 +75,52 @@ public final class Constants {
       public static final double SETPOINT = 3360.0 * 2048.0 / 600.0;
     }
 
-    public static final int LEFT_MOTOR_ID = 12;
-    public static final int RIGHT_MOTOR_ID = 15;
-    public static final int KICKER_MOTOR_ID = 5;
+    public static int LEFT_MOTOR_ID = 12;
+    public static int RIGHT_MOTOR_ID = 15;
+    public static int KICKER_MOTOR_ID = 5;
     public static final double SPEED = 0.9;
     public static final int CURRENT_LIMIT = 35;
-    public static final double kP = 0.15;
-    public static final double kI = 0.0000;
-    public static final double kD = .0;
-    public static final double kF = 0.045;
-    public static final double kS = 0.61716 / 12.0;
-    public static final double kV = 0.10724 / 12.0;
-    public static final double kA = 0.0082862 / 12.0;
+    public static double kP = 0.15;
+    public static double kI = 0.0000;
+    public static double kD = .0;
+    public static double kF = 0.045;
+    public static double kS = 0.61716 / 12.0;
+    public static double kV = 0.10724 / 12.0;
+    public static double kA = 0.0082862 / 12.0;
     public static final int DEFAULT_PROFILE_SLOT = 0;
     public static final int DEFAULT_CONFIG_TIMEOUT = 100;
 
     public static final boolean KICKER_INVERSION = true;
 
     public static final double SPEED_KICKER = 1;
+  }
+  enum RobotType{
+    PRACTICE,
+    COMP
+  }
+  public static void setup() {
+    RobotType robot = getRobotType();
+    switch(robot) {
+        case PRACTICE: 
+          kHopper.MOTOR_ID = 10;
+          kIntake.MOTOR_ID = 8;
+          kIntake.SOLENOID_FRONT = 1;
+          kIntake.SOLENOID_BACK = 0;
+          kDrive.FRONT_RIGHT_ID = 3;
+          kDrive.FRONT_LEFT_ID = 1;
+          kDrive.BACK_RIGHT_ID = 4;
+          kDrive.BACK_LEFT_ID = 2;
+          kShooter.LEFT_MOTOR_ID = 12;
+          kShooter.RIGHT_MOTOR_ID = 15;
+          kShooter.KICKER_MOTOR_ID = 5;
+          kShooter.kP = 0.15;
+          kShooter.kI = 0.0000;
+          kShooter.kD = 0.0;
+          kShooter.kF = 0.045;
+
+    }
+  }
+  public static RobotType getRobotType() {
+    return RobotType.PRACTICE;
   }
 }
