@@ -24,8 +24,6 @@ public class AutoCommandSelector {
   private final Shooter shooter;
   private final Hopper hopper;
 
-  private final AutoShoot autoShoot;
-
   // sequential command groups
   public final SequentialCommandGroup twoBallWall;
   public final SequentialCommandGroup twoBallMid;
@@ -65,8 +63,6 @@ public class AutoCommandSelector {
     this.hopper = hopper;
 
     // not sure if this should be this.shooter and this.hopper or just shooter, hopper
-    autoShoot = new AutoShoot(shooter, hopper);
-
     this.pathArrayMap = new HashMap<SequentialCommandGroup, RamsetePath[]>();
 
     // create command groups
@@ -74,22 +70,22 @@ public class AutoCommandSelector {
       new InstantCommand(intake::actuateIntake, intake),
       ramsete.createRamseteCommand(RamsetePath.TARMAC_WALLBALL),
       ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT),
-      autoShoot);
+      new AutoShoot(shooter, hopper));
 
     twoBallMid = new SequentialCommandGroup(
       new InstantCommand(intake::actuateIntake, intake),
       ramsete.createRamseteCommand(RamsetePath.TARMAC_MIDBALL),
       ramsete.createRamseteCommand(RamsetePath.MIDBALL_SHOOT),
-      autoShoot);
+      new AutoShoot(shooter, hopper));
 
     twoBallFar = new SequentialCommandGroup(
       new InstantCommand(intake::actuateIntake, intake),
       ramsete.createRamseteCommand(RamsetePath.TARMAC_FARBALL),
       ramsete.createRamseteCommand(RamsetePath.FARBALL_SHOOT),
-      autoShoot);
+      new AutoShoot(shooter, hopper));
 
     threeBall = new SequentialCommandGroup(
-      autoShoot.withTimeout(1),
+      new AutoShoot(shooter, hopper).withTimeout(1),
       ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE),
       ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_2),
       ramsete.createRamseteCommand(RamsetePath.MIDBALL_WALLBALL),
@@ -103,7 +99,8 @@ public class AutoCommandSelector {
                                                                  new RunCommand(hopper::stop, hopper))));
 
     fiveBall = new SequentialCommandGroup(
-      autoShoot.withTimeout(1),
+      /*
+      new AutoShoot(shooter, hopper).withTimeout(1),
       new ParallelCommandGroup(new InstantCommand(intake::actuateIntake, intake),
                                ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE)),
       new ParallelCommandGroup(new RunCommand(intake::runIntake, intake),
@@ -128,7 +125,7 @@ public class AutoCommandSelector {
                                .andThen(new InstantCommand(intake::retractIntake, intake)),
       ramsete.createRamseteCommand(RamsetePath.TERMINAL_SHOOT_1_REVERSE),
       ramsete.createRamseteCommand(RamsetePath.TERMINAL_SHOOT_2),
-      autoShoot);
+      new AutoShoot(shooter, hopper) */);
       
     reverseSpline = new SequentialCommandGroup(
       ramsete.createRamseteCommand(RamsetePath.SHOOT_TARMAC_REVERSE)

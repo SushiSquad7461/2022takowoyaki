@@ -79,12 +79,12 @@ public class RobotContainer {
     // reverse s_hopper
     new JoystickButton(driveController, Constants.kOI.REVERSE_HOPPER)
       .whenPressed(new ParallelCommandGroup(
-        new InstantCommand(s_intake::actuateIntake, s_intake),
-        new InstantCommand(s_intake::reverseIntake, s_intake),
+        new InstantCommand(s_intake::actuateIntake, s_intake)
+        .andThen(new InstantCommand(s_intake::reverseIntake, s_intake)),
         new InstantCommand(s_hopper::reverseHopper, s_hopper)))
       .whenReleased(new ParallelCommandGroup(
-        new InstantCommand(s_intake::retractIntake, s_intake),
-        new InstantCommand(s_intake::stop, s_intake),
+        new InstantCommand(s_intake::retractIntake, s_intake)
+        .andThen(new InstantCommand(s_intake::stop, s_intake)),
         new InstantCommand(s_hopper::stop, s_hopper)));
 
     // Actuate Intake
@@ -94,12 +94,12 @@ public class RobotContainer {
     // Run Intake
     new JoystickButton(driveController, Constants.kOI.RUN_INTAKE)
       .whenPressed(new ParallelCommandGroup(
-        new InstantCommand(s_intake::actuateIntake, s_intake),
-        new InstantCommand(s_intake::runIntake, s_intake),
+        new InstantCommand(s_intake::actuateIntake, s_intake)
+        .andThen(new InstantCommand(s_intake::runIntake, s_intake)),
         new InstantCommand(s_hopper::runHopper, s_hopper)))
       .whenReleased(new ParallelCommandGroup(
-        new InstantCommand(s_intake::retractIntake, s_intake),
-        new InstantCommand(s_intake::stop, s_intake),
+        new InstantCommand(s_intake::retractIntake, s_intake)
+        .andThen(new InstantCommand(s_intake::stop, s_intake)),
         new InstantCommand(s_hopper::stop, s_hopper)));
 
     // Reverse Intake
