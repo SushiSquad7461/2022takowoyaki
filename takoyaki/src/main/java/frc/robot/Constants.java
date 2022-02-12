@@ -4,11 +4,17 @@
 
 package frc.robot;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Map;
+import java.util.Scanner;
+
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Constants {
 
@@ -121,6 +127,26 @@ public class Constants {
     }
   }
   public static RobotType getRobotType() {
-    return RobotType.PRACTICE;
+    //Map<String, String> env = System.getenv();
+    //SmartDashboard.putString("Home", env.get("HOME"));
+    File f = new File("/home/lvuser/id.txt");
+    int id = 0;
+    String errorMsg = "success";
+    try {
+      Scanner reader = new Scanner(f);
+      id = reader.nextInt();
+    } catch (FileNotFoundException e){
+      errorMsg="file not found exception";
+      SmartDashboard.putString("robot type status", errorMsg);
+    }
+    if(id==1) {
+      SmartDashboard.putString("robot", "practice");
+      return RobotType.PRACTICE;
+    }
+    else {
+      SmartDashboard.putString("robot", "comp");
+      return RobotType.COMP;
+    }
+    
   }
 }
