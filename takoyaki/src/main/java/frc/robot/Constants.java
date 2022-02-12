@@ -42,7 +42,7 @@ public final class Constants {
     public static final int MOTOR_ID = 8;
     public static final int SOLENOID_FRONT = 1;
     public static final int SOLENOID_BACK = 0;
-    public static final double INTAKE_SPEED = 0.5;
+    public static final double INTAKE_SPEED = 0.9;
 
     public static final int CURRENT_LIMIT = 35;
     public static final int OPEN_LOOP_RAMP_RATE = 0;

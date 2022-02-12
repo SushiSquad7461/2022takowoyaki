@@ -106,7 +106,6 @@ public class AutoCommandSelector {
                                ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE)),
       new ParallelCommandGroup(new RunCommand(intake::runIntake, intake).withTimeout(0),
                                ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_2)),
-      ramsete.createRamseteCommand(RamsetePath.MIDBALL_WALLBALL),
       new ParallelCommandGroup(new InstantCommand(shooter::setGoal, shooter),
                                new InstantCommand(intake::stop, intake)
                                .andThen(new InstantCommand(intake::retractIntake, intake)),
@@ -116,11 +115,11 @@ public class AutoCommandSelector {
       new ParallelCommandGroup(new InstantCommand(shooter::stopKicker, shooter),
                                new InstantCommand(hopper::stop, hopper)),
       new ParallelCommandGroup(ramsete.createRamseteCommand(RamsetePath.SHOOT_TERMINAL_1_REVERSE),
-                               new RunCommand(() -> shooter.setGoal(0), shooter),
+                               new InstantCommand(() -> shooter.setGoal(0), shooter),
                                new InstantCommand(intake::actuateIntake)),
-      new ParallelCommandGroup(new RunCommand(intake::runIntake, intake),
+      new ParallelCommandGroup(new InstantCommand(intake::runIntake, intake),
                                ramsete.createRamseteCommand(RamsetePath.SHOOT_TERMINAL_2))
-                               .andThen(new RunCommand(intake::stop, intake))
+                               .andThen(new InstantCommand(intake::stop, intake))
                                .andThen(new InstantCommand(intake::retractIntake, intake)),
       ramsete.createRamseteCommand(RamsetePath.TERMINAL_SHOOT_1_REVERSE),
       ramsete.createRamseteCommand(RamsetePath.TERMINAL_SHOOT_2),
