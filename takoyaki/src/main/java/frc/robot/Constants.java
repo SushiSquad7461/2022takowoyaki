@@ -58,10 +58,10 @@ public final class Constants {
     //  to divide quick turn power by
     public static final double QUICK_TURN_DAMPENER = 3.0; 
 
-    // char values for garage
-    public static final double ksVolts = 0.54849;
-    public static final double kvVoltSecondsPerMeter = 1.6912;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.21572;
+    // char values for garage carpet
+    public static final double ksVolts = 0.66412;
+    public static final double kvVoltSecondsPerMeter = 1.6846;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.23884;
     public static final double kPDriveVel = 0.00005;
     public static final double kIDrive = 0;
     public static final double kDDrive = 0;
