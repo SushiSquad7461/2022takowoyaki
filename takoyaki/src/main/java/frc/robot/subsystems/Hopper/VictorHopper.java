@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.Hopper;
 
-import java.sql.Time;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -12,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
-import frc.robot.Constants.kHopper;
 
 public class VictorHopper extends Hopper {
   private final WPI_VictorSPX floor = new WPI_VictorSPX(Constants.kHopper.MOTOR_ID);

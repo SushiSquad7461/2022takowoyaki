@@ -34,10 +34,7 @@ public class FalconDrivetrain extends Drivetrain {
     frontRight.configFactoryDefault();
     backRight.configFactoryDefault();
 
-    frontLeft.setNeutralMode(NeutralMode.Brake);
-    backLeft.setNeutralMode(NeutralMode.Brake);
-    frontRight.setNeutralMode(NeutralMode.Brake);
-    backRight.setNeutralMode(NeutralMode.Brake);
+    setToBrakeMode();
 
     /* set up followers */
     backLeft.follow(frontLeft);
@@ -51,6 +48,20 @@ public class FalconDrivetrain extends Drivetrain {
      * WPI drivetrain classes defaultly assume left and right are opposite. call
      * this so we can apply + to both sides when moving forward. DO NOT CHANGE
      */
+  }
+
+  public void setToBrakeMode() {
+    frontLeft.setNeutralMode(NeutralMode.Brake);
+    backLeft.setNeutralMode(NeutralMode.Brake);
+    frontRight.setNeutralMode(NeutralMode.Brake);
+    backRight.setNeutralMode(NeutralMode.Brake);
+  }
+
+  public void setToCoastMode() {
+    frontLeft.setNeutralMode(NeutralMode.Coast);
+    backLeft.setNeutralMode(NeutralMode.Coast);
+    frontRight.setNeutralMode(NeutralMode.Coast);
+    backRight.setNeutralMode(NeutralMode.Coast);
   }
 
   public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn) {

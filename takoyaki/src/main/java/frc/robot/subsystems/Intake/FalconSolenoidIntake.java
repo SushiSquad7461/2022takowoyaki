@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.revrobotics.CANSparkMax;
 
 public class FalconSolenoidIntake extends Intake {
   private final TalonFX intakeMotor = new TalonFX(Constants.kIntake.MOTOR_ID);

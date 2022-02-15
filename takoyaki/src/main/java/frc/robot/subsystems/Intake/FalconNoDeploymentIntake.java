@@ -4,13 +4,9 @@
 
 package frc.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.revrobotics.CANSparkMax;
 
 public class FalconNoDeploymentIntake extends Intake {
   private final TalonFX intakeMotor = new TalonFX(Constants.kIntake.MOTOR_ID);

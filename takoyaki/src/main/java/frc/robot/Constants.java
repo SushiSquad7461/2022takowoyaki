@@ -6,7 +6,6 @@ package frc.robot;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Map;
 import java.util.Scanner;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -48,7 +47,7 @@ public class Constants {
 
   public static final class kIntake {
     public static final class kFalcon {
-      public static final TalonFXInvertType INVERT_TYPE = TalonFXInvertType.Clockwise;
+      public static final TalonFXInvertType INVERT_TYPE = TalonFXInvertType.CounterClockwise;
       public static final TalonFXControlMode CONTROL_MODE = TalonFXControlMode.PercentOutput;
     }
 
@@ -123,6 +122,8 @@ public class Constants {
           kShooter.kI = 0.0000;
           kShooter.kD = 0.0;
           kShooter.kF = 0.045;
+      default:
+        break;
 
     }
   }
@@ -135,6 +136,7 @@ public class Constants {
     try {
       Scanner reader = new Scanner(f);
       id = reader.nextInt();
+      reader.close();
     } catch (FileNotFoundException e){
       errorMsg="file not found exception";
       SmartDashboard.putString("robot type status", errorMsg);

@@ -8,16 +8,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Hopper.VictorHopper;
-import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
 import frc.robot.subsystems.Intake.FalconNoDeploymentIntake;
-import frc.robot.subsystems.Intake.FalconSolenoidIntake;
 import frc.robot.subsystems.Intake.Intake;
-import frc.robot.subsystems.Intake.SparkSolenoidIntake;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ClosedLoopFalconShooter;
-import frc.robot.subsystems.Shooter.OpenLoopFalconShooter;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -49,6 +45,14 @@ public class RobotContainer {
     driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
     operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
     configureButtonBindings();
+  }
+
+  public void setDrivetrainToCoast() {
+    drivetrain.setToCoastMode();
+  }
+
+  public void setDrivetrainToBrake() {
+    drivetrain.setToBrakeMode();
   }
 
   /**
