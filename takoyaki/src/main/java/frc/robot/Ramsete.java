@@ -35,7 +35,11 @@ public class Ramsete {
     TARMAC_WALLBALL("output/tarmac-wallball.wpilib.json"),
     TERMINAL_SHOOT_1_REVERSE("output/terminal-shoot-1-reverse.wpilib.json"),
     TERMINAL_SHOOT_2("output/terminal-shoot-2.wpilib.json"),
-    WALLBALL_SHOOT("output/wallball-shoot.wpilib.json");
+    WALLBALL_SHOOT("output/wallball-shoot.wpilib.json"),
+    IOTA_TERMINAL_SHOOT_1_REVERSE("output/iota-terminal-shoot-1-reverse.json"),
+    IOTA_TERMINAL_SHOOT_2("output/iota-terminal-shoot-2.json"),
+    ZETA_TERMINAL_SHOOT_1_REVERSE("output/zeta-terminal-shoot-1-reverse.json"),
+    ZETA_TERMINAL_SHOOT_2("output/zeta-terminal-shoot-2.json");
 
     private String json;
     RamsetePath(String json) {

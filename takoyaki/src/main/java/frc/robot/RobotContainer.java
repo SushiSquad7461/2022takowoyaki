@@ -56,6 +56,8 @@ public class RobotContainer {
     autoChooser.addOption("three ball", autoSelector.threeBall);
     autoChooser.addOption("five ball", autoSelector.fiveBall);
     autoChooser.addOption("reverse testig", autoSelector.reverseSpline);
+    autoChooser.addOption("iota five ball", autoSelector.iotaFiveBall);
+    autoChooser.addOption("zeta five ball", autoSelector.zetaFiveBall);
     // put field object to dashboard
     SmartDashboard.putData("field", field);
 

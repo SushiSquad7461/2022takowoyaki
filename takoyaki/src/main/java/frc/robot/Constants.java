@@ -75,10 +75,10 @@ public final class Constants {
         new DifferentialDriveKinematics(TRACK_WIDTH_METERS);
 
     // path-following constants
-    public static final double MAX_SPEED_METERS_PER_SECOND = 3; // set to somewhat below free speed
+    public static final double MAX_SPEED_METERS_PER_SECOND = 5; // set to somewhat below free speed
                                                               // could increase this to go faster 
                                                               // theoretically
-    public static final double MAX_ACCEL_METERS_PER_SECOND_SQUARED = 3; // doesn't really matter
+    public static final double MAX_ACCEL_METERS_PER_SECOND_SQUARED = 4; // doesn't really matter
 
     // ticks to meters conversion factor for falcon 500
     // (total ticks) * (motor rotations/tick) * (wheel rotations/motor rotations) * (meters/wheel rotations)
