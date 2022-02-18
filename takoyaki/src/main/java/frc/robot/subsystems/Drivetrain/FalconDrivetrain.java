@@ -93,7 +93,7 @@ public class FalconDrivetrain extends Drivetrain {
     for( Double d : distances) {
       sum += d;
     }
-    return sum/7.0;
+    return sum/20.0;
   }
 
   @Override
