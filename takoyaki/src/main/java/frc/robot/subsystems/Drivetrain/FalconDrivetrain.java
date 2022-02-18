@@ -21,7 +21,6 @@ public class FalconDrivetrain extends Drivetrain {
   private final WPI_TalonFX backRight;
   private final Lasershark shark;
   private Queue<Double> distances;
-  private double distance;
 
   private final DifferentialDrive diffDrive;
 
