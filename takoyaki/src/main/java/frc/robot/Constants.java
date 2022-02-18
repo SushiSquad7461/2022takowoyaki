@@ -69,6 +69,7 @@ public class Constants {
     public static int FRONT_LEFT_ID;
     public static int BACK_RIGHT_ID;
     public static int BACK_LEFT_ID;
+    public static int LASERSHARK_PORT;
   }
 
   public static final class kShooter {
@@ -122,8 +123,10 @@ public class Constants {
           kShooter.kI = 0.0000;
           kShooter.kD = 0.0;
           kShooter.kF = 0.045;
-      default:
-        break;
+          kDrive.LASERSHARK_PORT = 9;
+          break;
+        default:
+          break;
 
     }
   }
@@ -144,8 +147,7 @@ public class Constants {
     if(id==1) {
       SmartDashboard.putString("robot", "practice");
       return RobotType.PRACTICE;
-    }
-    else {
+    } else {
       SmartDashboard.putString("robot", "comp");
       return RobotType.COMP;
     }

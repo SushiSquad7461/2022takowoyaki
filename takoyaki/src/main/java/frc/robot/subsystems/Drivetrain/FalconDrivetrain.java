@@ -4,17 +4,24 @@
 
 package frc.robot.subsystems.Drivetrain;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants;
+import com.cuforge.libcu.Lasershark;
 
 public class FalconDrivetrain extends Drivetrain {
   private final WPI_TalonFX frontLeft;
   private final WPI_TalonFX backLeft;
   private final WPI_TalonFX frontRight;
   private final WPI_TalonFX backRight;
+  private final Lasershark shark;
+  private Queue<Double> distances;
+  private double distance;
 
   private final DifferentialDrive diffDrive;
 
@@ -48,6 +55,11 @@ public class FalconDrivetrain extends Drivetrain {
      * WPI drivetrain classes defaultly assume left and right are opposite. call
      * this so we can apply + to both sides when moving forward. DO NOT CHANGE
      */
+    shark = new Lasershark(Constants.kDrive.LASERSHARK_PORT);
+    distances = new LinkedList<Double>();
+    for( int i = 0; i<20; i++) {
+      distances.add(0.0);
+    }
   }
 
   public void setToBrakeMode() {
@@ -73,7 +85,16 @@ public class FalconDrivetrain extends Drivetrain {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    distances.add(shark.getDistanceCentimeters());
+    distances.remove();
+  }
+
+  public Double getDistance() {
+    double sum = 0;
+    for( Double d : distances) {
+      sum += d;
+    }
+    return sum/7.0;
   }
 
   @Override
