@@ -59,15 +59,23 @@ public final class Constants {
     public static final double QUICK_TURN_DAMPENER = 3.0; 
 
     // char values for garage carpet
-    public static final double ksVolts = 0.66412;
-    public static final double kvVoltSecondsPerMeter = 1.6846;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.23884;
+    // public static final double ksVolts = 0.66412;
+    // public static final double kvVoltSecondsPerMeter = 1.6846;
+    // public static final double kaVoltSecondsSquaredPerMeter = 0.23884;
+    // public static final double kPDriveVel = 0.00005;
+    // public static final double kIDrive = 0;
+    // public static final double kDDrive = 0;
+
+    // char values for garage
+    public static final double ksVolts = 0.54849;
+    public static final double kvVoltSecondsPerMeter = 1.6912;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.21572;
     public static final double kPDriveVel = 0.00005;
     public static final double kIDrive = 0;
     public static final double kDDrive = 0;
 
     // public static final double kPDriveVel = 0;
-    public static final double MAX_VOLTAGE = 5;
+    public static final double MAX_VOLTAGE = 6;
 
     // odometry constants - drivetrain measurements
     public static final double TRACK_WIDTH_METERS = 0.69; // width between sides of dt
@@ -78,7 +86,7 @@ public final class Constants {
     public static final double MAX_SPEED_METERS_PER_SECOND = 5; // set to somewhat below free speed
                                                               // could increase this to go faster 
                                                               // theoretically
-    public static final double MAX_ACCEL_METERS_PER_SECOND_SQUARED = 4; // doesn't really matter
+    public static final double MAX_ACCEL_METERS_PER_SECOND_SQUARED = 5; // doesn't really matter
 
     // ticks to meters conversion factor for falcon 500
     // (total ticks) * (motor rotations/tick) * (wheel rotations/motor rotations) * (meters/wheel rotations)
