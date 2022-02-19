@@ -12,6 +12,8 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
@@ -67,6 +69,17 @@ public class Drivetrain extends SubsystemBase {
     backLeft.setInverted(TalonFXInvertType.CounterClockwise);
     frontRight.setInverted(TalonFXInvertType.Clockwise);
     backRight.setInverted(TalonFXInvertType.Clockwise);
+    
+    // frontLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.SUPPLY_CURRENT_LIMIT, 60, 1));
+    // backLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.SUPPLY_CURRENT_LIMIT, 60, 1));
+    // frontRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.SUPPLY_CURRENT_LIMIT, 60, 1));
+    // backRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.SUPPLY_CURRENT_LIMIT, 60, 1));
+
+    // frontLeft.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, Constants.kDrive.STATOR_CURRENT_LIMIT, 60, 5));
+    // backLeft.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, Constants.kDrive.STATOR_CURRENT_LIMIT, 60, 5));
+    // frontRight.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, Constants.kDrive.STATOR_CURRENT_LIMIT, 60, 5));
+    // backRight.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, Constants.kDrive.STATOR_CURRENT_LIMIT, 60, 5));
+    
     /*
      * WPI drivetrain classes defaultly assume left and right are opposite. call
      * this so we can apply + to both sides when moving forward. DO NOT CHANGE
