@@ -70,6 +70,7 @@ public class Constants {
     public static int BACK_RIGHT_ID;
     public static int BACK_LEFT_ID;
     public static int LASERSHARK_PORT;
+    public static final int SAMPLE_SIZE = 20;
   }
 
   public static final class kShooter {

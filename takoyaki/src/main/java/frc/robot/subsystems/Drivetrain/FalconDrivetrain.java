@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.Drivetrain;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -56,7 +57,7 @@ public class FalconDrivetrain extends Drivetrain {
      */
     shark = new Lasershark(Constants.kDrive.LASERSHARK_PORT);
     distances = new LinkedList<Double>();
-    for( int i = 0; i<20; i++) {
+    for( int i = 0; i<Constants.kDrive.SAMPLE_SIZE; i++) {
       distances.add(0.0);
     }
   }
@@ -89,11 +90,15 @@ public class FalconDrivetrain extends Drivetrain {
   }
 
   public Double getDistance() {
-    double sum = 0;
-    for( Double d : distances) {
-      sum += d;
+    int size = distances.size();
+    double sorted_distances[] = new double[size];
+    int index = 0;
+    for( Double distance : distances) {
+      sorted_distances[index] = distance;
+      index++;
     }
-    return sum/20.0;
+    Arrays.sort(sorted_distances);
+    return sorted_distances[size/2];
   }
 
   @Override
