@@ -4,64 +4,86 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 
 public class Climb extends SubsystemBase {
 
   private final WPI_TalonFX left;
   private final WPI_TalonFX right;
-  private final DoubleSolenoid brakeSolenoid;
+  private final ProfiledPIDController pidController;
+  boolean closedLoop;
 
   public Climb() {
 
+    closedLoop = false;
+
     left = new WPI_TalonFX(Constants.kClimb.LEFT_MOTOR_CAN_ID);
     right = new WPI_TalonFX(Constants.kClimb.RIGHT_MOTOR_CAN_ID);
-    brakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.kClimb.SOLENOID_FRONT,
-        Constants.kClimb.SOLENOID_BACK);
-
-    brakeSolenoid.set(DoubleSolenoid.Value.kOff);
 
     left.configFactoryDefault();
     right.configFactoryDefault();
+
+    left.setNeutralMode(NeutralMode.Brake);
+    right.setNeutralMode(NeutralMode.Brake);
 
     left.follow(right);
 
     right.setInverted(TalonFXInvertType.Clockwise);
     left.setInverted(TalonFXInvertType.OpposeMaster);
+
+    pidController = new ProfiledPIDController(
+        Constants.kClimb.kP,
+        Constants.kClimb.kI,
+        Constants.kClimb.kD,
+        new TrapezoidProfile.Constraints(
+            Constants.kClimb.MAX_VELOCITY,
+            Constants.kClimb.MAX_ACCELERATION));
   }
 
   @Override
   public void periodic() {
-
+    if (closedLoop) {
+      left.set(pidController.calculate(left.getSelectedSensorPosition()));
+    }
   }
 
   @Override
   public void simulationPeriodic() {
   }
 
+  public void extendClimb() {
+    closedLoop = true;
+    pidController.setGoal(Constants.kClimb.TOP_LIMIT);
+  }
+
+  public void retractClimb() {
+    closedLoop = true;
+    pidController.setGoal(Constants.kClimb.BOTTOM_LIMIT);
+  }
+
   public void runClimb() {
-    right.set(ControlMode.PercentOutput, Constants.kClimb.CLIMB_UP_MAX_POWER);
+    closedLoop = false;
+    left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
   }
 
   public void reverseClimb() {
-    right.set(ControlMode.PercentOutput, Constants.kClimb.CLIMB_DOWN_MAX_POWER);
+    closedLoop = false;
+    left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
   }
 
   public void stopClimb() {
-    right.set(ControlMode.PercentOutput, 0);
+    closedLoop = false;
+    left.stopMotor();
   }
 
-  public void climbBrakeOn() {
-    brakeSolenoid.set(DoubleSolenoid.Value.kForward);
-  }
-
-  public void climbBrakeOff() {
-    brakeSolenoid.set(DoubleSolenoid.Value.kOff);
+  public void toggleOpenLoop() {
+    closedLoop = !closedLoop;
   }
 }
