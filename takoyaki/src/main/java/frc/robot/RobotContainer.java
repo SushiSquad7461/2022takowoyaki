@@ -42,14 +42,16 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(opController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
-        .whenPressed(new RunCommand(climb::extendClimb, climb));
-    new JoystickButton(opController, Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
-        .whenPressed(new RunCommand(climb::retractClimb, climb));
+    // new JoystickButton(opController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
+    // .whenPressed(new RunCommand(climb::extendClimb, climb));
+    // new JoystickButton(opController, Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
+    // .whenPressed(new RunCommand(climb::retractClimb, climb));
     new JoystickButton(opController, Constants.kClimb.CLIMB_OPEN_LOOP_RAISE_BUTTON)
-        .whenPressed(new RunCommand(climb::runClimb, climb));
+        .whenPressed(new RunCommand(climb::runClimb, climb))
+        .whenReleased(new RunCommand(climb::stopClimb, climb));
     new JoystickButton(opController, Constants.kClimb.CLIMB_OPEN_LOOP_LOWER_BUTTON)
-        .whenPressed(new RunCommand(climb::reverseClimb, climb));
+        .whenPressed(new RunCommand(climb::reverseClimb, climb))
+        .whenReleased(new RunCommand(climb::stopClimb, climb));
   }
 
   public Command getAutonomousCommand() {

@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -33,7 +34,7 @@ public class Climb extends SubsystemBase {
     left.setNeutralMode(NeutralMode.Brake);
     right.setNeutralMode(NeutralMode.Brake);
 
-    left.follow(right);
+    // right.follow(left);
 
     right.setInverted(TalonFXInvertType.Clockwise);
     left.setInverted(TalonFXInvertType.OpposeMaster);
@@ -49,8 +50,9 @@ public class Climb extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("outptu", left.getMotorOutputPercent());
     if (closedLoop) {
-      left.set(pidController.calculate(left.getSelectedSensorPosition()));
+      // left.set(pidController.calculate(left.getSelectedSensorPosition()));
     }
   }
 
@@ -58,29 +60,34 @@ public class Climb extends SubsystemBase {
   public void simulationPeriodic() {
   }
 
-  public void extendClimb() {
-    closedLoop = true;
-    pidController.setGoal(Constants.kClimb.TOP_LIMIT);
-  }
+  // public void extendClimb() {
+  // closedLoop = true;
+  // pidController.setGoal(Constants.kClimb.TOP_LIMIT);
+  // }
 
-  public void retractClimb() {
-    closedLoop = true;
-    pidController.setGoal(Constants.kClimb.BOTTOM_LIMIT);
-  }
+  // public void retractClimb() {
+  // closedLoop = true;
+  // pidController.setGoal(Constants.kClimb.BOTTOM_LIMIT);
+  // }
 
   public void runClimb() {
     closedLoop = false;
+    // fleft.setNeutralMode(NeutralMode.Coast);
     left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
+    SmartDashboard.putBoolean("running", true);
   }
 
   public void reverseClimb() {
     closedLoop = false;
     left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
+    SmartDashboard.putBoolean("running", true);
   }
 
   public void stopClimb() {
     closedLoop = false;
-    left.stopMotor();
+    left.set(ControlMode.PercentOutput, 0);
+    // left.setNeutralMode(NeutralMode.Brake);
+    SmartDashboard.putBoolean("running", false);
   }
 
   public void toggleOpenLoop() {
