@@ -70,6 +70,14 @@ public class Climb extends SubsystemBase {
   // pidController.setGoal(Constants.kClimb.BOTTOM_LIMIT);
   // }
 
+  public void setBrakeMode() {
+    left.setNeutralMode(NeutralMode.Brake);
+  }
+
+  public void setCoastMode() {
+    left.setNeutralMode(NeutralMode.Coast);
+  }
+
   public void runClimb() {
     closedLoop = false;
     // fleft.setNeutralMode(NeutralMode.Coast);
