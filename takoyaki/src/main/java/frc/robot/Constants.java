@@ -39,10 +39,10 @@ public class Constants {
     public static int MOTOR_ID;
     public static final boolean INVERTED = false;
     public static final int CURRENT_LIMIT = 30;
-    public static final double SPEED = 0.9;
+    public static final double SPEED = 0.7;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
-    public static final long JERKINESS = 100;
+    public static final long JERKINESS = 00;
   }
 
   public static final class kIntake {
@@ -77,7 +77,7 @@ public class Constants {
     }
 
     public static final class kClosedLoop {
-      public static final double SETPOINT = 3360.0 * 2048.0 / 600.0;
+      public static final double SETPOINT = 3400.0 * 2048.0 / 600.0;
     }
 
     public static int LEFT_MOTOR_ID;
@@ -85,10 +85,10 @@ public class Constants {
     public static int KICKER_MOTOR_ID;
     public static final double SPEED = 0.9;
     public static final int CURRENT_LIMIT = 35;
-    public static double kP = 0.15;
+    public static double kP = 0.2;
     public static double kI = 0.0000;
     public static double kD = .0;
-    public static double kF = 0.045;
+    public static double kF = 0.05;
     public static double kS = 0.61716 / 12.0;
     public static double kV = 0.10724 / 12.0;
     public static double kA = 0.0082862 / 12.0;
@@ -107,21 +107,32 @@ public class Constants {
     RobotType robot = getRobotType();
     switch(robot) {
         case PRACTICE: 
+        //   kHopper.MOTOR_ID = 10;
+        //   kIntake.MOTOR_ID = 8;
+        //   kIntake.SOLENOID_FRONT = 1;
+        //   kIntake.SOLENOID_BACK = 0;
+        //   kDrive.FRONT_RIGHT_ID = 3;
+        //   kDrive.FRONT_LEFT_ID = 1;
+        //   kDrive.BACK_RIGHT_ID = 4;
+        //   kDrive.BACK_LEFT_ID = 2;
+        //   kShooter.LEFT_MOTOR_ID = 12;
+        //   kShooter.RIGHT_MOTOR_ID = 15;
+        //   kShooter.KICKER_MOTOR_ID = 5;
           kHopper.MOTOR_ID = 10;
-          kIntake.MOTOR_ID = 8;
-          kIntake.SOLENOID_FRONT = 1;
-          kIntake.SOLENOID_BACK = 0;
-          kDrive.FRONT_RIGHT_ID = 3;
-          kDrive.FRONT_LEFT_ID = 1;
-          kDrive.BACK_RIGHT_ID = 4;
-          kDrive.BACK_LEFT_ID = 2;
-          kShooter.LEFT_MOTOR_ID = 12;
-          kShooter.RIGHT_MOTOR_ID = 15;
-          kShooter.KICKER_MOTOR_ID = 5;
-          kShooter.kP = 0.15;
-          kShooter.kI = 0.0000;
-          kShooter.kD = 0.0;
-          kShooter.kF = 0.045;
+          kIntake.MOTOR_ID = 9;
+          kIntake.SOLENOID_FRONT = 0;
+          kIntake.SOLENOID_BACK = 1;
+          kDrive.FRONT_RIGHT_ID = 15;
+          kDrive.FRONT_LEFT_ID = 4;
+          kDrive.BACK_RIGHT_ID = 16;
+          kDrive.BACK_LEFT_ID = 3;
+          kShooter.LEFT_MOTOR_ID = 5;
+          kShooter.RIGHT_MOTOR_ID = 14;
+          kShooter.KICKER_MOTOR_ID = 0;
+          // kShooter.kP = 0.15;
+          // kShooter.kI = 0.0000;
+          // kShooter.kD = 0.0;
+          // kShooter.kF = 0.045;
       default:
         break;
 

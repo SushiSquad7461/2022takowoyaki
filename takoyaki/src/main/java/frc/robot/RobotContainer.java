@@ -11,6 +11,7 @@ import frc.robot.subsystems.Hopper.VictorHopper;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
 import frc.robot.subsystems.Intake.FalconNoDeploymentIntake;
+import frc.robot.subsystems.Intake.FalconSolenoidIntake;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ClosedLoopFalconShooter;
@@ -39,7 +40,7 @@ public class RobotContainer {
     // Configure the button bindings
     Constants.setup();
     hopper = new VictorHopper();
-    intake = new FalconNoDeploymentIntake();
+    intake = new FalconSolenoidIntake();
     shooter = new ClosedLoopFalconShooter();
     drivetrain = new FalconDrivetrain();
     driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
@@ -67,38 +68,43 @@ public class RobotContainer {
     // run hopper
     new JoystickButton(driveController, Constants.kOI.RUN_HOPPER)
       .whenPressed(new ParallelCommandGroup(
-      new InstantCommand(shooter::runKicker, intake),
+      new RunCommand(shooter::runKicker, shooter),
       new RunCommand(hopper::runHopper, hopper)))
       .whenReleased(new ParallelCommandGroup(
-      new InstantCommand(shooter::stopKicker, intake),
+      new RunCommand(shooter::stopKicker, intake),
       new RunCommand(hopper::stop, hopper)));
 
     // reverse hopper
     new JoystickButton(driveController, Constants.kOI.REVERSE_HOPPER)
       .whenPressed(new ParallelCommandGroup(
-      new InstantCommand(intake::reverseIntake, intake),
+      new RunCommand(shooter::reverseKicker, shooter),
       new RunCommand(hopper::reverseHopper, hopper)))
       .whenReleased(new ParallelCommandGroup(
-      new InstantCommand(intake::stop, intake),
+      new RunCommand(shooter::stopKicker, shooter),
       new RunCommand(hopper::stop, hopper)));
 
     // Actuate Intake
+    /*
     new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
-      .whenPressed(new InstantCommand(intake::toggleIntake, intake));
+      .whenPressed(new InstantCommand(intake::toggleIntake, intake)); */
 
     // Run Intake
     new JoystickButton(driveController, Constants.kOI.RUN_INTAKE)
       .whenPressed(new ParallelCommandGroup(
-      new InstantCommand(intake::runIntake, intake),
-      new InstantCommand(hopper::runHopper, hopper)))
+      new RunCommand(intake::runIntake, intake)))
+      //new RunCommand(hopper::runHopper, hopper)))
       .whenReleased(new ParallelCommandGroup(
-      new InstantCommand(intake::stop, intake),
-      new InstantCommand(hopper::stop, hopper)));
+      new RunCommand(intake::stop, intake)));
+      //new RunCommand(hopper::stop, hopper)));
 
     // Reverse Intake
     new JoystickButton(driveController, Constants.kOI.REVERSE_INTAKE)
-      .whenPressed(new InstantCommand(intake::reverseIntake, intake))
-      .whenReleased(new InstantCommand(intake::stop, intake));
+      .whenPressed(new ParallelCommandGroup(
+        new RunCommand(hopper::reverseHopper, hopper),
+        new RunCommand(intake::reverseIntake, intake)))
+      .whenReleased(new ParallelCommandGroup(
+        new RunCommand(hopper::stop, hopper),
+        new RunCommand(intake::stop, intake)));
 
     // Run Shooter
     new JoystickButton(driveController, Constants.kOI.RUN_SHOOTER)

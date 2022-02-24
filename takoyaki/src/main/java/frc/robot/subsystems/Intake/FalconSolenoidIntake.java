@@ -12,35 +12,44 @@ import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 public class FalconSolenoidIntake extends Intake {
-  private final TalonFX intakeMotor = new TalonFX(Constants.kIntake.MOTOR_ID);
-  private final DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
-      Constants.kIntake.SOLENOID_FRONT, Constants.kIntake.SOLENOID_BACK);
+  private final TalonFX intakeMotor = new TalonFX(9);
+  private final DoubleSolenoid rightSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 1);
+  private final DoubleSolenoid leftSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 14, 15);
 
   public FalconSolenoidIntake() {
     intakeMotor.setInverted(Constants.kIntake.kFalcon.INVERT_TYPE);
 
-    solenoid.set(DoubleSolenoid.Value.kOff);
-    solenoid.set(DoubleSolenoid.Value.kReverse);
+    // rightSolenoid.set(DoubleSolenoid.Value.kOff);
+    rightSolenoid.set(DoubleSolenoid.Value.kReverse);
+
+    // leftSolenoid.set(DoubleSolenoid.Value.kOff);
+    leftSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void runIntake() {
+    leftSolenoid.set(DoubleSolenoid.Value.kForward);
+    rightSolenoid.set(DoubleSolenoid.Value.kForward);
     intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, Constants.kIntake.INTAKE_SPEED);
   }
 
   public void stop() {
+    leftSolenoid.set(DoubleSolenoid.Value.kReverse);
+    rightSolenoid.set(DoubleSolenoid.Value.kReverse);
     intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, 0);
   }
 
   public void reverseIntake() {
+    leftSolenoid.set(DoubleSolenoid.Value.kForward);
+    rightSolenoid.set(DoubleSolenoid.Value.kForward);
     intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, -Constants.kIntake.INTAKE_SPEED);
   }
 
   public void toggleIntake() {
-    if (solenoid.get() == Value.kReverse) {
-      solenoid.set(Value.kForward);
-    } else {
-      solenoid.set(Value.kReverse);
-    }
+    // if (rightSolenoid.get() == Value.kReverse) {
+    //   rightSolenoid.set(Value.kForward);
+    // } else {
+    //   rightSolenoid.set(Value.kReverse);
+    // }
   }
 
   @Override

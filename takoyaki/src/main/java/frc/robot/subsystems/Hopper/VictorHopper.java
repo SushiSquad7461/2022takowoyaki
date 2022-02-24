@@ -7,24 +7,26 @@ package frc.robot.subsystems.Hopper;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class VictorHopper extends Hopper {
-  private final WPI_VictorSPX floor = new WPI_VictorSPX(Constants.kHopper.MOTOR_ID);
+  private final WPI_TalonSRX floor = new WPI_TalonSRX(10);
 
   public VictorHopper() {
     floor.configFactoryDefault();
-    floor.setInverted(Constants.kHopper.INVERTED);
+    floor.setInverted(!Constants.kHopper.INVERTED);
     floor.setNeutralMode(NeutralMode.Brake);
   }
 
   public void runHopper() {
     SmartDashboard.putNumber("Hopper output", floor.getMotorOutputPercent());
-    floor.set(ControlMode.PercentOutput,
-        Constants.kHopper.SPEED * Math.abs(Math.sin(System.currentTimeMillis() / Constants.kHopper.JERKINESS)));
+    // floor.set(ControlMode.PercentOutput,
+    //     Constants.kHopper.SPEED * Math.abs(Math.sin(System.currentTimeMillis() / Constants.kHopper.JERKINESS)));
+    floor.set(ControlMode.PercentOutput, 1);
   }
 
   public void reverseHopper() {

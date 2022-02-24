@@ -20,10 +20,10 @@ public class FalconDrivetrain extends Drivetrain {
 
   public FalconDrivetrain() {
     // instantiate motors
-    frontLeft = new WPI_TalonFX(Constants.kDrive.FRONT_LEFT_ID);
-    backLeft = new WPI_TalonFX(Constants.kDrive.BACK_LEFT_ID);
-    frontRight = new WPI_TalonFX(Constants.kDrive.FRONT_RIGHT_ID);
-    backRight = new WPI_TalonFX(Constants.kDrive.BACK_RIGHT_ID);
+    frontLeft = new WPI_TalonFX(4);
+    backLeft = new WPI_TalonFX(3);
+    frontRight = new WPI_TalonFX(15);
+    backRight = new WPI_TalonFX(16);
 
     // instantiate differential drive
     diffDrive = new DifferentialDrive(frontLeft, frontRight);

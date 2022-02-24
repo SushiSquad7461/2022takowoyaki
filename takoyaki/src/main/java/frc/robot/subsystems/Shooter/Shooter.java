@@ -15,6 +15,8 @@ public abstract class Shooter extends SubsystemBase {
 
   public abstract void stopKicker();
 
+  public abstract void reverseKicker();
+
   public abstract void setSetpoint(double goal);
 
   public abstract void zeroSetpoint();
