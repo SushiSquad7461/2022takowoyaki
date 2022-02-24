@@ -44,22 +44,19 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(opController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
-      .whenPressed(new RunCommand(climb::extendClimb, climb))
-      .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
+        .whenPressed(new RunCommand(climb::extendClimb, climb))
+        .whenReleased(new InstantCommand(climb::stopClimb, climb));
     new JoystickButton(opController, Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
-      .whenPressed(new RunCommand(climb::retractClimb, climb))
-      .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
+        .whenPressed(new RunCommand(climb::retractClimb, climb))
+        .whenReleased(new InstantCommand(climb::stopClimb, climb));
     new JoystickButton(opController, Constants.kClimb.CLIMB_OPEN_LOOP_RAISE_BUTTON)
         .whenPressed(new RunCommand(climb::runClimb, climb))
         .whenReleased(new InstantCommand(climb::stopClimb, climb));
     new JoystickButton(opController, Constants.kClimb.CLIMB_OPEN_LOOP_LOWER_BUTTON)
         .whenPressed(new RunCommand(climb::reverseClimb, climb))
         .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
-    new JoystickButton(opController, XboxController.Button.kStart.value)
-        .whenPressed(new RunCommand(climb::zeroClimb, climb));
+    new JoystickButton(opController, Constants.kClimb.CLIMB_ENCODER_RESET_BUTTON)
+        .whenPressed(new RunCommand(climb::zeroClimbEncoder, climb));
   }
 
   public Command getAutonomousCommand() {
