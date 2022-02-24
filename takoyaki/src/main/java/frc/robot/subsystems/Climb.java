@@ -12,7 +12,6 @@ import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 
 public class Climb extends SubsystemBase {
@@ -42,7 +41,7 @@ public class Climb extends SubsystemBase {
 
     // right.follow(left);
 
-    left.setInverted(TalonFXInvertType.Clockwise);
+    left.setInverted(TalonFXInvertType.CounterClockwise);
     // right.setInverted(TalonFXInvertType.OppiseMaster);
 
     pidController = new ProfiledPIDController(
@@ -57,7 +56,8 @@ public class Climb extends SubsystemBase {
 
   public void zeroClimbEncoder() {
     left.setSelectedSensorPosition(0);
-    goal = 0;
+    left.set(ControlMode.PercentOutput, 0);
+    // goal = 0;
   }
 
   @Override
@@ -65,11 +65,13 @@ public class Climb extends SubsystemBase {
     SmartDashboard.putNumber("output", left.getMotorOutputPercent());
     SmartDashboard.putNumber("position", left.getSelectedSensorPosition());
     SmartDashboard.putNumber("goal", goal);
-    if (closedLoop) {
-      pidOutput = pidController.calculate(left.getSelectedSensorPosition(), goal);
-      left.set(pidOutput);
-      SmartDashboard.putNumber("pidOutput", pidOutput);
-    }
+    /*
+     * if (closedLoop) {
+     * pidOutput = pidController.calculate(left.getSelectedSensorPosition(), goal);
+     * left.set(pidOutput);
+     * SmartDashboard.putNumber("pidOutput", pidOutput);
+     * }
+     */
   }
 
   @Override
@@ -100,7 +102,7 @@ public class Climb extends SubsystemBase {
   }
 
   public void extendClimb() { // run command
-    if (left.getSelectedSensorPosition() <= 150000) {
+    if (left.getSelectedSensorPosition() >= -165000) {
       left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
     } else {
       left.set(ControlMode.PercentOutput, 0);
@@ -108,7 +110,7 @@ public class Climb extends SubsystemBase {
   }
 
   public void retractClimb() { // run command
-    if (left.getSelectedSensorPosition() >= 10000) {
+    if (left.getSelectedSensorPosition() <= -3000) {
       left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
     } else {
       left.set(ControlMode.PercentOutput, 0);
