@@ -29,6 +29,8 @@ public final class Constants {
         // TODO: identify correct setpoints
         public static final int TOP_ENCODER_VAL = -165000;
         public static final int BOTTOM_ENCODER_VAL = -3000;
+
+        public static final double OPEN_LOOP_RAMP_RATE = 0.5;
     }
 
     public static final class kOI {

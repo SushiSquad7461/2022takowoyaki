@@ -41,6 +41,9 @@ public class Climb extends SubsystemBase {
 
     left.setInverted(TalonFXInvertType.CounterClockwise);
     // right.setInverted(TalonFXInvertType.OpposeMaster);
+
+    left.configOpenloopRamp(kClimb.OPEN_LOOP_RAMP_RATE);
+    // right.configOpenloopRamp(kClimb.OPEN_LOOP_RAMP_RATE);
   }
 
   public void zeroClimbEncoder() {
