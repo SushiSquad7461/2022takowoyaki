@@ -44,17 +44,19 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(opController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
-        .whenPressed(new RunCommand(climb::extendClimb, climb))
-        .whenReleased(new InstantCommand(climb::stopClimb, climb));
+        .whenPressed(new InstantCommand(climb::toggleExtendClimb, climb))
+
     new JoystickButton(opController, Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
-        .whenPressed(new RunCommand(climb::retractClimb, climb))
-        .whenReleased(new InstantCommand(climb::stopClimb, climb));
+        .whenPressed(new InstantCommand(climb::toggleRetractClimb, climb))
+
     new JoystickButton(opController, Constants.kClimb.CLIMB_OPEN_LOOP_RAISE_BUTTON)
-        .whenPressed(new RunCommand(climb::runClimb, climb))
+        .whenPressed(new RunCommand(climb::runOpenLoopClimb, climb))
         .whenReleased(new InstantCommand(climb::stopClimb, climb));
+
     new JoystickButton(opController, Constants.kClimb.CLIMB_OPEN_LOOP_LOWER_BUTTON)
-        .whenPressed(new RunCommand(climb::reverseClimb, climb))
+        .whenPressed(new RunCommand(climb::reverseOpenLoopClimb, climb))
         .whenReleased(new InstantCommand(climb::stopClimb, climb));
+
     new JoystickButton(opController, Constants.kClimb.CLIMB_ENCODER_RESET_BUTTON)
         .whenPressed(new RunCommand(climb::zeroClimbEncoder, climb));
   }
