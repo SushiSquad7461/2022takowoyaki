@@ -37,7 +37,7 @@ public class Constants {
 
   public static final class kHopper {
     public static int MOTOR_ID;
-    public static final boolean INVERTED = false;
+    public static boolean INVERTED;
     public static final int CURRENT_LIMIT = 30;
     public static final double SPEED = 0.9;
 
@@ -98,7 +98,7 @@ public class Constants {
     public static final int DEFAULT_PROFILE_SLOT = 0;
     public static final int DEFAULT_CONFIG_TIMEOUT = 100;
 
-    public static final boolean KICKER_INVERSION = true;
+    public static boolean KICKER_INVERSION;
 
     public static final double SPEED_KICKER = 1;
   }
@@ -127,6 +127,8 @@ public class Constants {
           kShooter.kI = 0.0000;
           kShooter.kD = 0.0;
           kShooter.kF = 0.045;
+          kHopper.INVERTED = false;
+          kShooter.KICKER_INVERSION = true;
           break;
         default:
           kHopper.MOTOR_ID = 10;
@@ -146,6 +148,8 @@ public class Constants {
           kShooter.kI = 0.0000;
           kShooter.kD = 0.0;
           kShooter.kF = 0.05;
+          kHopper.INVERTED = true;
+          kShooter.KICKER_INVERSION = false;
           break;
     }
   }
