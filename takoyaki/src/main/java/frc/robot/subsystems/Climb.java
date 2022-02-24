@@ -17,27 +17,30 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 public class Climb extends SubsystemBase {
 
   private final WPI_TalonFX left;
-  private final WPI_TalonFX right;
+  //private final WPI_TalonFX right;
   private final ProfiledPIDController pidController;
   boolean closedLoop;
+  double goal;
+  double pidOutput;
 
   public Climb() {
 
     closedLoop = false;
 
     left = new WPI_TalonFX(Constants.kClimb.LEFT_MOTOR_CAN_ID);
-    right = new WPI_TalonFX(Constants.kClimb.RIGHT_MOTOR_CAN_ID);
+    //right = new WPI_TalonFX(Constants.kClimb.RIGHT_MOTOR_CAN_ID);
 
     left.configFactoryDefault();
-    right.configFactoryDefault();
+    left.setSelectedSensorPosition(0);
+    //right.configFactoryDefault();
 
     left.setNeutralMode(NeutralMode.Brake);
-    right.setNeutralMode(NeutralMode.Brake);
+    //right.setNeutralMode(NeutralMode.Brake);
 
     // right.follow(left);
 
-    right.setInverted(TalonFXInvertType.Clockwise);
-    left.setInverted(TalonFXInvertType.OpposeMaster);
+    //right.setInverted(TalonFXInvertType.OppiseMaster);
+    left.setInverted(TalonFXInvertType.Clockwise);
 
     pidController = new ProfiledPIDController(
         Constants.kClimb.kP,
@@ -46,29 +49,29 @@ public class Climb extends SubsystemBase {
         new TrapezoidProfile.Constraints(
             Constants.kClimb.MAX_VELOCITY,
             Constants.kClimb.MAX_ACCELERATION));
+    goal = 0;
+  }
+
+  public void zeroClimb() {
+    left.setSelectedSensorPosition(0);
+    goal = 0;
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("outptu", left.getMotorOutputPercent());
+    SmartDashboard.putNumber("output", left.getMotorOutputPercent());
+    SmartDashboard.putNumber("position", left.getSelectedSensorPosition());
+    SmartDashboard.putNumber("goal", goal);
     if (closedLoop) {
-      // left.set(pidController.calculate(left.getSelectedSensorPosition()));
+      pidOutput = pidController.calculate(left.getSelectedSensorPosition(), goal);
+      left.set(pidOutput);
+      SmartDashboard.putNumber("pidOutput", pidOutput);
     }
   }
 
   @Override
   public void simulationPeriodic() {
   }
-
-  // public void extendClimb() {
-  // closedLoop = true;
-  // pidController.setGoal(Constants.kClimb.TOP_LIMIT);
-  // }
-
-  // public void retractClimb() {
-  // closedLoop = true;
-  // pidController.setGoal(Constants.kClimb.BOTTOM_LIMIT);
-  // }
 
   public void setBrakeMode() {
     left.setNeutralMode(NeutralMode.Brake);
@@ -80,25 +83,38 @@ public class Climb extends SubsystemBase {
 
   public void runClimb() {
     closedLoop = false;
-    // fleft.setNeutralMode(NeutralMode.Coast);
     left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
-    SmartDashboard.putBoolean("running", true);
   }
 
   public void reverseClimb() {
     closedLoop = false;
     left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
-    SmartDashboard.putBoolean("running", true);
   }
 
   public void stopClimb() {
     closedLoop = false;
     left.set(ControlMode.PercentOutput, 0);
-    // left.setNeutralMode(NeutralMode.Brake);
-    SmartDashboard.putBoolean("running", false);
   }
 
-  public void toggleOpenLoop() {
-    closedLoop = !closedLoop;
+  public void extendClimb() {
+    // goal = left.getSelectedSensorPosition() + 100000;
+    // closedLoop = true;
+
+    if (left.getSelectedSensorPosition() <= 150000) {
+      left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
+    } else {
+      left.set(ControlMode.PercentOutput, 0);
+    }
+  }
+
+  public void retractClimb() {
+    // goal = left.getSelectedSensorPosition() - 100000;
+    // closedLoop = true;
+
+    if (left.getSelectedSensorPosition() >= 0) {
+      left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
+    } else {
+      left.set(ControlMode.PercentOutput, 0);
+    }
   }
 }
