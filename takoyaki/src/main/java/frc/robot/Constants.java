@@ -19,8 +19,8 @@ public final class Constants {
         public static final int LEFT_MOTOR_CAN_ID = 15; // red climb
         public static final int RIGHT_MOTOR_CAN_ID = 0;
 
-        public static final double OPEN_LOOP_UP_POWER = -0.3;
-        public static final double OPEN_LOOP_DOWN_POWER = 0.3;
+        public static final double OPEN_LOOP_UP_POWER = -0.5;
+        public static final double OPEN_LOOP_DOWN_POWER = 0.5;
         public static final int SOLENOID_FRONT = 1;
         public static final int SOLENOID_BACK = 0;
 
