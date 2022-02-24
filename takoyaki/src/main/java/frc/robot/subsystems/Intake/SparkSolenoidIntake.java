@@ -14,8 +14,11 @@ import com.revrobotics.CANSparkMax;
 public class SparkSolenoidIntake extends Intake {
   private final CANSparkMax intakeMotor = new CANSparkMax(Constants.kIntake.MOTOR_ID,
       Constants.kIntake.kSpark.MOTOR_TYPE);
-  private final DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
-      Constants.kIntake.SOLENOID_FRONT, Constants.kIntake.SOLENOID_BACK);
+  private final DoubleSolenoid leftSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+      Constants.kIntake.LEFT_SOLENOID_FORWARD, Constants.kIntake.LEFT_SOLENOID_REVERSE);
+
+  private final DoubleSolenoid rightSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+      Constants.kIntake.RIGHT_SOLENOID_FORWARD, Constants.kIntake.RIGHT_SOLENOID_REVERSE);
 
   public SparkSolenoidIntake() {
     intakeMotor.restoreFactoryDefaults();
@@ -24,8 +27,11 @@ public class SparkSolenoidIntake extends Intake {
     intakeMotor.setSmartCurrentLimit(Constants.kIntake.kSpark.CURRENT_LIMIT);
     intakeMotor.burnFlash();
 
-    solenoid.set(DoubleSolenoid.Value.kOff);
-    solenoid.set(DoubleSolenoid.Value.kReverse);
+    leftSolenoid.set(DoubleSolenoid.Value.kOff);
+    leftSolenoid.set(DoubleSolenoid.Value.kReverse);
+
+    rightSolenoid.set(DoubleSolenoid.Value.kOff);
+    rightSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void runIntake() {
@@ -41,11 +47,11 @@ public class SparkSolenoidIntake extends Intake {
   }
 
   public void toggleIntake() {
-    if (solenoid.get() == Value.kReverse) {
-      solenoid.set(Value.kForward);
-    } else {
-      solenoid.set(Value.kReverse);
-    }
+    // if (solenoid.get() == Value.kReverse) {
+    //   solenoid.set(Value.kForward);
+    // } else {
+    //   solenoid.set(Value.kReverse);
+    // }
   }
 
   @Override

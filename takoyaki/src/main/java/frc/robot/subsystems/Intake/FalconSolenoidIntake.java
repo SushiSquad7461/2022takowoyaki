@@ -12,9 +12,12 @@ import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 public class FalconSolenoidIntake extends Intake {
-  private final TalonFX intakeMotor = new TalonFX(9);
-  private final DoubleSolenoid rightSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 1);
-  private final DoubleSolenoid leftSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 14, 15);
+  private final TalonFX intakeMotor = new TalonFX(Constants.kIntake.MOTOR_ID);
+  private final DoubleSolenoid leftSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+      Constants.kIntake.LEFT_SOLENOID_FORWARD, Constants.kIntake.LEFT_SOLENOID_REVERSE);
+
+  private final DoubleSolenoid rightSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+      Constants.kIntake.RIGHT_SOLENOID_FORWARD, Constants.kIntake.RIGHT_SOLENOID_REVERSE);
 
   public FalconSolenoidIntake() {
     intakeMotor.setInverted(Constants.kIntake.kFalcon.INVERT_TYPE);
