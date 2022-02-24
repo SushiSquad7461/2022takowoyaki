@@ -12,35 +12,38 @@ import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 
 public class Climb extends SubsystemBase {
 
   private final WPI_TalonFX left;
-  //private final WPI_TalonFX right;
+  // private final WPI_TalonFX right;
   private final ProfiledPIDController pidController;
-  boolean closedLoop;
-  double goal;
-  double pidOutput;
+  private boolean closedLoop;
+  private double goal;
+  private double pidOutput;
 
   public Climb() {
 
     closedLoop = false;
 
     left = new WPI_TalonFX(Constants.kClimb.LEFT_MOTOR_CAN_ID);
-    //right = new WPI_TalonFX(Constants.kClimb.RIGHT_MOTOR_CAN_ID);
+    // right = new WPI_TalonFX(Constants.kClimb.RIGHT_MOTOR_CAN_ID);
 
     left.configFactoryDefault();
+    // right.configFactoryDefault();
+
     left.setSelectedSensorPosition(0);
-    //right.configFactoryDefault();
+    // right.setSelectedSensorPosition(0);
 
     left.setNeutralMode(NeutralMode.Brake);
-    //right.setNeutralMode(NeutralMode.Brake);
+    // right.setNeutralMode(NeutralMode.Brake);
 
     // right.follow(left);
 
-    //right.setInverted(TalonFXInvertType.OppiseMaster);
     left.setInverted(TalonFXInvertType.Clockwise);
+    // right.setInverted(TalonFXInvertType.OppiseMaster);
 
     pidController = new ProfiledPIDController(
         Constants.kClimb.kP,
@@ -52,7 +55,7 @@ public class Climb extends SubsystemBase {
     goal = 0;
   }
 
-  public void zeroClimb() {
+  public void zeroClimbEncoder() {
     left.setSelectedSensorPosition(0);
     goal = 0;
   }
@@ -96,10 +99,7 @@ public class Climb extends SubsystemBase {
     left.set(ControlMode.PercentOutput, 0);
   }
 
-  public void extendClimb() {
-    // goal = left.getSelectedSensorPosition() + 100000;
-    // closedLoop = true;
-
+  public void extendClimb() { // run command
     if (left.getSelectedSensorPosition() <= 150000) {
       left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
     } else {
@@ -107,11 +107,8 @@ public class Climb extends SubsystemBase {
     }
   }
 
-  public void retractClimb() {
-    // goal = left.getSelectedSensorPosition() - 100000;
-    // closedLoop = true;
-
-    if (left.getSelectedSensorPosition() >= 0) {
+  public void retractClimb() { // run command
+    if (left.getSelectedSensorPosition() >= 10000) {
       left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
     } else {
       left.set(ControlMode.PercentOutput, 0);

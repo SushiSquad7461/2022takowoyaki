@@ -12,6 +12,7 @@ public final class Constants {
         public static final int CLIMB_TO_BOTTOM_BUTTON = XboxController.Button.kA.value;
         public static final int CLIMB_OPEN_LOOP_LOWER_BUTTON = XboxController.Button.kX.value;
         public static final int CLIMB_OPEN_LOOP_RAISE_BUTTON = XboxController.Button.kB.value;
+        public static final int CLIMB_ENCODER_RESET_BUTTON = XboxController.Button.kStart.value;
 
         public static final int climbSolenoidChannel = 1;
         // public static final int LEFT_MOTOR_CAN_ID = 15; // green climb
