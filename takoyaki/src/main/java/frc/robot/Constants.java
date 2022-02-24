@@ -59,8 +59,11 @@ public class Constants {
     }
 
     public static int MOTOR_ID;
-    public static int SOLENOID_FRONT;
-    public static int SOLENOID_BACK;
+    public static int LEFT_SOLENOID_FORWARD;
+    public static int LEFT_SOLENOID_REVERSE;
+    public static int RIGHT_SOLENOID_FORWARD;
+    public static int RIGHT_SOLENOID_REVERSE;
+
     public static final double INTAKE_SPEED = 0.9;
   }
 
@@ -109,8 +112,10 @@ public class Constants {
         case PRACTICE: 
           kHopper.MOTOR_ID = 10;
           kIntake.MOTOR_ID = 8;
-          kIntake.SOLENOID_FRONT = 1;
-          kIntake.SOLENOID_BACK = 0;
+          kIntake.LEFT_SOLENOID_FORWARD = -1;
+          kIntake.LEFT_SOLENOID_REVERSE = -1;
+          kIntake.RIGHT_SOLENOID_FORWARD = -1;
+          kIntake.RIGHT_SOLENOID_REVERSE = -1;
           kDrive.FRONT_RIGHT_ID = 3;
           kDrive.FRONT_LEFT_ID = 1;
           kDrive.BACK_RIGHT_ID = 4;
@@ -122,9 +127,26 @@ public class Constants {
           kShooter.kI = 0.0000;
           kShooter.kD = 0.0;
           kShooter.kF = 0.045;
-      default:
-        break;
-
+          break;
+        default:
+          kHopper.MOTOR_ID = 10;
+          kIntake.MOTOR_ID = 9;
+          kIntake.LEFT_SOLENOID_FORWARD = 14;
+          kIntake.LEFT_SOLENOID_REVERSE = 15;
+          kIntake.RIGHT_SOLENOID_FORWARD = 2;
+          kIntake.RIGHT_SOLENOID_REVERSE = 1;
+          kDrive.FRONT_RIGHT_ID = 15;
+          kDrive.FRONT_LEFT_ID = 4;
+          kDrive.BACK_RIGHT_ID = 16;
+          kDrive.BACK_LEFT_ID = 3;
+          kShooter.LEFT_MOTOR_ID = 5;
+          kShooter.RIGHT_MOTOR_ID = 14;
+          kShooter.KICKER_MOTOR_ID = 0;
+          kShooter.kP = 0.20;
+          kShooter.kI = 0.0000;
+          kShooter.kD = 0.0;
+          kShooter.kF = 0.05;
+          break;
     }
   }
   public static RobotType getRobotType() {
@@ -141,11 +163,10 @@ public class Constants {
       errorMsg="file not found exception";
       SmartDashboard.putString("robot type status", errorMsg);
     }
-    if(id==1) {
+    if(id == 1) {
       SmartDashboard.putString("robot", "practice");
       return RobotType.PRACTICE;
-    }
-    else {
+    } else {
       SmartDashboard.putString("robot", "comp");
       return RobotType.COMP;
     }
