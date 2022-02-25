@@ -44,21 +44,24 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(opController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
-        .whenPressed(new InstantCommand(climb::toggleExtendClimb, climb));
+        .whenPressed(new InstantCommand(climb::extendClimb, climb));
 
     new JoystickButton(opController, Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
-        .whenPressed(new InstantCommand(climb::toggleRetractClimb, climb));
+        .whenPressed(new InstantCommand(climb::retractClimb, climb));
 
-    new JoystickButton(opController, Constants.kClimb.CLIMB_OPEN_LOOP_RAISE_BUTTON)
-        .whenPressed(new RunCommand(climb::runOpenLoopClimb, climb))
-        .whenReleased(new InstantCommand(climb::stopClimb, climb));
+    // .whenPressed(new InstantCommand(climb::runOpenLoopClimb, climb))
+    // .whenReleased(new InstantCommand(climb::stopClimb, climb));
 
-    new JoystickButton(opController, Constants.kClimb.CLIMB_OPEN_LOOP_LOWER_BUTTON)
-        .whenPressed(new RunCommand(climb::reverseOpenLoopClimb, climb))
-        .whenReleased(new InstantCommand(climb::stopClimb, climb));
+    // new JoystickButton(opController,
+    // Constants.kClimb.CLIMB_OPEN_LOOP_LOWER_BUTTON)
+    // .whenPressed(new InstantCommand(climb::reverseOpenLoopClimb, climb))
+    // .whenReleased(new InstantCommand(climb::stopClimb, climb));
 
     new JoystickButton(opController, Constants.kClimb.CLIMB_ENCODER_RESET_BUTTON)
         .whenPressed(new RunCommand(climb::zeroClimbEncoder, climb));
+
+    climb.setDefaultCommand(
+        new RunCommand(() -> climb.defaultCommand(opController.getLeftY(), opController.getLeftY()), climb));
   }
 
   public Command getAutonomousCommand() {
