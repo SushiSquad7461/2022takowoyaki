@@ -39,7 +39,14 @@ public class Ramsete {
     IOTA_TERMINAL_SHOOT_1_REVERSE("output/iota-terminal-shoot-1-reverse.wpilib.json"),
     IOTA_TERMINAL_SHOOT_2("output/iota-terminal-shoot-2.wpilib.json"),
     ZETA_TERMINAL_SHOOT_1_REVERSE("output/zeta-terminal-shoot-1-reverse.wpilib.json"),
-    ZETA_TERMINAL_SHOOT_2("output/zeta-terminal-shoot-2.wpilib.json");
+    ZETA_TERMINAL_SHOOT_2("output/zeta-terminal-shoot-2.wpilib.json"),
+    GAMMA_SHOOT_MIDBALL_1_REVERSE("output/output/shoot-midball-1-reverse.wpilib.json"),
+    GAMMA_SHOOT_MIDBALL_2("output/output/shoot-midball-2.wpilib.json"),
+    GAMMA_WALLBALL_SHOOT("output/output/wallball-shoot.wpilib.json"),
+    GAMMA_SHOOT_TERMINAL_1_REVERSE("output/output/shoot-terminal-1-reverse.wpilib.json"),
+    GAMMA_SHOOT_TERMINAL_2("output/output/shoot-terminal-2.wpilib.json"),
+    GAMMA_TERMINAL_SHOOT_1_REVERSE("output/output/terminal-shoot-1-reverse.wpilib.json"),
+    GAMMA_TERMINAL_SHOOT_2("output/output/terminal-shoot-2.wpilib.json");
 
     private String json;
     RamsetePath(String json) {

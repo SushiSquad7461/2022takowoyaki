@@ -69,6 +69,16 @@ public class Drivetrain extends SubsystemBase {
     backLeft.setInverted(TalonFXInvertType.CounterClockwise);
     frontRight.setInverted(TalonFXInvertType.Clockwise);
     backRight.setInverted(TalonFXInvertType.Clockwise);
+
+    frontLeft.configOpenloopRamp(0.5);
+    backLeft.configOpenloopRamp(0.5);
+    frontRight.configOpenloopRamp(0.5);
+    backRight.configOpenloopRamp(0.5);
+
+    frontLeft.configClosedloopRamp(0.5);
+    backLeft.configClosedloopRamp(0.5);
+    frontRight.configClosedloopRamp(0.5);
+    backRight.configClosedloopRamp(0.5);
     
     // frontLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.SUPPLY_CURRENT_LIMIT, 60, 1));
     // backLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.SUPPLY_CURRENT_LIMIT, 60, 1));
