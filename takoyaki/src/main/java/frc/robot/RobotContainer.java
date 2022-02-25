@@ -44,10 +44,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(opController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
-        .whenPressed(new InstantCommand(climb::toggleExtendClimb, climb))
+        .whenPressed(new InstantCommand(climb::toggleExtendClimb, climb));
 
     new JoystickButton(opController, Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
-        .whenPressed(new InstantCommand(climb::toggleRetractClimb, climb))
+        .whenPressed(new InstantCommand(climb::toggleRetractClimb, climb));
 
     new JoystickButton(opController, Constants.kClimb.CLIMB_OPEN_LOOP_RAISE_BUTTON)
         .whenPressed(new RunCommand(climb::runOpenLoopClimb, climb))

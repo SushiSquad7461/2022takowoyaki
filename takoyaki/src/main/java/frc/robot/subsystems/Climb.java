@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -42,7 +40,7 @@ public class Climb extends SubsystemBase {
     left.setInverted(TalonFXInvertType.CounterClockwise);
     // right.setInverted(TalonFXInvertType.OpposeMaster);
 
-    left.configOpenloopRamp(kClimb.OPEN_LOOP_RAMP_RATE);
+    left.configOpenloopRamp(Constants.kClimb.OPEN_LOOP_RAMP_RATE);
     // right.configOpenloopRamp(kClimb.OPEN_LOOP_RAMP_RATE);
   }
 
@@ -54,11 +52,11 @@ public class Climb extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("output", left.getMotorOutputPercent());
     SmartDashboard.putNumber("position", left.getSelectedSensorPosition());
-    
-    if (closedLoop && goingUp && left.getSelectedSensorPosition() >= kClimb.TOP_ENCODER_VAL) {
+
+    if (closedLoop && goingUp && left.getSelectedSensorPosition() >= Constants.kClimb.TOP_ENCODER_VAL) {
       // Going Up
       left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
-    } else if (closedLoop && !goingUp && left.getSelectedSensorPosition() <= kClimb.BOTTOM_ENCODER_VAL) {
+    } else if (closedLoop && !goingUp && left.getSelectedSensorPosition() <= Constants.kClimb.BOTTOM_ENCODER_VAL) {
       // Going down
       left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
     } else if (closedLoop) {
@@ -69,7 +67,8 @@ public class Climb extends SubsystemBase {
   }
 
   @Override
-  public void simulationPeriodic() { }
+  public void simulationPeriodic() {
+  }
 
   public void runOpenLoopClimb() {
     closedLoop = false;
