@@ -49,29 +49,17 @@ public class Climb extends SubsystemBase {
 
   public void defaultCommand(double openLoopLeft, double openLoopRight) {
     if (!closedLoop) {
-      if (openLoopLeft > 0.5) {
-        left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
-      } else if (openLoopLeft < -0.5) {
-        left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
-      } else {
-        left.set(ControlMode.PercentOutput, 0);
-      }
-
-      if (openLoopRight > 0.5) {
-        right.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
-      } else if (openLoopLeft < -0.5) {
-        right.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
-      } else {
-        right.set(ControlMode.PercentOutput, 0);
-      }
+      left.set(ControlMode.PercentOutput, normalizeInput(openLoopLeft));
+      left.set(ControlMode.PercentOutput, normalizeInput(openLoopRight));
     } else {
       if (goingUp) {
         if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
           left.set(ControlMode.PercentOutput, 0);
         }
         if (right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
-          left.set(ControlMode.PercentOutput, 0);
+          right.set(ControlMode.PercentOutput, 0);
         }
+
         if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL
             && right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
           closedLoop = false;
@@ -81,14 +69,28 @@ public class Climb extends SubsystemBase {
           left.set(ControlMode.PercentOutput, 0);
         }
         if (right.getSelectedSensorPosition() >= Constants.kClimb.BOTTOM_ENCODER_VAL) {
-          left.set(ControlMode.PercentOutput, 0);
+          right.set(ControlMode.PercentOutput, 0);
         }
         if (left.getSelectedSensorPosition() >= Constants.kClimb.TOP_ENCODER_VAL
             && right.getSelectedSensorPosition() >= Constants.kClimb.TOP_ENCODER_VAL) {
           closedLoop = false;
         }
+
+        if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL
+            && right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
+          closedLoop = false;
+        }
       }
     }
+  }
+
+  public double normalizeInput(double joystickInput) {
+    if (joystickInput > 0.5) {
+      return 0.5;
+    } else if (joystickInput < -0.5) {
+      return -0.5;
+    }
+    return 0;
   }
 
   @Override
