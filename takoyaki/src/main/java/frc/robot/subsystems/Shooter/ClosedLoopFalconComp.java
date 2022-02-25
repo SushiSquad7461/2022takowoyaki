@@ -2,29 +2,31 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.Shooter;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Shooter extends SubsystemBase {
+public class ClosedLoopFalconComp extends Shooter {
   private final WPI_TalonFX left = new WPI_TalonFX(Constants.kShooter.LEFT_MOTOR_ID);
   private final WPI_TalonFX right = new WPI_TalonFX(Constants.kShooter.RIGHT_MOTOR_ID);
-  private final WPI_VictorSPX kicker = new WPI_VictorSPX(Constants.kShooter.KICKER_MOTOR_ID);
+  private final WPI_TalonSRX kicker = new WPI_TalonSRX(Constants.kShooter.KICKER_MOTOR_ID);
 
   private final SimpleMotorFeedforward fForward;
 
-  private double goal;
+  private double change;
 
-  public Shooter() {
+  private double setpoint;
+
+  public ClosedLoopFalconComp() {
     left.setNeutralMode(NeutralMode.Coast);
     right.setNeutralMode(NeutralMode.Coast);
     kicker.setNeutralMode(NeutralMode.Brake);
@@ -39,10 +41,14 @@ public class Shooter extends SubsystemBase {
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
     left.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kD,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
+    left.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kF,
+        Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
 
     right.follow(left);
 
-    fForward = new SimpleMotorFeedforward(Constants.kShooter.kS, Constants.kShooter.kV);
+    fForward = new SimpleMotorFeedforward(Constants.kShooter.kS, Constants.kShooter.kV, Constants.kShooter.kA);
+
+    this.zeroSetpoint();
   }
 
   public void runShooter() {
@@ -61,21 +67,41 @@ public class Shooter extends SubsystemBase {
     kicker.set(ControlMode.PercentOutput, 0);
   }
 
-  public void setGoal(double goal) {
-    this.goal = goal;
+  public void reverseKicker() {
+    kicker.set(ControlMode.PercentOutput, -Constants.kShooter.SPEED_KICKER);
   }
 
-  public void zeroGoal() {
-    this.goal = 0;
+  @Override
+  public void setSetpoint(double setpoint) {
+    SmartDashboard.putBoolean("Setpoint set", true);
+    this.setpoint = setpoint;
   }
 
-  public void setGoal() {
-    this.goal = Constants.kShooter.GOAL;
+  public void zeroSetpoint() {
+    SmartDashboard.putBoolean("Setpoint set", false);
+    this.setpoint = 0;
+  }
+
+  public void setSetpoint() {
+    this.setpoint = Constants.kShooter.kClosedLoop.SETPOINT;
   }
 
   @Override
   public void periodic() {
-    left.set(ControlMode.Velocity, goal, DemandType.ArbitraryFeedForward, fForward.calculate(goal));
+    SmartDashboard.putNumber("Current encoder ticks per 100 ms", left.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Current rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
+    SmartDashboard.putNumber("Setpoint", setpoint);
+    SmartDashboard.putNumber("applied output", left.getMotorOutputPercent());
+    SmartDashboard.putNumber("feed forward", fForward.calculate(setpoint));
+    SmartDashboard.putNumber("shooter position change", left.getSelectedSensorPosition() - change);
+    change = left.getSelectedSensorPosition();
+
+    if (setpoint == 0) {
+      left.set(ControlMode.PercentOutput, 0);
+    } else {
+      left.set(ControlMode.Velocity, setpoint);
+    }
+    // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
   }
 
   @Override
