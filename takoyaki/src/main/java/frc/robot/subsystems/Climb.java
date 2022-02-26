@@ -35,7 +35,7 @@ public class Climb extends SubsystemBase {
     right.setInverted(TalonFXInvertType.OpposeMaster);
   }
 
-  public void zeroClimbEncoder() {
+  public void zeroClimbEncoders() {
     left.setSelectedSensorPosition(0);
     right.setSelectedSensorPosition(0);
   }
@@ -59,7 +59,6 @@ public class Climb extends SubsystemBase {
         if (right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
           right.set(ControlMode.PercentOutput, 0);
         }
-
         if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL
             && right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
           closedLoop = false;
@@ -75,20 +74,15 @@ public class Climb extends SubsystemBase {
             && right.getSelectedSensorPosition() >= Constants.kClimb.TOP_ENCODER_VAL) {
           closedLoop = false;
         }
-
-        if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL
-            && right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
-          closedLoop = false;
-        }
       }
     }
   }
 
   public double normalizeInput(double joystickInput) {
     if (joystickInput > 0.5) {
-      return 0.5;
+      return Constants.kClimb.OPEN_LOOP_UP_POWER;
     } else if (joystickInput < -0.5) {
-      return -0.5;
+      return Constants.kClimb.OPEN_LOOP_DOWN_POWER;
     }
     return 0;
   }

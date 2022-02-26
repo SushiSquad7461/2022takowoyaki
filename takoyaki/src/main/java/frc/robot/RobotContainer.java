@@ -58,7 +58,7 @@ public class RobotContainer {
     // .whenReleased(new InstantCommand(climb::stopClimb, climb));
 
     new JoystickButton(opController, Constants.kClimb.CLIMB_ENCODER_RESET_BUTTON)
-        .whenPressed(new RunCommand(climb::zeroClimbEncoder, climb));
+        .whenPressed(new RunCommand(climb::zeroClimbEncoders, climb));
 
     climb.setDefaultCommand(
         new RunCommand(() -> climb.defaultCommand(opController.getLeftY(), opController.getLeftY()), climb));
