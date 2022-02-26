@@ -44,6 +44,11 @@ public class FalconDrivetrain extends Drivetrain {
     backLeft.setInverted(TalonFXInvertType.CounterClockwise);
     frontRight.setInverted(TalonFXInvertType.Clockwise);
     backRight.setInverted(TalonFXInvertType.Clockwise);
+
+    frontLeft.configOpenloopRamp(0.3);
+    backLeft.configOpenloopRamp(0.3);
+    frontRight.configOpenloopRamp(0.3);
+    backRight.configOpenloopRamp(0.3);
     /*
      * WPI drivetrain classes defaultly assume left and right are opposite. call
      * this so we can apply + to both sides when moving forward. DO NOT CHANGE
