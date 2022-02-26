@@ -27,6 +27,7 @@ public final class Constants {
     public static final int RUN_SHOOTER = XboxController.Button.kB.value;
 
     public static final String TRAJECTORY_NAME = "path";
+    public static final double STOP_DISTANCE = 0.5;
   }
   
   public static final class kHopper {
@@ -121,5 +122,7 @@ public final class Constants {
     public static final boolean KICKER_INVERSION = true;
 
     public static final double SPEED_KICKER = 1;
+
+    public static final int SHOOTER_SENSOR = 1;
   }  
 }

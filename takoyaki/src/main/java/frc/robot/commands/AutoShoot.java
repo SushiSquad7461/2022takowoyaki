@@ -4,7 +4,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -15,6 +17,9 @@ public class AutoShoot extends CommandBase {
   private final Shooter s_shooter;
   private final Hopper s_hopper;
   private final Intake s_intake;
+
+  private int shots;
+  private boolean on_ball;
   /**
    * Creates a new ExampleCommand.
    *
@@ -24,8 +29,10 @@ public class AutoShoot extends CommandBase {
     s_shooter = shooter;
     s_hopper = hopper;
     s_intake = intake;
+    shots = 0;
+    on_ball = false;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter, hopper);
+    addRequirements(shooter, hopper, intake);
   }
 
   // Called when the command is initially scheduled.
@@ -56,6 +63,14 @@ public class AutoShoot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (shots>=2 && !on_ball) {
+      return true;
+    } else if (!on_ball && s_shooter.beamBroken()) {
+      shots++;
+      on_ball = true;
+    } else if (on_ball && !s_shooter.beamBroken()) {
+      on_ball = false;
+    }
     return false;
   }
 }

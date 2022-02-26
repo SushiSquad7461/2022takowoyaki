@@ -14,11 +14,15 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends SubsystemBase {
   private final WPI_TalonFX left = new WPI_TalonFX(Constants.kShooter.LEFT_MOTOR_ID);
   private final WPI_TalonFX right = new WPI_TalonFX(Constants.kShooter.RIGHT_MOTOR_ID);
   private final WPI_VictorSPX kicker = new WPI_VictorSPX(Constants.kShooter.KICKER_MOTOR_ID);
+  
+  private final DigitalInput shooterSensor;
 
   private final SimpleMotorFeedforward fForward;
 
@@ -45,6 +49,8 @@ public class Shooter extends SubsystemBase {
     right.follow(left);
 
     fForward = new SimpleMotorFeedforward(Constants.kShooter.kS, Constants.kShooter.kV);
+    shooterSensor = new DigitalInput(Constants.kShooter.SHOOTER_SENSOR);
+
   }
 
   public void runShooter() {
@@ -94,5 +100,10 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void simulationPeriodic() {
+  }
+
+  public boolean beamBroken() {
+    SmartDashboard.putBoolean("Beam Broken", !shooterSensor.get());
+    return !shooterSensor.get();
   }
 }
