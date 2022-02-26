@@ -6,10 +6,17 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.subsystems.Hopper;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Hopper.Hopper;
+import frc.robot.subsystems.Hopper.TalonHopper;
+import frc.robot.subsystems.Hopper.VictorHopper;
+import frc.robot.subsystems.Drivetrain.Drivetrain;
+import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
+import frc.robot.subsystems.Intake.FalconNoDeploymentIntake;
+import frc.robot.subsystems.Intake.FalconSolenoidIntake;
+import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.subsystems.Shooter.ClosedLoopFalconComp;
+import frc.robot.subsystems.Shooter.ClosedLoopFalconShooter;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -19,21 +26,36 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
-  private final Hopper hopper = new Hopper();
-  private final Intake intake = new Intake();
-  private final Shooter shooter = new Shooter();
-  private final Drivetrain drivetrain = new Drivetrain();
+  private final Hopper hopper;
+  private final Intake intake;
+  private final Shooter shooter;
+  private final Drivetrain drivetrain;
 
   // Controllers
-  private final XboxController driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
-  private final XboxController operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
+  private final XboxController driveController;
+  private final XboxController operatorController;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
+    Constants.setup();
+    hopper = new TalonHopper();
+    intake = new FalconSolenoidIntake();
+    shooter = new ClosedLoopFalconComp();
+    drivetrain = new FalconDrivetrain();
+    driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
+    operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
     configureButtonBindings();
+  }
+
+  public void setDrivetrainToCoast() {
+    drivetrain.setToCoastMode();
+  }
+
+  public void setDrivetrainToBrake() {
+    drivetrain.setToBrakeMode();
   }
 
   /**
@@ -48,49 +70,54 @@ public class RobotContainer {
     // run hopper
     new JoystickButton(driveController, Constants.kOI.RUN_HOPPER)
         .whenPressed(new ParallelCommandGroup(
-            new InstantCommand(shooter::runKicker, intake),
-            new InstantCommand(hopper::runHopper, hopper)))
+            new RunCommand(shooter::runKicker, shooter),
+            new RunCommand(hopper::runHopper, hopper)))
         .whenReleased(new ParallelCommandGroup(
-            new InstantCommand(shooter::stopKicker, intake),
-            new InstantCommand(hopper::stop, hopper)));
+            new RunCommand(shooter::stopKicker, intake),
+            new RunCommand(hopper::stop, hopper)));
 
     // reverse hopper
     new JoystickButton(driveController, Constants.kOI.REVERSE_HOPPER)
         .whenPressed(new ParallelCommandGroup(
-            new InstantCommand(intake::actuateIntake, intake),
-            new InstantCommand(intake::reverseIntake, intake),
-            new InstantCommand(hopper::reverseHopper, hopper)))
+            new RunCommand(shooter::reverseKicker, shooter),
+            new RunCommand(hopper::reverseHopper, hopper)))
         .whenReleased(new ParallelCommandGroup(
-            new InstantCommand(intake::retractIntake, intake),
-            new InstantCommand(intake::stop, intake),
-            new InstantCommand(hopper::stop, hopper)));
+            new RunCommand(shooter::stopKicker, shooter),
+            new RunCommand(hopper::stop, hopper)));
 
     // Actuate Intake
-    // new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
-    // .whenPressed(new InstantCommand(intake::toggleIntake, intake));
+    /*
+     * new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
+     * .whenPressed(new InstantCommand(intake::toggleIntake, intake));
+     */
 
     // Run Intake
     new JoystickButton(driveController, Constants.kOI.RUN_INTAKE)
         .whenPressed(new ParallelCommandGroup(
-            new InstantCommand(intake::actuateIntake, intake),
-            new InstantCommand(intake::runIntake, intake),
-            new InstantCommand(hopper::runHopper, hopper)))
+            new RunCommand(intake::runIntake, intake)))
+        // new RunCommand(hopper::runHopper, hopper)))
         .whenReleased(new ParallelCommandGroup(
-            new InstantCommand(intake::retractIntake, intake),
-            new InstantCommand(intake::stop, intake),
-            new InstantCommand(hopper::stop, hopper)));
+            new RunCommand(intake::stop, intake)));
+    // new RunCommand(hopper::stop, hopper)));
 
     // Reverse Intake
     new JoystickButton(driveController, Constants.kOI.REVERSE_INTAKE)
-        .whenPressed(new InstantCommand(intake::reverseIntake, intake))
-        .whenReleased(new InstantCommand(intake::stop, intake));
+        .whenPressed(new ParallelCommandGroup(
+            new RunCommand(shooter::reverseKicker, shooter),
+            new RunCommand(hopper::reverseHopper, hopper),
+            new RunCommand(intake::reverseIntake, intake)))
+        .whenReleased(new ParallelCommandGroup(
+            new RunCommand(shooter::stopKicker, shooter),
+            new RunCommand(hopper::stop, hopper),
+            new RunCommand(intake::stop, intake)));
 
     // Run Shooter
     new JoystickButton(driveController, Constants.kOI.RUN_SHOOTER)
-        .whenPressed(new InstantCommand(shooter::runShooter, shooter))
-        .whenReleased(new InstantCommand(shooter::stopShooter));
+        .whenPressed(new RunCommand(() -> shooter.setSetpoint(), shooter))
+        .whenReleased(new RunCommand(() -> shooter.zeroSetpoint(), shooter));
 
-    drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.breakInGearboxes(), drivetrain));
+    drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
+        OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
   }
 
   /**
@@ -102,4 +129,5 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     return null;
   }
+
 }
