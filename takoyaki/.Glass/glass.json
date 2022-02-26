@@ -1,14 +1,17 @@
 {
   "NetworkTables": {
     "SmartDashboard": {
+      "auto options": {
+        "open": true
+      },
       "open": true
     },
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/ClosedLoopFalconComp": "Subsystem",
       "/LiveWindow/ClosedLoopFalconShooter": "Subsystem",
-      "/LiveWindow/Hopper": "Subsystem",
-      "/LiveWindow/Intake": "Subsystem",
-      "/LiveWindow/Shooter": "Subsystem",
+      "/LiveWindow/FalconSolenoidIntake": "Subsystem",
+      "/LiveWindow/TalonHopper": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/PIDController[10]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[11]": "PIDController",
@@ -70,7 +73,19 @@
       "/LiveWindow/Ungrouped/PIDController[62]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[63]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[64]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[65]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[66]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[67]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[68]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[69]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[6]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[70]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[71]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[72]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[73]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[74]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[75]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[76]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[7]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[8]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[9]": "PIDController",
@@ -87,8 +102,8 @@
       },
       "/SmartDashboard/field": {
         "path": {
-          "length": 0.0010000000474974513,
-          "width": 0.10000000149011612
+          "length": 0.10000000149011612,
+          "width": 0.0
         },
         "window": {
           "visible": true
@@ -102,6 +117,48 @@
   },
   "Plots": {
     "Plot <0>": {
+      "plots": [
+        {
+          "height": 706,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/shooter position change"
+            }
+          ]
+        }
+      ],
+      "window": {
+        "visible": false
+      }
+    },
+    "Plot <1>": {
+      "plots": [
+        {
+          "height": -9,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Hopper output"
+            }
+          ]
+        }
+      ],
+      "window": {
+        "visible": false
+      }
+    },
+    "Plot <2>": {
       "plots": [
         {
           "axis": [
@@ -118,25 +175,34 @@
                 0.6901960968971252,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/Current rpm"
-            }
-          ]
-        }
-      ]
-    },
-    "Plot <1>": {
-      "plots": [
-        {
-          "height": -9,
-          "series": [
+              "id": "NT:/SmartDashboard/fl vel"
+            },
             {
               "color": [
-                0.2980392277240753,
-                0.44705885648727417,
-                0.6901960968971252,
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/Hopper output"
+              "id": "NT:/SmartDashboard/fr vel"
+            },
+            {
+              "color": [
+                0.3333333432674408,
+                0.658823549747467,
+                0.4078431725502014,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/bl vel"
+            },
+            {
+              "color": [
+                0.7686275243759155,
+                0.30588236451148987,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/br vel"
             }
           ]
         }

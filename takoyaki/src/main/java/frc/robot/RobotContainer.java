@@ -9,11 +9,18 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.Hopper;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Hopper.Hopper;
+import frc.robot.subsystems.Hopper.TalonHopper;
+import frc.robot.subsystems.Hopper.VictorHopper;
 import frc.robot.Ramsete.RamsetePath;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Drivetrain.Drivetrain;
+import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
+import frc.robot.subsystems.Intake.FalconNoDeploymentIntake;
+import frc.robot.subsystems.Intake.FalconSolenoidIntake;
+import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.subsystems.Shooter.ClosedLoopFalconComp;
+import frc.robot.subsystems.Shooter.ClosedLoopFalconShooter;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,14 +31,14 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
-  private final Hopper s_hopper;
-  private final Intake s_intake;
-  private final Drivetrain s_drivetrain;
-  private final Shooter s_shooter;
-  
+  private final Hopper hopper;
+  private final Intake intake;
+  private final Shooter shooter;
+  private final Drivetrain drivetrain;
+
   // Controllers
-  private final XboxController driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
-  private final XboxController operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
+  private final XboxController driveController;
+  private final XboxController operatorController;
 
   // auto stuff
   private final Ramsete ramsete;
@@ -40,14 +47,17 @@ public class RobotContainer {
   private SendableChooser<SequentialCommandGroup> autoChooser;
 
   public RobotContainer() {
-    s_hopper = new Hopper();
-    s_intake = new Intake();
-    s_drivetrain = new Drivetrain();
-    s_shooter = new Shooter();
+    Constants.setup();
+    hopper = new TalonHopper();
+    intake = new FalconSolenoidIntake();
+    shooter = new ClosedLoopFalconComp();
+    drivetrain = new FalconDrivetrain();
+    driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
+    operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
 
-    ramsete = new Ramsete(s_drivetrain);
+    ramsete = new Ramsete(drivetrain);
     autoChooser = new SendableChooser<>();
-    autoSelector = new AutoCommandSelector(s_drivetrain, ramsete, s_intake, s_shooter, s_hopper);
+    autoSelector = new AutoCommandSelector(drivetrain, ramsete, intake, shooter, hopper);
     field = new Field2d();
 
     autoChooser.setDefaultOption("two ball mid", autoSelector.twoBallMid);
@@ -71,51 +81,55 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // run s_hopper
     new JoystickButton(driveController, Constants.kOI.RUN_HOPPER)
-      .whenPressed(new ParallelCommandGroup(
-        new InstantCommand(s_shooter::runKicker, s_intake),
-        new InstantCommand(s_hopper::runHopper, s_hopper)))
-      .whenReleased(new ParallelCommandGroup(
-        new InstantCommand(s_shooter::stopKicker, s_intake),
-        new InstantCommand(s_hopper::stop, s_hopper)));
+        .whenPressed(new ParallelCommandGroup(
+            new RunCommand(shooter::runKicker, shooter),
+            new RunCommand(hopper::runHopper, hopper)))
+        .whenReleased(new ParallelCommandGroup(
+            new RunCommand(shooter::stopKicker, intake),
+            new RunCommand(hopper::stop, hopper)));
 
     // reverse s_hopper
     new JoystickButton(driveController, Constants.kOI.REVERSE_HOPPER)
-      .whenPressed(new ParallelCommandGroup(
-        new InstantCommand(s_intake::actuateIntake, s_intake)
-        .andThen(new InstantCommand(s_intake::reverseIntake, s_intake)),
-        new InstantCommand(s_hopper::reverseHopper, s_hopper)))
-      .whenReleased(new ParallelCommandGroup(
-        new InstantCommand(s_intake::retractIntake, s_intake)
-        .andThen(new InstantCommand(s_intake::stop, s_intake)),
-        new InstantCommand(s_hopper::stop, s_hopper)));
+        .whenPressed(new ParallelCommandGroup(
+            new RunCommand(shooter::reverseKicker, shooter),
+            new RunCommand(hopper::reverseHopper, hopper)))
+        .whenReleased(new ParallelCommandGroup(
+            new RunCommand(shooter::stopKicker, shooter),
+            new RunCommand(hopper::stop, hopper)));
 
     // Actuate Intake
-    // new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
-    //   .whenPressed(new InstantCommand(s_intake::toggleIntake, s_intake));
-      
+    /*
+     * new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
+     * .whenPressed(new InstantCommand(intake::toggleIntake, intake));
+     */
+
     // Run Intake
     new JoystickButton(driveController, Constants.kOI.RUN_INTAKE)
-      .whenPressed(new ParallelCommandGroup(
-        new InstantCommand(s_intake::actuateIntake, s_intake)
-        .andThen(new InstantCommand(s_intake::runIntake, s_intake)),
-        new InstantCommand(s_hopper::runHopper, s_hopper)))
-      .whenReleased(new ParallelCommandGroup(
-        new InstantCommand(s_intake::retractIntake, s_intake)
-        .andThen(new InstantCommand(s_intake::stop, s_intake)),
-        new InstantCommand(s_hopper::stop, s_hopper)));
+        .whenPressed(new ParallelCommandGroup(
+            new RunCommand(intake::runIntake, intake)))
+        // new RunCommand(hopper::runHopper, hopper)))
+        .whenReleased(new ParallelCommandGroup(
+            new RunCommand(intake::stop, intake)));
+    // new RunCommand(hopper::stop, hopper)));
 
     // Reverse Intake
     new JoystickButton(driveController, Constants.kOI.REVERSE_INTAKE)
-      .whenPressed(new InstantCommand(s_intake::reverseIntake, s_intake))
-      .whenReleased(new InstantCommand(s_intake::stop, s_intake));
+        .whenPressed(new ParallelCommandGroup(
+            new RunCommand(shooter::reverseKicker, shooter),
+            new RunCommand(hopper::reverseHopper, hopper),
+            new RunCommand(intake::reverseIntake, intake)))
+        .whenReleased(new ParallelCommandGroup(
+            new RunCommand(shooter::stopKicker, shooter),
+            new RunCommand(hopper::stop, hopper),
+            new RunCommand(intake::stop, intake)));
 
     // Run Shooter
     new JoystickButton(driveController, Constants.kOI.RUN_SHOOTER)
-      .whenPressed(new InstantCommand(s_shooter::runShooter, s_shooter))
-      .whenReleased(new InstantCommand(s_shooter::stopShooter));
-      
-    //s_drivetrain.setDefaultCommand(new RunCommand(() -> s_drivetrain.curveDrive(OI.getTriggers(driveController),
-    //  OI.getLeftStick(driveController), driveController.getXButton()), s_drivetrain));
+        .whenPressed(new RunCommand(() -> shooter.setSetpoint(), shooter))
+        .whenReleased(new RunCommand(() -> shooter.zeroSetpoint(), shooter));
+
+    //drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
+    //    OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
   }
 
   public Command getAutonomousCommand() {
@@ -123,7 +137,7 @@ public class RobotContainer {
   }
 
   public void updateRobotPose() {
-    field.setRobotPose(s_drivetrain.getPose());
+    field.setRobotPose(drivetrain.getPose());
   }
 
   public void setFieldTrajectory() {
@@ -139,11 +153,15 @@ public class RobotContainer {
   }
 
   public void setDriveBrake() {
-    s_drivetrain.setBrake();
+    drivetrain.setBrake();
   }
 
   public void setDriveCoast() {
-    s_drivetrain.setCoast();
+    drivetrain.setCoast();
+  }
+
+  public void tankDriveVolts(int left, int right) {
+    drivetrain.tankDriveVolts(left, right);
   }
 
 }

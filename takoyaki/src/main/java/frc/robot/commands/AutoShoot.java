@@ -5,9 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Hopper;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Hopper.Hopper;
+import frc.robot.subsystems.Shooter.Shooter;
 
 /** An example command that uses an example subsystem. */
 public class AutoShoot extends CommandBase {
@@ -29,7 +28,7 @@ public class AutoShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    s_shooter.setGoal();
+    s_shooter.setSetpoint();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,7 +45,7 @@ public class AutoShoot extends CommandBase {
   public void end(boolean interrupted) {
     s_hopper.stop();
     s_shooter.stopKicker();
-    s_shooter.setGoal(0);
+    s_shooter.setSetpoint(0);
   }
 
   // Returns true when the command should end.

@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
@@ -23,8 +24,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
-public class Drivetrain extends SubsystemBase {
-
+public class FalconDrivetrain extends Drivetrain {
   private final WPI_TalonFX frontLeft;
   private final WPI_TalonFX backLeft;
   private final WPI_TalonFX frontRight;
@@ -39,7 +39,7 @@ public class Drivetrain extends SubsystemBase {
   private double angleOffset;
   boolean navZeroed;
 
-  public Drivetrain() {
+  public FalconDrivetrain() {
 
     // config motors
     frontLeft = new WPI_TalonFX(Constants.kDrive.FRONT_LEFT_ID);
@@ -56,10 +56,7 @@ public class Drivetrain extends SubsystemBase {
     frontRight.configFactoryDefault();
     backRight.configFactoryDefault();
 
-    frontLeft.setNeutralMode(NeutralMode.Brake);
-    backLeft.setNeutralMode(NeutralMode.Brake);
-    frontRight.setNeutralMode(NeutralMode.Brake);
-    backRight.setNeutralMode(NeutralMode.Brake);
+    setBrake();
 
     /* set up followers */
     backLeft.follow(frontLeft);
@@ -70,7 +67,7 @@ public class Drivetrain extends SubsystemBase {
     frontRight.setInverted(TalonFXInvertType.Clockwise);
     backRight.setInverted(TalonFXInvertType.Clockwise);
 
-    frontLeft.configOpenloopRamp(0.5);
+    /*frontLeft.configOpenloopRamp(0.5);
     backLeft.configOpenloopRamp(0.5);
     frontRight.configOpenloopRamp(0.5);
     backRight.configOpenloopRamp(0.5);
@@ -78,7 +75,7 @@ public class Drivetrain extends SubsystemBase {
     frontLeft.configClosedloopRamp(0.5);
     backLeft.configClosedloopRamp(0.5);
     frontRight.configClosedloopRamp(0.5);
-    backRight.configClosedloopRamp(0.5);
+    backRight.configClosedloopRamp(0.5);*/
     
     // frontLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.SUPPLY_CURRENT_LIMIT, 60, 1));
     // backLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.SUPPLY_CURRENT_LIMIT, 60, 1));

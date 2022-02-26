@@ -2,29 +2,28 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.Shooter;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Shooter extends SubsystemBase {
+public class OpenLoopFalconShooter extends Shooter {
   private final WPI_TalonFX left = new WPI_TalonFX(Constants.kShooter.LEFT_MOTOR_ID);
   private final WPI_TalonFX right = new WPI_TalonFX(Constants.kShooter.RIGHT_MOTOR_ID);
   private final WPI_VictorSPX kicker = new WPI_VictorSPX(Constants.kShooter.KICKER_MOTOR_ID);
 
-  private final SimpleMotorFeedforward fForward;
+  double maxRPM;
 
-  private double goal;
+  private double setpoint;
 
-  public Shooter() {
+  public OpenLoopFalconShooter() {
     left.setNeutralMode(NeutralMode.Coast);
     right.setNeutralMode(NeutralMode.Coast);
     kicker.setNeutralMode(NeutralMode.Brake);
@@ -32,23 +31,15 @@ public class Shooter extends SubsystemBase {
     left.setInverted(TalonFXInvertType.CounterClockwise);
     right.setInverted(TalonFXInvertType.Clockwise);
     kicker.setInverted(Constants.kShooter.KICKER_INVERSION);
-
-    left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kP,
-        Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kI,
-        Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kD,
-        Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kF,
-        Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-
     right.follow(left);
 
-    fForward = new SimpleMotorFeedforward(Constants.kShooter.kS, Constants.kShooter.kV);
+    this.zeroSetpoint();
+
+    maxRPM = 0;
   }
 
   public void runShooter() {
-    left.set(ControlMode.PercentOutput, Constants.kShooter.SPEED);
+    left.set(ControlMode.PercentOutput, Constants.kShooter.kOpenLoop.SETPOINT);
   }
 
   public void stopShooter() {
@@ -63,33 +54,38 @@ public class Shooter extends SubsystemBase {
     kicker.set(ControlMode.PercentOutput, 0);
   }
 
-  public void setGoal(double goal) {
-    this.goal = goal;
+  public void reverseKicker() { }
+
+  @Override
+  public void setSetpoint(double setpoint) {
+    SmartDashboard.putBoolean("Setpoint set", true);
+    this.setpoint = setpoint;
   }
 
-  public void zeroGoal() {
-    this.goal = 0;
+  public void zeroSetpoint() {
+    SmartDashboard.putBoolean("Setpoint set", false);
+    this.setpoint = 0;
   }
 
-  public void setGoal() {
-    this.goal = Constants.kShooter.GOAL;
+  public void setSetpoint() {
+    this.setpoint = Constants.kShooter.kOpenLoop.SETPOINT;
   }
 
   public boolean isAtSpeed() {
-    if((left.getSelectedSensorVelocity() * 2048.0 / 600.0) >= (Constants.kShooter.GOAL * 0.9)) {
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 
   @Override
   public void periodic() {
-    if(goal == 0) {
-      left.set(ControlMode.PercentOutput, 0);
-    } else {
-      left.set(ControlMode.Velocity, goal);
+    if (left.getSelectedSensorVelocity() > maxRPM) {
+      maxRPM = left.getSelectedSensorVelocity();
     }
+    SmartDashboard.putNumber("maxrpm", maxRPM);
+    SmartDashboard.putNumber("Current RMP", left.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Setpoint", setpoint);
+    SmartDashboard.putNumber("applied output", left.getMotorOutputPercent());
+    left.set(ControlMode.PercentOutput, setpoint);
+    // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
   }
 
   @Override

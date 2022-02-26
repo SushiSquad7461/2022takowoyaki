@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Drivetrain.Drivetrain;
 
 public class Ramsete {
   private DifferentialDriveVoltageConstraint voltageConstraint;

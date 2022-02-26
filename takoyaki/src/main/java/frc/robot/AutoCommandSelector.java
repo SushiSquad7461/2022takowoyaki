@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Ramsete.RamsetePath;
 import frc.robot.commands.AutoShoot;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Hopper;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Drivetrain.Drivetrain;
+import frc.robot.subsystems.Hopper.Hopper;
+import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.Shooter.Shooter;
 
 public class AutoCommandSelector {
   private final Drivetrain drivetrain;
@@ -113,14 +113,12 @@ public class AutoCommandSelector {
 
     threeBall = new SequentialCommandGroup(
       new AutoShoot(shooter, hopper).withTimeout(1),
-      new ParallelCommandGroup(new InstantCommand(intake::actuateIntake, intake),
-                               ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE)),
+    ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE),
       new ParallelCommandGroup(new RunCommand(intake::runIntake, intake).withTimeout(0),
                                ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_2)),
       ramsete.createRamseteCommand(RamsetePath.MIDBALL_WALLBALL),
-      new ParallelCommandGroup(new InstantCommand(shooter::setGoal, shooter),
-                               new InstantCommand(intake::stop, intake)
-                               .andThen(new InstantCommand(intake::retractIntake, intake)),
+      new ParallelCommandGroup(new InstantCommand(shooter::setSetpoint, shooter),
+                               new InstantCommand(intake::stop, intake),
                                ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT)),
       new ParallelCommandGroup(new RunCommand(shooter::runKicker, shooter).withTimeout(6),
                                new RunCommand(hopper::runHopper, hopper).withTimeout(6)),
@@ -136,7 +134,7 @@ public class AutoCommandSelector {
       new ParallelCommandGroup(new RunCommand(intake::runIntake, intake).withTimeout(0),
                                ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_MIDBALL_2)),
       // drive to the hub to shoot
-      new ParallelCommandGroup(new InstantCommand(shooter::setGoal, shooter),
+      new ParallelCommandGroup(new InstantCommand(shooter::setSetpoint, shooter),
                                new InstantCommand(intake::stop, intake),
                                ramsete.createRamseteCommand(RamsetePath.GAMMA_WALLBALL_SHOOT)),
       // shoot for 1 second
@@ -149,7 +147,7 @@ public class AutoCommandSelector {
                                new InstantCommand(intake::stop, intake)),
       // drive halfway to the terminal
       new ParallelCommandGroup(ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_1_REVERSE),
-                               new InstantCommand(() -> shooter.setGoal(0), shooter)),
+                               new InstantCommand(() -> shooter.setSetpoint(0), shooter)),
       // run intake and drive to terminal balls
       new ParallelCommandGroup(new InstantCommand(intake::runIntake, intake),
                                ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_2))
@@ -158,7 +156,7 @@ public class AutoCommandSelector {
       ramsete.createRamseteCommand(RamsetePath.GAMMA_TERMINAL_SHOOT_1_REVERSE),
       // drive to hub and rev shooter
       new ParallelCommandGroup(ramsete.createRamseteCommand(RamsetePath.GAMMA_TERMINAL_SHOOT_2),
-                               new InstantCommand(shooter::setGoal, shooter)),
+                               new InstantCommand(shooter::setSetpoint, shooter)),
       // shoot final two balls
       new AutoShoot(shooter, hopper));
       
@@ -168,50 +166,42 @@ public class AutoCommandSelector {
 
     iotaFiveBall = new SequentialCommandGroup(
       new AutoShoot(shooter, hopper).withTimeout(1),
-      new ParallelCommandGroup(new InstantCommand(intake::actuateIntake, intake),
-                               ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE)),
+      ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE),
       new ParallelCommandGroup(new RunCommand(intake::runIntake, intake).withTimeout(0),
                                ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_2)),
-      new ParallelCommandGroup(new InstantCommand(shooter::setGoal, shooter),
-                               new InstantCommand(intake::stop, intake)
-                               .andThen(new InstantCommand(intake::retractIntake, intake)),
+      new ParallelCommandGroup(new InstantCommand(shooter::setSetpoint, shooter),
+                               new InstantCommand(intake::stop, intake),
                                ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT)),
       new ParallelCommandGroup(new RunCommand(shooter::runKicker, shooter).withTimeout(1),
                                new RunCommand(hopper::runHopper, hopper).withTimeout(1)),
       new ParallelCommandGroup(new InstantCommand(shooter::stopKicker, shooter),
                                new InstantCommand(hopper::stop, hopper)),
       new ParallelCommandGroup(ramsete.createRamseteCommand(RamsetePath.SHOOT_TERMINAL_1_REVERSE),
-                               new InstantCommand(() -> shooter.setGoal(0), shooter),
-                               new InstantCommand(intake::actuateIntake)),
+                               new InstantCommand(() -> shooter.setSetpoint(0), shooter)),
       new ParallelCommandGroup(new InstantCommand(intake::runIntake, intake),
                                ramsete.createRamseteCommand(RamsetePath.SHOOT_TERMINAL_2))
-                               .andThen(new InstantCommand(intake::stop, intake))
-                               .andThen(new InstantCommand(intake::retractIntake, intake)),
+                               .andThen(new InstantCommand(intake::stop, intake)),
       ramsete.createRamseteCommand(RamsetePath.IOTA_TERMINAL_SHOOT_1_REVERSE),
       ramsete.createRamseteCommand(RamsetePath.IOTA_TERMINAL_SHOOT_2),
       new AutoShoot(shooter, hopper));
 
       zetaFiveBall = new SequentialCommandGroup(
       new AutoShoot(shooter, hopper).withTimeout(1),
-      new ParallelCommandGroup(new InstantCommand(intake::actuateIntake, intake),
-                               ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE)),
+      ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE),
       new ParallelCommandGroup(new RunCommand(intake::runIntake, intake).withTimeout(0),
                                ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_2)),
-      new ParallelCommandGroup(new InstantCommand(shooter::setGoal, shooter),
-                               new InstantCommand(intake::stop, intake)
-                               .andThen(new InstantCommand(intake::retractIntake, intake)),
+      new ParallelCommandGroup(new InstantCommand(shooter::setSetpoint, shooter),
+                               new InstantCommand(intake::stop, intake),
                                ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT)),
       new ParallelCommandGroup(new RunCommand(shooter::runKicker, shooter).withTimeout(1),
                                new RunCommand(hopper::runHopper, hopper).withTimeout(1)),
       new ParallelCommandGroup(new InstantCommand(shooter::stopKicker, shooter),
                                new InstantCommand(hopper::stop, hopper)),
       new ParallelCommandGroup(ramsete.createRamseteCommand(RamsetePath.SHOOT_TERMINAL_1_REVERSE),
-                               new InstantCommand(() -> shooter.setGoal(0), shooter),
-                               new InstantCommand(intake::actuateIntake)),
+                               new InstantCommand(() -> shooter.setSetpoint(0), shooter)),
       new ParallelCommandGroup(new InstantCommand(intake::runIntake, intake),
                                ramsete.createRamseteCommand(RamsetePath.SHOOT_TERMINAL_2))
-                               .andThen(new InstantCommand(intake::stop, intake))
-                               .andThen(new InstantCommand(intake::retractIntake, intake)),
+                               .andThen(new InstantCommand(intake::stop, intake)),
       ramsete.createRamseteCommand(RamsetePath.ZETA_TERMINAL_SHOOT_1_REVERSE),
       ramsete.createRamseteCommand(RamsetePath.ZETA_TERMINAL_SHOOT_2),
       new AutoShoot(shooter, hopper));
