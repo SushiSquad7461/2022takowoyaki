@@ -76,13 +76,12 @@ public class Constants {
     public static int BACK_RIGHT_ID;
     public static int BACK_LEFT_ID;
 
-    //  to divide quick turn power by
-    public static final double QUICK_TURN_DAMPENER = 3.0; 
+    // to divide quick turn power by
+    public static final double QUICK_TURN_DAMPENER = 3.0;
 
     // current limits
     public static final double SUPPLY_CURRENT_LIMIT = 30;
     public static final double STATOR_CURRENT_LIMIT = 30;
-    
 
     // char values for garage carpet
     public static final double ksVolts = 0.0; // 0.66412
@@ -105,18 +104,19 @@ public class Constants {
 
     // odometry constants - drivetrain measurements
     public static final double TRACK_WIDTH_METERS = 0.69; // width between sides of dt
-    public static final DifferentialDriveKinematics DRIVE_KINEMATICS = 
-        new DifferentialDriveKinematics(TRACK_WIDTH_METERS);
+    public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(
+        TRACK_WIDTH_METERS);
 
     // path-following constants
     public static final double MAX_SPEED_METERS_PER_SECOND = 5; // set to somewhat below free speed
-                                                              // could increase this to go faster 
-                                                              // theoretically
+    // could increase this to go faster
+    // theoretically
     public static final double MAX_ACCEL_METERS_PER_SECOND_SQUARED = 5; // doesn't really matter
 
     // ticks to meters conversion factor for falcon 500
-    // (total ticks) * (motor rotations/tick) * (wheel rotations/motor rotations) * (meters/wheel rotations)
-    public static final double TICKS_TO_METERS = (1.0/2048.0) * (1.0/7.31) * (0.4788);
+    // (total ticks) * (motor rotations/tick) * (wheel rotations/motor rotations) *
+    // (meters/wheel rotations)
+    public static final double TICKS_TO_METERS = (1.0 / 2048.0) * (1.0 / 7.31) * (0.4788);
 
     // ramsete parameters
     public static final double RAMSETE_B = 2;
