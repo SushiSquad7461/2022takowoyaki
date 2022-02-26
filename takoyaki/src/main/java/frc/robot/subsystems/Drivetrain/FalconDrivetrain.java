@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.Drivetrain;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -16,7 +17,7 @@ public class FalconDrivetrain extends Drivetrain {
   private final WPI_TalonFX frontRight;
   private final WPI_TalonFX backRight;
 
-  private final DifferentialDrive diffDrive;
+  // private final DifferentialDrive diffDrive;
 
   public FalconDrivetrain() {
     // instantiate motors
@@ -26,7 +27,7 @@ public class FalconDrivetrain extends Drivetrain {
     backRight = new WPI_TalonFX(16);
 
     // instantiate differential drive
-    diffDrive = new DifferentialDrive(frontLeft, frontRight);
+    // diffDrive = new DifferentialDrive(frontLeft, frontRight);
 
     /* factory default values */
     frontLeft.configFactoryDefault();
@@ -68,7 +69,14 @@ public class FalconDrivetrain extends Drivetrain {
     if (isQuickturn) {
       angularVelocity /= 3;
     }
-    diffDrive.curvatureDrive(linearVelocity, angularVelocity, isQuickturn);
+    // diffDrive.curvatureDrive(linearVelocity, angularVelocity, isQuickturn);
+  }
+
+  public void breakInGearboxes() {
+    double speed = 0.001;
+    double motorPower = Math.sin(System.currentTimeMillis() * speed);
+    // diffDrive.curvatureDrive(motorPower, 1, false);
+    frontRight.set(motorPower);
   }
 
   @Override
