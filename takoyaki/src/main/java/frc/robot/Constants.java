@@ -8,16 +8,16 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.XboxController;
 
 public final class Constants {
-  
+
   public static final class kOI {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;
-    
+
     // hopper buttons
     public static final int RUN_HOPPER = XboxController.Button.kRightBumper.value;
     public static final int REVERSE_HOPPER = XboxController.Button.kBack.value;
 
-    // intake buttons    
+    // intake buttons
     public static final int TOGGLE_INTAKE = XboxController.Button.kLeftBumper.value;
 
     public static final int RUN_INTAKE = XboxController.Button.kA.value;
@@ -28,7 +28,7 @@ public final class Constants {
 
     public static final String TRAJECTORY_NAME = "path";
   }
-  
+
   public static final class kHopper {
     public static final int MOTOR_ID = 10;
     public static final boolean INVERTED = false;
@@ -37,9 +37,9 @@ public final class Constants {
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
   }
-  
+
   public static final class kIntake {
-    public static final int MOTOR_ID = 8;
+    public static final int MOTOR_ID = 9;
     public static final int SOLENOID_FRONT = 1;
     public static final int SOLENOID_BACK = 0;
     public static final double INTAKE_SPEED = 0.9;
@@ -50,18 +50,17 @@ public final class Constants {
   }
 
   public static final class kDrive {
-    public static final int FRONT_LEFT_ID = 1;
-    public static final int BACK_LEFT_ID = 2;
-    public static final int FRONT_RIGHT_ID = 3;
-    public static final int BACK_RIGHT_ID = 4;
+    public static final int FRONT_LEFT_ID = 4;
+    public static final int BACK_LEFT_ID = 3;
+    public static final int FRONT_RIGHT_ID = 15;
+    public static final int BACK_RIGHT_ID = 16;
 
-    //  to divide quick turn power by
-    public static final double QUICK_TURN_DAMPENER = 3.0; 
+    // to divide quick turn power by
+    public static final double QUICK_TURN_DAMPENER = 3.0;
 
     // current limits
     public static final double SUPPLY_CURRENT_LIMIT = 30;
     public static final double STATOR_CURRENT_LIMIT = 30;
-    
 
     // char values for garage carpet
     public static final double ksVolts = 0.66412;
@@ -84,18 +83,19 @@ public final class Constants {
 
     // odometry constants - drivetrain measurements
     public static final double TRACK_WIDTH_METERS = 0.69; // width between sides of dt
-    public static final DifferentialDriveKinematics DRIVE_KINEMATICS = 
-        new DifferentialDriveKinematics(TRACK_WIDTH_METERS);
+    public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(
+        TRACK_WIDTH_METERS);
 
     // path-following constants
     public static final double MAX_SPEED_METERS_PER_SECOND = 5; // set to somewhat below free speed
-                                                              // could increase this to go faster 
-                                                              // theoretically
+    // could increase this to go faster
+    // theoretically
     public static final double MAX_ACCEL_METERS_PER_SECOND_SQUARED = 5; // doesn't really matter
 
     // ticks to meters conversion factor for falcon 500
-    // (total ticks) * (motor rotations/tick) * (wheel rotations/motor rotations) * (meters/wheel rotations)
-    public static final double TICKS_TO_METERS = (1.0/2048.0) * (1.0/7.31) * (0.4788);
+    // (total ticks) * (motor rotations/tick) * (wheel rotations/motor rotations) *
+    // (meters/wheel rotations)
+    public static final double TICKS_TO_METERS = (1.0 / 2048.0) * (1.0 / 7.31) * (0.4788);
 
     // ramsete parameters
     public static final double RAMSETE_B = 2;
@@ -103,9 +103,9 @@ public final class Constants {
   }
 
   public static final class kShooter {
-    public static final int LEFT_MOTOR_ID = 12;
-    public static final int RIGHT_MOTOR_ID = 15;
-    public static final int KICKER_MOTOR_ID = 5;
+    public static final int LEFT_MOTOR_ID = 5;
+    public static final int RIGHT_MOTOR_ID = 14;
+    public static final int KICKER_MOTOR_ID = 0;
     public static final double SPEED = 0.9;
     public static final int CURRENT_LIMIT = 35;
     public static final double kP = 0.15;
@@ -121,5 +121,5 @@ public final class Constants {
     public static final boolean KICKER_INVERSION = true;
 
     public static final double SPEED_KICKER = 1;
-  }  
+  }
 }
