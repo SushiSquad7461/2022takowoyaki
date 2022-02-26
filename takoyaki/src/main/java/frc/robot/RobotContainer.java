@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Hopper.TalonHopper;
 import frc.robot.subsystems.Hopper.VictorHopper;
+import frc.robot.subsystems.Drivetrain.ClosedLoopFalconDrivetrain;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
 import frc.robot.subsystems.Intake.FalconNoDeploymentIntake;
@@ -44,7 +45,7 @@ public class RobotContainer {
     hopper = new TalonHopper();
     intake = new FalconSolenoidIntake();
     shooter = new ClosedLoopFalconComp();
-    drivetrain = new FalconDrivetrain();
+    drivetrain = new ClosedLoopFalconDrivetrain();
     driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
     operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
     configureButtonBindings();
@@ -116,8 +117,11 @@ public class RobotContainer {
         .whenPressed(new RunCommand(() -> shooter.setSetpoint(), shooter))
         .whenReleased(new RunCommand(() -> shooter.zeroSetpoint(), shooter));
 
-    drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
-        OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
+    // drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(1,
+    //     OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
+
+    drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(1,
+        0, false), drivetrain));
   }
 
   /**

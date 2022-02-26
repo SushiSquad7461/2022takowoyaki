@@ -7,6 +7,7 @@
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/ClosedLoopFalconShooter": "Subsystem",
       "/LiveWindow/FalconSolenoidIntake": "Subsystem",
+      "/LiveWindow/TalonHopper": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
     }
@@ -75,7 +76,16 @@
                 0.6901960968971252,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/Current rpm"
+              "id": "NT:/SmartDashboard/fl"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/fr"
             }
           ]
         }

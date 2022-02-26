@@ -14,6 +14,8 @@ import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.kDrive.kClosedLoop.kLeft;
+import frc.robot.Constants.kDrive.kClosedLoop.kRight;
 
 public class Constants {
 
@@ -175,6 +177,20 @@ public class Constants {
         kDrive.FRONT_LEFT_ID = 4;
         kDrive.BACK_RIGHT_ID = 16;
         kDrive.BACK_LEFT_ID = 3;
+        kRight.kP = 0.2;
+        kRight.kI = 0.0;
+        kRight.kD = 0.0;
+        kRight.kF = 0.0;
+        kRight.kS = 0.0;
+        kRight.kA = 0.0;
+        kRight.kV = 0.0;
+        kLeft.kP = 0.2;
+        kLeft.kI = 0.0;
+        kLeft.kD = 0.0;
+        kLeft.kF = 0.0;
+        kLeft.kS = 0.0;
+        kLeft.kA = 0.0;
+        kLeft.kV = 0.0;
 
         kShooter.LEFT_MOTOR_ID = 5;
         kShooter.RIGHT_MOTOR_ID = 14;

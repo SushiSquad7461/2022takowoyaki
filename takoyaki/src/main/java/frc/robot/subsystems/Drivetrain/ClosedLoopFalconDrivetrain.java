@@ -15,6 +15,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class ClosedLoopFalconDrivetrain extends Drivetrain {
@@ -49,6 +50,11 @@ public class ClosedLoopFalconDrivetrain extends Drivetrain {
     backLeft.setInverted(TalonFXInvertType.CounterClockwise);
     frontRight.setInverted(TalonFXInvertType.Clockwise);
     backRight.setInverted(TalonFXInvertType.Clockwise);
+
+    frontLeft.setSelectedSensorPosition(0);
+    backLeft.setSelectedSensorPosition(0);
+    frontRight.setSelectedSensorPosition(0);
+    backRight.setSelectedSensorPosition(0);
 
     frontLeft.config_kP(0, Constants.kDrive.kClosedLoop.kLeft.kP);
     frontLeft.config_kI(0, Constants.kDrive.kClosedLoop.kLeft.kI);
@@ -85,15 +91,24 @@ public class ClosedLoopFalconDrivetrain extends Drivetrain {
 
   public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn) {
     WheelSpeeds wheelSpeeds = DifferentialDrive.curvatureDriveIK(linearVelocity, angularVelocity, isQuickturn);
-    frontLeft.set(TalonFXControlMode.Velocity, wheelSpeeds.left, DemandType.ArbitraryFeedForward,
-        ffLeft.calculate(wheelSpeeds.left));
-    frontRight.set(TalonFXControlMode.Velocity, wheelSpeeds.right, DemandType.ArbitraryFeedForward,
-        ffRight.calculate(wheelSpeeds.right));
+    SmartDashboard.putNumber("left wheelspeeds", wheelSpeeds.left);
+    SmartDashboard.putNumber("right wheelspeeds", wheelSpeeds.right);
+    frontLeft.set(TalonFXControlMode.Velocity, wheelSpeeds.left * 19000);
+    frontRight.set(TalonFXControlMode.Velocity, wheelSpeeds.right * 19000);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("fl", frontLeft.getSelectedSensorPosition());
+    SmartDashboard.putNumber("bl", backLeft.getSelectedSensorPosition());
+    SmartDashboard.putNumber("fr", frontRight.getSelectedSensorPosition());
+    SmartDashboard.putNumber("br", backRight.getSelectedSensorPosition());
+
+    SmartDashboard.putNumber("fl vel", frontLeft.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("bl vel", backLeft.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("fr vel", frontRight.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("br vel", backRight.getSelectedSensorVelocity());
   }
 
   @Override

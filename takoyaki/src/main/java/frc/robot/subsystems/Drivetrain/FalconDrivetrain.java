@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class FalconDrivetrain extends Drivetrain {
@@ -44,6 +45,11 @@ public class FalconDrivetrain extends Drivetrain {
     backLeft.setInverted(TalonFXInvertType.CounterClockwise);
     frontRight.setInverted(TalonFXInvertType.Clockwise);
     backRight.setInverted(TalonFXInvertType.Clockwise);
+
+    frontLeft.setSelectedSensorPosition(0);
+    backLeft.setSelectedSensorPosition(0);
+    frontRight.setSelectedSensorPosition(0);
+    backRight.setSelectedSensorPosition(0);
     /*
      * WPI drivetrain classes defaultly assume left and right are opposite. call
      * this so we can apply + to both sides when moving forward. DO NOT CHANGE
@@ -74,6 +80,16 @@ public class FalconDrivetrain extends Drivetrain {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("fl", frontLeft.getSelectedSensorPosition());
+    SmartDashboard.putNumber("bl", backLeft.getSelectedSensorPosition());
+    SmartDashboard.putNumber("fr", frontRight.getSelectedSensorPosition());
+    SmartDashboard.putNumber("br", backRight.getSelectedSensorPosition());
+
+    
+    SmartDashboard.putNumber("fl vel", frontLeft.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("bl vel", backLeft.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("fr vel", frontRight.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("br vel", backRight.getSelectedSensorVelocity());
   }
 
   @Override
