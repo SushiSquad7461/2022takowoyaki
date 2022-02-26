@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.Climb;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,14 +12,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 
-public class Climb extends SubsystemBase {
+public class FalconBrakeModeClimb extends Climb {
 
   private final WPI_TalonFX left;
   private final WPI_TalonFX right;
   private boolean closedLoop;
   private boolean goingUp;
 
-  public Climb() {
+  public FalconBrakeModeClimb() {
 
     closedLoop = false;
 
@@ -110,7 +110,7 @@ public class Climb extends SubsystemBase {
     right.set(ControlMode.PercentOutput, Constants.kClimb.CLOSED_LOOP_DOWN_POWER);
   }
 
-  public void motorConfig(WPI_TalonFX motor) {
+  private void motorConfig(WPI_TalonFX motor) {
     motor.configFactoryDefault();
     motor.setSelectedSensorPosition(0);
     motor.setNeutralMode(NeutralMode.Brake);
