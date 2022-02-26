@@ -41,7 +41,7 @@ public class Constants {
     public static int MOTOR_ID;
     public static boolean INVERTED;
     public static final int CURRENT_LIMIT = 30;
-    public static final double SPEED = 0.7;
+    public static final double SPEED = 0.5;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
     public static final long JERKINESS = 100;
@@ -74,6 +74,8 @@ public class Constants {
     public static int FRONT_LEFT_ID;
     public static int BACK_RIGHT_ID;
     public static int BACK_LEFT_ID;
+
+    public static final double OPEN_LOOP_RAMP_RATE = 0.65;
   }
 
   public static final class kShooter {
@@ -82,7 +84,8 @@ public class Constants {
     }
 
     public static final class kClosedLoop {
-      public static final double SETPOINT = 3400.0 * 2048.0 / 600.0;
+      public static final double SETPOINT = 3290.0 * 2048.0 / 600.0;
+      public static final double ERROR_TOLERANCE = 15 * 2048.0 / 600.0;
     }
 
     public static int LEFT_MOTOR_ID;

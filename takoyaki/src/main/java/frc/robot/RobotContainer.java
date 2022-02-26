@@ -73,6 +73,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new JoystickButton(driveController, Constants.kOI.SHOOT)
         .whenHeld(new AutoShoot(shooter, hopper, intake));
+        //.whenPressed(shooter::setSetpoint, shooter)
+        //.whenReleased(shooter::stopShooter, shooter);
 
     // shoot ball (hopper + kicker)
     /*new JoystickButton(driveController, Constants.kOI.SHOOT)

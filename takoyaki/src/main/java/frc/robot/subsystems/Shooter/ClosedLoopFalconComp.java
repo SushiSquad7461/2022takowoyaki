@@ -94,6 +94,7 @@ public class ClosedLoopFalconComp extends Shooter {
     SmartDashboard.putNumber("applied output", left.getMotorOutputPercent());
     SmartDashboard.putNumber("feed forward", fForward.calculate(setpoint));
     SmartDashboard.putNumber("shooter position change", left.getSelectedSensorPosition() - change);
+    SmartDashboard.putBoolean("at speed", isAtSpeed());
     change = left.getSelectedSensorPosition();
 
     if (setpoint == 0) {
@@ -105,11 +106,9 @@ public class ClosedLoopFalconComp extends Shooter {
   }
 
   public boolean isAtSpeed() {
-    if((left.getSelectedSensorVelocity() * 2048.0 / 600.0) >= (Constants.kShooter.kClosedLoop.SETPOINT * 0.9)) {
-      return true;
-    } else {
-      return false;
-    }
+    double difference = Math.abs(left.getSelectedSensorVelocity() - Constants.kShooter.kClosedLoop.SETPOINT);
+    if (difference <= Constants.kShooter.kClosedLoop.ERROR_TOLERANCE) return true;
+    else return false;
   }
 
   @Override
