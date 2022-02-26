@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.Drivetrain;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -15,8 +16,11 @@ public class FalconDrivetrain extends Drivetrain {
   private final WPI_TalonFX backLeft;
   private final WPI_TalonFX frontRight;
   private final WPI_TalonFX backRight;
-
   private final DifferentialDrive diffDrive;
+
+  private int inverted; // 1 is forward, -1 is reverse
+
+  // private final DifferentialDrive diffDrive;
 
   public FalconDrivetrain() {
     // instantiate motors
@@ -45,14 +49,15 @@ public class FalconDrivetrain extends Drivetrain {
     frontRight.setInverted(TalonFXInvertType.Clockwise);
     backRight.setInverted(TalonFXInvertType.Clockwise);
 
-    frontLeft.configOpenloopRamp(0.3);
+    /*frontLeft.configOpenloopRamp(Constants.kDrive.OPEN);
     backLeft.configOpenloopRamp(0.3);
     frontRight.configOpenloopRamp(0.3);
-    backRight.configOpenloopRamp(0.3);
+    backRight.configOpenloopRamp(0.3);*/
     /*
      * WPI drivetrain classes defaultly assume left and right are opposite. call
      * this so we can apply + to both sides when moving forward. DO NOT CHANGE
      */
+    inverted = 1;
   }
 
   public void setToBrakeMode() {
@@ -73,7 +78,18 @@ public class FalconDrivetrain extends Drivetrain {
     if (isQuickturn) {
       angularVelocity /= 3;
     }
-    diffDrive.curvatureDrive(linearVelocity, angularVelocity, isQuickturn);
+    diffDrive.curvatureDrive(linearVelocity * inverted, angularVelocity, isQuickturn);
+  }
+
+  public void breakInGearboxes() {
+    double speed = 0.001;
+    double motorPower = Math.sin(System.currentTimeMillis() * speed);
+    // diffDrive.curvatureDrive(motorPower, 1, false);
+    frontRight.set(motorPower);
+  }
+
+  public void invertDrive() {
+    inverted *= -1;
   }
 
   @Override
