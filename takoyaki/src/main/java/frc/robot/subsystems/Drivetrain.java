@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -18,7 +19,7 @@ public class Drivetrain extends SubsystemBase {
   private final WPI_TalonFX frontRight;
   private final WPI_TalonFX backRight;
 
-  private final DifferentialDrive diffDrive;
+  // private final DifferentialDrive diffDrive;
 
   public Drivetrain() {
     // instantiate motors
@@ -28,7 +29,7 @@ public class Drivetrain extends SubsystemBase {
     backRight = new WPI_TalonFX(Constants.kDrive.BACK_RIGHT_ID);
 
     // instantiate differential drive
-    diffDrive = new DifferentialDrive(frontLeft, frontRight);
+    // diffDrive = new DifferentialDrive(frontLeft, frontRight);
 
     /* factory default values */
     frontLeft.configFactoryDefault();
@@ -52,14 +53,21 @@ public class Drivetrain extends SubsystemBase {
     /*
      * WPI drivetrain classes defaultly assume left and right are opposite. call
      * this so we can apply + to both sides when moving forward. DO NOT CHANGE
-     */ 
+     */
   }
 
   public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn) {
     if (isQuickturn) {
       angularVelocity /= 3;
     }
-    diffDrive.curvatureDrive(linearVelocity, angularVelocity, isQuickturn);
+    // diffDrive.curvatureDrive(linearVelocity, angularVelocity, isQuickturn);
+  }
+
+  public void breakInGearboxes() {
+    double speed = 0.001;
+    double motorPower = Math.sin(System.currentTimeMillis() * speed);
+    // diffDrive.curvatureDrive(motorPower, 1, false);
+    frontRight.set(motorPower);
   }
 
   @Override
