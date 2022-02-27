@@ -42,7 +42,7 @@ public class Constants {
     public static int MOTOR_ID;
     public static boolean INVERTED;
     public static final int CURRENT_LIMIT = 30;
-    public static final double SPEED = 0.7;
+    public static final double SPEED = 1;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
     public static final long JERKINESS = 50;
@@ -87,7 +87,7 @@ public class Constants {
     public static final double ksVolts = 0.66858; // 0.66412
     public static final double kvVoltSecondsPerMeter = 2.3302; // 1.6846
     public static final double kaVoltSecondsSquaredPerMeter = 0.36796; // 0.23884
-    public static final double kPDriveVel = 0.000027434;
+    public static final double kPDriveVel = 0.0000015469;
     public static final double kIDrive = 0;
     public static final double kDDrive = 0;
 
@@ -129,7 +129,7 @@ public class Constants {
     }
 
     public static final class kClosedLoop {
-      public static final double SETPOINT = 3290.0 * 2048.0 / 600.0;
+      public static final double SETPOINT = 3225.0 * 2048.0 / 600.0;
       public static final double ERROR_TOLERANCE = 15.0 * 2048.0 / 600.0;
     }
 

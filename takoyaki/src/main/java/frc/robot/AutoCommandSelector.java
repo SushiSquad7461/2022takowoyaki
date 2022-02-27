@@ -127,7 +127,7 @@ public class AutoCommandSelector {
 
     fiveBall = new SequentialCommandGroup(
       // shoot first ball
-      new AutoShoot(shooter, hopper).withTimeout(1),
+      new AutoShoot(shooter, hopper).withTimeout(5),
       // complete path to first ball and actuate intake
       ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE),
       // run intake and pick up mid ball and wall ball
@@ -137,7 +137,7 @@ public class AutoCommandSelector {
       ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT)
         .andThen(new InstantCommand(intake::stop, intake)),
       // shoot for 1 second
-      new AutoShoot(shooter, hopper).withTimeout(1.5),
+      new AutoShoot(shooter, hopper).withTimeout(5),
                               //  new RunCommand(intake::runIntake, intake).withTimeout(1)),
       // stop shooting
       // drive halfway to the terminal
@@ -159,7 +159,7 @@ public class AutoCommandSelector {
     );
 
     iotaFiveBall = new SequentialCommandGroup(
-      new AutoShoot(shooter, hopper).withTimeout(1),
+      new AutoShoot(shooter, hopper).withTimeout(10),
       ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE),
       new ParallelCommandGroup(new RunCommand(intake::runIntake, intake).withTimeout(0),
                                ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_2)),
