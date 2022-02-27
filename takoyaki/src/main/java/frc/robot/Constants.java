@@ -44,7 +44,7 @@ public class Constants {
     public static final double SPEED = 0.7;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
-    public static final long JERKINESS = 00;
+    public static final long JERKINESS = 100;
   }
 
   public static final class kIntake {
