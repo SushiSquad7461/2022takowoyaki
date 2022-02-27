@@ -25,7 +25,7 @@ public class Constants {
     public static final int CLIMB_ENCODER_RESET_BUTTON = XboxController.Button.kStart.value;
 
     // public static final int LEFT_MOTOR_CAN_ID = 15; // green climb
-    public static final int LEFT_MOTOR_CAN_ID = 15; // blue
+    public static final int LEFT_MOTOR_CAN_ID = 17; // blue
     public static final int RIGHT_MOTOR_CAN_ID = 2;
 
     public static final double OPEN_LOOP_UP_POWER = -0.65;

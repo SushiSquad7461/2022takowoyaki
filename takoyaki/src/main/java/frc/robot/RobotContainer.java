@@ -26,127 +26,128 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class RobotContainer {
 
-    // The robot's subsystems and commands are defined here...
-    private final Hopper hopper;
-    private final Intake intake;
-    private final Shooter shooter;
-    private final Drivetrain drivetrain;
-    private final Climb climb;
+        // The robot's subsystems and commands are defined here...
+        private final Hopper hopper;
+        private final Intake intake;
+        private final Shooter shooter;
+        private final Drivetrain drivetrain;
+        private final Climb climb;
 
-    // Controllers
-    private final XboxController driveController;
-    private final XboxController operatorController;
+        // Controllers
+        private final XboxController driveController;
+        private final XboxController operatorController;
 
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
-     */
-    public RobotContainer() {
-        // Configure the button bindings
-        Constants.setup();
-        hopper = new TalonHopper();
-        intake = new FalconSolenoidIntake();
-        shooter = new ClosedLoopFalconComp();
-        drivetrain = new FalconDrivetrain();
-        climb = new FalconBrakeModeClimb();
-        driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
-        operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
-        configureButtonBindings();
-
-    }
-
-    public void setDrivetrainToCoast() {
-        drivetrain.setToCoastMode();
-    }
-
-    public void setDrivetrainToBrake() {
-        drivetrain.setToBrakeMode();
-    }
-
-    /**
-     * Use this method to define your button->command mappings. Buttons can be
-     * created by
-     * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-     * it to a {@link
-     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-     */
-    private void configureButtonBindings() {
-        new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
-                .whenPressed(new InstantCommand(climb::extendClimb, climb));
-
-        new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
-                .whenPressed(new InstantCommand(climb::retractClimb, climb));
-
-        // .whenPressed(new InstantCommand(climb::runOpenLoopClimb, climb))
-        // .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
-        // new JoystickButton(operatorController,
-        // Constants.kClimb.CLIMB_OPEN_LOOP_LOWER_BUTTON)
-        // .whenPressed(new InstantCommand(climb::reverseOpenLoopClimb, climb))
-        // .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
-        new JoystickButton(operatorController, Constants.kClimb.CLIMB_ENCODER_RESET_BUTTON)
-                .whenPressed(new RunCommand(climb::zeroClimbEncoders, climb));
-
-        climb.setDefaultCommand(
-                new RunCommand(() -> climb.defaultCommand(operatorController.getLeftY(), operatorController.getLeftY()),
-                        climb));
-        // run hopper
-        new JoystickButton(driveController, Constants.kOI.RUN_HOPPER)
-                .whenPressed(new ParallelCommandGroup(
-                        new RunCommand(shooter::runKicker, shooter),
-                        new RunCommand(hopper::runHopper, hopper)))
-                .whenReleased(new ParallelCommandGroup(
-                        new RunCommand(shooter::stopKicker, intake),
-                        new RunCommand(hopper::stop, hopper)));
-
-        // reverse hopper
-        new JoystickButton(driveController, Constants.kOI.REVERSE_HOPPER)
-                .whenPressed(new ParallelCommandGroup(
-                        new RunCommand(shooter::reverseKicker, shooter),
-                        new RunCommand(hopper::reverseHopper, hopper)))
-                .whenReleased(new ParallelCommandGroup(
-                        new RunCommand(shooter::stopKicker, shooter),
-                        new RunCommand(hopper::stop, hopper)));
-
-        // Actuate Intake
-        /*
-         * new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
-         * .whenPressed(new InstantCommand(intake::toggleIntake, intake));
+        /**
+         * The container for the robot. Contains subsystems, OI devices, and commands.
          */
+        public RobotContainer() {
+                // Configure the button bindings
+                Constants.setup();
+                hopper = new TalonHopper();
+                intake = new FalconSolenoidIntake();
+                shooter = new ClosedLoopFalconComp();
+                drivetrain = new FalconDrivetrain();
+                climb = new FalconBrakeModeClimb();
+                driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
+                operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
+                configureButtonBindings();
 
-        // Run Intake
-        new JoystickButton(driveController, Constants.kOI.RUN_INTAKE)
-                .whenPressed(new ParallelCommandGroup(
-                        new RunCommand(intake::runIntake, intake)))
-                // new RunCommand(hopper::runHopper, hopper)))
-                .whenReleased(new ParallelCommandGroup(
-                        new RunCommand(intake::stop, intake)));
-        // new RunCommand(hopper::stop, hopper)));
+        }
 
-        // Reverse Intake
-        new JoystickButton(driveController, Constants.kOI.REVERSE_INTAKE)
-                .whenPressed(new ParallelCommandGroup(
-                        new RunCommand(shooter::reverseKicker, shooter),
-                        new RunCommand(hopper::reverseHopper, hopper),
-                        new RunCommand(intake::reverseIntake, intake)))
-                .whenReleased(new ParallelCommandGroup(
-                        new RunCommand(shooter::stopKicker, shooter),
-                        new RunCommand(hopper::stop, hopper),
-                        new RunCommand(intake::stop, intake)));
+        public void setDrivetrainToCoast() {
+                drivetrain.setToCoastMode();
+        }
 
-        // Run Shooter
-        new JoystickButton(driveController, Constants.kOI.RUN_SHOOTER)
-                .whenPressed(new RunCommand(() -> shooter.setSetpoint(), shooter))
-                .whenReleased(new RunCommand(() -> shooter.zeroSetpoint(), shooter));
+        public void setDrivetrainToBrake() {
+                drivetrain.setToBrakeMode();
+        }
 
-        drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
-                OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
-    }
+        /**
+         * Use this method to define your button->command mappings. Buttons can be
+         * created by
+         * instantiating a {@link GenericHID} or one of its subclasses ({@link
+         * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+         * it to a {@link
+         * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+         */
+        private void configureButtonBindings() {
+                new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
+                                .whenPressed(new InstantCommand(climb::extendClimb, climb));
 
-    public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        return null;
-    }
+                new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
+                                .whenPressed(new InstantCommand(climb::retractClimb, climb));
+
+                // .whenPressed(new InstantCommand(climb::runOpenLoopClimb, climb))
+                // .whenReleased(new InstantCommand(climb::stopClimb, climb));
+
+                // new JoystickButton(operatorController,
+                // Constants.kClimb.CLIMB_OPEN_LOOP_LOWER_BUTTON)
+                // .whenPressed(new InstantCommand(climb::reverseOpenLoopClimb, climb))
+                // .whenReleased(new InstantCommand(climb::stopClimb, climb));
+
+                new JoystickButton(operatorController, Constants.kClimb.CLIMB_ENCODER_RESET_BUTTON)
+                                .whenPressed(new RunCommand(climb::zeroClimbEncoders, climb));
+
+                climb.setDefaultCommand(
+                                new RunCommand(() -> climb.defaultCommand(operatorController.getLeftY(),
+                                                operatorController.getRightY()),
+                                                climb));
+                // run hopper
+                new JoystickButton(driveController, Constants.kOI.RUN_HOPPER)
+                                .whenPressed(new ParallelCommandGroup(
+                                                new RunCommand(shooter::runKicker, shooter),
+                                                new RunCommand(hopper::runHopper, hopper)))
+                                .whenReleased(new ParallelCommandGroup(
+                                                new RunCommand(shooter::stopKicker, intake),
+                                                new RunCommand(hopper::stop, hopper)));
+
+                // reverse hopper
+                new JoystickButton(driveController, Constants.kOI.REVERSE_HOPPER)
+                                .whenPressed(new ParallelCommandGroup(
+                                                new RunCommand(shooter::reverseKicker, shooter),
+                                                new RunCommand(hopper::reverseHopper, hopper)))
+                                .whenReleased(new ParallelCommandGroup(
+                                                new RunCommand(shooter::stopKicker, shooter),
+                                                new RunCommand(hopper::stop, hopper)));
+
+                // Actuate Intake
+                /*
+                 * new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
+                 * .whenPressed(new InstantCommand(intake::toggleIntake, intake));
+                 */
+
+                // Run Intake
+                new JoystickButton(driveController, Constants.kOI.RUN_INTAKE)
+                                .whenPressed(new ParallelCommandGroup(
+                                                new RunCommand(intake::runIntake, intake)))
+                                // new RunCommand(hopper::runHopper, hopper)))
+                                .whenReleased(new ParallelCommandGroup(
+                                                new RunCommand(intake::stop, intake)));
+                // new RunCommand(hopper::stop, hopper)));
+
+                // Reverse Intake
+                new JoystickButton(driveController, Constants.kOI.REVERSE_INTAKE)
+                                .whenPressed(new ParallelCommandGroup(
+                                                new RunCommand(shooter::reverseKicker, shooter),
+                                                new RunCommand(hopper::reverseHopper, hopper),
+                                                new RunCommand(intake::reverseIntake, intake)))
+                                .whenReleased(new ParallelCommandGroup(
+                                                new RunCommand(shooter::stopKicker, shooter),
+                                                new RunCommand(hopper::stop, hopper),
+                                                new RunCommand(intake::stop, intake)));
+
+                // Run Shooter
+                new JoystickButton(driveController, Constants.kOI.RUN_SHOOTER)
+                                .whenPressed(new RunCommand(() -> shooter.setSetpoint(), shooter))
+                                .whenReleased(new RunCommand(() -> shooter.zeroSetpoint(), shooter));
+
+                drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
+                                OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
+        }
+
+        public Command getAutonomousCommand() {
+                // An ExampleCommand will run in autonomous
+                return null;
+        }
 
 }

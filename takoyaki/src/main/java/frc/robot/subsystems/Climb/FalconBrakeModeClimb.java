@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import javax.imageio.spi.RegisterableService;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
@@ -32,7 +35,7 @@ public class FalconBrakeModeClimb extends Climb {
     // right.follow(left);
 
     left.setInverted(TalonFXInvertType.CounterClockwise);
-    right.setInverted(TalonFXInvertType.OpposeMaster);
+    right.setInverted(TalonFXInvertType.Clockwise);
   }
 
   public void zeroClimbEncoders() {
@@ -50,32 +53,38 @@ public class FalconBrakeModeClimb extends Climb {
   public void defaultCommand(double openLoopLeft, double openLoopRight) {
     if (!closedLoop) {
       left.set(ControlMode.PercentOutput, normalizeInput(openLoopLeft));
-      left.set(ControlMode.PercentOutput, normalizeInput(openLoopRight));
-    } else {
-      if (goingUp) {
-        if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
-          left.set(ControlMode.PercentOutput, 0);
-        }
-        if (right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
-          right.set(ControlMode.PercentOutput, 0);
-        }
-        if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL
-            && right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
-          closedLoop = false;
-        }
-      } else {
-        if (left.getSelectedSensorPosition() >= Constants.kClimb.BOTTOM_ENCODER_VAL) {
-          left.set(ControlMode.PercentOutput, 0);
-        }
-        if (right.getSelectedSensorPosition() >= Constants.kClimb.BOTTOM_ENCODER_VAL) {
-          right.set(ControlMode.PercentOutput, 0);
-        }
-        if (left.getSelectedSensorPosition() >= Constants.kClimb.TOP_ENCODER_VAL
-            && right.getSelectedSensorPosition() >= Constants.kClimb.TOP_ENCODER_VAL) {
-          closedLoop = false;
-        }
-      }
-    }
+      right.set(ControlMode.PercentOutput, normalizeInput(openLoopRight));
+    } /*
+       * else {
+       * if (goingUp) {
+       * if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
+       * left.set(ControlMode.PercentOutput, 0);
+       * }
+       * if (right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
+       * right.set(ControlMode.PercentOutput, 0);
+       * }
+       * if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL
+       * && right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
+       * closedLoop = false;
+       * }
+       * } else {
+       * if (left.getSelectedSensorPosition() >= Constants.kClimb.BOTTOM_ENCODER_VAL)
+       * {
+       * left.set(ControlMode.PercentOutput, 0);
+       * }
+       * if (right.getSelectedSensorPosition() >= Constants.kClimb.BOTTOM_ENCODER_VAL)
+       * {
+       * right.set(ControlMode.PercentOutput, 0);
+       * }
+       * if (left.getSelectedSensorPosition() >= Constants.kClimb.TOP_ENCODER_VAL
+       * && right.getSelectedSensorPosition() >= Constants.kClimb.TOP_ENCODER_VAL) {
+       * closedLoop = false;
+       * }
+       * }
+       * 
+       * }
+       */
+
   }
 
   public double normalizeInput(double joystickInput) {
