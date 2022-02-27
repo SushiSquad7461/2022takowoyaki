@@ -114,15 +114,15 @@ public class FalconDrivetrain extends Drivetrain {
   public void periodic() {
     // find IMU zero offset after calibration
     if (!nav.isCalibrating() && !navZeroed) {
-      zeroOffset = nav.getYaw();
+      zeroOffset = getHeading();
       navZeroed = true;
     }
 
-    odometry.update(new Rotation2d(Math.toRadians(-(nav.getYaw() - angleOffset))), 
+    odometry.update(new Rotation2d(Math.toRadians(-(getHeading() - angleOffset))), 
     frontLeft.getSelectedSensorPosition() * Constants.kDrive.TICKS_TO_METERS,
     frontRight.getSelectedSensorPosition() * Constants.kDrive.TICKS_TO_METERS);
   
-    SmartDashboard.putNumber("heading", -(nav.getYaw() - zeroOffset));
+    SmartDashboard.putNumber("heading", -(getHeading() - zeroOffset));
     SmartDashboard.putNumber("odometry x", odometry.getPoseMeters().getX());
     SmartDashboard.putNumber("odometry y", odometry.getPoseMeters().getY());
   }
@@ -146,7 +146,7 @@ public class FalconDrivetrain extends Drivetrain {
   // reset odometry to given pose
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    odometry.resetPosition(pose, new Rotation2d(-(nav.getYaw() - zeroOffset)));
+    odometry.resetPosition(pose, new Rotation2d(-(getHeading() - zeroOffset)));
   }
 
   public void setOdometry(Trajectory traj) {
@@ -183,7 +183,7 @@ public class FalconDrivetrain extends Drivetrain {
 
   // return heading in degrees (-180 to 180)
   public double getHeading() {
-    return nav.getYaw();
+    return -nav.getYaw();
     // note: getAngle returns accumulated yaw (can be <0 or >360)
     //   getYaw has a 360 degree period
   }
@@ -193,6 +193,7 @@ public class FalconDrivetrain extends Drivetrain {
     // negative since navx's positive direction is opposite of the expected/wpilib standard
     return -nav.getRate();
   }
+
 
   // set motors to brake mode
   public void setBrake() {

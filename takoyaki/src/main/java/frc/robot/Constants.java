@@ -45,7 +45,7 @@ public class Constants {
     public static final double SPEED = 0.7;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
-    public static final long JERKINESS = 100;
+    public static final long JERKINESS = 50;
   }
 
   public static final class kIntake {
@@ -84,10 +84,10 @@ public class Constants {
     public static final double STATOR_CURRENT_LIMIT = 30;
 
     // char values for garage carpet
-    public static final double ksVolts = 0.0; // 0.66412
-    public static final double kvVoltSecondsPerMeter = 0; // 1.6846
-    public static final double kaVoltSecondsSquaredPerMeter = 0; // 0.23884
-    public static final double kPDriveVel = 0.0000;
+    public static final double ksVolts = 0.72366; // 0.66412
+    public static final double kvVoltSecondsPerMeter = 2.32730; // 1.6846
+    public static final double kaVoltSecondsSquaredPerMeter = 0.32734; // 0.23884
+    public static final double kPDriveVel = 0.00003;
     public static final double kIDrive = 0;
     public static final double kDDrive = 0;
 
@@ -116,7 +116,7 @@ public class Constants {
     // ticks to meters conversion factor for falcon 500
     // (total ticks) * (motor rotations/tick) * (wheel rotations/motor rotations) *
     // (meters/wheel rotations)
-    public static final double TICKS_TO_METERS = (1.0 / 2048.0) * (1.0 / 7.31) * (0.4788);
+    public static final double TICKS_TO_METERS = (1.0 / 2048.0) * (1.0 / 10.71) * (0.4788);
 
     // ramsete parameters
     public static final double RAMSETE_B = 2;
@@ -129,8 +129,8 @@ public class Constants {
     }
 
     public static final class kClosedLoop {
-      public static final double SETPOINT = 3400.0 * 2048.0 / 600.0;
-      public static final double ERROR_TOLERANCE = 30.0;
+      public static final double SETPOINT = 3290.0 * 2048.0 / 600.0;
+      public static final double ERROR_TOLERANCE = 15.0 * 2048.0 / 600.0;
     }
 
     public static int LEFT_MOTOR_ID;
