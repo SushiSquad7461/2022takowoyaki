@@ -84,10 +84,10 @@ public class Constants {
     public static final double STATOR_CURRENT_LIMIT = 30;
 
     // char values for garage carpet
-    public static final double ksVolts = 0.72366; // 0.66412
-    public static final double kvVoltSecondsPerMeter = 2.32730; // 1.6846
-    public static final double kaVoltSecondsSquaredPerMeter = 0.32734; // 0.23884
-    public static final double kPDriveVel = 0.00003;
+    public static final double ksVolts = 0.66858; // 0.66412
+    public static final double kvVoltSecondsPerMeter = 2.3302; // 1.6846
+    public static final double kaVoltSecondsSquaredPerMeter = 0.36796; // 0.23884
+    public static final double kPDriveVel = 0.000027434;
     public static final double kIDrive = 0;
     public static final double kDDrive = 0;
 
