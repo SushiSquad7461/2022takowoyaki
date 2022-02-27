@@ -47,12 +47,15 @@ public class FalconSolenoidIntake extends Intake {
     intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, -Constants.kIntake.INTAKE_SPEED);
   }
 
+  // toggles intake extension
   public void toggleIntake() {
-    // if (rightSolenoid.get() == Value.kReverse) {
-    //   rightSolenoid.set(Value.kForward);
-    // } else {
-    //   rightSolenoid.set(Value.kReverse);
-    // }
+    if (rightSolenoid.get() == Value.kReverse) {
+      rightSolenoid.set(Value.kForward);
+      intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, Constants.kIntake.INTAKE_SPEED);
+    } else {
+      rightSolenoid.set(Value.kReverse);
+      intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, 0);
+    }
   }
 
   @Override

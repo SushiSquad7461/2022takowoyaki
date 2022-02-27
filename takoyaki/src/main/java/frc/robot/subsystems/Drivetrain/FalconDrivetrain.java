@@ -16,6 +16,9 @@ public class FalconDrivetrain extends Drivetrain {
   private final WPI_TalonFX backLeft;
   private final WPI_TalonFX frontRight;
   private final WPI_TalonFX backRight;
+  private final DifferentialDrive diffDrive;
+
+  private int inverted; // 1 is forward, -1 is reverse
 
   // private final DifferentialDrive diffDrive;
 
@@ -27,7 +30,7 @@ public class FalconDrivetrain extends Drivetrain {
     backRight = new WPI_TalonFX(16);
 
     // instantiate differential drive
-    // diffDrive = new DifferentialDrive(frontLeft, frontRight);
+    diffDrive = new DifferentialDrive(frontLeft, frontRight);
 
     /* factory default values */
     frontLeft.configFactoryDefault();
@@ -45,10 +48,8 @@ public class FalconDrivetrain extends Drivetrain {
     backLeft.setInverted(TalonFXInvertType.CounterClockwise);
     frontRight.setInverted(TalonFXInvertType.Clockwise);
     backRight.setInverted(TalonFXInvertType.Clockwise);
-    /*
-     * WPI drivetrain classes defaultly assume left and right are opposite. call
-     * this so we can apply + to both sides when moving forward. DO NOT CHANGE
-     */
+
+    inverted = 1;
   }
 
   public void setToBrakeMode() {
@@ -69,7 +70,7 @@ public class FalconDrivetrain extends Drivetrain {
     if (isQuickturn) {
       angularVelocity /= 3;
     }
-    // diffDrive.curvatureDrive(linearVelocity, angularVelocity, isQuickturn);
+    diffDrive.curvatureDrive(linearVelocity * inverted, angularVelocity, isQuickturn);
   }
 
   public void breakInGearboxes() {
@@ -77,6 +78,10 @@ public class FalconDrivetrain extends Drivetrain {
     double motorPower = Math.sin(System.currentTimeMillis() * speed);
     // diffDrive.curvatureDrive(motorPower, 1, false);
     frontRight.set(motorPower);
+  }
+
+  public void invertDrive() {
+    inverted *= -1;
   }
 
   @Override
