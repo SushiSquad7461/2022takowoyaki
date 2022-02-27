@@ -43,6 +43,10 @@ public class SparkSolenoidIntake extends Intake {
   }
 
   public void reverseIntake() {
+    runIntakeBackwards();
+  }
+
+  public void runIntakeBackwards() {
     intakeMotor.set(-Constants.kIntake.INTAKE_SPEED);
   }
 

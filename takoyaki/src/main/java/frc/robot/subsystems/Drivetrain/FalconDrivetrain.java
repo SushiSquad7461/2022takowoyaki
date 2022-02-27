@@ -73,7 +73,7 @@ public class FalconDrivetrain extends Drivetrain {
 
   public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn) {
     if (isQuickturn) {
-      angularVelocity /= 3;
+      angularVelocity /= Constants.kDrive.QUICKTURN_DAMPENER;
     }
     diffDrive.curvatureDrive(linearVelocity * inverted, angularVelocity * inverted, isQuickturn);
   }
