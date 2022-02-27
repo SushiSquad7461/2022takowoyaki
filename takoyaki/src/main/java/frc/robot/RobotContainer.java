@@ -72,7 +72,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(driveController, Constants.kOI.SHOOT)
-        .whenPressed(new AutoShoot(shooter, hopper, intake).withTimeout(1));
+        .whenHeld(new AutoShoot(shooter, hopper, intake));
 
     // shoot ball (hopper + kicker)
     /*new JoystickButton(driveController, Constants.kOI.SHOOT)
