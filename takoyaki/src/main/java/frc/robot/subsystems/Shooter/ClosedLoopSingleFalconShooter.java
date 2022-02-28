@@ -11,15 +11,14 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ClosedLoopFalconShooter extends Shooter {
-  private final WPI_TalonFX left = new WPI_TalonFX(5);
-  private final WPI_TalonFX right = new WPI_TalonFX(14);
-  private final WPI_TalonSRX kicker = new WPI_TalonSRX(0);
+public class ClosedLoopSingleFalconShooter extends Shooter {
+  private final WPI_TalonFX left = new WPI_TalonFX(Constants.kShooter.LEFT_MOTOR_ID);
+  private final WPI_TalonFX right = new WPI_TalonFX(Constants.kShooter.RIGHT_MOTOR_ID);
+  private final WPI_TalonSRX kicker = new WPI_TalonSRX(Constants.kShooter.KICKER_MOTOR_ID);
 
   private final SimpleMotorFeedforward fForward;
 
@@ -27,33 +26,34 @@ public class ClosedLoopFalconShooter extends Shooter {
 
   private double setpoint;
 
-  public ClosedLoopFalconShooter() {
+  public ClosedLoopSingleFalconShooter() {
     left.setNeutralMode(NeutralMode.Coast);
     right.setNeutralMode(NeutralMode.Coast);
     kicker.setNeutralMode(NeutralMode.Brake);
 
     left.setInverted(TalonFXInvertType.CounterClockwise);
     right.setInverted(TalonFXInvertType.Clockwise);
-    kicker.setInverted(!Constants.kShooter.KICKER_INVERSION);
+    kicker.setInverted(Constants.kShooter.KICKER_INVERSION);
 
-    left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kP,
+    left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kSingleClosedLoop.kP,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kI,
+    left.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kSingleClosedLoop.kI,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kD,
+    left.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kSingleClosedLoop.kD,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kF,
+    left.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kSingleClosedLoop.kF,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
 
     right.follow(left);
 
-    fForward = new SimpleMotorFeedforward(Constants.kShooter.kS, Constants.kShooter.kV, Constants.kShooter.kA);
+    fForward = new SimpleMotorFeedforward(Constants.kShooter.kSingleClosedLoop.kS,
+        Constants.kShooter.kSingleClosedLoop.kV, Constants.kShooter.kSingleClosedLoop.kA);
 
     this.zeroSetpoint();
   }
 
   public void runShooter() {
-    left.set(ControlMode.PercentOutput, Constants.kShooter.SPEED);
+    left.set(ControlMode.PercentOutput, Constants.kShooter.kOpenLoop.SPEED);
   }
 
   public void stopShooter() {
@@ -64,20 +64,12 @@ public class ClosedLoopFalconShooter extends Shooter {
     kicker.set(ControlMode.PercentOutput, Constants.kShooter.SPEED_KICKER);
   }
 
-  public void reverseKicker() {
-    kicker.set(ControlMode.PercentOutput, -Constants.kShooter.SPEED_KICKER);
-  }
-
-
   public void stopKicker() {
     kicker.set(ControlMode.PercentOutput, 0);
   }
 
-  
-  @Override
-  public void setSetpoint(double setpoint) {
-    SmartDashboard.putBoolean("Setpoint set", true);
-    this.setpoint = setpoint;
+  public void reverseKicker() {
+    kicker.set(ControlMode.PercentOutput, -Constants.kShooter.SPEED_KICKER);
   }
 
   public void zeroSetpoint() {
@@ -86,7 +78,7 @@ public class ClosedLoopFalconShooter extends Shooter {
   }
 
   public void setSetpoint() {
-    this.setpoint = Constants.kShooter.kClosedLoop.SETPOINT;
+    this.setpoint = Constants.kShooter.kSingleClosedLoop.SETPOINT;
   }
 
   @Override
@@ -108,7 +100,8 @@ public class ClosedLoopFalconShooter extends Shooter {
   }
 
   public boolean isAtSpeed() {
-    if((left.getSelectedSensorVelocity() * 2048.0 / 600.0) >= (Constants.kShooter.kClosedLoop.SETPOINT * 0.9)) {
+    if ((Constants.convertRPMtoTrans(
+        left.getSelectedSensorVelocity())) >= (Constants.kShooter.kSingleClosedLoop.SETPOINT * 0.9)) {
       return true;
     } else {
       return false;

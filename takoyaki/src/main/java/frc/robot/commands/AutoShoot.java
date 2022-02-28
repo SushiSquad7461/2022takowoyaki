@@ -11,10 +11,11 @@ import frc.robot.subsystems.Shooter.Shooter;
 
 /** An example command that uses an example subsystem. */
 public class AutoShoot extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final Shooter shooter;
   private final Hopper hopper;
   private final Intake intake;
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -36,7 +37,7 @@ public class AutoShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(shooter.isAtSpeed()) {
+    if (shooter.isAtSpeed()) {
       hopper.runHopper();
       shooter.runKicker();
       intake.runIntake();
@@ -48,7 +49,7 @@ public class AutoShoot extends CommandBase {
   public void end(boolean interrupted) {
     hopper.stop();
     shooter.stopKicker();
-    shooter.setSetpoint(0);
+    shooter.zeroSetpoint();
     intake.stop();
   }
 

@@ -16,6 +16,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Constants {
+  // the unit of measurement for Talon FX encoder velocity is known as the "Tran"
+  // encoder ticks per 100ms
+  public static double convertRPMtoTrans(double RPM) {
+    return RPM * 2048.0 / 600.0;
+  }
+
+  // used for unit conversions for ff constants on talon fx
+  public static double voltageToPercent(double voltage) {
+    return voltage / 12.0;
+  }
 
   public static final class kOI {
     public static final int DRIVE_CONTROLLER = 0;
@@ -77,26 +87,56 @@ public class Constants {
   }
 
   public static final class kShooter {
+
     public static final class kOpenLoop {
-      public static final double SETPOINT = 1;
+      public static final double SPEED = 1;
+      public static final double BACK_SPEED = 1; // only used on double shooters
     }
 
-    public static final class kClosedLoop {
-      public static final double SETPOINT = 3400.0 * 2048.0 / 600.0;
+    public static final class kSingleClosedLoop {
+      public static final double SETPOINT = convertRPMtoTrans(3400.0);
+
+      public static double kP = 0.2;
+      public static double kI = 0.0000;
+      public static double kD = .0;
+      public static double kF = 0.05;
+      public static double kS = voltageToPercent(0.61716);
+      public static double kV = voltageToPercent(0.10724);
+      public static double kA = voltageToPercent(0.0082862);
+
+    }
+
+    public static final class kDoubleClosedLoop {
+      public static int BACK_MOTOR_ID;
+
+      public static final class kFront {
+        public static final double SETPOINT = convertRPMtoTrans(3400.0);
+        public static double kP;
+        public static double kI;
+        public static double kD;
+        public static double kF;
+        public static double kS = voltageToPercent(0.61716);
+        public static double kV = voltageToPercent(0.10724);
+        public static double kA = voltageToPercent(0.0082862);
+      }
+
+      public static final class kBack {
+        public static final double SETPOINT = convertRPMtoTrans(3400.0);
+        public static double kP = 0.2;
+        public static double kI = 0.0000;
+        public static double kD = .0;
+        public static double kF = 0.05;
+        public static double kS = voltageToPercent(0.61716);
+        public static double kV = voltageToPercent(0.10724);
+        public static double kA = voltageToPercent(0.0082862);
+
+      }
     }
 
     public static int LEFT_MOTOR_ID;
     public static int RIGHT_MOTOR_ID;
     public static int KICKER_MOTOR_ID;
-    public static final double SPEED = 0.9;
     public static final int CURRENT_LIMIT = 35;
-    public static double kP = 0.2;
-    public static double kI = 0.0000;
-    public static double kD = .0;
-    public static double kF = 0.05;
-    public static double kS = 0.61716 / 12.0;
-    public static double kV = 0.10724 / 12.0;
-    public static double kA = 0.0082862 / 12.0;
     public static final int DEFAULT_PROFILE_SLOT = 0;
     public static final int DEFAULT_CONFIG_TIMEOUT = 100;
 
@@ -104,71 +144,74 @@ public class Constants {
 
     public static final double SPEED_KICKER = 1;
   }
-  enum RobotType{
+
+  enum RobotType {
     PRACTICE,
     COMP
   }
+
   public static void setup() {
     RobotType robot = getRobotType();
-    switch(robot) {
-        case PRACTICE: 
-        //   kHopper.MOTOR_ID = 10;
-        //   kIntake.MOTOR_ID = 8;
-        //   kIntake.SOLENOID_FRONT = 1;
-        //   kIntake.SOLENOID_BACK = 0;
-        //   kDrive.FRONT_RIGHT_ID = 3;
-        //   kDrive.FRONT_LEFT_ID = 1;
-        //   kDrive.BACK_RIGHT_ID = 4;
-        //   kDrive.BACK_LEFT_ID = 2;
-        //   kShooter.LEFT_MOTOR_ID = 12;
-        //   kShooter.RIGHT_MOTOR_ID = 15;
-        //   kShooter.KICKER_MOTOR_ID = 5;
-          kHopper.MOTOR_ID = 10;
-          kIntake.MOTOR_ID = 8;
-          kIntake.LEFT_SOLENOID_FORWARD = -1;
-          kIntake.LEFT_SOLENOID_REVERSE = -1;
-          kIntake.RIGHT_SOLENOID_FORWARD = -1;
-          kIntake.RIGHT_SOLENOID_REVERSE = -1;
-          kDrive.FRONT_RIGHT_ID = 3;
-          kDrive.FRONT_LEFT_ID = 1;
-          kDrive.BACK_RIGHT_ID = 4;
-          kDrive.BACK_LEFT_ID = 2;
-          kShooter.LEFT_MOTOR_ID = 12;
-          kShooter.RIGHT_MOTOR_ID = 15;
-          kShooter.KICKER_MOTOR_ID = 5;
-          kShooter.kP = 0.15;
-          kShooter.kI = 0.0000;
-          kShooter.kD = 0.0;
-          kShooter.kF = 0.045;
-          kHopper.INVERTED = false;
-          kShooter.KICKER_INVERSION = true;
-          break;
-        default:
-          kHopper.MOTOR_ID = 10;
-          kIntake.MOTOR_ID = 9;
-          kIntake.LEFT_SOLENOID_FORWARD = 14;
-          kIntake.LEFT_SOLENOID_REVERSE = 15;
-          kIntake.RIGHT_SOLENOID_FORWARD = 2;
-          kIntake.RIGHT_SOLENOID_REVERSE = 1;
-          kDrive.FRONT_RIGHT_ID = 15;
-          kDrive.FRONT_LEFT_ID = 4;
-          kDrive.BACK_RIGHT_ID = 16;
-          kDrive.BACK_LEFT_ID = 3;
-          kShooter.LEFT_MOTOR_ID = 5;
-          kShooter.RIGHT_MOTOR_ID = 14;
-          kShooter.KICKER_MOTOR_ID = 0;
-          kShooter.kP = 0.20;
-          kShooter.kI = 0.0000;
-          kShooter.kD = 0.0;
-          kShooter.kF = 0.05;
-          kHopper.INVERTED = true;
-          kShooter.KICKER_INVERSION = false;
-          break;
+    switch (robot) {
+      case PRACTICE:
+        // kHopper.MOTOR_ID = 10;
+        // kIntake.MOTOR_ID = 8;
+        // kIntake.SOLENOID_FRONT = 1;
+        // kIntake.SOLENOID_BACK = 0;
+        // kDrive.FRONT_RIGHT_ID = 3;
+        // kDrive.FRONT_LEFT_ID = 1;
+        // kDrive.BACK_RIGHT_ID = 4;
+        // kDrive.BACK_LEFT_ID = 2;
+        // kShooter.LEFT_MOTOR_ID = 12;
+        // kShooter.RIGHT_MOTOR_ID = 15;
+        // kShooter.KICKER_MOTOR_ID = 5;
+        kHopper.MOTOR_ID = 10;
+        kIntake.MOTOR_ID = 8;
+        kIntake.LEFT_SOLENOID_FORWARD = -1;
+        kIntake.LEFT_SOLENOID_REVERSE = -1;
+        kIntake.RIGHT_SOLENOID_FORWARD = -1;
+        kIntake.RIGHT_SOLENOID_REVERSE = -1;
+        kDrive.FRONT_RIGHT_ID = 3;
+        kDrive.FRONT_LEFT_ID = 1;
+        kDrive.BACK_RIGHT_ID = 4;
+        kDrive.BACK_LEFT_ID = 2;
+        kShooter.LEFT_MOTOR_ID = 12;
+        kShooter.RIGHT_MOTOR_ID = 15;
+        kShooter.KICKER_MOTOR_ID = 5;
+        kShooter.kDoubleClosedLoop.kFront.kP = 0.15;
+        kShooter.kDoubleClosedLoop.kFront.kI = 0.0000;
+        kShooter.kDoubleClosedLoop.kFront.kD = 0.0;
+        kShooter.kDoubleClosedLoop.kFront.kF = 0.045;
+        kHopper.INVERTED = false;
+        kShooter.KICKER_INVERSION = true;
+        break;
+      default:
+        kHopper.MOTOR_ID = 10;
+        kIntake.MOTOR_ID = 9;
+        kIntake.LEFT_SOLENOID_FORWARD = 14;
+        kIntake.LEFT_SOLENOID_REVERSE = 15;
+        kIntake.RIGHT_SOLENOID_FORWARD = 2;
+        kIntake.RIGHT_SOLENOID_REVERSE = 1;
+        kDrive.FRONT_RIGHT_ID = 15;
+        kDrive.FRONT_LEFT_ID = 4;
+        kDrive.BACK_RIGHT_ID = 16;
+        kDrive.BACK_LEFT_ID = 3;
+        kShooter.LEFT_MOTOR_ID = 5;
+        kShooter.RIGHT_MOTOR_ID = 14;
+        kShooter.KICKER_MOTOR_ID = 0;
+        kShooter.kDoubleClosedLoop.kFront.kP = 0.20;
+        kShooter.kDoubleClosedLoop.kFront.kI = 0.0000;
+        kShooter.kDoubleClosedLoop.kFront.kD = 0.0;
+        kShooter.kDoubleClosedLoop.kFront.kF = 0.05;
+        kHopper.INVERTED = true;
+        kShooter.KICKER_INVERSION = false;
+        break;
     }
   }
+
   public static RobotType getRobotType() {
-    //Map<String, String> env = System.getenv();
-    //SmartDashboard.putString("Home", env.get("HOME"));
+    // Map<String, String> env = System.getenv();
+    // SmartDashboard.putString("Home", env.get("HOME"));
     File f = new File("/home/lvuser/id.txt");
     int id = 0;
     String errorMsg = "success";
@@ -176,17 +219,17 @@ public class Constants {
       Scanner reader = new Scanner(f);
       id = reader.nextInt();
       reader.close();
-    } catch (FileNotFoundException e){
-      errorMsg="file not found exception";
+    } catch (FileNotFoundException e) {
+      errorMsg = "file not found exception";
       SmartDashboard.putString("robot type status", errorMsg);
     }
-    if(id == 1) {
+    if (id == 1) {
       SmartDashboard.putString("robot", "practice");
       return RobotType.PRACTICE;
     } else {
       SmartDashboard.putString("robot", "comp");
       return RobotType.COMP;
     }
-    
+
   }
 }

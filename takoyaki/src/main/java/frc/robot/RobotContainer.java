@@ -8,16 +8,13 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Hopper.TalonHopper;
-import frc.robot.subsystems.Hopper.VictorHopper;
 import frc.robot.commands.AutoShoot;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
-import frc.robot.subsystems.Intake.FalconNoDeploymentIntake;
 import frc.robot.subsystems.Intake.FalconSolenoidIntake;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
-import frc.robot.subsystems.Shooter.ClosedLoopFalconComp;
-import frc.robot.subsystems.Shooter.ClosedLoopFalconShooter;
+import frc.robot.subsystems.Shooter.ClosedLoopDoubleFalconShooter;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -31,7 +28,7 @@ public class RobotContainer {
   private final Intake intake;
   private final Shooter shooter;
   private final Drivetrain drivetrain;
-  
+
   // controllers
   private final XboxController driveController;
   private final XboxController operatorController;
@@ -45,7 +42,7 @@ public class RobotContainer {
     // subsystems
     hopper = new TalonHopper();
     intake = new FalconSolenoidIntake();
-    shooter = new ClosedLoopFalconComp();
+    shooter = new ClosedLoopDoubleFalconShooter();
     drivetrain = new FalconDrivetrain();
 
     // controllers
@@ -75,13 +72,15 @@ public class RobotContainer {
         .whenHeld(new AutoShoot(shooter, hopper, intake));
 
     // shoot ball (hopper + kicker)
-    /*new JoystickButton(driveController, Constants.kOI.SHOOT)
-        .whenPressed(new ParallelCommandGroup(
-            new RunCommand(shooter::runKicker, shooter),
-            new RunCommand(hopper::runHopper, hopper)))
-        .whenReleased(new ParallelCommandGroup(
-            new RunCommand(shooter::stopKicker, intake),
-            new RunCommand(hopper::stop, hopper)));*/
+    /*
+     * new JoystickButton(driveController, Constants.kOI.SHOOT)
+     * .whenPressed(new ParallelCommandGroup(
+     * new RunCommand(shooter::runKicker, shooter),
+     * new RunCommand(hopper::runHopper, hopper)))
+     * .whenReleased(new ParallelCommandGroup(
+     * new RunCommand(shooter::stopKicker, intake),
+     * new RunCommand(hopper::stop, hopper)));
+     */
 
     // invert drive direction
     new JoystickButton(driveController, Constants.kOI.INVERT_DRIVE)
