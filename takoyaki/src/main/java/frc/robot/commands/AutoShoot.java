@@ -6,46 +6,51 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Hopper.Hopper;
+import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
 
 /** An example command that uses an example subsystem. */
 public class AutoShoot extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Shooter s_shooter;
-  private final Hopper s_hopper;
+  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
+  private final Shooter shooter;
+  private final Hopper hopper;
+  private final Intake intake;
+
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutoShoot(Shooter shooter, Hopper hopper) {
-    s_shooter = shooter;
-    s_hopper = hopper;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter, hopper);
+  public AutoShoot(Shooter shooter, Hopper hopper, Intake intake) {
+    this.shooter = shooter;
+    this.hopper = hopper;
+    this.intake = intake;
+    addRequirements(shooter, hopper, intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    s_shooter.setSetpoint();
+    shooter.setSetpoint();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(s_shooter.isAtSpeed()) {
-      s_hopper.runHopper();
-      s_shooter.runKicker();
+    if (shooter.isAtSpeed()) {
+      hopper.runHopper();
+      shooter.runKicker();
+      intake.runIntake();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    s_hopper.stop();
-    s_shooter.stopKicker();
-    s_shooter.setSetpoint(0);
+    hopper.stop();
+    shooter.stopKicker();
+    shooter.setSetpoint(0);
+    intake.stop();
   }
 
   // Returns true when the command should end.

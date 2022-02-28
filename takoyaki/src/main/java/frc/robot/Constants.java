@@ -1,4 +1,4 @@
-  // Copyright (c) FIRST and other WPILib contributors.
+// Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -22,18 +22,20 @@ public class Constants {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;
 
+    // drive constants
+    public static final int INVERT_DRIVE = XboxController.Button.kY.value;
+
     // hopper buttons
-    public static final int RUN_HOPPER = XboxController.Button.kRightBumper.value;
-    public static final int REVERSE_HOPPER = XboxController.Button.kBack.value;
+    public static final int SHOOT = XboxController.Button.kB.value;
+    public static final int REVERSE_SHOOT = XboxController.Button.kBack.value;
 
     // intake buttons
-    public static final int TOGGLE_INTAKE = XboxController.Button.kLeftBumper.value;
-
+    public static final int TOGGLE_INTAKE = XboxController.Button.kA.value;
     public static final int RUN_INTAKE = XboxController.Button.kA.value;
     public static final int REVERSE_INTAKE = XboxController.Button.kStart.value;
 
     // shooter buttons
-    public static final int RUN_SHOOTER = XboxController.Button.kB.value;
+    public static final int REV_SHOOTER = XboxController.Button.kB.value;
 
     public static final String TRAJECTORY_NAME = "path";
   }
@@ -45,7 +47,7 @@ public class Constants {
     public static final double SPEED = 1;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
-    public static final long JERKINESS = 50;
+    public static final double JERKINESS = 100;
   }
 
   public static final class kIntake {
@@ -152,60 +154,63 @@ public class Constants {
 
     public static final double SPEED_KICKER = 1;
   }
-  enum RobotType{
+
+  enum RobotType {
     PRACTICE,
     COMP
   }
+
   public static void setup() {
     RobotType robot = getRobotType();
-    switch(robot) {
-        case PRACTICE: 
-          kHopper.MOTOR_ID = 10;
-          kIntake.MOTOR_ID = 8;
-          kIntake.LEFT_SOLENOID_FORWARD = -1;
-          kIntake.LEFT_SOLENOID_REVERSE = -1;
-          kIntake.RIGHT_SOLENOID_FORWARD = -1;
-          kIntake.RIGHT_SOLENOID_REVERSE = -1;
-          kDrive.FRONT_RIGHT_ID = 3;
-          kDrive.FRONT_LEFT_ID = 1;
-          kDrive.BACK_RIGHT_ID = 4;
-          kDrive.BACK_LEFT_ID = 2;
-          kShooter.LEFT_MOTOR_ID = 12;
-          kShooter.RIGHT_MOTOR_ID = 15;
-          kShooter.KICKER_MOTOR_ID = 5;
-          kShooter.kP = 0.15;
-          kShooter.kI = 0.0000;
-          kShooter.kD = 0.0;
-          kShooter.kF = 0.045;
-          kHopper.INVERTED = false;
-          kShooter.KICKER_INVERSION = true;
-          break;
-        default:
-          kHopper.MOTOR_ID = 10;
-          kIntake.MOTOR_ID = 9;
-          kIntake.LEFT_SOLENOID_FORWARD = 14;
-          kIntake.LEFT_SOLENOID_REVERSE = 15;
-          kIntake.RIGHT_SOLENOID_FORWARD = 2;
-          kIntake.RIGHT_SOLENOID_REVERSE = 1;
-          kDrive.FRONT_RIGHT_ID = 15;
-          kDrive.FRONT_LEFT_ID = 4;
-          kDrive.BACK_RIGHT_ID = 16;
-          kDrive.BACK_LEFT_ID = 3;
-          kShooter.LEFT_MOTOR_ID = 5;
-          kShooter.RIGHT_MOTOR_ID = 14;
-          kShooter.KICKER_MOTOR_ID = 0;
-          kShooter.kP = 0.20;
-          kShooter.kI = 0.0000;
-          kShooter.kD = 0.0;
-          kShooter.kF = 0.05;
-          kHopper.INVERTED = true;
-          kShooter.KICKER_INVERSION = false;
-          break;
+    switch (robot) {
+      case PRACTICE:
+        kHopper.MOTOR_ID = 10;
+        kIntake.MOTOR_ID = 8;
+        kIntake.LEFT_SOLENOID_FORWARD = -1;
+        kIntake.LEFT_SOLENOID_REVERSE = -1;
+        kIntake.RIGHT_SOLENOID_FORWARD = -1;
+        kIntake.RIGHT_SOLENOID_REVERSE = -1;
+        kDrive.FRONT_RIGHT_ID = 3;
+        kDrive.FRONT_LEFT_ID = 1;
+        kDrive.BACK_RIGHT_ID = 4;
+        kDrive.BACK_LEFT_ID = 2;
+        kShooter.LEFT_MOTOR_ID = 12;
+        kShooter.RIGHT_MOTOR_ID = 15;
+        kShooter.KICKER_MOTOR_ID = 5;
+        kShooter.kP = 0.15;
+        kShooter.kI = 0.0000;
+        kShooter.kD = 0.0;
+        kShooter.kF = 0.045;
+        kHopper.INVERTED = false;
+        kShooter.KICKER_INVERSION = true;
+        break;
+      default:
+        kHopper.MOTOR_ID = 10;
+        kIntake.MOTOR_ID = 9;
+        kIntake.LEFT_SOLENOID_FORWARD = 14;
+        kIntake.LEFT_SOLENOID_REVERSE = 15;
+        kIntake.RIGHT_SOLENOID_FORWARD = 2;
+        kIntake.RIGHT_SOLENOID_REVERSE = 1;
+        kDrive.FRONT_RIGHT_ID = 15;
+        kDrive.FRONT_LEFT_ID = 4;
+        kDrive.BACK_RIGHT_ID = 16;
+        kDrive.BACK_LEFT_ID = 3;
+        kShooter.LEFT_MOTOR_ID = 5;
+        kShooter.RIGHT_MOTOR_ID = 14;
+        kShooter.KICKER_MOTOR_ID = 0;
+        kShooter.kP = 0.20;
+        kShooter.kI = 0.0000;
+        kShooter.kD = 0.0;
+        kShooter.kF = 0.05;
+        kHopper.INVERTED = true;
+        kShooter.KICKER_INVERSION = false;
+        break;
     }
   }
+
   public static RobotType getRobotType() {
-    //Map<String, String> env = System.getenv();
-    //SmartDashboard.putString("Home", env.get("HOME"));
+    // Map<String, String> env = System.getenv();
+    // SmartDashboard.putString("Home", env.get("HOME"));
     File f = new File("/home/lvuser/id.txt");
     int id = 0;
     String errorMsg = "success";
@@ -213,17 +218,17 @@ public class Constants {
       Scanner reader = new Scanner(f);
       id = reader.nextInt();
       reader.close();
-    } catch (FileNotFoundException e){
-      errorMsg="file not found exception";
+    } catch (FileNotFoundException e) {
+      errorMsg = "file not found exception";
       SmartDashboard.putString("robot type status", errorMsg);
     }
-    if(id == 1) {
+    if (id == 1) {
       SmartDashboard.putString("robot", "practice");
       return RobotType.PRACTICE;
     } else {
       SmartDashboard.putString("robot", "comp");
       return RobotType.COMP;
     }
-    
+
   }
 }

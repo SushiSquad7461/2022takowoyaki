@@ -13,6 +13,7 @@
       "/LiveWindow/FalconSolenoidIntake": "Subsystem",
       "/LiveWindow/TalonHopper": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+<<<<<<< HEAD
       "/LiveWindow/Ungrouped/PIDController[10]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[11]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[12]": "PIDController",
@@ -109,6 +110,15 @@
           "visible": true
         }
       }
+=======
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Talon FX [14]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [16]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [3]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [5]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon SRX [0]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon SRX [10]": "Motor Controller"
+>>>>>>> main
     }
   },
   "NetworkTables Settings": {
@@ -166,7 +176,7 @@
               "autoFit": true
             }
           ],
-          "height": 332,
+          "height": -12,
           "series": [
             {
               "color": [
