@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class OpenLoopDoubleFalconShooter extends Shooter {
   private final WPI_TalonFX left = new WPI_TalonFX(Constants.kShooter.LEFT_MOTOR_ID);
   private final WPI_TalonFX right = new WPI_TalonFX(Constants.kShooter.RIGHT_MOTOR_ID);
-  private final WPI_TalonFX back = new WPI_TalonFX(Constants.kShooter.kDoubleClosedLoop.BACK_MOTOR_ID);
+  private final WPI_TalonFX back = new WPI_TalonFX(Constants.kShooter.BACK_MOTOR_ID);
   private final WPI_TalonSRX kicker = new WPI_TalonSRX(Constants.kShooter.KICKER_MOTOR_ID);
 
   public OpenLoopDoubleFalconShooter() {

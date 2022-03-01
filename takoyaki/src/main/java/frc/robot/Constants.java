@@ -136,6 +136,7 @@ public class Constants {
     public static int LEFT_MOTOR_ID;
     public static int RIGHT_MOTOR_ID;
     public static int KICKER_MOTOR_ID;
+    public static int BACK_MOTOR_ID;
     public static final int CURRENT_LIMIT = 35;
     public static final int DEFAULT_PROFILE_SLOT = 0;
     public static final int DEFAULT_CONFIG_TIMEOUT = 100;
@@ -199,6 +200,7 @@ public class Constants {
         kShooter.LEFT_MOTOR_ID = 5;
         kShooter.RIGHT_MOTOR_ID = 14;
         kShooter.KICKER_MOTOR_ID = 0;
+        kShooter.BACK_MOTOR_ID = 19;
         kShooter.kDoubleClosedLoop.kFront.kP = 0.20;
         kShooter.kDoubleClosedLoop.kFront.kI = 0.0000;
         kShooter.kDoubleClosedLoop.kFront.kD = 0.0;
