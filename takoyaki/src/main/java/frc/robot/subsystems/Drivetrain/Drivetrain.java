@@ -11,13 +11,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class Drivetrain extends SubsystemBase {
   public abstract void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn);
+
   public abstract void setBrake();
+
   public abstract void setCoast();
+
   public abstract void periodic();
+
   public abstract void simulationPeriodic();
 
-   // get current robot position
-   public abstract Pose2d getPose();
+  // get current robot position
+  public abstract Pose2d getPose();
 
   // return current wheel speeds
   public abstract DifferentialDriveWheelSpeeds getWheelSpeeds();
@@ -26,7 +30,7 @@ public abstract class Drivetrain extends SubsystemBase {
   public abstract void resetOdometry(Pose2d pose);
 
   public abstract void setOdometry(Trajectory traj);
-  
+
   // zero encoders
   public abstract void resetEncoders();
 
@@ -45,4 +49,6 @@ public abstract class Drivetrain extends SubsystemBase {
 
   // return turn rate deg/sec
   public abstract double getTurnRate();
+
+  public abstract void invertDrive();
 }

@@ -13,6 +13,7 @@ import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Hopper.TalonHopper;
 import frc.robot.subsystems.Hopper.VictorHopper;
 import frc.robot.Ramsete.RamsetePath;
+import frc.robot.commands.AutoShoot;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
 import frc.robot.subsystems.Intake.FalconNoDeploymentIntake;
@@ -36,7 +37,7 @@ public class RobotContainer {
   private final Shooter shooter;
   private final Drivetrain drivetrain;
 
-  // Controllers
+  // controllers
   private final XboxController driveController;
   private final XboxController operatorController;
 
@@ -48,10 +49,14 @@ public class RobotContainer {
 
   public RobotContainer() {
     Constants.setup();
+
+    // subsystems
     hopper = new TalonHopper();
     intake = new FalconSolenoidIntake();
     shooter = new ClosedLoopFalconComp();
     drivetrain = new FalconDrivetrain();
+
+    // controllers
     driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
     operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
 
@@ -79,17 +84,26 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    // run s_hopper
-    new JoystickButton(driveController, Constants.kOI.RUN_HOPPER)
-        .whenPressed(new ParallelCommandGroup(
-            new RunCommand(shooter::runKicker, shooter),
-            new RunCommand(hopper::runHopper, hopper)))
-        .whenReleased(new ParallelCommandGroup(
-            new RunCommand(shooter::stopKicker, intake),
-            new RunCommand(hopper::stop, hopper)));
+    new JoystickButton(driveController, Constants.kOI.SHOOT)
+        .whenHeld(new AutoShoot(shooter, hopper, intake));
 
-    // reverse s_hopper
-    new JoystickButton(driveController, Constants.kOI.REVERSE_HOPPER)
+    // shoot ball (hopper + kicker)
+    /*
+     * new JoystickButton(driveController, Constants.kOI.SHOOT)
+     * .whenPressed(new ParallelCommandGroup(
+     * new RunCommand(shooter::runKicker, shooter),
+     * new RunCommand(hopper::runHopper, hopper)))
+     * .whenReleased(new ParallelCommandGroup(
+     * new RunCommand(shooter::stopKicker, intake),
+     * new RunCommand(hopper::stop, hopper)));
+     */
+
+    // invert drive direction
+    new JoystickButton(driveController, Constants.kOI.INVERT_DRIVE)
+        .whenPressed(new InstantCommand(drivetrain::invertDrive, drivetrain));
+
+    // reverse shoot (hopper + kicker)
+    new JoystickButton(driveController, Constants.kOI.REVERSE_SHOOT)
         .whenPressed(new ParallelCommandGroup(
             new RunCommand(shooter::reverseKicker, shooter),
             new RunCommand(hopper::reverseHopper, hopper)))
@@ -97,22 +111,11 @@ public class RobotContainer {
             new RunCommand(shooter::stopKicker, shooter),
             new RunCommand(hopper::stop, hopper)));
 
-    // Actuate Intake
-    /*
-     * new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
-     * .whenPressed(new InstantCommand(intake::toggleIntake, intake));
-     */
+    // toggle intake
+    new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
+        .whenPressed(new InstantCommand(intake::toggleIntake, intake));
 
-    // Run Intake
-    new JoystickButton(driveController, Constants.kOI.RUN_INTAKE)
-        .whenPressed(new ParallelCommandGroup(
-            new RunCommand(intake::runIntake, intake)))
-        // new RunCommand(hopper::runHopper, hopper)))
-        .whenReleased(new ParallelCommandGroup(
-            new RunCommand(intake::stop, intake)));
-    // new RunCommand(hopper::stop, hopper)));
-
-    // Reverse Intake
+    // reverse intake
     new JoystickButton(driveController, Constants.kOI.REVERSE_INTAKE)
         .whenPressed(new ParallelCommandGroup(
             new RunCommand(shooter::reverseKicker, shooter),
@@ -123,13 +126,8 @@ public class RobotContainer {
             new RunCommand(hopper::stop, hopper),
             new RunCommand(intake::stop, intake)));
 
-    // Run Shooter
-    new JoystickButton(driveController, Constants.kOI.RUN_SHOOTER)
-        .whenPressed(new RunCommand(() -> shooter.setSetpoint(), shooter))
-        .whenReleased(new RunCommand(() -> shooter.zeroSetpoint(), shooter));
-
-    //drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
-    //    OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
+    drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
+        OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
   }
 
   public Command getAutonomousCommand() {
@@ -142,7 +140,7 @@ public class RobotContainer {
 
   public void setFieldTrajectory() {
     Trajectory concatTrajectory = new Trajectory();
-    for(RamsetePath p : autoSelector.pathArrayMap.get(autoChooser.getSelected())) {
+    for (RamsetePath p : autoSelector.pathArrayMap.get(autoChooser.getSelected())) {
       concatTrajectory = concatTrajectory.concatenate(p.getTrajectory());
     }
     field.getObject(Constants.kOI.TRAJECTORY_NAME).setTrajectory(concatTrajectory);

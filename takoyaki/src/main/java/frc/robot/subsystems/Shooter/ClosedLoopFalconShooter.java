@@ -68,12 +68,10 @@ public class ClosedLoopFalconShooter extends Shooter {
     kicker.set(ControlMode.PercentOutput, -Constants.kShooter.SPEED_KICKER);
   }
 
-
   public void stopKicker() {
     kicker.set(ControlMode.PercentOutput, 0);
   }
 
-  
   @Override
   public void setSetpoint(double setpoint) {
     SmartDashboard.putBoolean("Setpoint set", true);
@@ -91,8 +89,10 @@ public class ClosedLoopFalconShooter extends Shooter {
 
   public boolean isAtSpeed() {
     double difference = Math.abs(Constants.kShooter.kClosedLoop.SETPOINT - left.getSelectedSensorVelocity());
-    if (difference < Constants.kShooter.kClosedLoop.ERROR_TOLERANCE) return true;
-    else return false;
+    if (difference < Constants.kShooter.kClosedLoop.ERROR_TOLERANCE)
+      return true;
+    else
+      return false;
   }
 
   @Override
@@ -111,9 +111,5 @@ public class ClosedLoopFalconShooter extends Shooter {
       left.set(ControlMode.Velocity, setpoint);
     }
     // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
-  }
-
-  @Override
-  public void simulationPeriodic() {
   }
 }

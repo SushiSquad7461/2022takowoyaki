@@ -11,7 +11,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
@@ -29,7 +29,6 @@ public class FalconDrivetrain extends Drivetrain {
   private final WPI_TalonFX backLeft;
   private final WPI_TalonFX frontRight;
   private final WPI_TalonFX backRight;
-
   private final DifferentialDrive diffDrive;
 
   // odometry and autonomous
@@ -38,6 +37,9 @@ public class FalconDrivetrain extends Drivetrain {
   private double zeroOffset;
   private double angleOffset;
   boolean navZeroed;
+  private int inverted; // 1 is forward, -1 is reverse
+
+  // private final DifferentialDrive diffDrive;
 
   public FalconDrivetrain() {
 
@@ -67,30 +69,7 @@ public class FalconDrivetrain extends Drivetrain {
     frontRight.setInverted(TalonFXInvertType.Clockwise);
     backRight.setInverted(TalonFXInvertType.Clockwise);
 
-    /*frontLeft.configOpenloopRamp(0.5);
-    backLeft.configOpenloopRamp(0.5);
-    frontRight.configOpenloopRamp(0.5);
-    backRight.configOpenloopRamp(0.5);
-
-    frontLeft.configClosedloopRamp(0.5);
-    backLeft.configClosedloopRamp(0.5);
-    frontRight.configClosedloopRamp(0.5);
-    backRight.configClosedloopRamp(0.5);*/
-    
-    // frontLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.SUPPLY_CURRENT_LIMIT, 60, 1));
-    // backLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.SUPPLY_CURRENT_LIMIT, 60, 1));
-    // frontRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.SUPPLY_CURRENT_LIMIT, 60, 1));
-    // backRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.SUPPLY_CURRENT_LIMIT, 60, 1));
-
-    // frontLeft.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, Constants.kDrive.STATOR_CURRENT_LIMIT, 60, 5));
-    // backLeft.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, Constants.kDrive.STATOR_CURRENT_LIMIT, 60, 5));
-    // frontRight.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, Constants.kDrive.STATOR_CURRENT_LIMIT, 60, 5));
-    // backRight.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, Constants.kDrive.STATOR_CURRENT_LIMIT, 60, 5));
-    
-    /*
-     * WPI drivetrain classes defaultly assume left and right are opposite. call
-     * this so we can apply + to both sides when moving forward. DO NOT CHANGE
-     */ 
+    inverted = 1;
 
     // config odometry and auto values
     nav = new AHRS(SPI.Port.kMXP);
@@ -107,7 +86,18 @@ public class FalconDrivetrain extends Drivetrain {
     if (isQuickturn) {
       angularVelocity /= Constants.kDrive.QUICK_TURN_DAMPENER;
     }
-    diffDrive.curvatureDrive(linearVelocity, angularVelocity, isQuickturn);
+    diffDrive.curvatureDrive(linearVelocity * inverted, angularVelocity, isQuickturn);
+  }
+
+  public void breakInGearboxes() {
+    double speed = 0.001;
+    double motorPower = Math.sin(System.currentTimeMillis() * speed);
+    // diffDrive.curvatureDrive(motorPower, 1, false);
+    frontRight.set(motorPower);
+  }
+
+  public void invertDrive() {
+    inverted *= -1;
   }
 
   @Override
@@ -118,17 +108,18 @@ public class FalconDrivetrain extends Drivetrain {
       navZeroed = true;
     }
 
-    odometry.update(new Rotation2d(Math.toRadians(-(getHeading() - angleOffset))), 
-    frontLeft.getSelectedSensorPosition() * Constants.kDrive.TICKS_TO_METERS,
-    frontRight.getSelectedSensorPosition() * Constants.kDrive.TICKS_TO_METERS);
-  
+    odometry.update(new Rotation2d(Math.toRadians(-(getHeading() - angleOffset))),
+        frontLeft.getSelectedSensorPosition() * Constants.kDrive.TICKS_TO_METERS,
+        frontRight.getSelectedSensorPosition() * Constants.kDrive.TICKS_TO_METERS);
+
     SmartDashboard.putNumber("heading", -(getHeading() - zeroOffset));
     SmartDashboard.putNumber("odometry x", odometry.getPoseMeters().getX());
     SmartDashboard.putNumber("odometry y", odometry.getPoseMeters().getY());
   }
 
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+  }
 
   // get current robot position
   public Pose2d getPose() {
@@ -137,10 +128,9 @@ public class FalconDrivetrain extends Drivetrain {
 
   // return current wheel speeds
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds( 
-      frontLeft.getSelectedSensorVelocity(), 
-      frontRight.getSelectedSensorVelocity()
-    );
+    return new DifferentialDriveWheelSpeeds(
+        frontLeft.getSelectedSensorVelocity(),
+        frontRight.getSelectedSensorVelocity());
   }
 
   // reset odometry to given pose
@@ -185,15 +175,15 @@ public class FalconDrivetrain extends Drivetrain {
   public double getHeading() {
     return -nav.getYaw();
     // note: getAngle returns accumulated yaw (can be <0 or >360)
-    //   getYaw has a 360 degree period
+    // getYaw has a 360 degree period
   }
 
   // return turn rate deg/sec
   public double getTurnRate() {
-    // negative since navx's positive direction is opposite of the expected/wpilib standard
+    // negative since navx's positive direction is opposite of the expected/wpilib
+    // standard
     return -nav.getRate();
   }
-
 
   // set motors to brake mode
   public void setBrake() {
@@ -210,5 +200,5 @@ public class FalconDrivetrain extends Drivetrain {
     backLeft.setNeutralMode(NeutralMode.Coast);
     backRight.setNeutralMode(NeutralMode.Coast);
   }
-  
+
 }

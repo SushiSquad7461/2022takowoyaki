@@ -54,7 +54,8 @@ public class OpenLoopFalconShooter extends Shooter {
     kicker.set(ControlMode.PercentOutput, 0);
   }
 
-  public void reverseKicker() { }
+  public void reverseKicker() {
+  }
 
   @Override
   public void setSetpoint(double setpoint) {
@@ -87,8 +88,7 @@ public class OpenLoopFalconShooter extends Shooter {
     left.set(ControlMode.PercentOutput, setpoint);
     // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
   }
-
-  @Override
-  public void simulationPeriodic() {
-  }
 }
+
+
+  

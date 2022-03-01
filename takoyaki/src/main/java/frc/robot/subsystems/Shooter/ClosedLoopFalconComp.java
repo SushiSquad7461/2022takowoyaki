@@ -88,8 +88,10 @@ public class ClosedLoopFalconComp extends Shooter {
 
   public boolean isAtSpeed() {
     double difference = Math.abs(Constants.kShooter.kClosedLoop.SETPOINT - left.getSelectedSensorVelocity());
-    if (difference < Constants.kShooter.kClosedLoop.ERROR_TOLERANCE) return true;
-    else return false;
+    if (difference < Constants.kShooter.kClosedLoop.ERROR_TOLERANCE)
+      return true;
+    else
+      return false;
   }
 
   @Override
