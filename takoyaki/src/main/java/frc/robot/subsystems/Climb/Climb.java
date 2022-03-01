@@ -16,9 +16,7 @@ public abstract class Climb extends SubsystemBase {
 
   public abstract void zeroClimbEncoders();
 
-  public abstract void defaultCommand(double openLoopLeft, double openLoopRight);
-
-  public abstract double normalizeInput(double joystickInput);
+  public abstract void defaultCommand(double leftTrigger, double rightTrigger,  boolean leftBumper, boolean rightBumper);
 
   public abstract void stopClimb();
 

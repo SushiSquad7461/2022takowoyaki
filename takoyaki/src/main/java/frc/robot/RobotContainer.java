@@ -89,8 +89,10 @@ public class RobotContainer {
                                 .whenPressed(new RunCommand(climb::zeroClimbEncoders, climb));
 
                 climb.setDefaultCommand(
-                                new RunCommand(() -> climb.defaultCommand(operatorController.getLeftY(),
-                                                operatorController.getRightY()),
+                                new RunCommand(() -> climb.defaultCommand(operatorController.getLeftTriggerAxis(),
+                                                operatorController.getRightTriggerAxis(),
+                                                operatorController.getLeftBumper(),
+                                                operatorController.getRightBumper()),
                                                 climb));
                 // run hopper
                 new JoystickButton(driveController, Constants.kOI.RUN_HOPPER)

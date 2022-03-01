@@ -50,10 +50,12 @@ public class FalconBrakeModeClimb extends Climb {
 
   }
 
-  public void defaultCommand(double openLoopLeft, double openLoopRight) {
+  public void defaultCommand(double leftTrigger, double rightTrigger,  boolean leftBumper, boolean rightBumper) {
+    double openLoopLeft = (leftBumper ? 1 : 0) - leftTrigger;
+    double openLoopRight = (rightBumper ? 1 : 0) - rightTrigger;
     if (!closedLoop) {
-      left.set(ControlMode.PercentOutput, normalizeInput(openLoopLeft));
-      right.set(ControlMode.PercentOutput, normalizeInput(openLoopRight));
+      left.set(ControlMode.PercentOutput, openLoopLeft);
+      right.set(ControlMode.PercentOutput, openLoopRight);
     } /*
        * else {
        * if (goingUp) {
@@ -87,14 +89,14 @@ public class FalconBrakeModeClimb extends Climb {
 
   }
 
-  public double normalizeInput(double joystickInput) {
-    if (joystickInput > 0.5) {
-      return Constants.kClimb.OPEN_LOOP_UP_POWER;
-    } else if (joystickInput < -0.5) {
-      return Constants.kClimb.OPEN_LOOP_DOWN_POWER;
-    }
-    return 0;
-  }
+  // public double normalizeInput(double joystickInput) {
+  //   if (joystickInput > 0.5) {
+  //     return Constants.kClimb.OPEN_LOOP_UP_POWER;
+  //   } else if (joystickInput < -0.5) {
+  //     return Constants.kClimb.OPEN_LOOP_DOWN_POWER;
+  //   }
+  //   return 0;
+  // }
 
   @Override
   public void simulationPeriodic() {
