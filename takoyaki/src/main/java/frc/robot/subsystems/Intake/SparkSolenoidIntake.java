@@ -61,4 +61,9 @@ public class SparkSolenoidIntake extends Intake {
   @Override
   public void simulationPeriodic() {
   }
+
+  public void intakeShoot() {
+    // leftSolenoid.set(DoubleSolenoid.Value.kForward);
+    // rightSolenoid.set(DoubleSolenoid.Value.kForward);
+  }
 }

@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Hopper.Hopper;
+import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
 
 /** An example command that uses an example subsystem. */
@@ -13,16 +14,19 @@ public class AutoShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Shooter s_shooter;
   private final Hopper s_hopper;
+  private final Intake s_intake;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutoShoot(Shooter shooter, Hopper hopper) {
+  public AutoShoot(Shooter shooter, Hopper hopper, Intake intake) {
     s_shooter = shooter;
     s_hopper = hopper;
+    s_intake = intake;
+    
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter, hopper);
+    addRequirements(shooter, hopper, intake);
   }
 
   // Called when the command is initially scheduled.
@@ -37,6 +41,7 @@ public class AutoShoot extends CommandBase {
     if(s_shooter.isAtSpeed()) {
       s_hopper.runHopper();
       s_shooter.runKicker();
+      s_intake.intakeShoot();
     }
   }
 
@@ -46,6 +51,7 @@ public class AutoShoot extends CommandBase {
     s_hopper.stop();
     s_shooter.stopKicker();
     s_shooter.setSetpoint(0);
+    s_intake.stop();
   }
 
   // Returns true when the command should end.
