@@ -36,6 +36,7 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
 
     left.setInverted(TalonFXInvertType.CounterClockwise);
     right.setInverted(TalonFXInvertType.Clockwise);
+    back.setInverted(TalonFXInvertType.CounterClockwise);
     kicker.setInverted(Constants.kShooter.KICKER_INVERSION);
 
     left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kFront.kP,
