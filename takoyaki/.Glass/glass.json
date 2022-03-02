@@ -7,6 +7,7 @@
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/ClosedLoopFalconShooter": "Subsystem",
       "/LiveWindow/FalconSolenoidIntake": "Subsystem",
+      "/LiveWindow/TalonHopper": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/Talon FX [14]": "Motor Controller",
@@ -72,7 +73,7 @@
               "autoFit": true
             }
           ],
-          "height": -12,
+          "height": 332,
           "series": [
             {
               "color": [
@@ -81,7 +82,7 @@
                 0.6901960968971252,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/Current rpm"
+              "id": "NT:/SmartDashboard/front shooter current rpm"
             }
           ]
         }

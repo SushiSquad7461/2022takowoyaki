@@ -14,6 +14,7 @@ import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
 import frc.robot.subsystems.Intake.FalconSolenoidIntake;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.subsystems.Shooter.ClosedLoopDoubleFalconShooter;
 import frc.robot.subsystems.Shooter.OpenLoopDoubleFalconShooter;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,7 +43,7 @@ public class RobotContainer {
     // subsystems
     hopper = new TalonHopper();
     intake = new FalconSolenoidIntake();
-    shooter = new OpenLoopDoubleFalconShooter();
+    shooter = new ClosedLoopDoubleFalconShooter();
     drivetrain = new FalconDrivetrain();
 
     // controllers
@@ -69,6 +70,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(driveController, Constants.kOI.SHOOT)
+        //.whenPressed(new RunCommand(shooter::runShooter, shooter))//new AutoShoot(shooter, hopper, intake));
+        //.whenReleased(new RunCommand(shooter::stopShooter, shooter));
         .whenHeld(new AutoShoot(shooter, hopper, intake));
 
     // shoot ball (hopper + kicker)

@@ -107,8 +107,6 @@ public class Constants {
     }
 
     public static final class kDoubleClosedLoop {
-      public static int BACK_MOTOR_ID;
-
       public static final class kFront {
         public static final double SETPOINT = convertRPMtoTrans(3400.0);
         public static double kP;
@@ -122,13 +120,13 @@ public class Constants {
 
       public static final class kBack {
         public static final double SETPOINT = convertRPMtoTrans(3400.0);
-        public static double kP = 0.2;
-        public static double kI = 0.0000;
-        public static double kD = .0;
-        public static double kF = 0.05;
-        public static double kS = voltageToPercent(0.61716);
-        public static double kV = voltageToPercent(0.10724);
-        public static double kA = voltageToPercent(0.0082862);
+        public static double kP;
+        public static double kI;
+        public static double kD;
+        public static double kF;
+        public static double kS;
+        public static double kV;
+        public static double kA;
 
       }
     }
@@ -205,6 +203,13 @@ public class Constants {
         kShooter.kDoubleClosedLoop.kFront.kI = 0.0000;
         kShooter.kDoubleClosedLoop.kFront.kD = 0.0;
         kShooter.kDoubleClosedLoop.kFront.kF = 0.05;
+        kShooter.kDoubleClosedLoop.kBack.kP = 0;
+        kShooter.kDoubleClosedLoop.kBack.kI = 0;
+        kShooter.kDoubleClosedLoop.kBack.kD = 0;
+        kShooter.kDoubleClosedLoop.kBack.kF = 0;
+        kShooter.kDoubleClosedLoop.kBack.kS = 0.70982;
+        kShooter.kDoubleClosedLoop.kBack.kV = 0.11253;
+        kShooter.kDoubleClosedLoop.kBack.kA = 0.0047908;
         kHopper.INVERTED = true;
         kShooter.KICKER_INVERSION = false;
         break;
