@@ -69,6 +69,11 @@ public class FalconDrivetrain extends Drivetrain {
     frontRight.setInverted(TalonFXInvertType.Clockwise);
     backRight.setInverted(TalonFXInvertType.Clockwise);
 
+    frontLeft.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
+    backLeft.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
+    frontRight.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
+    backRight.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
+
     inverted = 1;
 
     // config odometry and auto values
@@ -86,7 +91,7 @@ public class FalconDrivetrain extends Drivetrain {
     if (isQuickturn) {
       angularVelocity /= Constants.kDrive.QUICK_TURN_DAMPENER;
     }
-    diffDrive.curvatureDrive(linearVelocity * inverted, angularVelocity, isQuickturn);
+    diffDrive.curvatureDrive(linearVelocity * inverted, angularVelocity * inverted, isQuickturn);
   }
 
   public void breakInGearboxes() {

@@ -69,7 +69,7 @@ public class Constants {
   public static final class kHopper {
     public static int MOTOR_ID;
     public static boolean INVERTED;
-    public static final int CURRENT_LIMIT = 30;
+    public static final int CURRENT_LIMIT = 15;
     public static final double SPEED = 1;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
@@ -149,6 +149,8 @@ public class Constants {
     // ramsete parameters
     public static final double RAMSETE_B = 2;
     public static final double RAMSETE_ZETA = 0.7;
+    public static final double OPEN_LOOP_RAMP_RATE = 0.65; // 0.65
+    public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
   }
 
   public static final class kShooter {
@@ -157,8 +159,8 @@ public class Constants {
     }
 
     public static final class kClosedLoop {
-      public static final double SETPOINT = 3225.0 * 2048.0 / 600.0;
-      public static final double ERROR_TOLERANCE = 15.0 * 2048.0 / 600.0;
+      public static final double SETPOINT = 3200.0 * 2048.0 / 600.0;
+      public static final double ERROR_TOLERANCE = 25 * 2048.0 / 600.0;
     }
 
     public static int LEFT_MOTOR_ID;
@@ -168,7 +170,7 @@ public class Constants {
     public static final int CURRENT_LIMIT = 35;
     public static double kP = 0.2;
     public static double kI = 0.0000;
-    public static double kD = .0;
+    public static double kD = 0.0;
     public static double kF = 0.05;
     public static double kS = 0.61716 / 12.0;
     public static double kV = 0.10724 / 12.0;
@@ -179,6 +181,8 @@ public class Constants {
     public static boolean KICKER_INVERSION;
 
     public static final double SPEED_KICKER = 1;
+    public static final double KICKER_PERIOD = 50;
+    public static final double KICKER_OFFSET = 0.3;
   }
 
   enum RobotType {

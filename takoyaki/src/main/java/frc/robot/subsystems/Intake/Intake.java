@@ -14,6 +14,8 @@ public abstract class Intake extends SubsystemBase {
 
   public abstract void reverseIntake();
 
+  public abstract void runIntakeBackwards();
+
   public abstract void toggleIntake();
 
   public abstract void intakeShoot();
