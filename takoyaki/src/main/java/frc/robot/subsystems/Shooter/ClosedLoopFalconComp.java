@@ -6,6 +6,8 @@ package frc.robot.subsystems.Shooter;
 
 import frc.robot.Constants;
 
+import java.util.ResourceBundle.Control;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
@@ -61,6 +63,9 @@ public class ClosedLoopFalconComp extends Shooter {
 
   public void runKicker() {
     kicker.set(ControlMode.PercentOutput, Constants.kShooter.SPEED_KICKER);
+    //double kickerOutput = Math.round(Math.sin(System.currentTimeMillis() / Constants.kShooter.KICKER_PERIOD) + Constants.kShooter.KICKER_OFFSET);
+    //if (kickerOutput <= 0) kicker.set(ControlMode.PercentOutput, 0);
+    //else kicker.set(ControlMode.PercentOutput, kickerOutput);
   }
 
   public void stopKicker() {
@@ -91,9 +96,8 @@ public class ClosedLoopFalconComp extends Shooter {
     SmartDashboard.putNumber("Current encoder ticks per 100 ms", left.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Current rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
     SmartDashboard.putNumber("Setpoint", setpoint);
-    SmartDashboard.putNumber("applied output", left.getMotorOutputPercent());
-    SmartDashboard.putNumber("feed forward", fForward.calculate(setpoint));
-    SmartDashboard.putNumber("shooter position change", left.getSelectedSensorPosition() - change);
+    SmartDashboard.putBoolean("at speed", isAtSpeed());
+    SmartDashboard.putNumber("kicker speed", kicker.getMotorOutputPercent());
     change = left.getSelectedSensorPosition();
 
     if (setpoint == 0) {
@@ -105,11 +109,9 @@ public class ClosedLoopFalconComp extends Shooter {
   }
 
   public boolean isAtSpeed() {
-    if((left.getSelectedSensorVelocity() * 2048.0 / 600.0) >= (Constants.kShooter.kClosedLoop.SETPOINT * 0.9)) {
-      return true;
-    } else {
-      return false;
-    }
+    double difference = Math.abs(left.getSelectedSensorVelocity() - Constants.kShooter.kClosedLoop.SETPOINT);
+    if (difference <= Constants.kShooter.kClosedLoop.ERROR_TOLERANCE) return true;
+    else return false;
   }
 
   @Override

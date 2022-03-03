@@ -24,6 +24,10 @@ public class FalconNoDeploymentIntake extends Intake {
   }
 
   public void reverseIntake() {
+    runIntakeBackwards();
+  }
+
+  public void runIntakeBackwards() {
     intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, -Constants.kIntake.INTAKE_SPEED);
   }
 

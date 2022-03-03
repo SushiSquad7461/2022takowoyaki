@@ -7,6 +7,7 @@ package frc.robot.subsystems.Hopper;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,12 +20,14 @@ public class TalonHopper extends Hopper {
     floor.configFactoryDefault();
     floor.setInverted(Constants.kHopper.INVERTED);
     floor.setNeutralMode(NeutralMode.Brake);
+
+    floor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kHopper.CURRENT_LIMIT, 35, 100));
   }
 
   public void runHopper() {
     SmartDashboard.putNumber("Hopper output", floor.getMotorOutputPercent());
-    floor.set(ControlMode.PercentOutput,
-        Constants.kHopper.SPEED * Math.abs(Math.sin(System.currentTimeMillis() / Constants.kHopper.JERKINESS)));
+    floor.set(ControlMode.PercentOutput, Constants.kHopper.SPEED);
+        //Math.abs(Math.sin(System.currentTimeMillis() / Constants.kHopper.JERKINESS)));
   }
 
   public void reverseHopper() {
