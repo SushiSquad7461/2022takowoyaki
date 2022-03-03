@@ -23,13 +23,15 @@ public class Constants {
     public static final int CLIMB_RIGHT_OPEN_LOOP_LOWER_BUTTON = XboxController.Button.kX.value;
     public static final int CLIMB_LEFT_OPEN_LOOP_LOWER_BUTTON = XboxController.Button.kX.value;
     public static final int CLIMB_ENCODER_RESET_BUTTON = XboxController.Button.kStart.value;
+    public static final int SEPARATE_CLIMB = XboxController.Button.kLeftBumper.value;
+    public static final int REJOIN_CLIMB = XboxController.Button.kRightBumper.value;
 
     // public static final int LEFT_MOTOR_CAN_ID = 15; // green climb
-    public static final int LEFT_MOTOR_CAN_ID = 17; // blue
-    public static final int RIGHT_MOTOR_CAN_ID = 2;
+    public static final int LEFT_MOTOR_CAN_ID = 2; // blue
+    public static final int RIGHT_MOTOR_CAN_ID = 17;
 
-    public static final double OPEN_LOOP_UP_POWER = -0.65;
-    public static final double OPEN_LOOP_DOWN_POWER = 0.3;
+    public static final double OPEN_LOOP_UP_POWER = 1;
+    public static final double OPEN_LOOP_DOWN_POWER = -1;
 
     public static final double CLOSED_LOOP_UP_POWER = -0.5;
     public static final double CLOSED_LOOP_DOWN_POWER = 0.5;

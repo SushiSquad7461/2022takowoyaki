@@ -10,6 +10,7 @@ import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import javax.imageio.spi.RegisterableService;
+import javax.naming.ldap.Control;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -21,10 +22,12 @@ public class FalconBrakeModeClimb extends Climb {
   private final WPI_TalonFX right;
   private boolean closedLoop;
   private boolean goingUp;
+  private boolean separate;
 
   public FalconBrakeModeClimb() {
 
     closedLoop = false;
+    separate = false;
 
     left = new WPI_TalonFX(Constants.kClimb.LEFT_MOTOR_CAN_ID);
     right = new WPI_TalonFX(Constants.kClimb.RIGHT_MOTOR_CAN_ID);
@@ -34,8 +37,8 @@ public class FalconBrakeModeClimb extends Climb {
 
     // right.follow(left);
 
-    left.setInverted(TalonFXInvertType.CounterClockwise);
-    right.setInverted(TalonFXInvertType.Clockwise);
+    left.setInverted(TalonFXInvertType.Clockwise);
+    right.setInverted(TalonFXInvertType.CounterClockwise);
   }
 
   public void zeroClimbEncoders() {
@@ -50,40 +53,65 @@ public class FalconBrakeModeClimb extends Climb {
 
   }
 
+  public void separateClimb() {
+    separate = true;
+  }
+
+  public void rejoinClimb() {
+    separate = false;
+  }
+
+  public void runClimb() {
+    if (!separate) {
+      left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
+      right.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
+    }
+  }
+
+  public void climbDown() {
+    if (!separate) {
+      left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
+      right.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
+    }
+  }
+
   public void defaultCommand(double openLoopLeft, double openLoopRight) {
-    if (!closedLoop) {
-      left.set(ControlMode.PercentOutput, normalizeInput(openLoopLeft));
-      right.set(ControlMode.PercentOutput, normalizeInput(openLoopRight));
-    } /*
-       * else {
-       * if (goingUp) {
-       * if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
-       * left.set(ControlMode.PercentOutput, 0);
-       * }
-       * if (right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
-       * right.set(ControlMode.PercentOutput, 0);
-       * }
-       * if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL
-       * && right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
-       * closedLoop = false;
-       * }
-       * } else {
-       * if (left.getSelectedSensorPosition() >= Constants.kClimb.BOTTOM_ENCODER_VAL)
-       * {
-       * left.set(ControlMode.PercentOutput, 0);
-       * }
-       * if (right.getSelectedSensorPosition() >= Constants.kClimb.BOTTOM_ENCODER_VAL)
-       * {
-       * right.set(ControlMode.PercentOutput, 0);
-       * }
-       * if (left.getSelectedSensorPosition() >= Constants.kClimb.TOP_ENCODER_VAL
-       * && right.getSelectedSensorPosition() >= Constants.kClimb.TOP_ENCODER_VAL) {
-       * closedLoop = false;
-       * }
-       * }
-       * 
-       * }
-       */
+    if (separate) {
+      if (!closedLoop) {
+        left.set(ControlMode.PercentOutput, normalizeInput(openLoopLeft));
+        right.set(ControlMode.PercentOutput, normalizeInput(openLoopRight));
+      }
+    }
+    /*
+     * else {
+     * if (goingUp) {
+     * if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
+     * left.set(ControlMode.PercentOutput, 0);
+     * }
+     * if (right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
+     * right.set(ControlMode.PercentOutput, 0);
+     * }
+     * if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL
+     * && right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
+     * closedLoop = false;
+     * }
+     * } else {
+     * if (left.getSelectedSensorPosition() >= Constants.kClimb.BOTTOM_ENCODER_VAL)
+     * {
+     * left.set(ControlMode.PercentOutput, 0);
+     * }
+     * if (right.getSelectedSensorPosition() >= Constants.kClimb.BOTTOM_ENCODER_VAL)
+     * {
+     * right.set(ControlMode.PercentOutput, 0);
+     * }
+     * if (left.getSelectedSensorPosition() >= Constants.kClimb.TOP_ENCODER_VAL
+     * && right.getSelectedSensorPosition() >= Constants.kClimb.TOP_ENCODER_VAL) {
+     * closedLoop = false;
+     * }
+     * }
+     * 
+     * }
+     */
 
   }
 
@@ -103,6 +131,7 @@ public class FalconBrakeModeClimb extends Climb {
   public void stopClimb() {
     closedLoop = false;
     left.set(ControlMode.PercentOutput, 0);
+    right.set(ControlMode.PercentOutput, 0);
   }
 
   public void extendClimb() {

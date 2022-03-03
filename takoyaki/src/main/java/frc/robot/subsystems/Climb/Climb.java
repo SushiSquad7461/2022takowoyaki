@@ -25,4 +25,12 @@ public abstract class Climb extends SubsystemBase {
   public abstract void extendClimb();
 
   public abstract void retractClimb();
+
+  public abstract void rejoinClimb();
+
+  public abstract void separateClimb();
+
+  public abstract void runClimb();
+
+  public abstract void climbDown();
 }
