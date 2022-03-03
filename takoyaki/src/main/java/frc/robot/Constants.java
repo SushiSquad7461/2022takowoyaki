@@ -51,7 +51,7 @@ public class Constants {
     public static int MOTOR_ID;
     public static boolean INVERTED;
     public static final int CURRENT_LIMIT = 30;
-    public static final double SPEED = 0.7;
+    public static final double SPEED = 0.5;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
     public static final long JERKINESS = 100;
@@ -108,7 +108,8 @@ public class Constants {
 
     public static final class kDoubleClosedLoop {
       public static final class kFront {
-        public static final double SETPOINT = convertRPMtoTrans(3400.0);
+        public static final double SETPOINT = convertRPMtoTrans(1100.0); // 1100
+        public static final double SETPOINT_OFFSET = convertRPMtoTrans(-30 + 100);
         public static double kP;
         public static double kI;
         public static double kD;
@@ -119,7 +120,8 @@ public class Constants {
       }
 
       public static final class kBack {
-        public static final double SETPOINT = convertRPMtoTrans(3400.0);
+        public static final double SETPOINT = convertRPMtoTrans(3250.0); // 3200
+        public static final double SETPOINT_OFFSET = convertRPMtoTrans(100.0 + 170.0);
         public static double kP;
         public static double kI;
         public static double kD;
@@ -199,17 +201,17 @@ public class Constants {
         kShooter.RIGHT_MOTOR_ID = 14;
         kShooter.KICKER_MOTOR_ID = 0;
         kShooter.BACK_MOTOR_ID = 19;
-        kShooter.kDoubleClosedLoop.kFront.kP = 0.20;
+        kShooter.kDoubleClosedLoop.kFront.kP = 0.075;
         kShooter.kDoubleClosedLoop.kFront.kI = 0.0000;
         kShooter.kDoubleClosedLoop.kFront.kD = 0.0;
         kShooter.kDoubleClosedLoop.kFront.kF = 0.05;
-        kShooter.kDoubleClosedLoop.kBack.kP = 0;
+        kShooter.kDoubleClosedLoop.kBack.kP = 0.125;
         kShooter.kDoubleClosedLoop.kBack.kI = 0;
         kShooter.kDoubleClosedLoop.kBack.kD = 0;
-        kShooter.kDoubleClosedLoop.kBack.kF = 0;
-        kShooter.kDoubleClosedLoop.kBack.kS = 0.70982;
-        kShooter.kDoubleClosedLoop.kBack.kV = 0.11253;
-        kShooter.kDoubleClosedLoop.kBack.kA = 0.0047908;
+        kShooter.kDoubleClosedLoop.kBack.kF = 0.045;
+        kShooter.kDoubleClosedLoop.kBack.kS = voltageToPercent(0.0070982);
+        kShooter.kDoubleClosedLoop.kBack.kV = voltageToPercent(0.0011253);
+        kShooter.kDoubleClosedLoop.kBack.kA = voltageToPercent(0.000047908);
         kHopper.INVERTED = true;
         kShooter.KICKER_INVERSION = false;
         break;
