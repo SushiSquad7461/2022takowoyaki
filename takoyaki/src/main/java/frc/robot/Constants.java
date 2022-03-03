@@ -17,6 +17,32 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Constants {
+  public static final class kClimb {
+    public static final int CLIMB_TO_TOP_BUTTON = XboxController.Button.kY.value;
+    public static final int CLIMB_TO_BOTTOM_BUTTON = XboxController.Button.kA.value;
+    public static final int CLIMB_LEFT_OPEN_LOOP_RAISE_BUTTON = XboxController.Button.kB.value;
+    public static final int CLIMB_RIGHT_OPEN_LOOP_LOWER_BUTTON = XboxController.Button.kX.value;
+    public static final int CLIMB_LEFT_OPEN_LOOP_LOWER_BUTTON = XboxController.Button.kX.value;
+    public static final int CLIMB_ENCODER_RESET_BUTTON = XboxController.Button.kStart.value;
+    public static final int SEPARATE_CLIMB = XboxController.Button.kLeftBumper.value;
+    public static final int REJOIN_CLIMB = XboxController.Button.kRightBumper.value;
+
+    // public static final int LEFT_MOTOR_CAN_ID = 15; // green climb
+    public static final int LEFT_MOTOR_CAN_ID = 2; // blue
+    public static final int RIGHT_MOTOR_CAN_ID = 17;
+
+    public static final double OPEN_LOOP_UP_POWER = 1;
+    public static final double OPEN_LOOP_DOWN_POWER = -1;
+
+    public static final double CLOSED_LOOP_UP_POWER = -0.5;
+    public static final double CLOSED_LOOP_DOWN_POWER = 0.5;
+
+    // TODO: identify correct setpoints
+    public static final int TOP_ENCODER_VAL = -165000;
+    public static final int BOTTOM_ENCODER_VAL = -3000;
+
+    public static final double OPEN_LOOP_RAMP_RATE = 0.5;
+  }
 
   public static final class kOI {
     public static final int DRIVE_CONTROLLER = 0;
@@ -164,6 +190,17 @@ public class Constants {
     RobotType robot = getRobotType();
     switch (robot) {
       case PRACTICE:
+        // kHopper.MOTOR_ID = 10;
+        // kIntake.MOTOR_ID = 8;
+        // kIntake.SOLENOID_FRONT = 1;
+        // kIntake.SOLENOID_BACK = 0;
+        // kDrive.FRONT_RIGHT_ID = 3;
+        // kDrive.FRONT_LEFT_ID = 1;
+        // kDrive.BACK_RIGHT_ID = 4;
+        // kDrive.BACK_LEFT_ID = 2;
+        // kShooter.LEFT_MOTOR_ID = 12;
+        // kShooter.RIGHT_MOTOR_ID = 15;
+        // kShooter.KICKER_MOTOR_ID = 5;
         kHopper.MOTOR_ID = 10;
         kIntake.MOTOR_ID = 8;
         kIntake.LEFT_SOLENOID_FORWARD = -1;
