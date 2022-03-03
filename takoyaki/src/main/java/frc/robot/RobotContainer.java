@@ -9,6 +9,7 @@ import frc.robot.subsystems.Climb.FalconBrakeModeClimb;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Hopper.TalonHopper;
 import frc.robot.subsystems.Hopper.VictorHopper;
+import frc.robot.commands.AutoShoot;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
 import frc.robot.subsystems.Intake.FalconNoDeploymentIntake;
@@ -26,41 +27,42 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class RobotContainer {
 
-  // The robot's subsystems and commands are defined here...
-  private final Hopper hopper;
-  private final Intake intake;
-  private final Shooter shooter;
-  private final Drivetrain drivetrain;
-  private final Climb climb;
+    // The robot's subsystems and commands are defined here...
+    private final Hopper hopper;
+    private final Intake intake;
+    private final Shooter shooter;
+    private final Drivetrain drivetrain;
+    private final Climb climb;
 
-  // Controllers
-  private final XboxController driveController;
-  private final XboxController operatorController;
+    // Controllers
+    private final XboxController driveController;
+    private final XboxController operatorController;
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-  public RobotContainer() {
-    // Configure the button bindings
-    Constants.setup();
-    hopper = new TalonHopper();
-    intake = new FalconSolenoidIntake();
-    shooter = new ClosedLoopFalconComp();
-    drivetrain = new FalconDrivetrain();
-    climb = new FalconBrakeModeClimb();
-    driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
-    operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
-    configureButtonBindings();
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
+        Constants.setup();
 
-  }
+        // subsystems
+        hopper = new TalonHopper();
+        intake = new FalconSolenoidIntake();
+        shooter = new ClosedLoopFalconComp();
+        drivetrain = new FalconDrivetrain();
+        climb = new FalconBrakeModeClimb();
+        driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
+        operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
+        configureButtonBindings();
 
-  public void setDrivetrainToCoast() {
-    drivetrain.setToCoastMode();
-  }
+    }
 
-  public void setDrivetrainToBrake() {
-    drivetrain.setToBrakeMode();
-  }
+    public void setDrivetrainToCoast() {
+        drivetrain.setToCoastMode();
+    }
+
+    public void setDrivetrainToBrake() {
+        drivetrain.setToBrakeMode();
+    }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -111,15 +113,24 @@ public class RobotContainer {
             climb));
     // run hopper
     new JoystickButton(driveController, Constants.kOI.RUN_HOPPER)
+    new JoystickButton(driveController, Constants.kOI.SHOOT)
+        .whenHeld(new AutoShoot(shooter, hopper, intake));
+
+    // shoot ball (hopper + kicker)
+    /*new JoystickButton(driveController, Constants.kOI.SHOOT)
         .whenPressed(new ParallelCommandGroup(
             new RunCommand(shooter::runKicker, shooter),
             new RunCommand(hopper::runHopper, hopper)))
         .whenReleased(new ParallelCommandGroup(
             new RunCommand(shooter::stopKicker, intake),
-            new RunCommand(hopper::stop, hopper)));
+            new RunCommand(hopper::stop, hopper)));*/
 
-    // reverse hopper
-    new JoystickButton(driveController, Constants.kOI.REVERSE_HOPPER)
+    // invert drive direction
+    new JoystickButton(driveController, Constants.kOI.INVERT_DRIVE)
+        .whenPressed(new InstantCommand(drivetrain::invertDrive, drivetrain));
+
+    // reverse shoot (hopper + kicker)
+    new JoystickButton(driveController, Constants.kOI.REVERSE_SHOOT)
         .whenPressed(new ParallelCommandGroup(
             new RunCommand(shooter::reverseKicker, shooter),
             new RunCommand(hopper::reverseHopper, hopper)))
@@ -127,22 +138,11 @@ public class RobotContainer {
             new RunCommand(shooter::stopKicker, shooter),
             new RunCommand(hopper::stop, hopper)));
 
-    // Actuate Intake
-    /*
-     * new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
-     * .whenPressed(new InstantCommand(intake::toggleIntake, intake));
-     */
+    // toggle intake
+    new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
+        .whenPressed(new InstantCommand(intake::toggleIntake, intake));
 
-    // Run Intake
-    new JoystickButton(driveController, Constants.kOI.RUN_INTAKE)
-        .whenPressed(new ParallelCommandGroup(
-            new RunCommand(intake::runIntake, intake)))
-        // new RunCommand(hopper::runHopper, hopper)))
-        .whenReleased(new ParallelCommandGroup(
-            new RunCommand(intake::stop, intake)));
-    // new RunCommand(hopper::stop, hopper)));
-
-    // Reverse Intake
+    // reverse intake
     new JoystickButton(driveController, Constants.kOI.REVERSE_INTAKE)
         .whenPressed(new ParallelCommandGroup(
             new RunCommand(shooter::reverseKicker, shooter),
@@ -153,18 +153,13 @@ public class RobotContainer {
             new RunCommand(hopper::stop, hopper),
             new RunCommand(intake::stop, intake)));
 
-    // Run Shooter
-    new JoystickButton(driveController, Constants.kOI.RUN_SHOOTER)
-        .whenPressed(new RunCommand(() -> shooter.setSetpoint(), shooter))
-        .whenReleased(new RunCommand(() -> shooter.zeroSetpoint(), shooter));
-
     drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
         OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
-  }
+    }
 
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;
-  }
+    public Command getAutonomousCommand() {
+        // An ExampleCommand will run in autonomous
+        return null;
+    }
 
 }

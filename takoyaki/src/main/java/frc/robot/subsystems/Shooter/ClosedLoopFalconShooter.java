@@ -107,6 +107,14 @@ public class ClosedLoopFalconShooter extends Shooter {
     // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
   }
 
+  public boolean isAtSpeed() {
+    if((left.getSelectedSensorVelocity() * 2048.0 / 600.0) >= (Constants.kShooter.kClosedLoop.SETPOINT * 0.9)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @Override
   public void simulationPeriodic() {
   }

@@ -47,18 +47,20 @@ public class Constants {
     public static final int DRIVE_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;
 
+    // drive constants
+    public static final int INVERT_DRIVE = XboxController.Button.kY.value;
+
     // hopper buttons
-    public static final int RUN_HOPPER = XboxController.Button.kRightBumper.value;
-    public static final int REVERSE_HOPPER = XboxController.Button.kBack.value;
+    public static final int SHOOT = XboxController.Button.kB.value;
+    public static final int REVERSE_SHOOT = XboxController.Button.kBack.value;
 
     // intake buttons
-    public static final int TOGGLE_INTAKE = XboxController.Button.kLeftBumper.value;
-
+    public static final int TOGGLE_INTAKE = XboxController.Button.kA.value;
     public static final int RUN_INTAKE = XboxController.Button.kA.value;
     public static final int REVERSE_INTAKE = XboxController.Button.kStart.value;
 
     // shooter buttons
-    public static final int RUN_SHOOTER = XboxController.Button.kB.value;
+    public static final int REV_SHOOTER = XboxController.Button.kB.value;
   }
 
   public static final class kHopper {
@@ -68,7 +70,7 @@ public class Constants {
     public static final double SPEED = 0.7;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
-    public static final long JERKINESS = 00;
+    public static final long JERKINESS = 100;
   }
 
   public static final class kIntake {
