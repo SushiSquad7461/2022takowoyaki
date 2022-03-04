@@ -66,6 +66,10 @@ public class OpenLoopFalconShooter extends Shooter {
     this.setpoint = Constants.kShooter.kOpenLoop.SPEED;
   }
 
+  public boolean isAtSpeed() {
+    return false;
+  }
+
   @Override
   public void periodic() {
     if (left.getSelectedSensorVelocity() > maxRPM) {
@@ -78,17 +82,7 @@ public class OpenLoopFalconShooter extends Shooter {
     left.set(ControlMode.PercentOutput, setpoint);
     // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
   }
-
-  public boolean isAtSpeed() {
-    if ((Constants.convertRPMtoTrans(left.getSelectedSensorVelocity())) >= (Constants.kShooter.kOpenLoop.SPEED
-        * 0.9)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  @Override
-  public void simulationPeriodic() {
-  }
 }
+
+
+  

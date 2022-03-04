@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -72,6 +73,8 @@ public class Constants {
 
     // shooter buttons
     public static final int REV_SHOOTER = XboxController.Button.kB.value;
+
+    public static final String TRAJECTORY_NAME = "path";
   }
 
   public static final class kHopper {
@@ -81,7 +84,7 @@ public class Constants {
     public static final double SPEED = 1;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
-    public static final long JERKINESS = 100;
+    public static final double JERKINESS = 100;
   }
 
   public static final class kIntake {
@@ -112,7 +115,61 @@ public class Constants {
     public static int BACK_RIGHT_ID;
     public static int BACK_LEFT_ID;
 
+    // to divide quick turn power by
+    public static final double QUICK_TURN_DAMPENER = 3.0;
+
+    // current limits
+    public static final double SUPPLY_CURRENT_LIMIT = 30;
+    public static final double STATOR_CURRENT_LIMIT = 30;
+
+    // char values for bear metal carpet
+    public static final double ksVolts = 0.71472; // 0.66412
+    public static final double kvVoltSecondsPerMeter = 2.3953;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.21126; // 0.23884
+    public static final double kPDriveVel = 0.000016636;
+    public static final double kIDrive = 0;
+    public static final double kDDrive = 0;
+
+    // char values for garage carpet
+    // public static final double ksVolts = 0.66858; // 0.66412
+    // public static final double kvVoltSecondsPerMeter = 2.3302; // 1.6846
+    // public static final double kaVoltSecondsSquaredPerMeter = 0.36796; // 0.23884
+    // public static final double kPDriveVel = 0.0000015469;
+    // public static final double kIDrive = 0;
+    // public static final double kDDrive = 0;
+
+    // char values for garage
+    // public static final double ksVolts = 0.54849;
+    // public static final double kvVoltSecondsPerMeter = 1.6912;
+    // public static final double kaVoltSecondsSquaredPerMeter = 0.21572;
+    // public static final double kPDriveVel = 0.00005;
+    // public static final double kIDrive = 0;
+    // public static final double kDDrive = 0;
+
+    // public static final double kPDriveVel = 0;
+    public static final double MAX_VOLTAGE = 5;
+
+    // odometry constants - drivetrain measurements
+    public static final double TRACK_WIDTH_METERS = 0.69; // width between sides of dt
+    public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(
+        TRACK_WIDTH_METERS);
+
+    // path-following constants
+    public static final double MAX_SPEED_METERS_PER_SECOND = 5; // set to somewhat below free speed
+    // could increase this to go faster
+    // theoretically
+    public static final double MAX_ACCEL_METERS_PER_SECOND_SQUARED = 5; // doesn't really matter
+
+    // ticks to meters conversion factor for falcon 500
+    // (total ticks) * (motor rotations/tick) * (wheel rotations/motor rotations) *
+    // (meters/wheel rotations)
+    public static final double TICKS_TO_METERS = (1.0 / 2048.0) * (1.0 / 10.71) * (0.4788);
+
+    // ramsete parameters
+    public static final double RAMSETE_B = 2;
+    public static final double RAMSETE_ZETA = 0.7;
     public static final double OPEN_LOOP_RAMP_RATE = 0.5; // 0.65
+    public static final double CLOSED_LOOP_RAMP_RATE = 0.1;
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
   }
 

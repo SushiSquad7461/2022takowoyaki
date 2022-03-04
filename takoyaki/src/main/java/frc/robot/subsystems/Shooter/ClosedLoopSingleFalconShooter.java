@@ -64,9 +64,10 @@ public class ClosedLoopSingleFalconShooter extends Shooter {
 
   public void runKicker() {
     kicker.set(ControlMode.PercentOutput, Constants.kShooter.SPEED_KICKER);
-    //double kickerOutput = Math.round(Math.sin(System.currentTimeMillis() / Constants.kShooter.KICKER_PERIOD) + Constants.kShooter.KICKER_OFFSET);
-    //if (kickerOutput <= 0) kicker.set(ControlMode.PercentOutput, 0);
-    //else kicker.set(ControlMode.PercentOutput, kickerOutput);
+    // double kickerOutput = Math.round(Math.sin(System.currentTimeMillis() /
+    // Constants.kShooter.KICKER_PERIOD) + Constants.kShooter.KICKER_OFFSET);
+    // if (kickerOutput <= 0) kicker.set(ControlMode.PercentOutput, 0);
+    // else kicker.set(ControlMode.PercentOutput, kickerOutput);
   }
 
   public void stopKicker() {
