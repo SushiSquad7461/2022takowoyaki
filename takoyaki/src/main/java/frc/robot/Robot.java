@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     m_robotContainer.setDriveBrake();
-    m_robotContainer.teleOpDrive();
+    m_robotContainer.teleopDrive();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
