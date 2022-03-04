@@ -112,7 +112,7 @@ public class Constants {
     public static int BACK_RIGHT_ID;
     public static int BACK_LEFT_ID;
 
-    public static final double OPEN_LOOP_RAMP_RATE = 0.65; // 0.65
+    public static final double OPEN_LOOP_RAMP_RATE = 0.5; // 0.65
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
   }
 
