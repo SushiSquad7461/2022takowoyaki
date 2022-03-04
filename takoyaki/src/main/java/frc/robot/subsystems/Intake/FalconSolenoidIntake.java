@@ -30,8 +30,14 @@ public class FalconSolenoidIntake extends Intake {
   }
 
   public void runIntake() {
-    //leftSolenoid.set(DoubleSolenoid.Value.kForward);
-    //rightSolenoid.set(DoubleSolenoid.Value.kForward);
+    // leftSolenoid.set(DoubleSolenoid.Value.kForward);
+    // rightSolenoid.set(DoubleSolenoid.Value.kForward);
+    intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, Constants.kIntake.INTAKE_SPEED);
+  }
+
+  public void intakeShoot() {
+    // leftSolenoid.set(DoubleSolenoid.Value.kForward);
+    // rightSolenoid.set(DoubleSolenoid.Value.kForward);
     intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, Constants.kIntake.INTAKE_SPEED);
   }
 
@@ -56,11 +62,12 @@ public class FalconSolenoidIntake extends Intake {
     if (rightSolenoid.get() == Value.kReverse) {
       rightSolenoid.set(Value.kForward);
       leftSolenoid.set(Value.kForward);
-      intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, Constants.kIntake.INTAKE_SPEED);
+      // intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE,
+      // Constants.kIntake.INTAKE_SPEED);
     } else {
       rightSolenoid.set(Value.kReverse);
       leftSolenoid.set(Value.kReverse);
-      intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, 0);
+      // intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, 0);
     }
   }
 

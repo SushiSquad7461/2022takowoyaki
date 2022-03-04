@@ -27,7 +27,7 @@ public class TalonHopper extends Hopper {
   public void runHopper() {
     SmartDashboard.putNumber("Hopper output", floor.getMotorOutputPercent());
     floor.set(ControlMode.PercentOutput, Constants.kHopper.SPEED);
-        //Math.abs(Math.sin(System.currentTimeMillis() / Constants.kHopper.JERKINESS)));
+    //  * Math.abs(Math.sin(System.currentTimeMillis() / Constants.kHopper.JERKINESS)));
   }
 
   public void reverseHopper() {

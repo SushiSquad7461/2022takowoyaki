@@ -49,4 +49,10 @@ public class FalconNoDeploymentIntake extends Intake {
   @Override
   public void simulationPeriodic() {
   }
+
+  public void intakeShoot() {
+    // leftSolenoid.set(DoubleSolenoid.Value.kForward);
+    // rightSolenoid.set(DoubleSolenoid.Value.kForward);
+    intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, Constants.kIntake.INTAKE_SPEED);
+  }
 }

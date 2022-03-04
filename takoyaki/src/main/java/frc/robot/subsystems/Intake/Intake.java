@@ -18,4 +18,6 @@ public abstract class Intake extends SubsystemBase {
 
   public abstract void toggleIntake();
 
+  public abstract void intakeShoot();
+
 }
