@@ -200,7 +200,7 @@ public class RobotContainer {
                 // drivetrain));
         }
 
-        public void teleOpDrive() {
+        public void teleopDrive() {
                 drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
                                 OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
         }
