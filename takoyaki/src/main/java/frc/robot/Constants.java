@@ -149,7 +149,7 @@ public class Constants {
     // ramsete parameters
     public static final double RAMSETE_B = 2;
     public static final double RAMSETE_ZETA = 0.7;
-    public static final double OPEN_LOOP_RAMP_RATE = 0.65; // 0.65
+    public static final double OPEN_LOOP_RAMP_RATE = 0.5; // 0.65
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
   }
 

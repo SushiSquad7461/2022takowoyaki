@@ -195,8 +195,17 @@ public class RobotContainer {
                         new RunCommand(hopper::stop, hopper),
                         new RunCommand(intake::stop, intake)));
 
+        // drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
+        //         OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
+    }
+
+    public void teleOpDrive() {
         drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
                 OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
+    }
+
+    public void autoDrive() {
+        drivetrain.setDefaultCommand(null);
     }
 
     public Command getAutonomousCommand() {

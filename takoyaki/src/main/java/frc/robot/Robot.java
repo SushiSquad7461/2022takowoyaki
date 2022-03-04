@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    m_robotContainer.setDriveCoast();
+    m_robotContainer.setDriveBrake();
   }
 
   @Override
@@ -55,6 +55,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_robotContainer.autoDrive();
     hasRun = true;
     m_robotContainer.setDriveBrake();
 
@@ -70,7 +71,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     m_robotContainer.setDriveBrake();
-
+    m_robotContainer.teleOpDrive();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
