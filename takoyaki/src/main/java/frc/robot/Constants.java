@@ -26,6 +26,33 @@ public class Constants {
   public static double voltageToPercent(double voltage) {
     return voltage / 12.0;
   }
+    
+  public static final class kClimb {
+    public static final int CLIMB_TO_TOP_BUTTON = XboxController.Button.kY.value;
+    public static final int CLIMB_TO_BOTTOM_BUTTON = XboxController.Button.kA.value;
+    public static final int CLIMB_LEFT_OPEN_LOOP_RAISE_BUTTON = XboxController.Button.kB.value;
+    public static final int CLIMB_RIGHT_OPEN_LOOP_LOWER_BUTTON = XboxController.Button.kX.value;
+    public static final int CLIMB_LEFT_OPEN_LOOP_LOWER_BUTTON = XboxController.Button.kX.value;
+    public static final int CLIMB_ENCODER_RESET_BUTTON = XboxController.Button.kStart.value;
+    public static final int SEPARATE_CLIMB = XboxController.Button.kLeftBumper.value;
+    public static final int REJOIN_CLIMB = XboxController.Button.kRightBumper.value;
+
+    // public static final int LEFT_MOTOR_CAN_ID = 15; // green climb
+    public static final int LEFT_MOTOR_CAN_ID = 2; // blue
+    public static final int RIGHT_MOTOR_CAN_ID = 17;
+
+    public static final double OPEN_LOOP_UP_POWER = 1;
+    public static final double OPEN_LOOP_DOWN_POWER = -1;
+
+    public static final double CLOSED_LOOP_UP_POWER = -0.5;
+    public static final double CLOSED_LOOP_DOWN_POWER = 0.5;
+
+    // TODO: identify correct setpoints
+    public static final int TOP_ENCODER_VAL = -165000;
+    public static final int BOTTOM_ENCODER_VAL = -3000;
+
+    public static final double OPEN_LOOP_RAMP_RATE = 0.5;
+  }
 
   public static final class kOI {
     public static final int DRIVE_CONTROLLER = 0;
@@ -50,8 +77,8 @@ public class Constants {
   public static final class kHopper {
     public static int MOTOR_ID;
     public static boolean INVERTED;
-    public static final int CURRENT_LIMIT = 30;
-    public static final double SPEED = 0.5;
+    public static final int CURRENT_LIMIT = 15;
+    public static final double SPEED = 1;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
     public static final long JERKINESS = 100;
@@ -84,6 +111,9 @@ public class Constants {
     public static int FRONT_LEFT_ID;
     public static int BACK_RIGHT_ID;
     public static int BACK_LEFT_ID;
+
+    public static final double OPEN_LOOP_RAMP_RATE = 0.65; // 0.65
+    public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
   }
 
   public static final class kShooter {
@@ -109,6 +139,7 @@ public class Constants {
     public static final class kDoubleClosedLoop {
       public static final class kFront {
         public static final double SETPOINT = convertRPMtoTrans(1100.0); // 1100
+        public static final double ERROR_TOLERANCE = convertRPMtoTrans(30);
         public static final double SETPOINT_OFFSET = convertRPMtoTrans(-30 + 100);
         public static double kP;
         public static double kI;
@@ -144,6 +175,8 @@ public class Constants {
     public static boolean KICKER_INVERSION;
 
     public static final double SPEED_KICKER = 1;
+    public static final double KICKER_PERIOD = 50;
+    public static final double KICKER_OFFSET = 0.3;
   }
 
   enum RobotType {

@@ -54,6 +54,11 @@ public class FalconDrivetrain extends Drivetrain {
     frontRight.configOpenloopRamp(0.65);
     backRight.configOpenloopRamp(0.65);
 
+    frontLeft.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
+    backLeft.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
+    frontRight.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
+    backRight.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
+
     inverted = 1;
   }
 
@@ -73,9 +78,9 @@ public class FalconDrivetrain extends Drivetrain {
 
   public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn) {
     if (isQuickturn) {
-      angularVelocity /= 3;
+      angularVelocity /= Constants.kDrive.QUICKTURN_DAMPENER;
     }
-    diffDrive.curvatureDrive(linearVelocity * inverted, angularVelocity, isQuickturn);
+    diffDrive.curvatureDrive(linearVelocity * inverted, angularVelocity * inverted, isQuickturn);
   }
 
   public void breakInGearboxes() {
