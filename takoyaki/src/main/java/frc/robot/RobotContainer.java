@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -87,6 +89,8 @@ public class RobotContainer {
 
                 new JoystickButton(driveController, Constants.kOI.SHOOT)
                                 .whenHeld(new AutoShoot(shooter, hopper, intake));
+
+                CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
 
                 // shoot ball (hopper + kicker)
                 /*
