@@ -27,7 +27,7 @@ public class Constants {
   public static double voltageToPercent(double voltage) {
     return voltage / 12.0;
   }
-    
+
   public static final class kClimb {
     public static final int CLIMB_TO_TOP_BUTTON = XboxController.Button.kY.value;
     public static final int CLIMB_TO_BOTTOM_BUTTON = XboxController.Button.kA.value;
@@ -168,7 +168,7 @@ public class Constants {
     // ramsete parameters
     public static final double RAMSETE_B = 2;
     public static final double RAMSETE_ZETA = 0.7;
-    public static final double OPEN_LOOP_RAMP_RATE = 0.5; // 0.65
+    public static final double OPEN_LOOP_RAMP_RATE = 0.45; // 0.65
     public static final double CLOSED_LOOP_RAMP_RATE = 0.1;
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
   }
@@ -195,7 +195,7 @@ public class Constants {
 
     public static final class kDoubleClosedLoop {
       public static final class kFront {
-        public static final double SETPOINT = convertRPMtoTrans(1100.0); // 1100
+        public static final double SETPOINT = convertRPMtoTrans(1065.0); // 1100 // 1085
         public static final double ERROR_TOLERANCE = convertRPMtoTrans(30);
         public static final double SETPOINT_OFFSET = convertRPMtoTrans(-30 + 100);
         public static double kP;
@@ -208,7 +208,7 @@ public class Constants {
       }
 
       public static final class kBack {
-        public static final double SETPOINT = convertRPMtoTrans(3250.0); // 3200
+        public static final double SETPOINT = convertRPMtoTrans(3215.0); // 3250 // 3235
         public static final double SETPOINT_OFFSET = convertRPMtoTrans(100.0 + 170.0);
         public static double kP;
         public static double kI;
