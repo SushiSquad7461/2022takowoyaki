@@ -27,7 +27,7 @@ public class Constants {
   public static double voltageToPercent(double voltage) {
     return voltage / 12.0;
   }
-    
+
   public static final class kClimb {
     public static final int CLIMB_TO_TOP_BUTTON = XboxController.Button.kY.value;
     public static final int CLIMB_TO_BOTTOM_BUTTON = XboxController.Button.kA.value;
@@ -53,6 +53,10 @@ public class Constants {
     public static final int BOTTOM_ENCODER_VAL = -3000;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0.5;
+
+    public static final double CURRENT_LIMIT = 60;
+    public static final double CURRENT_LIMIT_THRESHOLD = 70;
+    public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
   }
 
   public static final class kOI {
@@ -80,17 +84,23 @@ public class Constants {
   public static final class kHopper {
     public static int MOTOR_ID;
     public static boolean INVERTED;
-    public static final int CURRENT_LIMIT = 15;
     public static final double SPEED = 1;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
     public static final double JERKINESS = 100;
+
+    public static final double CURRENT_LIMIT = 15;
+    public static final double CURRENT_LIMIT_THRESHOLD = 20;
+    public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
   }
 
   public static final class kIntake {
     public static final class kFalcon {
       public static final TalonFXInvertType INVERT_TYPE = TalonFXInvertType.CounterClockwise;
       public static final TalonFXControlMode CONTROL_MODE = TalonFXControlMode.PercentOutput;
+      public static final double CURRENT_LIMIT = 15;
+      public static final double CURRENT_LIMIT_THRESHOLD = 20;
+      public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
     }
 
     public static final class kSpark {
@@ -171,6 +181,10 @@ public class Constants {
     public static final double OPEN_LOOP_RAMP_RATE = 0.5; // 0.65
     public static final double CLOSED_LOOP_RAMP_RATE = 0.1;
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
+
+    public static final double CURRENT_LIMIT = 60;
+    public static final double CURRENT_LIMIT_THRESHOLD = 70;
+    public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
   }
 
   public static final class kShooter {
@@ -205,6 +219,9 @@ public class Constants {
         public static double kS = voltageToPercent(0.61716);
         public static double kV = voltageToPercent(0.10724);
         public static double kA = voltageToPercent(0.0082862);
+        public static final double CURRENT_LIMIT = 15;
+        public static final double CURRENT_LIMIT_THRESHOLD = 20;
+        public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
       }
 
       public static final class kBack {
@@ -217,7 +234,9 @@ public class Constants {
         public static double kS;
         public static double kV;
         public static double kA;
-
+        public static final double CURRENT_LIMIT = 15;
+        public static final double CURRENT_LIMIT_THRESHOLD = 20;
+        public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
       }
     }
 
@@ -225,7 +244,6 @@ public class Constants {
     public static int RIGHT_MOTOR_ID;
     public static int KICKER_MOTOR_ID;
     public static int BACK_MOTOR_ID;
-    public static final int CURRENT_LIMIT = 35;
     public static final int DEFAULT_PROFILE_SLOT = 0;
     public static final int DEFAULT_CONFIG_TIMEOUT = 100;
 
@@ -234,6 +252,9 @@ public class Constants {
     public static final double SPEED_KICKER = 1;
     public static final double KICKER_PERIOD = 50;
     public static final double KICKER_OFFSET = 0.3;
+    public static final double KICKER_CURRENT_LIMIT = 15;
+    public static final double KICKER_CURRENT_LIMIT_THRESHOLD = 20;
+    public static final double KICKER_CURRENT_LIMIT_THRESHOLD_TIME = 3;
   }
 
   enum RobotType {

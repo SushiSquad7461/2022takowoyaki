@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.Constants;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 public class FalconSolenoidIntake extends Intake {
@@ -20,7 +22,12 @@ public class FalconSolenoidIntake extends Intake {
       Constants.kIntake.RIGHT_SOLENOID_FORWARD, Constants.kIntake.RIGHT_SOLENOID_REVERSE);
 
   public FalconSolenoidIntake() {
+    intakeMotor.configFactoryDefault();
+    intakeMotor.setNeutralMode(NeutralMode.Coast);
     intakeMotor.setInverted(Constants.kIntake.kFalcon.INVERT_TYPE);
+    intakeMotor.configSupplyCurrentLimit(
+        new SupplyCurrentLimitConfiguration(true, Constants.kIntake.kFalcon.CURRENT_LIMIT,
+            Constants.kIntake.kFalcon.CURRENT_LIMIT_THRESHOLD, Constants.kIntake.kFalcon.CURRENT_LIMIT_THRESHOLD_TIME));
 
     // rightSolenoid.set(DoubleSolenoid.Value.kOff);
     rightSolenoid.set(DoubleSolenoid.Value.kReverse);

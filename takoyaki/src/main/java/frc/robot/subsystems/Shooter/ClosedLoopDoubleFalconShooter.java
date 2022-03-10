@@ -9,6 +9,7 @@ import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -41,6 +42,22 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     back.setInverted(TalonFXInvertType.Clockwise);
     kicker.setInverted(!Constants.kShooter.KICKER_INVERSION);
 
+    left.configSupplyCurrentLimit(
+        new SupplyCurrentLimitConfiguration(true, Constants.kShooter.kDoubleClosedLoop.kFront.CURRENT_LIMIT,
+            Constants.kShooter.kDoubleClosedLoop.kFront.CURRENT_LIMIT_THRESHOLD,
+            Constants.kShooter.kDoubleClosedLoop.kFront.CURRENT_LIMIT_THRESHOLD_TIME));
+    right.configSupplyCurrentLimit(
+        new SupplyCurrentLimitConfiguration(true, Constants.kShooter.kDoubleClosedLoop.kFront.CURRENT_LIMIT,
+            Constants.kShooter.kDoubleClosedLoop.kFront.CURRENT_LIMIT_THRESHOLD,
+            Constants.kShooter.kDoubleClosedLoop.kFront.CURRENT_LIMIT_THRESHOLD_TIME));
+    back.configSupplyCurrentLimit(
+        new SupplyCurrentLimitConfiguration(true, Constants.kShooter.kDoubleClosedLoop.kBack.CURRENT_LIMIT,
+            Constants.kShooter.kDoubleClosedLoop.kBack.CURRENT_LIMIT_THRESHOLD,
+            Constants.kShooter.kDoubleClosedLoop.kBack.CURRENT_LIMIT_THRESHOLD_TIME));
+    kicker.configSupplyCurrentLimit(
+        new SupplyCurrentLimitConfiguration(true, Constants.kShooter.KICKER_CURRENT_LIMIT,
+            Constants.kShooter.KICKER_CURRENT_LIMIT_THRESHOLD, Constants.kShooter.KICKER_CURRENT_LIMIT_THRESHOLD_TIME));
+
     left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kFront.kP,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
     left.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kFront.kI,
@@ -58,7 +75,6 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
     back.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kBack.kF,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-
 
     right.follow(left);
 
@@ -100,20 +116,24 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public void setSetpoint() {
-    this.frontSetpoint = Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET;
-    this.backSetpoint = Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET;
+    this.frontSetpoint = Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT
+        + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET;
+    this.backSetpoint = Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT
+        + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET;
   }
 
   @Override
   public void periodic() {
     // runKicker();
     SmartDashboard.putNumber("front shooter rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
-    SmartDashboard.putNumber("front shooter setpoint", (frontSetpoint- Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET) * 600.0 / 2048.0);
-    SmartDashboard.putNumber("back shooter setpoint", (backSetpoint- Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET) * 600.0 / 2048.0);
+    SmartDashboard.putNumber("front shooter setpoint",
+        (frontSetpoint - Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET) * 600.0 / 2048.0);
+    SmartDashboard.putNumber("back shooter setpoint",
+        (backSetpoint - Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET) * 600.0 / 2048.0);
     SmartDashboard.putNumber("back shooter rpm", back.getSelectedSensorVelocity() * 600.0 / 2048.0);
     frontChange = left.getSelectedSensorPosition();
-    //back.set(ControlMode.PercentOutput, Constants.kShooter.kOpenLoop.BACK_SPEED);
-    
+    // back.set(ControlMode.PercentOutput, Constants.kShooter.kOpenLoop.BACK_SPEED);
+
     if (frontSetpoint == 0) { // assume both setpoints are zero
       left.set(ControlMode.PercentOutput, 0);
       back.set(ControlMode.PercentOutput, 0);

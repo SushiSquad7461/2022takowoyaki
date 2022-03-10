@@ -14,6 +14,7 @@ import javax.naming.ldap.Control;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 
 public class FalconBrakeModeClimb extends Climb {
@@ -153,6 +154,8 @@ public class FalconBrakeModeClimb extends Climb {
     motor.setSelectedSensorPosition(0);
     motor.setNeutralMode(NeutralMode.Brake);
     motor.configOpenloopRamp(Constants.kClimb.OPEN_LOOP_RAMP_RATE);
+    motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kClimb.CURRENT_LIMIT,
+        Constants.kClimb.CURRENT_LIMIT_THRESHOLD, Constants.kClimb.CURRENT_LIMIT_THRESHOLD_TIME));
 
   }
 }

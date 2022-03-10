@@ -68,7 +68,16 @@ public class FalconDrivetrain extends Drivetrain {
     backLeft.setInverted(TalonFXInvertType.CounterClockwise);
     frontRight.setInverted(TalonFXInvertType.Clockwise);
     backRight.setInverted(TalonFXInvertType.Clockwise);
-    
+
+    frontLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.CURRENT_LIMIT,
+        Constants.kDrive.CURRENT_LIMIT_THRESHOLD, Constants.kDrive.CURRENT_LIMIT_THRESHOLD_TIME));
+    backLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.CURRENT_LIMIT,
+        Constants.kDrive.CURRENT_LIMIT_THRESHOLD, Constants.kDrive.CURRENT_LIMIT_THRESHOLD_TIME));
+    frontRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.CURRENT_LIMIT,
+        Constants.kDrive.CURRENT_LIMIT_THRESHOLD, Constants.kDrive.CURRENT_LIMIT_THRESHOLD_TIME));
+    backRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kDrive.CURRENT_LIMIT,
+        Constants.kDrive.CURRENT_LIMIT_THRESHOLD, Constants.kDrive.CURRENT_LIMIT_THRESHOLD_TIME));
+
     // frontLeft.configOpenloopRamp(0.65);
     // backLeft.configOpenloopRamp(0.65);
     // frontRight.configOpenloopRamp(0.65);
