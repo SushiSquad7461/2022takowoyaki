@@ -135,36 +135,18 @@ public class AutoCommandSelector {
             new InstantCommand(hopper::stop, hopper)));
 
     fiveBall = new SequentialCommandGroup(
-        // shoot first ball
-        getAutoShoot().withTimeout(0.5),
-        // complete path to first ball and actuate intake
-        ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_MIDBALL_1_REVERSE),
-        // run intake and pick up mid ball and wall ball
+        getAutoShoot().withTimeout(0.25),
+        ramsete.createRamseteCommand(RamsetePath.PATHPLANNER_SHOOT_MIDBALL),
         new ParallelCommandGroup(new InstantCommand(intake::toggleIntake, intake),
-            ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_MIDBALL_2)),
-        // drive to the hub to shoot
-        ramsete.createRamseteCommand(RamsetePath.GAMMA_WALLBALL_SHOOT)
+            ramsete.createRamseteCommand(RamsetePath.PATHPLANNER_MIDBALL_WALLBALL)),
+        ramsete.createRamseteCommand(RamsetePath.PATHPLANNER_WALLBALL_SHOOT)
             .andThen(new InstantCommand(intake::toggleIntake, intake)),
-        // shoot for 1 second
-        getAutoShoot().withTimeout(1),
-        // new RunCommand(intake::toggleIntake, intake).withTimeout(1)),
-        // stop shooting
-        // drive halfway to the terminal
-        // ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_1_REVERSE),
-        ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_STRAIGHT_1),
-        // run intake and drive to terminal balls
+        getAutoShoot().withTimeout(0.5),
+        new InstantCommand(intake::toggleIntake, intake),
+        ramsete.createRamseteCommand(RamsetePath.PATHPLANNER_SHOOT_TERMINAL),
+        new WaitCommand(0.25),
         new ParallelCommandGroup(new InstantCommand(intake::toggleIntake, intake),
-            // ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_2)),
-            ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_STRAIGHT_2)),
-        new WaitCommand(0.5),
-        new ParallelCommandGroup(new InstantCommand(intake::toggleIntake, intake),
-            ramsete.createRamseteCommand(RamsetePath.GAMMA_TERMINAL_SHOOT_STRAIGHT)),
-        // drive halfway back to the hub
-        // ramsete.createRamseteCommand(RamsetePath.TERMINAL_SHOOT_1_REVERSE),
-        // // drive to hub and rev shooter
-        // new ParallelCommandGroup(ramsete.createRamseteCommand(RamsetePath.TERMINAL_SHOOT_2),
-        //     new InstantCommand(shooter::setSetpoint, shooter)),
-        // shoot final two balls
+            ramsete.createRamseteCommand(RamsetePath.PATHPLANNER_TERMINAL_SHOOT)),
         getAutoShoot());
 
     reverseSpline = new SequentialCommandGroup(

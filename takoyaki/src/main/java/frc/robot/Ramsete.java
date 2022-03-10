@@ -49,7 +49,12 @@ public class Ramsete {
     GAMMA_TERMINAL_SHOOT_2("output/output/terminal-shoot-2.wpilib.json"),
     GAMMA_TERMINAL_SHOOT_STRAIGHT("output/output/terminal-shoot-straight.wpilib.json"),
     GAMMA_SHOOT_TERMINAL_STRAIGHT_1("output/output/shoot-terminal-straight-1.wpilib.json"),
-    GAMMA_SHOOT_TERMINAL_STRAIGHT_2("output/output/shoot-terminal-straight-2.wpilib.json");
+    GAMMA_SHOOT_TERMINAL_STRAIGHT_2("output/output/shoot-terminal-straight-2.wpilib.json"),
+    PATHPLANNER_SHOOT_MIDBALL("output/pathplanner/generatedJSON/shoot-midball.wpilib.json"),
+    PATHPLANNER_MIDBALL_WALLBALL("output/pathplanner/generatedJSON/midball-wallball.wpilib.json"),
+    PATHPLANNER_WALLBALL_SHOOT("output/pathplanner/generatedJSON/wallball-shoot.wpilib.json"),
+    PATHPLANNER_SHOOT_TERMINAL("output/pathplanner/generatedJSON/shoot-terminal.wpilib.json"),
+    PATHPLANNER_TERMINAL_SHOOT("output/pathplanner/generatedJSON/terminal-shoot.wpilib.json");
 
     private String json;
     RamsetePath(String json) {
