@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Ramsete.RamsetePath;
 import frc.robot.commands.AutoShoot;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
@@ -98,10 +99,11 @@ public class AutoCommandSelector {
     // create command groups
     twoBallWall = new SequentialCommandGroup(
         new InstantCommand(intake::toggleIntake, intake),
+        new WaitCommand(7),
         ramsete.createRamseteCommand(RamsetePath.TARMAC_WALLBALL),
-        new InstantCommand(intake::toggleIntake, intake),
         ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT),
-        getAutoShoot());
+        new InstantCommand(intake::toggleIntake, intake),
+        getAutoShoot().withTimeout(5));
 
     twoBallMid = new SequentialCommandGroup(
         new InstantCommand(intake::toggleIntake, intake),
@@ -112,10 +114,11 @@ public class AutoCommandSelector {
 
     twoBallFar = new SequentialCommandGroup(
         new InstantCommand(intake::toggleIntake, intake),
+        new WaitCommand(7),
         ramsete.createRamseteCommand(RamsetePath.TARMAC_FARBALL),
         new InstantCommand(intake::toggleIntake, intake),
         ramsete.createRamseteCommand(RamsetePath.FARBALL_SHOOT),
-        getAutoShoot());
+        getAutoShoot().withTimeout(5));
 
     threeBall = new SequentialCommandGroup(
         getAutoShoot().withTimeout(1),
@@ -133,7 +136,7 @@ public class AutoCommandSelector {
 
     fiveBall = new SequentialCommandGroup(
         // shoot first ball
-        getAutoShoot().withTimeout(1),
+        getAutoShoot().withTimeout(0.5),
         // complete path to first ball and actuate intake
         ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_MIDBALL_1_REVERSE),
         // run intake and pick up mid ball and wall ball
@@ -150,9 +153,10 @@ public class AutoCommandSelector {
         ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_1_REVERSE),
         // run intake and drive to terminal balls
         new ParallelCommandGroup(new InstantCommand(intake::toggleIntake, intake),
-            ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_2))
-                .andThen(new InstantCommand(intake::toggleIntake, intake)),
-        ramsete.createRamseteCommand(RamsetePath.GAMMA_TERMINAL_SHOOT_STRAIGHT),
+            ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_2)),
+        new WaitCommand(0.5),
+        new ParallelCommandGroup(new InstantCommand(intake::toggleIntake, intake),
+            ramsete.createRamseteCommand(RamsetePath.GAMMA_TERMINAL_SHOOT_STRAIGHT)),
         // drive halfway back to the hub
         // ramsete.createRamseteCommand(RamsetePath.TERMINAL_SHOOT_1_REVERSE),
         // // drive to hub and rev shooter
