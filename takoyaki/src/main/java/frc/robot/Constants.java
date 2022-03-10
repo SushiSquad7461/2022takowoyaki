@@ -240,21 +240,20 @@ public class Constants {
       }
     }
 
+    public static final class kKicker {
+      public static final double MOTOR_SPEED = 1;
+      public static final double CURRENT_LIMIT = 15;
+      public static final double CURRENT_LIMIT_THRESHOLD = 20;
+      public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
+      public static boolean KICKER_INVERSION;
+    }
+
     public static int LEFT_MOTOR_ID;
     public static int RIGHT_MOTOR_ID;
     public static int KICKER_MOTOR_ID;
     public static int BACK_MOTOR_ID;
     public static final int DEFAULT_PROFILE_SLOT = 0;
     public static final int DEFAULT_CONFIG_TIMEOUT = 100;
-
-    public static boolean KICKER_INVERSION;
-
-    public static final double SPEED_KICKER = 1;
-    public static final double KICKER_PERIOD = 50;
-    public static final double KICKER_OFFSET = 0.3;
-    public static final double KICKER_CURRENT_LIMIT = 15;
-    public static final double KICKER_CURRENT_LIMIT_THRESHOLD = 20;
-    public static final double KICKER_CURRENT_LIMIT_THRESHOLD_TIME = 3;
   }
 
   enum RobotType {
@@ -295,7 +294,7 @@ public class Constants {
         kShooter.kDoubleClosedLoop.kFront.kD = 0.0;
         kShooter.kDoubleClosedLoop.kFront.kF = 0.045;
         kHopper.INVERTED = false;
-        kShooter.KICKER_INVERSION = true;
+        kShooter.kKicker.KICKER_INVERSION = true;
         break;
       default:
         kHopper.MOTOR_ID = 10;
@@ -324,7 +323,7 @@ public class Constants {
         kShooter.kDoubleClosedLoop.kBack.kV = voltageToPercent(0.0011253);
         kShooter.kDoubleClosedLoop.kBack.kA = voltageToPercent(0.000047908);
         kHopper.INVERTED = true;
-        kShooter.KICKER_INVERSION = false;
+        kShooter.kKicker.KICKER_INVERSION = false;
         break;
     }
   }

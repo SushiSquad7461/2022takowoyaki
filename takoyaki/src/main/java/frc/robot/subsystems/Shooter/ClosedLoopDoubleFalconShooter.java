@@ -40,7 +40,7 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     left.setInverted(TalonFXInvertType.CounterClockwise);
     right.setInverted(TalonFXInvertType.Clockwise);
     back.setInverted(TalonFXInvertType.Clockwise);
-    kicker.setInverted(!Constants.kShooter.KICKER_INVERSION);
+    kicker.setInverted(!Constants.kShooter.kKicker.KICKER_INVERSION);
 
     left.configSupplyCurrentLimit(
         new SupplyCurrentLimitConfiguration(true, Constants.kShooter.kDoubleClosedLoop.kFront.CURRENT_LIMIT,
@@ -55,8 +55,9 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
             Constants.kShooter.kDoubleClosedLoop.kBack.CURRENT_LIMIT_THRESHOLD,
             Constants.kShooter.kDoubleClosedLoop.kBack.CURRENT_LIMIT_THRESHOLD_TIME));
     kicker.configSupplyCurrentLimit(
-        new SupplyCurrentLimitConfiguration(true, Constants.kShooter.KICKER_CURRENT_LIMIT,
-            Constants.kShooter.KICKER_CURRENT_LIMIT_THRESHOLD, Constants.kShooter.KICKER_CURRENT_LIMIT_THRESHOLD_TIME));
+        new SupplyCurrentLimitConfiguration(true, Constants.kShooter.kKicker.CURRENT_LIMIT,
+            Constants.kShooter.kKicker.CURRENT_LIMIT_THRESHOLD,
+            Constants.kShooter.kKicker.CURRENT_LIMIT_THRESHOLD_TIME));
 
     left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kFront.kP,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
@@ -98,7 +99,7 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public void runKicker() {
-    kicker.set(ControlMode.PercentOutput, Constants.kShooter.SPEED_KICKER);
+    kicker.set(ControlMode.PercentOutput, Constants.kShooter.kKicker.MOTOR_SPEED);
   }
 
   public void stopKicker() {
@@ -106,7 +107,7 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public void reverseKicker() {
-    kicker.set(ControlMode.PercentOutput, -Constants.kShooter.SPEED_KICKER);
+    kicker.set(ControlMode.PercentOutput, -Constants.kShooter.kKicker.MOTOR_SPEED);
   }
 
   public void zeroSetpoint() {
