@@ -150,10 +150,12 @@ public class AutoCommandSelector {
         // new RunCommand(intake::toggleIntake, intake).withTimeout(1)),
         // stop shooting
         // drive halfway to the terminal
-        ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_1_REVERSE),
+        // ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_1_REVERSE),
+        ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_STRAIGHT_1),
         // run intake and drive to terminal balls
         new ParallelCommandGroup(new InstantCommand(intake::toggleIntake, intake),
-            ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_2)),
+            // ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_2)),
+            ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_STRAIGHT_2)),
         new WaitCommand(0.5),
         new ParallelCommandGroup(new InstantCommand(intake::toggleIntake, intake),
             ramsete.createRamseteCommand(RamsetePath.GAMMA_TERMINAL_SHOOT_STRAIGHT)),
