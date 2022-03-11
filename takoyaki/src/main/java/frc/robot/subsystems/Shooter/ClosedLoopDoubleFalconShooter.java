@@ -5,6 +5,7 @@
 package frc.robot.subsystems.Shooter;
 
 import frc.robot.Constants;
+import frc.robot.utils.TunableNumber;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
@@ -29,8 +30,21 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   private double backChange;
   private double frontSetpoint;
   private double backSetpoint;
+  private TunableNumber frontGoal = new TunableNumber("frontGoal", Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT);
+  private TunableNumber backGoal = new TunableNumber("backGoal", Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT);
 
+  private TunableNumber frontP = new TunableNumber("frontP", Constants.kShooter.kDoubleClosedLoop.kFront.kP);
+  private TunableNumber frontI = new TunableNumber("frontI", Constants.kShooter.kDoubleClosedLoop.kFront.kI);
+  private TunableNumber frontD = new TunableNumber("frontD", Constants.kShooter.kDoubleClosedLoop.kFront.kD);
+  private TunableNumber frontF = new TunableNumber("frontF", Constants.kShooter.kDoubleClosedLoop.kFront.kF);
+
+  private TunableNumber backP = new TunableNumber("frontP", Constants.kShooter.kDoubleClosedLoop.kFront.kP);
+  private TunableNumber backI = new TunableNumber("frontI", Constants.kShooter.kDoubleClosedLoop.kFront.kI);
+  private TunableNumber backD = new TunableNumber("frontD", Constants.kShooter.kDoubleClosedLoop.kFront.kD);
+  private TunableNumber backF = new TunableNumber("frontF", Constants.kShooter.kDoubleClosedLoop.kFront.kF);
+ 
   public ClosedLoopDoubleFalconShooter() {
+
     left.setNeutralMode(NeutralMode.Coast);
     right.setNeutralMode(NeutralMode.Coast);
     back.setNeutralMode(NeutralMode.Coast);
@@ -41,22 +55,22 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     back.setInverted(TalonFXInvertType.Clockwise);
     kicker.setInverted(!Constants.kShooter.KICKER_INVERSION);
 
-    left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kFront.kP,
+    left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, frontP.get(),
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kFront.kI,
+    left.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, frontI.get(),
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kFront.kD,
+    left.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, frontD.get(),
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kFront.kF,
+    left.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, frontF.get(),
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
 
-    back.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kBack.kP,
+    back.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, backP.get(),
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    back.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kBack.kI,
+    back.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, backI.get(),
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    back.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kBack.kD,
+    back.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, backD.get(),
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    back.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kBack.kF,
+    back.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, backF.get(),
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
 
 
@@ -100,8 +114,8 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public void setSetpoint() {
-    this.frontSetpoint = Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET;
-    this.backSetpoint = Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET;
+    this.frontSetpoint = frontGoal.get() + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET;
+    this.backSetpoint = frontGoal.get() + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET;
   }
 
   @Override
