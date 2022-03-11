@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.function.Supplier;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
@@ -26,6 +27,19 @@ public class Constants {
   // used for unit conversions for ff constants on talon fx
   public static double voltageToPercent(double voltage) {
     return voltage / 12.0;
+  }
+
+  public static final class kTurnToFender {
+    // pid constants
+    public static final double kP = 0.1;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+  }
+
+  public static final class kPhotonVision {
+    // public static final double CAMERA_HEIGHT_METERS = 0;
+    // public static final double TARGET_HEIGHT_METERS = 0;
+    public static final String CAMERA_NAME = "sushi_sees";
   }
 
   public static final class kClimb {
@@ -73,6 +87,9 @@ public class Constants {
 
     // shooter buttons
     public static final int REV_SHOOTER = XboxController.Button.kB.value;
+
+    // fancy commands
+    public static final int TURN_TO_FENDER = XboxController.Button.kRightBumper.value;
 
     public static final String TRAJECTORY_NAME = "path";
   }

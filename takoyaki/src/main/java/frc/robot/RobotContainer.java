@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import java.util.function.Supplier;
+
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -18,6 +22,7 @@ import frc.robot.subsystems.Hopper.TalonHopper;
 import frc.robot.subsystems.Hopper.VictorHopper;
 import frc.robot.Ramsete.RamsetePath;
 import frc.robot.commands.AutoShoot;
+import frc.robot.commands.TurnToFender;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
 import frc.robot.subsystems.Intake.FalconSolenoidIntake;
@@ -45,6 +50,9 @@ public class RobotContainer {
         // controllers
         private final XboxController driveController;
         private final XboxController operatorController;
+
+        // cameras
+        private final PhotonCamera photonCamera;
 
         // auto stuff
         private final Ramsete ramsete;
@@ -91,6 +99,8 @@ public class RobotContainer {
                                 .whenHeld(new AutoShoot(shooter, hopper, intake));
 
                 CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+
+                photonCamera = new PhotonCamera(Constants.kPhotonVision.CAMERA_NAME);
 
                 // shoot ball (hopper + kicker)
                 /*
@@ -197,6 +207,10 @@ public class RobotContainer {
                                                 new RunCommand(shooter::stopKicker, shooter),
                                                 new RunCommand(hopper::stop, hopper),
                                                 new RunCommand(intake::stop, intake)));
+
+                Supplier<Double> linearVelocitySupplier = () -> OI.getTriggers(driveController);
+                new JoystickButton(driveController, Constants.kOI.TURN_TO_FENDER)
+                                .whenPressed(new TurnToFender(drivetrain, photonCamera, linearVelocitySupplier));
 
                 // drivetrain.setDefaultCommand(new RunCommand(() ->
                 // drivetrain.curveDrive(OI.getTriggers(driveController),
