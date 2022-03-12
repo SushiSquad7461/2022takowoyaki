@@ -105,12 +105,19 @@ public class ClosedLoopSingleFalconShooter extends Shooter {
   }
 
   public boolean isAtSpeed() {
-    double difference = Math.abs(left.getSelectedSensorVelocity() - Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT);
-    if (difference <= Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE) return true;
-    else return false;
+    double difference = Math
+        .abs(left.getSelectedSensorVelocity() - Constants.kShooter.kDoubleClosedLoop.kFront.FENDER_SETPOINT);
+    if (difference <= Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE)
+      return true;
+    else
+      return false;
   }
 
   @Override
   public void simulationPeriodic() {
   }
+
+  public void setState(ShooterState state) {
+  }
+
 }

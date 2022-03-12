@@ -82,7 +82,8 @@ public class OpenLoopFalconShooter extends Shooter {
     left.set(ControlMode.PercentOutput, setpoint);
     // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
   }
+
+  public void setState(ShooterState state) {
+
+  }
 }
-
-
-  

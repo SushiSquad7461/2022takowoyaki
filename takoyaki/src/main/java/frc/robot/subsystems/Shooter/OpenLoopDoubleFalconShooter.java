@@ -81,4 +81,8 @@ public class OpenLoopDoubleFalconShooter extends Shooter {
   @Override
   public void simulationPeriodic() {
   }
+
+  public void setState(ShooterState state) {
+  }
+
 }

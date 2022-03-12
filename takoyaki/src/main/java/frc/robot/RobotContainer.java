@@ -95,9 +95,6 @@ public class RobotContainer {
                 // set up chooser
                 SmartDashboard.putData("auto options", autoChooser);
 
-                new JoystickButton(driveController, Constants.kOI.SHOOT)
-                                .whenHeld(new AutoShoot(shooter, hopper, intake));
-
                 CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
 
                 photonCamera = new PhotonCamera(Constants.kPhotonVision.CAMERA_NAME);
@@ -166,8 +163,9 @@ public class RobotContainer {
                                                 climb));
                 // run hopper
                 // new JoystickButton(driveController, Constants.kOI.RUN_HOPPER);
+                Supplier<Shooter.ShooterState> shooterStateSupplier = () -> shooter.getStateFromVision(photonCamera);
                 new JoystickButton(driveController, Constants.kOI.SHOOT)
-                                .whenHeld(new AutoShoot(shooter, hopper, intake));
+                                .whenHeld(new AutoShoot(shooter, hopper, intake, shooterStateSupplier));
 
                 // shoot ball (hopper + kicker)
                 /*
@@ -216,6 +214,12 @@ public class RobotContainer {
                 // drivetrain.curveDrive(OI.getTriggers(driveController),
                 // OI.getLeftStick(driveController), driveController.getXButton()),
                 // drivetrain));
+
+                drivetrain.setDefaultCommand(new RunCommand(
+                                () -> drivetrain.curveDrive(OI.getTriggers(driveController),
+                                                OI.getLeftStick(driveController), driveController.getXButton()),
+                                drivetrain));
+
         }
 
         public void teleopDrive() {
@@ -259,5 +263,4 @@ public class RobotContainer {
         public void tankDriveVolts(int left, int right) {
                 drivetrain.tankDriveVolts(left, right);
         }
-
 }

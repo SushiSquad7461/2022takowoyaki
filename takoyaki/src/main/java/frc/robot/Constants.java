@@ -192,6 +192,12 @@ public class Constants {
 
   public static final class kShooter {
 
+    public static final class kVision {
+      // if the vision target is below this height,
+      // the shooter state becomes exit. Otherwise, fender.
+      public static final double EXIT_PITCH = 0;
+    }
+
     public static final class kOpenLoop {
       public static final double SPEED = 1;
       public static final double BACK_SPEED = 1; // only used on double shooters
@@ -212,7 +218,8 @@ public class Constants {
 
     public static final class kDoubleClosedLoop {
       public static final class kFront {
-        public static final double SETPOINT = convertRPMtoTrans(1065.0); // 1100 // 1085
+        public static final double FENDER_SETPOINT = convertRPMtoTrans(1065.0); // 1100 // 1085
+        public static final double EXIT_SETPOINT = convertRPMtoTrans(1065.0); // 1100 // 1085
         public static final double ERROR_TOLERANCE = convertRPMtoTrans(30);
         public static final double SETPOINT_OFFSET = convertRPMtoTrans(-30 + 100);
         public static double kP;
@@ -225,7 +232,8 @@ public class Constants {
       }
 
       public static final class kBack {
-        public static final double SETPOINT = convertRPMtoTrans(3215.0); // 3250 // 3235
+        public static final double FENDER_SETPOINT = convertRPMtoTrans(3215.0); // 3250 // 3235
+        public static final double EXIT_SETPOINT = convertRPMtoTrans(3215.0); // 3250 // 3235
         public static final double SETPOINT_OFFSET = convertRPMtoTrans(100.0 + 170.0);
         public static double kP;
         public static double kI;
