@@ -168,7 +168,7 @@ public class Constants {
     // ramsete parameters
     public static final double RAMSETE_B = 2;
     public static final double RAMSETE_ZETA = 0.7;
-    public static final double OPEN_LOOP_RAMP_RATE = 0.45; // 0.65
+    public static final double OPEN_LOOP_RAMP_RATE = 0; // 0.65
     public static final double CLOSED_LOOP_RAMP_RATE = 0.1;
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
   }
@@ -195,7 +195,8 @@ public class Constants {
 
     public static final class kDoubleClosedLoop {
       public static final class kFront {
-        public static final double SETPOINT = convertRPMtoTrans(1065.0); // 1100 // 1085
+        // OUTREACH CONSTANT
+        public static final double SETPOINT = convertRPMtoTrans(1065.0); // 1100 // 1065 COMP CONSTANT
         public static final double ERROR_TOLERANCE = convertRPMtoTrans(30);
         public static final double SETPOINT_OFFSET = convertRPMtoTrans(-30 + 100);
         public static double kP;
@@ -208,7 +209,8 @@ public class Constants {
       }
 
       public static final class kBack {
-        public static final double SETPOINT = convertRPMtoTrans(3215.0); // 3250 // 3235
+        // OUTREACH CONSTANT
+        public static final double SETPOINT = convertRPMtoTrans(3215.0); // 3250 // 3215 CCOMP CONSTANT
         public static final double SETPOINT_OFFSET = convertRPMtoTrans(100.0 + 170.0);
         public static double kP;
         public static double kI;
@@ -277,19 +279,19 @@ public class Constants {
         kShooter.KICKER_INVERSION = true;
         break;
       default:
-        kHopper.MOTOR_ID = 10;
+        kHopper.MOTOR_ID = 0;
         kIntake.MOTOR_ID = 9;
-        kIntake.LEFT_SOLENOID_FORWARD = 14;
-        kIntake.LEFT_SOLENOID_REVERSE = 15;
-        kIntake.RIGHT_SOLENOID_FORWARD = 2;
-        kIntake.RIGHT_SOLENOID_REVERSE = 1;
-        kDrive.FRONT_RIGHT_ID = 15;
-        kDrive.FRONT_LEFT_ID = 4;
-        kDrive.BACK_RIGHT_ID = 16;
-        kDrive.BACK_LEFT_ID = 3;
+        kIntake.LEFT_SOLENOID_FORWARD = 15;
+        kIntake.LEFT_SOLENOID_REVERSE = 1;
+        kIntake.RIGHT_SOLENOID_FORWARD = 0;
+        kIntake.RIGHT_SOLENOID_REVERSE = 14;
+        kDrive.FRONT_RIGHT_ID = 3;
+        kDrive.FRONT_LEFT_ID = 16;
+        kDrive.BACK_RIGHT_ID = 4;
+        kDrive.BACK_LEFT_ID = 15;
         kShooter.LEFT_MOTOR_ID = 5;
         kShooter.RIGHT_MOTOR_ID = 14;
-        kShooter.KICKER_MOTOR_ID = 0;
+        kShooter.KICKER_MOTOR_ID = 10;
         kShooter.BACK_MOTOR_ID = 19;
         kShooter.kDoubleClosedLoop.kFront.kP = 0.075;
         kShooter.kDoubleClosedLoop.kFront.kI = 0.0000;

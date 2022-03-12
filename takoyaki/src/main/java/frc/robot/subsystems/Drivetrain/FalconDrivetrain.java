@@ -100,6 +100,7 @@ public class FalconDrivetrain extends Drivetrain {
     navZeroed = false;
 
     odometry = new DifferentialDriveOdometry(nav.getRotation2d());
+
   }
 
   public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn) {
@@ -193,9 +194,14 @@ public class FalconDrivetrain extends Drivetrain {
 
   // return heading in degrees (-180 to 180)
   public double getHeading() {
-    return -nav.getYaw();
+    // return -nav.getYaw();
     // note: getAngle returns accumulated yaw (can be <0 or >360)
     // getYaw has a 360 degree period
+    if(nav.getYaw() <= 0) {
+      return nav.getYaw() + 180;
+    } else {
+      return nav.getYaw() - 180;
+    }
   }
 
   // return turn rate deg/sec
