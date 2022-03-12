@@ -4,10 +4,13 @@
 
 package frc.robot;
 
+import javax.naming.ldap.ExtendedRequest;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,6 +21,8 @@ import frc.robot.subsystems.Hopper.TalonHopper;
 import frc.robot.subsystems.Hopper.VictorHopper;
 import frc.robot.Ramsete.RamsetePath;
 import frc.robot.commands.AutoShoot;
+import frc.robot.commands.ExtendClimb;
+import frc.robot.commands.RetractClimb;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
 import frc.robot.subsystems.Intake.FalconSolenoidIntake;
@@ -27,6 +32,7 @@ import frc.robot.subsystems.Shooter.ClosedLoopDoubleFalconShooter;
 import frc.robot.subsystems.Shooter.OpenLoopDoubleFalconShooter;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -116,59 +122,25 @@ public class RobotContainer {
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
         private void configureButtonBindings() {
-                /*
-                 * new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
-                 * .whenPressed(new InstantCommand(climb::extendClimb, climb));
-                 * 
-                 * new JoystickButton(operatorController,
-                 * Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
-                 * .whenPressed(new InstantCommand(climb::retractClimb, climb));
-                 */
-
-                new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
-                                .whenPressed(new RunCommand(climb::runClimb, climb))
-                                .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
-                new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
-                                .whenPressed(new RunCommand(climb::climbDown, climb))
-                                .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
-                new JoystickButton(operatorController, Constants.kClimb.SEPARATE_CLIMB)
-                                .whenPressed(new InstantCommand(climb::separateClimb, climb));
-
-                new JoystickButton(operatorController, Constants.kClimb.REJOIN_CLIMB)
-                                .whenPressed(new InstantCommand(climb::rejoinClimb, climb));
-
-                // .whenPressed(new InstantCommand(climb::runOpenLoopClimb, climb))
-                // .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
-                // new JoystickButton(operatorController,
-                // Constants.kClimb.CLIMB_OPEN_LOOP_LOWER_BUTTON)
-                // .whenPressed(new InstantCommand(climb::reverseOpenLoopClimb, climb))
-                // .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
-                new JoystickButton(operatorController, Constants.kClimb.CLIMB_ENCODER_RESET_BUTTON)
-                                .whenPressed(new RunCommand(climb::zeroClimbEncoders, climb));
-
-                climb.setDefaultCommand(
-                                new RunCommand(() -> climb.defaultCommand(operatorController.getLeftY(),
-                                                operatorController.getRightY()),
-                                                climb));
-                // run hopper
-                // new JoystickButton(driveController, Constants.kOI.RUN_HOPPER);
-                new JoystickButton(driveController, Constants.kOI.SHOOT)
-                                .whenHeld(new AutoShoot(shooter, hopper, intake));
-
-                // shoot ball (hopper + kicker)
-                /*
-                 * new JoystickButton(driveController, Constants.kOI.SHOOT)
-                 * .whenPressed(new ParallelCommandGroup(
-                 * new RunCommand(shooter::runKicker, shooter),
-                 * new RunCommand(hopper::runHopper, hopper)))
-                 * .whenReleased(new ParallelCommandGroup(
-                 * new RunCommand(shooter::stopKicker, intake),
-                 * new RunCommand(hopper::stop, hopper)));
-                 */
+                new JoystickButton(operatorController, Constants.kOI.TRAVERSAL_CLIMB)
+                                .whenPressed(new SequentialCommandGroup(
+                                                // ground -> mid
+                                                new RetractClimb(climb),
+                                                // mid -> high
+                                                new WaitCommand(1),
+                                                new ExtendClimb(climb),
+                                                new WaitCommand(1),
+                                                new RetractClimb(climb),
+                                                // high -> traversal
+                                                new WaitCommand(1),
+                                                new ExtendClimb(climb),
+                                                new WaitCommand(1),
+                                                new InstantCommand(climb::releasePassiveHook)));
+                new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_RAISE_CLIMB)
+                                .whenPressed(climb::runClimb, climb).whenReleased(climb::stopClimb, climb);
+                new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_LOWER_CLIMB)
+                                .whenPressed(climb::reverseClimb, climb).whenReleased(climb::stopClimb, climb);
+                new JoystickButton(operatorController, Constants.kOI.STOP_CLIMB).whenPressed(climb::stopClimb, climb);
 
                 // invert drive direction
                 new JoystickButton(driveController, Constants.kOI.INVERT_DRIVE)

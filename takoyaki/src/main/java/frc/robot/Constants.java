@@ -29,17 +29,8 @@ public class Constants {
   }
 
   public static final class kClimb {
-    public static final int CLIMB_TO_TOP_BUTTON = XboxController.Button.kY.value;
-    public static final int CLIMB_TO_BOTTOM_BUTTON = XboxController.Button.kA.value;
-    public static final int CLIMB_LEFT_OPEN_LOOP_RAISE_BUTTON = XboxController.Button.kB.value;
-    public static final int CLIMB_RIGHT_OPEN_LOOP_LOWER_BUTTON = XboxController.Button.kX.value;
-    public static final int CLIMB_LEFT_OPEN_LOOP_LOWER_BUTTON = XboxController.Button.kX.value;
-    public static final int CLIMB_ENCODER_RESET_BUTTON = XboxController.Button.kStart.value;
-    public static final int SEPARATE_CLIMB = XboxController.Button.kLeftBumper.value;
-    public static final int REJOIN_CLIMB = XboxController.Button.kRightBumper.value;
 
-    // public static final int LEFT_MOTOR_CAN_ID = 15; // green climb
-    public static final int LEFT_MOTOR_CAN_ID = 2; // blue
+    public static final int LEFT_MOTOR_CAN_ID = 2;
     public static final int RIGHT_MOTOR_CAN_ID = 17;
 
     public static final double OPEN_LOOP_UP_POWER = 1;
@@ -48,15 +39,23 @@ public class Constants {
     public static final double CLOSED_LOOP_UP_POWER = -0.5;
     public static final double CLOSED_LOOP_DOWN_POWER = 0.5;
 
-    // TODO: identify correct setpoints
-    public static final int TOP_ENCODER_VAL = -165000;
-    public static final int BOTTOM_ENCODER_VAL = -3000;
+    public static final double TOP_ENCODER_VAL = -165000;
+    public static final double BOTTOM_ENCODER_VAL = -3000;
+    public static final double UNHOOK_DISTANCE = 10000;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0.5;
 
     public static final double CURRENT_LIMIT = 60;
     public static final double CURRENT_LIMIT_THRESHOLD = 70;
     public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
+
+    // TODO: characterize
+    public static final double kP = 0.01;
+    public static final double kI = 0;
+    public static final double kD = 0;
+
+    public static final double TWO_HOOK_PAUSE = 1;
+    public static final double ONE_HOOK_PAUSE = 1;
   }
 
   public static final class kOI {
@@ -79,6 +78,12 @@ public class Constants {
     public static final int REV_SHOOTER = XboxController.Button.kB.value;
 
     public static final String TRAJECTORY_NAME = "path";
+
+    // climb buttons
+    public static final int TRAVERSAL_CLIMB = XboxController.Button.kStart.value;
+    public static final int OPEN_LOOP_RAISE_CLIMB = XboxController.Button.kA.value;
+    public static final int OPEN_LOOP_LOWER_CLIMB = XboxController.Button.kY.value;
+    public static final int STOP_CLIMB = XboxController.Button.kB.value;
   }
 
   public static final class kHopper {
