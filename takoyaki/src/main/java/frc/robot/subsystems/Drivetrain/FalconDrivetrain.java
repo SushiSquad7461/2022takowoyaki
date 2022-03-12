@@ -74,15 +74,7 @@ public class FalconDrivetrain extends Drivetrain {
     // frontRight.configOpenloopRamp(0.65);
     // backRight.configOpenloopRamp(0.65);
 
-    // frontLeft.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
-    // backLeft.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
-    // frontRight.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
-    // backRight.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
-
-    frontLeft.configOpenloopRamp(0);
-    backLeft.configOpenloopRamp(0);
-    frontRight.configOpenloopRamp(0);
-    backRight.configOpenloopRamp(0);
+    this.configOpenloopRamp(0);
 
     // frontLeft.configClosedloopRamp(Constants.kDrive.CLOSED_LOOP_RAMP_RATE);
     // backLeft.configClosedloopRamp(Constants.kDrive.CLOSED_LOOP_RAMP_RATE);
@@ -147,6 +139,14 @@ public class FalconDrivetrain extends Drivetrain {
     return odometry.getPoseMeters();
   }
 
+  public void configOpenloopRamp(double openLoopRamp) {
+    frontLeft.configOpenloopRamp(openLoopRamp);
+    backLeft.configOpenloopRamp(openLoopRamp);
+    frontRight.configOpenloopRamp(openLoopRamp);
+    backRight.configOpenloopRamp(openLoopRamp);
+
+  }
+
   // return current wheel speeds
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
@@ -197,7 +197,7 @@ public class FalconDrivetrain extends Drivetrain {
     // return -nav.getYaw();
     // note: getAngle returns accumulated yaw (can be <0 or >360)
     // getYaw has a 360 degree period
-    if(nav.getYaw() <= 0) {
+    if (nav.getYaw() <= 0) {
       return nav.getYaw() + 180;
     } else {
       return nav.getYaw() - 180;

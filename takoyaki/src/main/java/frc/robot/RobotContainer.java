@@ -36,10 +36,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
 
         // The robot's subsystems and commands are defined here...
-        private final Hopper hopper;
-        private final Intake intake;
-        private final Shooter shooter;
-        private final Drivetrain drivetrain;
+        public final Hopper hopper;
+        public final Intake intake;
+        public final Shooter shooter;
+        public final Drivetrain drivetrain;
         // private final Climb climb;
 
         // controllers
@@ -135,28 +135,29 @@ public class RobotContainer {
 
                 // START OF CLIMB CODE!!!!
                 // new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
-                //                 .whenPressed(new RunCommand(climb::runClimb, climb))
-                //                 .whenReleased(new InstantCommand(climb::stopClimb, climb));
+                // .whenPressed(new RunCommand(climb::runClimb, climb))
+                // .whenReleased(new InstantCommand(climb::stopClimb, climb));
 
-                // new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
-                //                 .whenPressed(new RunCommand(climb::climbDown, climb))
-                //                 .whenReleased(new InstantCommand(climb::stopClimb, climb));
+                // new JoystickButton(operatorController,
+                // Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
+                // .whenPressed(new RunCommand(climb::climbDown, climb))
+                // .whenReleased(new InstantCommand(climb::stopClimb, climb));
 
                 // new JoystickButton(operatorController, Constants.kClimb.SEPARATE_CLIMB)
-                //                 .whenPressed(new InstantCommand(climb::separateClimb, climb));
+                // .whenPressed(new InstantCommand(climb::separateClimb, climb));
 
                 // new JoystickButton(operatorController, Constants.kClimb.REJOIN_CLIMB)
-                //                 .whenPressed(new InstantCommand(climb::rejoinClimb, climb));
+                // .whenPressed(new InstantCommand(climb::rejoinClimb, climb));
 
-                // new JoystickButton(operatorController, Constants.kClimb.CLIMB_ENCODER_RESET_BUTTON)
-                //                 .whenPressed(new RunCommand(climb::zeroClimbEncoders, climb));
+                // new JoystickButton(operatorController,
+                // Constants.kClimb.CLIMB_ENCODER_RESET_BUTTON)
+                // .whenPressed(new RunCommand(climb::zeroClimbEncoders, climb));
 
                 // climb.setDefaultCommand(
-                //                 new RunCommand(() -> climb.defaultCommand(operatorController.getLeftY(),
-                //                                 operatorController.getRightY()),
-                //                                 climb));
+                // new RunCommand(() -> climb.defaultCommand(operatorController.getLeftY(),
+                // operatorController.getRightY()),
+                // climb));
                 // END OF CLIMB CODE!!!
-
 
                 // run hopper
                 // new JoystickButton(driveController, Constants.kOI.RUN_HOPPER);
