@@ -233,7 +233,7 @@ public class Constants {
     public static final int CURRENT_LIMIT = 35;
     public static final int DEFAULT_PROFILE_SLOT = 0;
     public static final int DEFAULT_CONFIG_TIMEOUT = 100;
-
+    public static final double ERROR_TOLERANCE_PERCENT = 0.97;
     public static boolean KICKER_INVERSION;
 
     public static final double SPEED_KICKER = 1;

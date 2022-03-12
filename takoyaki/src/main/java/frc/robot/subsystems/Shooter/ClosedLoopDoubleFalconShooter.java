@@ -149,13 +149,12 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public boolean isAtSpeed() {
-    if ((back.getSelectedSensorVelocity() >= (Constants.convertRPMtoTrans(frontSetpointRPM.get()) * 0.9)
+    return back
+        .getSelectedSensorVelocity() >= (Constants.convertRPMtoTrans(frontSetpointRPM.get())
+            * Constants.kShooter.ERROR_TOLERANCE_PERCENT)
         &&
-        (back.getSelectedSensorVelocity() >= Constants.convertRPMtoTrans(backSetpointRPM.get()) * 0.9))) {
-      return true;
-    } else {
-      return false;
-    }
+        (back.getSelectedSensorVelocity() >= Constants.convertRPMtoTrans(backSetpointRPM.get())
+            * Constants.kShooter.ERROR_TOLERANCE_PERCENT);
   }
 
   @Override
