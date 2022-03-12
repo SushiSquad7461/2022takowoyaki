@@ -18,6 +18,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Constants {
+  // set tunning mode to true to enable tuning values over NT
+  public static final boolean TUNNING_MODE = true;
+
   // the unit of measurement for Talon FX encoder velocity is known as the "Tran"
   // encoder ticks per 100ms
   public static double convertRPMtoTrans(double RPM) {
@@ -185,7 +188,7 @@ public class Constants {
     // ramsete parameters
     public static final double RAMSETE_B = 2;
     public static final double RAMSETE_ZETA = 0.7;
-    public static final double OPEN_LOOP_RAMP_RATE = 0.45; // 0.65
+    public static final double OPEN_LOOP_RAMP_RATE = 0.3; // 0.3
     public static final double CLOSED_LOOP_RAMP_RATE = 0.1;
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
   }
@@ -218,10 +221,10 @@ public class Constants {
 
     public static final class kDoubleClosedLoop {
       public static final class kFront {
-        public static final double FENDER_SETPOINT = convertRPMtoTrans(1065.0); // 1100 // 1085
-        public static final double EXIT_SETPOINT = convertRPMtoTrans(1065.0); // 1100 // 1085
-        public static final double ERROR_TOLERANCE = convertRPMtoTrans(30);
-        public static final double SETPOINT_OFFSET = convertRPMtoTrans(-30 + 100);
+        public static final double FENDER_SETPOINT_RPM = 1065.0; // 1100 // 1085
+        public static final double EXIT_SETPOINT_RPM = 1065.0; // 1100 // 1085
+        public static final double ERROR_TOLERANCE = 30;
+        public static final double SETPOINT_OFFSET_RPM = -30 + 100;
         public static double kP;
         public static double kI;
         public static double kD;
@@ -232,9 +235,9 @@ public class Constants {
       }
 
       public static final class kBack {
-        public static final double FENDER_SETPOINT = convertRPMtoTrans(3215.0); // 3250 // 3235
-        public static final double EXIT_SETPOINT = convertRPMtoTrans(3215.0); // 3250 // 3235
-        public static final double SETPOINT_OFFSET = convertRPMtoTrans(100.0 + 170.0);
+        public static final double FENDER_SETPOINT_RPM = 3215.0; // 3250 // 3235
+        public static final double EXIT_SETPOINT_RPM = 3215.0; // 3250 // 3235
+        public static final double SETPOINT_OFFSET = 100.0 + 170.0;
         public static double kP;
         public static double kI;
         public static double kD;
@@ -253,7 +256,7 @@ public class Constants {
     public static final int CURRENT_LIMIT = 35;
     public static final int DEFAULT_PROFILE_SLOT = 0;
     public static final int DEFAULT_CONFIG_TIMEOUT = 100;
-
+    public static final double ERROR_TOLERANCE_PERCENT = 0.97;
     public static boolean KICKER_INVERSION;
 
     public static final double SPEED_KICKER = 1;
@@ -302,19 +305,19 @@ public class Constants {
         kShooter.KICKER_INVERSION = true;
         break;
       default:
-        kHopper.MOTOR_ID = 10;
+        kHopper.MOTOR_ID = 0;
         kIntake.MOTOR_ID = 9;
-        kIntake.LEFT_SOLENOID_FORWARD = 14;
-        kIntake.LEFT_SOLENOID_REVERSE = 15;
-        kIntake.RIGHT_SOLENOID_FORWARD = 2;
-        kIntake.RIGHT_SOLENOID_REVERSE = 1;
-        kDrive.FRONT_RIGHT_ID = 15;
-        kDrive.FRONT_LEFT_ID = 4;
-        kDrive.BACK_RIGHT_ID = 16;
-        kDrive.BACK_LEFT_ID = 3;
+        kIntake.LEFT_SOLENOID_FORWARD = 15;
+        kIntake.LEFT_SOLENOID_REVERSE = 1;
+        kIntake.RIGHT_SOLENOID_FORWARD = 0;
+        kIntake.RIGHT_SOLENOID_REVERSE = 14;
+        kDrive.FRONT_RIGHT_ID = 3;
+        kDrive.FRONT_LEFT_ID = 16;
+        kDrive.BACK_RIGHT_ID = 4;
+        kDrive.BACK_LEFT_ID = 15;
         kShooter.LEFT_MOTOR_ID = 5;
         kShooter.RIGHT_MOTOR_ID = 14;
-        kShooter.KICKER_MOTOR_ID = 0;
+        kShooter.KICKER_MOTOR_ID = 10;
         kShooter.BACK_MOTOR_ID = 19;
         kShooter.kDoubleClosedLoop.kFront.kP = 0.075;
         kShooter.kDoubleClosedLoop.kFront.kI = 0.0000;
