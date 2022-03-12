@@ -54,8 +54,10 @@ public class Constants {
     public static final double kI = 0;
     public static final double kD = 0;
 
-    public static final double TWO_HOOK_PAUSE = 1;
-    public static final double ONE_HOOK_PAUSE = 1;
+    public static final double TRAVERSAL_PAUSE_ONE = 1;
+    public static final double TRAVERSAL_PAUSE_TWO = 1;
+    public static final double TRAVERSAL_PAUSE_THREE = 1;
+    public static final double TRAVERSAL_PAUSE_FOUR = 1;
   }
 
   public static final class kOI {

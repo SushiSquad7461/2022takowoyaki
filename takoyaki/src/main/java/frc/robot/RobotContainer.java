@@ -127,14 +127,14 @@ public class RobotContainer {
                                                 // ground -> mid
                                                 new RetractClimb(climb),
                                                 // mid -> high
-                                                new WaitCommand(1),
+                                                new WaitCommand(Constants.kClimb.TRAVERSAL_PAUSE_ONE),
                                                 new ExtendClimb(climb),
-                                                new WaitCommand(1),
+                                                new WaitCommand(Constants.kClimb.TRAVERSAL_PAUSE_TWO),
                                                 new RetractClimb(climb),
                                                 // high -> traversal
-                                                new WaitCommand(1),
+                                                new WaitCommand(Constants.kClimb.TRAVERSAL_PAUSE_THREE),
                                                 new ExtendClimb(climb),
-                                                new WaitCommand(1),
+                                                new WaitCommand(Constants.kClimb.TRAVERSAL_PAUSE_FOUR),
                                                 new InstantCommand(climb::releasePassiveHook)));
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_RAISE_CLIMB)
                                 .whenPressed(climb::runClimb, climb).whenReleased(climb::stopClimb, climb);

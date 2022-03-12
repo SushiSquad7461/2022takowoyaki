@@ -24,6 +24,49 @@ public class FalconBrakeModeClimb extends Climb {
   private double setpoint;
   private boolean closedLoop;
 
+  public FalconBrakeModeClimb() {
+    left = new WPI_TalonFX(Constants.kClimb.LEFT_MOTOR_CAN_ID);
+    right = new WPI_TalonFX(Constants.kClimb.RIGHT_MOTOR_CAN_ID);
+
+    left.config_kP(0, Constants.kClimb.kP);
+    left.config_kD(0, Constants.kClimb.kD);
+
+    motorConfig(left);
+    motorConfig(right);
+
+    right.follow(left);
+
+    left.setInverted(TalonFXInvertType.Clockwise);
+    right.setInverted(TalonFXInvertType.OpposeMaster);
+
+    closedLoop = true;
+    setpoint = Constants.kClimb.BOTTOM_ENCODER_VAL;
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("output", left.getMotorOutputPercent());
+    SmartDashboard.putNumber("position", left.getSelectedSensorPosition());
+
+    if (closedLoop) {
+      left.set(ControlMode.Velocity, setpoint);
+    }
+  }
+
+  @Override
+  public void simulationPeriodic() {
+  }
+
+  private void motorConfig(WPI_TalonFX motor) {
+    motor.configFactoryDefault();
+    motor.setSelectedSensorPosition(0);
+    motor.setNeutralMode(NeutralMode.Brake);
+    motor.configOpenloopRamp(Constants.kClimb.OPEN_LOOP_RAMP_RATE);
+    motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kClimb.CURRENT_LIMIT,
+        Constants.kClimb.CURRENT_LIMIT_THRESHOLD, Constants.kClimb.CURRENT_LIMIT_THRESHOLD_TIME));
+
+  }
+
   public double getEncoder() {
     return left.getSelectedSensorPosition();
   }
@@ -59,22 +102,6 @@ public class FalconBrakeModeClimb extends Climb {
     this.setSetpoint(Constants.kClimb.TOP_ENCODER_VAL - Constants.kClimb.UNHOOK_DISTANCE);
   }
 
-  public FalconBrakeModeClimb() {
-    left = new WPI_TalonFX(Constants.kClimb.LEFT_MOTOR_CAN_ID);
-    right = new WPI_TalonFX(Constants.kClimb.RIGHT_MOTOR_CAN_ID);
-
-    left.config_kP(0, Constants.kClimb.kP);
-    left.config_kD(0, Constants.kClimb.kD);
-
-    motorConfig(left);
-    motorConfig(right);
-
-    right.follow(left);
-
-    left.setInverted(TalonFXInvertType.Clockwise);
-    right.setInverted(TalonFXInvertType.OpposeMaster);
-  }
-
   public void zeroClimbEncoders() {
     left.setSelectedSensorPosition(0);
     right.setSelectedSensorPosition(0);
@@ -82,30 +109,6 @@ public class FalconBrakeModeClimb extends Climb {
 
   public void nextRung() {
     setpoint = Constants.kClimb.BOTTOM_ENCODER_VAL;
-
-  }
-
-  @Override
-  public void periodic() {
-    SmartDashboard.putNumber("output", left.getMotorOutputPercent());
-    SmartDashboard.putNumber("position", left.getSelectedSensorPosition());
-
-    if (closedLoop) {
-      left.set(ControlMode.Velocity, setpoint);
-    }
-  }
-
-  @Override
-  public void simulationPeriodic() {
-  }
-
-  private void motorConfig(WPI_TalonFX motor) {
-    motor.configFactoryDefault();
-    motor.setSelectedSensorPosition(0);
-    motor.setNeutralMode(NeutralMode.Brake);
-    motor.configOpenloopRamp(Constants.kClimb.OPEN_LOOP_RAMP_RATE);
-    motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kClimb.CURRENT_LIMIT,
-        Constants.kClimb.CURRENT_LIMIT_THRESHOLD, Constants.kClimb.CURRENT_LIMIT_THRESHOLD_TIME));
 
   }
 }
