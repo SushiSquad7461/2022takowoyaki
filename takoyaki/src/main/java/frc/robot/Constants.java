@@ -17,6 +17,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Constants {
+  // set tunning mode to true to enable tuning values over NT
+  public static final boolean TUNNING_MODE = true;
+
   // the unit of measurement for Talon FX encoder velocity is known as the "Tran"
   // encoder ticks per 100ms
   public static double convertRPMtoTrans(double RPM) {
