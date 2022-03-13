@@ -239,6 +239,10 @@ public class Constants {
     public static final double SPEED_KICKER = 1;
     public static final double KICKER_PERIOD = 50;
     public static final double KICKER_OFFSET = 0.3;
+    public static final double FENDER_FRONT_SETPOINT_RPM = 0;
+    public static final double FENDER_BACK_SETPOINT_RPM = 0;
+    public static final double FENDER_BACK_SHOOTER_RPM = 0;
+    public static final double FAR_FRONT_SHOOTER_RPM = 0;
   }
 
   enum RobotType {

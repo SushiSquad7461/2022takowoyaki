@@ -115,6 +115,8 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public void setSetpoint() {
+    this.frontSetpointRPM = state.frontSetpointRPM;
+    this.backSetpointRPM = state.backSetpointRPM;
     this.frontSetpointRPMWithOffset = frontSetpointRPM.get()
         + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
     this.backSetpointRPMWithOffset = backSetpointRPM.get()
