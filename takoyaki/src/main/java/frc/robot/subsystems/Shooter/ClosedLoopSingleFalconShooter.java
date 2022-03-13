@@ -113,6 +113,10 @@ public class ClosedLoopSingleFalconShooter extends Shooter {
       return false;
   }
 
+  public void setRangedSetpoint() {
+
+  }
+
   @Override
   public void simulationPeriodic() {
   }

@@ -72,7 +72,6 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     m_robotContainer.setDriveBrake();
     m_robotContainer.teleopDrive();
-    m_robotContainer.drivetrain.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

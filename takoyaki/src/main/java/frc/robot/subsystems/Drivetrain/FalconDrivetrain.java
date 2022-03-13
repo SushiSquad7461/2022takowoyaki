@@ -144,7 +144,6 @@ public class FalconDrivetrain extends Drivetrain {
     backLeft.configOpenloopRamp(openLoopRamp);
     frontRight.configOpenloopRamp(openLoopRamp);
     backRight.configOpenloopRamp(openLoopRamp);
-
   }
 
   // return current wheel speeds

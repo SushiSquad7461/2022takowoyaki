@@ -18,6 +18,7 @@ import frc.robot.subsystems.Hopper.TalonHopper;
 import frc.robot.subsystems.Hopper.VictorHopper;
 import frc.robot.Ramsete.RamsetePath;
 import frc.robot.commands.AutoShoot;
+import frc.robot.commands.RangedAutoShoot;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
 import frc.robot.subsystems.Intake.FalconSolenoidIntake;
@@ -164,6 +165,9 @@ public class RobotContainer {
                 new JoystickButton(driveController, Constants.kOI.SHOOT)
                                 .whenHeld(new AutoShoot(shooter, hopper, intake));
 
+                new JoystickButton(driveController, XboxController.Button.kA.value)
+                                .whenHeld(new RangedAutoShoot(shooter, hopper, intake));
+
                 // shoot ball (hopper + kicker)
                 /*
                  * new JoystickButton(driveController, Constants.kOI.SHOOT)
@@ -189,7 +193,7 @@ public class RobotContainer {
                                                 new RunCommand(hopper::stop, hopper)));
 
                 // toggle intake
-                new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
+                new JoystickButton(driveController, XboxController.Button.kLeftBumper.value)
                                 .whenPressed(new InstantCommand(intake::toggleIntake, intake));
 
                 // reverse intake

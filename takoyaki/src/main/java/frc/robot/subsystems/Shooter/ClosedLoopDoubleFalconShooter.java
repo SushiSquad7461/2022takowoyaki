@@ -121,6 +121,11 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
         + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
   }
 
+  public void setRangedSetpoint() {
+    frontSetpointRPMWithOffset = Constants.kShooter.kDoubleClosedLoop.kFront.RANGED_SETPOINT + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
+    backSetpointRPMWithOffset = Constants.kShooter.kDoubleClosedLoop.kBack.RANGED_SETPOINT + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
+  }
+
   @Override
   public void periodic() {
     // runKicker();
@@ -149,14 +154,13 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public boolean isAtSpeed() {
-    return back
-        .getSelectedSensorVelocity() >= (Constants.convertRPMtoTrans(frontSetpointRPM.get())
-            * Constants.kShooter.ERROR_TOLERANCE_PERCENT)
-        &&
-        (back.getSelectedSensorVelocity() >= Constants.convertRPMtoTrans(backSetpointRPM.get())
-            * Constants.kShooter.ERROR_TOLERANCE_PERCENT);
+    double frontDiff = Math.abs(left.getSelectedSensorVelocity()
+     - Constants.convertRPMtoTrans(frontSetpointRPM.get()));
+    double backDiff = Math.abs(back.getSelectedSensorVelocity()
+    -  Constants.convertRPMtoTrans(backSetpointRPM.get()));
+    return frontDiff <= Constants.convertRPMtoTrans(Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE) && backDiff <= Constants.convertRPMtoTrans(Constants.kShooter.kDoubleClosedLoop.kBack.ERROR_TOLERANCE);
   }
-
+  
   @Override
   public void simulationPeriodic() {
   }
