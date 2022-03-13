@@ -42,7 +42,7 @@ public class Constants {
   public static final class kPhotonVision {
     // public static final double CAMERA_HEIGHT_METERS = 0;
     // public static final double TARGET_HEIGHT_METERS = 0;
-    public static final String CAMERA_NAME = "sushi_sees";
+    public static final String CAMERA_NAME = "sushisees";
   }
 
   public static final class kClimb {

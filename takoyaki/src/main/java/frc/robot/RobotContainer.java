@@ -213,7 +213,7 @@ public class RobotContainer {
 
                 Supplier<Double> linearVelocitySupplier = () -> OI.getTriggers(driveController);
                 new JoystickButton(driveController, Constants.kOI.TURN_TO_FENDER)
-                                .whenPressed(new TurnToFender(drivetrain, photonCamera, linearVelocitySupplier));
+                                .whenHeld(new TurnToFender(drivetrain, photonCamera, linearVelocitySupplier));
 
                 // drivetrain.setDefaultCommand(new RunCommand(() ->
                 // drivetrain.curveDrive(OI.getTriggers(driveController),

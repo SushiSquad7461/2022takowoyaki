@@ -6,13 +6,18 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
+import javax.swing.text.StyleContext.SmallAttributeSet;
+
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
+import frc.robot.utils.TunableNumber;
 
 /** An example command that uses an example subsystem. */
 public class TurnToFender extends CommandBase {
@@ -22,18 +27,23 @@ public class TurnToFender extends CommandBase {
     private final PIDController pid;
     private final Supplier<Double> linearVelocity;
 
+    private TunableNumber kP = new TunableNumber("Turn to Fender P", Constants.kTurnToFender.kP);
+    private TunableNumber kI = new TunableNumber("Turn to Fender I", Constants.kTurnToFender.kI);
+    private TunableNumber kD = new TunableNumber("Turn to Fender D", Constants.kTurnToFender.kD);
+
     /**
      * Creates a new ExampleCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
     public TurnToFender(Drivetrain drivetrain, PhotonCamera camera, Supplier<Double> linearVelocity) {
-        pid = new PIDController(Constants.kTurnToFender.kP, Constants.kTurnToFender.kI, Constants.kTurnToFender.kD);
+        pid = new PIDController(kP.get(), kI.get(), kD.get());
         this.camera = camera;
         this.drivetrain = drivetrain;
         this.linearVelocity = linearVelocity;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(drivetrain);
+
     }
 
     // Called when the command is initially scheduled.
@@ -46,15 +56,25 @@ public class TurnToFender extends CommandBase {
     public void execute() {
         PhotonPipelineResult result = camera.getLatestResult();
         if (result.hasTargets()) {
-            double pitch = result.getBestTarget().getPitch();
-            double turnSpeed = pid.calculate(pitch, 0);
+            SmartDashboard.putBoolean("has targets", true);
+            double yawSum = 0;
+            for (PhotonTrackedTarget target : result.getTargets()) {
+                yawSum += target.getPitch();
+            }
+            double yaw = yawSum / result.getTargets().size();
+            double turnSpeed = pid.calculate(yaw, 0);
+            SmartDashboard.putNumber("average yaw fan", yaw);
             drivetrain.curveDrive(linearVelocity.get(), turnSpeed, false);
+        } else {
+            SmartDashboard.putBoolean("has targets", false);
         }
+        SmartDashboard.putBoolean("turning to fender", true);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        SmartDashboard.putBoolean("turning to fender", false);
     }
 
     // Returns true when the command should end.

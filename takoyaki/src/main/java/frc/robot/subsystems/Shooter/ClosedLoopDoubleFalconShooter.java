@@ -30,10 +30,10 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   private double backChange;
   private double frontSetpointRPMWithOffset;
   private double backSetpointRPMWithOffset;
-  private TunableNumber frontSetpointRPM = new TunableNumber("front shooter rpm goal",
-      Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_RPM);
-  private TunableNumber backSetpointRPM = new TunableNumber("back shooter rpm goal",
-      Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_RPM);
+  private TunableNumber frontSetpointRPM = new TunableNumber("front shooter fender rpm setpoint",
+      Constants.kShooter.kDoubleClosedLoop.kFront.FENDER_SETPOINT_RPM);
+  private TunableNumber backSetpointRPM = new TunableNumber("back shooter fender rpm setpoint",
+      Constants.kShooter.kDoubleClosedLoop.kBack.FENDER_SETPOINT_RPM);
 
   private TunableNumber frontP = new TunableNumber("frontP", Constants.kShooter.kDoubleClosedLoop.kFront.kP);
   private TunableNumber frontI = new TunableNumber("frontI", Constants.kShooter.kDoubleClosedLoop.kFront.kI);

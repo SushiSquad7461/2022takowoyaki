@@ -99,6 +99,7 @@ public class FalconDrivetrain extends Drivetrain {
     if (isQuickturn) {
       angularVelocity /= Constants.kDrive.QUICK_TURN_DAMPENER;
     }
+    // linearVelocity *= 0.2;
     diffDrive.curvatureDrive(linearVelocity * inverted, angularVelocity * inverted, isQuickturn);
   }
 
