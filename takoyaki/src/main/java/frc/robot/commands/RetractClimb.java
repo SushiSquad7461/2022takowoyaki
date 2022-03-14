@@ -47,9 +47,6 @@ public class RetractClimb extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (climb.getEncoder() <= Constants.kClimb.BOTTOM_ENCODER_VAL) {
-      return true;
-    }
-    return false;
+    return climb.getEncoder() <= Constants.kClimb.BOTTOM_ENCODER_VAL;
   }
 }

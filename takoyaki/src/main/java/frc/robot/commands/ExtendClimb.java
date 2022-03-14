@@ -47,9 +47,6 @@ public class ExtendClimb extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (climb.getEncoder() <= Constants.kClimb.TOP_ENCODER_VAL) {
-      return true;
-    }
-    return false;
+    return climb.getEncoder() <= Constants.kClimb.TOP_ENCODER_VAL;
   }
 }

@@ -49,7 +49,7 @@ public class FalconBrakeModeClimb extends Climb {
     SmartDashboard.putNumber("position", left.getSelectedSensorPosition());
 
     if (closedLoop) {
-      left.set(ControlMode.Velocity, setpoint);
+      left.set(ControlMode.Position, setpoint);
     }
   }
 
@@ -105,10 +105,5 @@ public class FalconBrakeModeClimb extends Climb {
   public void zeroClimbEncoders() {
     left.setSelectedSensorPosition(0);
     right.setSelectedSensorPosition(0);
-  }
-
-  public void nextRung() {
-    setpoint = Constants.kClimb.BOTTOM_ENCODER_VAL;
-
   }
 }
