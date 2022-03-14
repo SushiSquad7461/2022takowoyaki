@@ -28,6 +28,7 @@ public class FalconBrakeModeClimb extends Climb {
     right = new WPI_TalonFX(Constants.kClimb.RIGHT_MOTOR_CAN_ID);
 
     left.config_kP(0, Constants.kClimb.kP);
+    left.config_kI(0, Constants.kClimb.kI);
     left.config_kD(0, Constants.kClimb.kD);
 
     motorConfig(left);
@@ -39,7 +40,7 @@ public class FalconBrakeModeClimb extends Climb {
     right.setInverted(TalonFXInvertType.OpposeMaster);
 
     closedLoop = true;
-    setpoint = Constants.kClimb.BOTTOM_ENCODER_VAL;
+    setpoint = Constants.kClimb.BOTTOM_SETPOINT;
   }
 
   @Override
@@ -75,11 +76,11 @@ public class FalconBrakeModeClimb extends Climb {
   }
 
   public void extendClimb() {
-    this.setpoint = Constants.kClimb.TOP_ENCODER_VAL;
+    this.setpoint = Constants.kClimb.TOP_SETPOINT;
   }
 
   public void retractClimb() {
-    this.setpoint = Constants.kClimb.BOTTOM_ENCODER_VAL;
+    this.setpoint = Constants.kClimb.BOTTOM_SETPOINT;
   }
 
   public void stopClimb() {
@@ -98,7 +99,7 @@ public class FalconBrakeModeClimb extends Climb {
   }
 
   public void releasePassiveHook() {
-    this.setSetpoint(Constants.kClimb.TOP_ENCODER_VAL - Constants.kClimb.UNHOOK_DISTANCE);
+    this.setSetpoint(Constants.kClimb.TOP_SETPOINT - Constants.kClimb.UNHOOK_DISTANCE);
   }
 
   public void zeroClimbEncoders() {

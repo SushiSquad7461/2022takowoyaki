@@ -36,8 +36,8 @@ public class Constants {
     public static final double OPEN_LOOP_UP_POWER = 1;
     public static final double OPEN_LOOP_DOWN_POWER = -1;
 
-    public static final double TOP_ENCODER_VAL = -165000;
-    public static final double BOTTOM_ENCODER_VAL = -3000;
+    public static final double TOP_SETPOINT = -165000;
+    public static final double BOTTOM_SETPOINT = -3000;
     public static final double UNHOOK_DISTANCE = 10000;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0.5;
