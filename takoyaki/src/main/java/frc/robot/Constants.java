@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -28,6 +29,10 @@ public class Constants {
     return voltage / 12.0;
   }
 
+  public static SupplyCurrentLimitConfiguration currentLimit(int fuseAmps) {
+    return new SupplyCurrentLimitConfiguration(true, fuseAmps - 5, fuseAmps, 0.75);
+  }
+
   public static final class kClimb {
 
     public static final int LEFT_MOTOR_CAN_ID = 2;
@@ -42,14 +47,11 @@ public class Constants {
 
     public static final double OPEN_LOOP_RAMP_RATE = 0.5;
 
-    public static final double CURRENT_LIMIT = 60;
-    public static final double CURRENT_LIMIT_THRESHOLD = 70;
-    public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
-
     // TODO: characterize
     public static final double kP = 0.01;
     public static final double kI = 0;
     public static final double kD = 0;
+    public static final double kF = 0;
 
     public static final double TRAVERSAL_PAUSE_ONE = 1;
     public static final double TRAVERSAL_PAUSE_TWO = 1;
@@ -93,19 +95,12 @@ public class Constants {
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
     public static final double JERKINESS = 100;
-
-    public static final double CURRENT_LIMIT = 15;
-    public static final double CURRENT_LIMIT_THRESHOLD = 20;
-    public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
   }
 
   public static final class kIntake {
     public static final class kFalcon {
       public static final TalonFXInvertType INVERT_TYPE = TalonFXInvertType.CounterClockwise;
       public static final TalonFXControlMode CONTROL_MODE = TalonFXControlMode.PercentOutput;
-      public static final double CURRENT_LIMIT = 15;
-      public static final double CURRENT_LIMIT_THRESHOLD = 20;
-      public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
     }
 
     public static final class kSpark {
@@ -132,10 +127,6 @@ public class Constants {
 
     // to divide quick turn power by
     public static final double QUICK_TURN_DAMPENER = 3.0;
-
-    // current limits
-    public static final double SUPPLY_CURRENT_LIMIT = 30;
-    public static final double STATOR_CURRENT_LIMIT = 30;
 
     // char values for bear metal carpet
     public static final double ksVolts = 0.71472; // 0.66412
@@ -186,10 +177,6 @@ public class Constants {
     public static final double OPEN_LOOP_RAMP_RATE = 0.5; // 0.65
     public static final double CLOSED_LOOP_RAMP_RATE = 0.1;
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
-
-    public static final double CURRENT_LIMIT = 60;
-    public static final double CURRENT_LIMIT_THRESHOLD = 70;
-    public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
   }
 
   public static final class kShooter {
@@ -224,9 +211,6 @@ public class Constants {
         public static double kS = voltageToPercent(0.61716);
         public static double kV = voltageToPercent(0.10724);
         public static double kA = voltageToPercent(0.0082862);
-        public static final double CURRENT_LIMIT = 15;
-        public static final double CURRENT_LIMIT_THRESHOLD = 20;
-        public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
       }
 
       public static final class kBack {
@@ -247,9 +231,6 @@ public class Constants {
 
     public static final class kKicker {
       public static final double MOTOR_SPEED = 1;
-      public static final double CURRENT_LIMIT = 15;
-      public static final double CURRENT_LIMIT_THRESHOLD = 20;
-      public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
       public static boolean KICKER_INVERSION;
     }
 

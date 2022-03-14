@@ -42,22 +42,10 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     back.setInverted(TalonFXInvertType.Clockwise);
     kicker.setInverted(!Constants.kShooter.kKicker.KICKER_INVERSION);
 
-    left.configSupplyCurrentLimit(
-        new SupplyCurrentLimitConfiguration(true, Constants.kShooter.kDoubleClosedLoop.kFront.CURRENT_LIMIT,
-            Constants.kShooter.kDoubleClosedLoop.kFront.CURRENT_LIMIT_THRESHOLD,
-            Constants.kShooter.kDoubleClosedLoop.kFront.CURRENT_LIMIT_THRESHOLD_TIME));
-    right.configSupplyCurrentLimit(
-        new SupplyCurrentLimitConfiguration(true, Constants.kShooter.kDoubleClosedLoop.kFront.CURRENT_LIMIT,
-            Constants.kShooter.kDoubleClosedLoop.kFront.CURRENT_LIMIT_THRESHOLD,
-            Constants.kShooter.kDoubleClosedLoop.kFront.CURRENT_LIMIT_THRESHOLD_TIME));
-    back.configSupplyCurrentLimit(
-        new SupplyCurrentLimitConfiguration(true, Constants.kShooter.kDoubleClosedLoop.kBack.CURRENT_LIMIT,
-            Constants.kShooter.kDoubleClosedLoop.kBack.CURRENT_LIMIT_THRESHOLD,
-            Constants.kShooter.kDoubleClosedLoop.kBack.CURRENT_LIMIT_THRESHOLD_TIME));
-    kicker.configSupplyCurrentLimit(
-        new SupplyCurrentLimitConfiguration(true, Constants.kShooter.kKicker.CURRENT_LIMIT,
-            Constants.kShooter.kKicker.CURRENT_LIMIT_THRESHOLD,
-            Constants.kShooter.kKicker.CURRENT_LIMIT_THRESHOLD_TIME));
+    left.configSupplyCurrentLimit(Constants.currentLimit(40));
+    right.configSupplyCurrentLimit(Constants.currentLimit(40));
+    back.configSupplyCurrentLimit(Constants.currentLimit(40));
+    kicker.configSupplyCurrentLimit(Constants.currentLimit(30));
 
     left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kFront.kP,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);

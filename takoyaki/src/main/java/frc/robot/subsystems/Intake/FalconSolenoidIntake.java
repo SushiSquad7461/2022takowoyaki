@@ -25,9 +25,7 @@ public class FalconSolenoidIntake extends Intake {
     intakeMotor.configFactoryDefault();
     intakeMotor.setNeutralMode(NeutralMode.Coast);
     intakeMotor.setInverted(Constants.kIntake.kFalcon.INVERT_TYPE);
-    intakeMotor.configSupplyCurrentLimit(
-        new SupplyCurrentLimitConfiguration(true, Constants.kIntake.kFalcon.CURRENT_LIMIT,
-            Constants.kIntake.kFalcon.CURRENT_LIMIT_THRESHOLD, Constants.kIntake.kFalcon.CURRENT_LIMIT_THRESHOLD_TIME));
+    intakeMotor.configSupplyCurrentLimit(Constants.currentLimit((30)));
 
     // rightSolenoid.set(DoubleSolenoid.Value.kOff);
     rightSolenoid.set(DoubleSolenoid.Value.kReverse);

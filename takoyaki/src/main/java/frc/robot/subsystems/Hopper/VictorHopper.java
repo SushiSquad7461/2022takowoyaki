@@ -20,8 +20,7 @@ public class VictorHopper extends Hopper {
     floor.configFactoryDefault();
     floor.setInverted(!Constants.kHopper.INVERTED);
     floor.setNeutralMode(NeutralMode.Brake);
-    floor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kHopper.CURRENT_LIMIT,
-        Constants.kHopper.CURRENT_LIMIT_THRESHOLD, Constants.kHopper.CURRENT_LIMIT_THRESHOLD_TIME));
+    floor.configSupplyCurrentLimit(Constants.currentLimit(30));
   }
 
   public void runHopper() {

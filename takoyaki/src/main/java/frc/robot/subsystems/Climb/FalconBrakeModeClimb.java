@@ -30,6 +30,7 @@ public class FalconBrakeModeClimb extends Climb {
     left.config_kP(0, Constants.kClimb.kP);
     left.config_kI(0, Constants.kClimb.kI);
     left.config_kD(0, Constants.kClimb.kD);
+    left.config_kF(0, Constants.kClimb.kF);
 
     motorConfig(left);
     motorConfig(right);
@@ -62,8 +63,7 @@ public class FalconBrakeModeClimb extends Climb {
     motor.setSelectedSensorPosition(0);
     motor.setNeutralMode(NeutralMode.Brake);
     motor.configOpenloopRamp(Constants.kClimb.OPEN_LOOP_RAMP_RATE);
-    motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.kClimb.CURRENT_LIMIT,
-        Constants.kClimb.CURRENT_LIMIT_THRESHOLD, Constants.kClimb.CURRENT_LIMIT_THRESHOLD_TIME));
+    motor.configSupplyCurrentLimit(Constants.currentLimit(40));
 
   }
 
