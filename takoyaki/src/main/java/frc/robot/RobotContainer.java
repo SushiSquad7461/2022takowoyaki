@@ -136,6 +136,8 @@ public class RobotContainer {
                                                 new ExtendClimb(climb),
                                                 new WaitCommand(Constants.kClimb.TRAVERSAL_PAUSE_FOUR),
                                                 new InstantCommand(climb::releasePassiveHook)));
+                new JoystickButton(operatorController, Constants.kOI.MID_CLIMB)
+                                .whenPressed(new RetractClimb(climb));
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_RAISE_CLIMB)
                                 .whenPressed(climb::runClimb, climb).whenReleased(climb::stopClimb, climb);
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_LOWER_CLIMB)

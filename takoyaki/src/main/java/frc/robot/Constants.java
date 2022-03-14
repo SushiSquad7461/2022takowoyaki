@@ -36,9 +36,6 @@ public class Constants {
     public static final double OPEN_LOOP_UP_POWER = 1;
     public static final double OPEN_LOOP_DOWN_POWER = -1;
 
-    public static final double CLOSED_LOOP_UP_POWER = -0.5;
-    public static final double CLOSED_LOOP_DOWN_POWER = 0.5;
-
     public static final double TOP_ENCODER_VAL = -165000;
     public static final double BOTTOM_ENCODER_VAL = -3000;
     public static final double UNHOOK_DISTANCE = 10000;
@@ -83,6 +80,7 @@ public class Constants {
 
     // climb buttons
     public static final int TRAVERSAL_CLIMB = XboxController.Button.kStart.value;
+    public static final int MID_CLIMB = XboxController.Button.kB.value;
     public static final int OPEN_LOOP_RAISE_CLIMB = XboxController.Button.kA.value;
     public static final int OPEN_LOOP_LOWER_CLIMB = XboxController.Button.kY.value;
     public static final int STOP_CLIMB = XboxController.Button.kB.value;
