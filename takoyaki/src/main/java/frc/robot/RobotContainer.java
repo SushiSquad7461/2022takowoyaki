@@ -123,26 +123,28 @@ public class RobotContainer {
          */
         private void configureButtonBindings() {
                 new JoystickButton(operatorController, Constants.kOI.TRAVERSAL_CLIMB)
-                                .whenPressed(new SequentialCommandGroup(
-                                                // ground -> mid
-                                                new RetractClimb(climb),
-                                                // mid -> high
-                                                new WaitCommand(Constants.kClimb.TRAVERSAL_PAUSE_ONE),
-                                                new ExtendClimb(climb),
-                                                new WaitCommand(Constants.kClimb.TRAVERSAL_PAUSE_TWO),
-                                                new RetractClimb(climb),
-                                                // high -> traversal
-                                                new WaitCommand(Constants.kClimb.TRAVERSAL_PAUSE_THREE),
-                                                new ExtendClimb(climb),
-                                                new WaitCommand(Constants.kClimb.TRAVERSAL_PAUSE_FOUR),
-                                                new InstantCommand(climb::releasePassiveHook)));
+                                .whenPressed(new ExtendClimb(climb));
+                // .whenPressed(new SequentialCommandGroup(
+                // // ground -> mid
+                // new RetractClimb(climb),
+                // // mid -> high
+                // new WaitCommand(Constants.kClimb.TRAVERSAL_PAUSE_ONE),
+                // new ExtendClimb(climb),
+                // new WaitCommand(Constants.kClimb.TRAVERSAL_PAUSE_TWO),
+                // new RetractClimb(climb),
+                // // high -> traversal
+                // new WaitCommand(Constants.kClimb.TRAVERSAL_PAUSE_THREE),
+                // new ExtendClimb(climb),
+                // new WaitCommand(Constants.kClimb.TRAVERSAL_PAUSE_FOUR),
+                // new InstantCommand(climb::releasePassiveHook)));
                 new JoystickButton(operatorController, Constants.kOI.MID_CLIMB)
                                 .whenPressed(new RetractClimb(climb));
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_RAISE_CLIMB)
                                 .whenPressed(climb::runClimb, climb).whenReleased(climb::stopClimb, climb);
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_LOWER_CLIMB)
                                 .whenPressed(climb::reverseClimb, climb).whenReleased(climb::stopClimb, climb);
-                new JoystickButton(operatorController, Constants.kOI.STOP_CLIMB).whenPressed(climb::stopClimb, climb);
+                // new JoystickButton(operatorController,
+                // Constants.kOI.STOP_CLIMB).whenPressed(climb::stopClimb, climb);
 
                 // invert drive direction
                 new JoystickButton(driveController, Constants.kOI.INVERT_DRIVE)

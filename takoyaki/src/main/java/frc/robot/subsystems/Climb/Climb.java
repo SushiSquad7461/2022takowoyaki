@@ -17,9 +17,8 @@ public abstract class Climb extends SubsystemBase {
 
   public abstract void retractClimb();
 
-  public abstract double getEncoder();
-
-  public abstract void setSetpoint(double setpoint);
+  // public abstract double getLeftEncoder();
+  public abstract boolean isFinished();
 
   public abstract void releasePassiveHook();
 }

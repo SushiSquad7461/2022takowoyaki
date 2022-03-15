@@ -5,11 +5,8 @@
     },
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/LiveWindow/ClosedLoopFalconShooter": "Subsystem",
-      "/LiveWindow/FalconSolenoidIntake": "Subsystem",
-      "/LiveWindow/TalonHopper": "Subsystem",
+      "/LiveWindow/FalconBrakeModeClimb": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
-<<<<<<< HEAD
       "/LiveWindow/Ungrouped/PIDController[10]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[11]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[12]": "PIDController",
@@ -81,46 +78,13 @@
       "/LiveWindow/Ungrouped/PIDController[72]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[73]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[74]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[75]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[76]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[7]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[8]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[9]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
-      "/LiveWindow/Ungrouped/Talon FX [14]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon FX [16]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon FX [3]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon FX [5]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon SRX [0]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon SRX [10]": "Motor Controller",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/SmartDashboard/auto options": "String Chooser",
       "/SmartDashboard/field": "Field2d"
-    },
-    "windows": {
-      "/SmartDashboard/auto options": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/field": {
-        "path": {
-          "length": 0.10000000149011612,
-          "width": 0.0
-        },
-        "window": {
-          "visible": true
-        }
-      }
-=======
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
-      "/LiveWindow/Ungrouped/Talon FX [14]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon FX [16]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon FX [3]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon FX [5]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon SRX [0]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon SRX [10]": "Motor Controller"
->>>>>>> main
     }
   },
   "NetworkTables Settings": {
@@ -131,54 +95,12 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 706,
-          "series": [
-            {
-              "color": [
-                0.2980392277240753,
-                0.44705885648727417,
-                0.6901960968971252,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/shooter position change"
-            }
-          ]
-        }
-      ],
-      "window": {
-        "visible": false
-      }
-    },
-    "Plot <1>": {
-      "plots": [
-        {
-          "height": -9,
-          "series": [
-            {
-              "color": [
-                0.2980392277240753,
-                0.44705885648727417,
-                0.6901960968971252,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/Hopper output"
-            }
-          ]
-        }
-      ],
-      "window": {
-        "visible": false
-      }
-    },
-    "Plot <2>": {
-      "plots": [
-        {
           "axis": [
             {
               "autoFit": true
             }
           ],
-          "height": 332,
+          "height": 333,
           "series": [
             {
               "color": [
@@ -187,11 +109,7 @@
                 0.6901960968971252,
                 1.0
               ],
-<<<<<<< HEAD
-              "id": "NT:/SmartDashboard/front shooter current rpm"
-=======
-              "id": "NT:/SmartDashboard/Current rpm"
->>>>>>> auto
+              "id": "NT:/SmartDashboard/left position"
             },
             {
               "color": [
@@ -200,11 +118,39 @@
                 0.32156863808631897,
                 1.0
               ],
-<<<<<<< HEAD
-              "id": "NT:/SmartDashboard/back shooter rpm"
-=======
-              "id": "NT:/SmartDashboard/kicker speed"
->>>>>>> auto
+              "id": "NT:/SmartDashboard/right position"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <1>": {
+      "plots": [
+        {
+          "axis": [
+            {
+              "autoFit": true
+            }
+          ],
+          "height": 326,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/left setpoint"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/right setpoint"
             }
           ]
         }

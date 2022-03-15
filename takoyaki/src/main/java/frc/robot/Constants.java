@@ -38,14 +38,15 @@ public class Constants {
     public static final int LEFT_MOTOR_CAN_ID = 2;
     public static final int RIGHT_MOTOR_CAN_ID = 17;
 
-    public static final double OPEN_LOOP_UP_POWER = 1;
+    public static final double OPEN_LOOP_UP_POWER = 0.3;
     public static final double OPEN_LOOP_DOWN_POWER = -1;
 
-    public static final double TOP_SETPOINT = -165000;
-    public static final double BOTTOM_SETPOINT = -3000;
+    public static final double LEFT_TOP_SETPOINT = -330000;
+    public static final double RIGHT_TOP_SETPOINT = -330000;
+    public static final double BOTTOM_SETPOINT = 0;
     public static final double UNHOOK_DISTANCE = 10000;
 
-    public static final double OPEN_LOOP_RAMP_RATE = 0.5;
+    public static final double OPEN_LOOP_RAMP_RATE = 0;
 
     // TODO: characterize
     public static final double kP = 0.01;
@@ -81,11 +82,10 @@ public class Constants {
     public static final String TRAJECTORY_NAME = "path";
 
     // climb buttons
-    public static final int TRAVERSAL_CLIMB = XboxController.Button.kStart.value;
+    public static final int TRAVERSAL_CLIMB = XboxController.Button.kX.value;
     public static final int MID_CLIMB = XboxController.Button.kB.value;
     public static final int OPEN_LOOP_RAISE_CLIMB = XboxController.Button.kA.value;
     public static final int OPEN_LOOP_LOWER_CLIMB = XboxController.Button.kY.value;
-    public static final int STOP_CLIMB = XboxController.Button.kB.value;
   }
 
   public static final class kHopper {
@@ -283,19 +283,19 @@ public class Constants {
         kShooter.kKicker.KICKER_INVERSION = true;
         break;
       default:
-        kHopper.MOTOR_ID = 10;
+        kHopper.MOTOR_ID = 0;
         kIntake.MOTOR_ID = 9;
-        kIntake.LEFT_SOLENOID_FORWARD = 14;
-        kIntake.LEFT_SOLENOID_REVERSE = 15;
-        kIntake.RIGHT_SOLENOID_FORWARD = 2;
-        kIntake.RIGHT_SOLENOID_REVERSE = 1;
-        kDrive.FRONT_RIGHT_ID = 15;
-        kDrive.FRONT_LEFT_ID = 4;
-        kDrive.BACK_RIGHT_ID = 16;
-        kDrive.BACK_LEFT_ID = 3;
+        kIntake.LEFT_SOLENOID_FORWARD = 15;
+        kIntake.LEFT_SOLENOID_REVERSE = 1;
+        kIntake.RIGHT_SOLENOID_FORWARD = 0;
+        kIntake.RIGHT_SOLENOID_REVERSE = 14;
+        kDrive.FRONT_RIGHT_ID = 3;
+        kDrive.FRONT_LEFT_ID = 16;
+        kDrive.BACK_RIGHT_ID = 4;
+        kDrive.BACK_LEFT_ID = 15;
         kShooter.LEFT_MOTOR_ID = 5;
         kShooter.RIGHT_MOTOR_ID = 14;
-        kShooter.KICKER_MOTOR_ID = 0;
+        kShooter.KICKER_MOTOR_ID = 10;
         kShooter.BACK_MOTOR_ID = 19;
         kShooter.kDoubleClosedLoop.kFront.kP = 0.075;
         kShooter.kDoubleClosedLoop.kFront.kI = 0.0000;
