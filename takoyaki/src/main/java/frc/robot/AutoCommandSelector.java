@@ -123,16 +123,11 @@ public class AutoCommandSelector {
         threeBall = new SequentialCommandGroup(
                 getAutoShoot().withTimeout(1),
                 ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_1_REVERSE),
-                new ParallelCommandGroup(new RunCommand(intake::toggleIntake, intake).withTimeout(0),
-                        ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_2)),
-                ramsete.createRamseteCommand(RamsetePath.MIDBALL_WALLBALL),
-                new ParallelCommandGroup(new InstantCommand(shooter::setSetpoint, shooter),
-                        new InstantCommand(intake::toggleIntake, intake),
-                        ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT)),
-                new ParallelCommandGroup(new RunCommand(shooter::runKicker, shooter).withTimeout(6),
-                        new RunCommand(hopper::runHopper, hopper).withTimeout(6)),
-                new ParallelCommandGroup(new InstantCommand(shooter::stopKicker, shooter),
-                        new InstantCommand(hopper::stop, hopper)));
+                new InstantCommand(intake::toggleIntake, intake),
+                ramsete.createRamseteCommand(RamsetePath.SHOOT_MIDBALL_2),
+                new InstantCommand(intake::toggleIntake, intake),
+                ramsete.createRamseteCommand(RamsetePath.WALLBALL_SHOOT),
+                getAutoShoot().withTimeout(5));
 
         fiveBall = new SequentialCommandGroup(
                 // shoot first ball
