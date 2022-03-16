@@ -126,9 +126,9 @@ public class Constants {
     public static final double STATOR_CURRENT_LIMIT = 30;
 
     // char values for bear metal carpet
-    public static final double ksVolts = 0.71472; // 0.66412
-    public static final double kvVoltSecondsPerMeter = 2.3953;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.21126; // 0.23884
+    public static final double ksVolts = 0.71472; // 0.71472
+    public static final double kvVoltSecondsPerMeter = 2.3953; // 2.3953
+    public static final double kaVoltSecondsSquaredPerMeter = 0.21126; // 0.21126
     public static final double kPDriveVel = 0.000016636;
     public static final double kIDrive = 0;
     public static final double kDDrive = 0;
@@ -171,7 +171,7 @@ public class Constants {
     // ramsete parameters
     public static final double RAMSETE_B = 2;
     public static final double RAMSETE_ZETA = 0.7;
-    public static final double OPEN_LOOP_RAMP_RATE = 0.3; // 0.3
+    public static final double OPEN_LOOP_RAMP_RATE = 0.5; // 0.3
     public static final double CLOSED_LOOP_RAMP_RATE = 0.1;
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
   }
@@ -301,11 +301,13 @@ public class Constants {
         kShooter.RIGHT_MOTOR_ID = 14;
         kShooter.KICKER_MOTOR_ID = 10;
         kShooter.BACK_MOTOR_ID = 19;
-        kShooter.kDoubleClosedLoop.kFront.kP = 0.075;
+        // kShooter.kDoubleClosedLoop.kFront.kP = 0.075;
+        kShooter.kDoubleClosedLoop.kFront.kP = 0.1;
         kShooter.kDoubleClosedLoop.kFront.kI = 0.0000;
         kShooter.kDoubleClosedLoop.kFront.kD = 0.0;
         kShooter.kDoubleClosedLoop.kFront.kF = 0.05;
-        kShooter.kDoubleClosedLoop.kBack.kP = 0.125;
+        // kShooter.kDoubleClosedLoop.kBack.kP = 0.125;
+        kShooter.kDoubleClosedLoop.kBack.kP = 0.150;
         kShooter.kDoubleClosedLoop.kBack.kI = 0;
         kShooter.kDoubleClosedLoop.kBack.kD = 0;
         kShooter.kDoubleClosedLoop.kBack.kF = 0.045;
