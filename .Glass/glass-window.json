@@ -1,0 +1,30 @@
+{
+  "MainWindow": {
+    "GLOBAL": {
+      "height": "1152",
+      "maximized": "0",
+      "style": "0",
+      "userScale": "2",
+      "width": "1536",
+      "xpos": "14",
+      "ypos": "285"
+    }
+  },
+  "Window": {
+    "###NetworkTables": {
+      "Collapsed": "0",
+      "Pos": "375,415",
+      "Size": "1125,277"
+    },
+    "###NetworkTables Settings": {
+      "Collapsed": "0",
+      "Pos": "45,45",
+      "Size": "389,153"
+    },
+    "Debug##Default": {
+      "Collapsed": "0",
+      "Pos": "60,60",
+      "Size": "400,400"
+    }
+  }
+}

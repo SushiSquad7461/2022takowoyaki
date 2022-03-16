@@ -23,6 +23,8 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.util.PFFController;
+import frc.robot.util.Vector2;
 
 public class FalconDrivetrain extends Drivetrain {
   private final WPI_TalonFX frontLeft;
@@ -40,6 +42,10 @@ public class FalconDrivetrain extends Drivetrain {
   private int inverted; // 1 is forward, -1 is reverse
 
   // private final DifferentialDrive diffDrive;
+
+  // Tip controller
+  private final PFFController<Double> tipController;
+
 
   public FalconDrivetrain() {
 
@@ -100,13 +106,17 @@ public class FalconDrivetrain extends Drivetrain {
     navZeroed = false;
 
     odometry = new DifferentialDriveOdometry(nav.getRotation2d());
+
+    tipController = PFFController.ofDouble(Constants.kDrive.TIP_P, Constants.kDrive.TIP_F)
+                .setTargetPositionTolerance(Constants.kDrive.TIP_TOLERANCE);
   }
 
   public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn) {
     if (isQuickturn) {
       angularVelocity /= Constants.kDrive.QUICK_TURN_DAMPENER;
     }
-    diffDrive.curvatureDrive(linearVelocity * inverted, angularVelocity * inverted, isQuickturn);
+    double antiTip = tipController.update((double)nav.getPitch());
+    diffDrive.curvatureDrive((linearVelocity + antiTip) * inverted, angularVelocity * inverted, isQuickturn);
   }
 
   public void breakInGearboxes() {
@@ -126,6 +136,7 @@ public class FalconDrivetrain extends Drivetrain {
     if (!nav.isCalibrating() && !navZeroed) {
       zeroOffset = getHeading();
       navZeroed = true;
+      tipController.setTargetPosition((double)nav.getPitch());
     }
 
     odometry.update(new Rotation2d(Math.toRadians(-(getHeading() - angleOffset))),
