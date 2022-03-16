@@ -115,7 +115,12 @@ public class FalconDrivetrain extends Drivetrain {
     if (isQuickturn) {
       angularVelocity /= Constants.kDrive.QUICK_TURN_DAMPENER;
     }
-    double antiTip = tipController.update((double)nav.getPitch());
+    double antiTip = 0;
+    
+    if (linearVelocity != 0) {
+      antiTip = tipController.update((double)nav.getPitch());
+    }
+
     diffDrive.curvatureDrive((linearVelocity + antiTip) * inverted, angularVelocity * inverted, isQuickturn);
   }
 
