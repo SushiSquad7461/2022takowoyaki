@@ -181,6 +181,7 @@ public class RobotContainer {
         }
 
         public void teleopDrive() {
+                drivetrain.setTeleopRampRates();
                 drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
                                 OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
         }

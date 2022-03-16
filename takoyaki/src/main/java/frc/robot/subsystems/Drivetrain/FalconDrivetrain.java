@@ -210,6 +210,14 @@ public class FalconDrivetrain extends Drivetrain {
     return -nav.getRate();
   }
 
+  // set ramp rates for teleop
+  public void setTeleopRampRates() {
+    frontLeft.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
+    frontRight.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
+    backLeft.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
+    backRight.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
+  }
+
   // set motors to brake mode
   public void setBrake() {
     frontLeft.setNeutralMode(NeutralMode.Brake);
