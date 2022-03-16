@@ -75,6 +75,9 @@ public class Constants {
     public static final int REV_SHOOTER = XboxController.Button.kB.value;
 
     public static final String TRAJECTORY_NAME = "path";
+    public static final double TRIGGER_SPEED_DERIVATIVE = 0;
+    public static final double TRIGGER_SPEED_PROPORTIONAL = 0;
+    public static final double MAX_ACCELL = 0;
   }
 
   public static final class kHopper {
