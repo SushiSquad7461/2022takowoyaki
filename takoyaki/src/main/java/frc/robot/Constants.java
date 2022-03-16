@@ -126,10 +126,10 @@ public class Constants {
     public static final double STATOR_CURRENT_LIMIT = 30;
 
     // char values for bear metal carpet
-    public static final double ksVolts = 0.71472; // 0.71472
-    public static final double kvVoltSecondsPerMeter = 2.3953; // 2.3953
-    public static final double kaVoltSecondsSquaredPerMeter = 0.21126; // 0.21126
-    public static final double kPDriveVel = 0.000016636;
+    public static final double ksVolts = 0.79115; // 0.71472
+    public static final double kvVoltSecondsPerMeter = 2.252; // 2.3953
+    public static final double kaVoltSecondsSquaredPerMeter = 0.25205; // 0.21126
+    public static final double kPDriveVel = 0.000028952;
     public static final double kIDrive = 0;
     public static final double kDDrive = 0;
 
