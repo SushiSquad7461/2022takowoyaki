@@ -1,5 +1,11 @@
 {
   "SysId": {
-    "Analysis Type": "General Mechanism"
+    "Analysis Type": "General Mechanism",
+    "AnalyzerJSONLocation": "C:\\Users\\evere\\Downloads\\sysid_data20220316-014217.json",
+    "NetworkTables Settings": {
+      "serverTeam": "10.74.61.2"
+    },
+    "mode": "Client",
+    "serverTeam": "7461"
   }
 }

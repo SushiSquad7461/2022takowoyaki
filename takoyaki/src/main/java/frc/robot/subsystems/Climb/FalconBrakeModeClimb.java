@@ -38,7 +38,7 @@ public class FalconBrakeModeClimb extends Climb {
     // right.follow(left);
 
     left.setInverted(TalonFXInvertType.Clockwise);
-    right.setInverted(TalonFXInvertType.CounterClockwise);
+    right.setInverted(TalonFXInvertType.Clockwise);
   }
 
   public void zeroClimbEncoders() {

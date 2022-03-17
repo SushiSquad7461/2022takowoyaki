@@ -39,7 +39,7 @@ public class OpenLoopFalconShooter extends Shooter {
   }
 
   public void runShooter() {
-    left.set(ControlMode.PercentOutput, Constants.kShooter.kOpenLoop.SETPOINT);
+    left.set(ControlMode.PercentOutput, Constants.kShooter.kOpenLoop.SPEED);
   }
 
   public void stopShooter() {
@@ -54,12 +54,7 @@ public class OpenLoopFalconShooter extends Shooter {
     kicker.set(ControlMode.PercentOutput, 0);
   }
 
-  public void reverseKicker() { }
-
-  @Override
-  public void setSetpoint(double setpoint) {
-    SmartDashboard.putBoolean("Setpoint set", true);
-    this.setpoint = setpoint;
+  public void reverseKicker() {
   }
 
   public void zeroSetpoint() {
@@ -68,9 +63,17 @@ public class OpenLoopFalconShooter extends Shooter {
   }
 
   public void setSetpoint() {
-    this.setpoint = Constants.kShooter.kOpenLoop.SETPOINT;
+    this.setpoint = Constants.kShooter.kOpenLoop.SPEED;
   }
 
+  public boolean isAtSpeed() {
+    return false;
+  }
+
+  public void setRangedSetpoint() {
+
+  }
+  
   @Override
   public void periodic() {
     if (left.getSelectedSensorVelocity() > maxRPM) {
@@ -83,16 +86,7 @@ public class OpenLoopFalconShooter extends Shooter {
     left.set(ControlMode.PercentOutput, setpoint);
     // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
   }
-
-  public boolean isAtSpeed() {
-    if((left.getSelectedSensorVelocity() * 2048.0 / 600.0) >= (Constants.kShooter.kClosedLoop.SETPOINT * 0.9)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  @Override
-  public void simulationPeriodic() {
-  }
 }
+
+
+  

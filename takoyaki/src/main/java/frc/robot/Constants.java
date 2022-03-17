@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -16,6 +17,20 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Constants {
+  // set tunning mode to true to enable tuning values over NT
+  public static final boolean TUNNING_MODE = true;
+
+  // the unit of measurement for Talon FX encoder velocity is known as the "Tran"
+  // encoder ticks per 100ms
+  public static double convertRPMtoTrans(double RPM) {
+    return RPM * 2048.0 / 600.0;
+  }
+
+  // used for unit conversions for ff constants on talon fx
+  public static double voltageToPercent(double voltage) {
+    return voltage / 12.0;
+  }
+
   public static final class kClimb {
     public static final int CLIMB_TO_TOP_BUTTON = XboxController.Button.kY.value;
     public static final int CLIMB_TO_BOTTOM_BUTTON = XboxController.Button.kA.value;
@@ -61,6 +76,8 @@ public class Constants {
 
     // shooter buttons
     public static final int REV_SHOOTER = XboxController.Button.kB.value;
+
+    public static final String TRAJECTORY_NAME = "path";
   }
 
   public static final class kHopper {
@@ -70,7 +87,7 @@ public class Constants {
     public static final double SPEED = 1;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
-    public static final long JERKINESS = 100;
+    public static final double JERKINESS = 100;
   }
 
   public static final class kIntake {
@@ -101,35 +118,127 @@ public class Constants {
     public static int BACK_RIGHT_ID;
     public static int BACK_LEFT_ID;
 
-    public static final double OPEN_LOOP_RAMP_RATE = 0.65; // 0.65
+    // to divide quick turn power by
+    public static final double QUICK_TURN_DAMPENER = 3.0;
+
+    // current limits
+    public static final double SUPPLY_CURRENT_LIMIT = 30;
+    public static final double STATOR_CURRENT_LIMIT = 30;
+
+    // char values for bear metal carpet
+    public static final double ksVolts = 0.79115; // 0.71472
+    public static final double kvVoltSecondsPerMeter = 2.252; // 2.3953
+    public static final double kaVoltSecondsSquaredPerMeter = 0.25205; // 0.21126
+    public static final double kPDriveVel = 0.000028952;
+    public static final double kIDrive = 0;
+    public static final double kDDrive = 0;
+
+    // char values for garage carpet
+    // public static final double ksVolts = 0.66858; // 0.66412
+    // public static final double kvVoltSecondsPerMeter = 2.3302; // 1.6846
+    // public static final double kaVoltSecondsSquaredPerMeter = 0.36796; // 0.23884
+    // public static final double kPDriveVel = 0.0000015469;
+    // public static final double kIDrive = 0;
+    // public static final double kDDrive = 0;
+
+    // char values for garage
+    // public static final double ksVolts = 0.54849;
+    // public static final double kvVoltSecondsPerMeter = 1.6912;
+    // public static final double kaVoltSecondsSquaredPerMeter = 0.21572;
+    // public static final double kPDriveVel = 0.00005;
+    // public static final double kIDrive = 0;
+    // public static final double kDDrive = 0;
+
+    // public static final double kPDriveVel = 0;
+    public static final double MAX_VOLTAGE = 5;
+
+    // odometry constants - drivetrain measurements
+    public static final double TRACK_WIDTH_METERS = 0.69; // width between sides of dt
+    public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(
+        TRACK_WIDTH_METERS);
+
+    // path-following constants
+    public static final double MAX_SPEED_METERS_PER_SECOND = 5; // set to somewhat below free speed
+    // could increase this to go faster
+    // theoretically
+    public static final double MAX_ACCEL_METERS_PER_SECOND_SQUARED = 5; // doesn't really matter
+
+    // ticks to meters conversion factor for falcon 500
+    // (total ticks) * (motor rotations/tick) * (wheel rotations/motor rotations) *
+    // (meters/wheel rotations)
+    public static final double TICKS_TO_METERS = (1.0 / 2048.0) * (1.0 / 10.71) * (0.4788);
+
+    // ramsete parameters
+    public static final double RAMSETE_B = 2;
+    public static final double RAMSETE_ZETA = 0.7;
+    public static final double OPEN_LOOP_RAMP_RATE = 0.5; // 0.3
+    public static final double CLOSED_LOOP_RAMP_RATE = 0.1;
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
   }
 
   public static final class kShooter {
+
     public static final class kOpenLoop {
-      public static final double SETPOINT = 1;
+      public static final double SPEED = 1;
+      public static final double BACK_SPEED = 1; // only used on double shooters
     }
 
-    public static final class kClosedLoop {
-      public static final double SETPOINT = 3200.0 * 2048.0 / 600.0;
-      public static final double ERROR_TOLERANCE = 25 * 2048.0 / 600.0;
+    public static final class kSingleClosedLoop {
+      public static final double SETPOINT = convertRPMtoTrans(3400.0);
+
+      public static double kP = 0.2;
+      public static double kI = 0.0000;
+      public static double kD = .0;
+      public static double kF = 0.05;
+      public static double kS = voltageToPercent(0.61716);
+      public static double kV = voltageToPercent(0.10724);
+      public static double kA = voltageToPercent(0.0082862);
+
+    }
+
+    public static final class kDoubleClosedLoop {
+      public static final class kFront {
+        // OUTREACH CONSTANT
+        public static final double SETPOINT_RPM = 1400.0; // 1100 // 1065 COMP CONSTANT
+        public static final double RANGED_SETPOINT = 1480;
+        public static final double ERROR_TOLERANCE = 50;
+        // public static final double SETPOINT_OFFSET_RPM = -30 + 100;
+        public static final double SETPOINT_OFFSET_RPM = 0;
+        public static double kP;
+        public static double kI;
+        public static double kD;
+        public static double kF;
+        public static double kS = voltageToPercent(0.61716);
+        public static double kV = voltageToPercent(0.10724);
+        public static double kA = voltageToPercent(0.0082862);
+      }
+
+      public static final class kBack {
+        // OUTREACH CONSTANT
+        public static final double SETPOINT_RPM = 3115.0; // 3250 // 3215 CCOMP CONSTANT
+        public static final double RANGED_SETPOINT = 3445;
+        public static final double ERROR_TOLERANCE = 50;
+        // public static final double SETPOINT_OFFSET_RPM = 100.0 + 170.0;
+        public static final double SETPOINT_OFFSET_RPM = 0;
+        public static double kP;
+        public static double kI;
+        public static double kD;
+        public static double kF;
+        public static double kS;
+        public static double kV;
+        public static double kA;
+
+      }
     }
 
     public static int LEFT_MOTOR_ID;
     public static int RIGHT_MOTOR_ID;
     public static int KICKER_MOTOR_ID;
-    public static final double SPEED = 0.9;
+    public static int BACK_MOTOR_ID;
     public static final int CURRENT_LIMIT = 35;
-    public static double kP = 0.2;
-    public static double kI = 0.0000;
-    public static double kD = 0.0;
-    public static double kF = 0.05;
-    public static double kS = 0.61716 / 12.0;
-    public static double kV = 0.10724 / 12.0;
-    public static double kA = 0.0082862 / 12.0;
     public static final int DEFAULT_PROFILE_SLOT = 0;
     public static final int DEFAULT_CONFIG_TIMEOUT = 100;
-
+    public static final double ERROR_TOLERANCE_PERCENT = 0.97;
     public static boolean KICKER_INVERSION;
 
     public static final double SPEED_KICKER = 1;
@@ -170,31 +279,41 @@ public class Constants {
         kShooter.LEFT_MOTOR_ID = 12;
         kShooter.RIGHT_MOTOR_ID = 15;
         kShooter.KICKER_MOTOR_ID = 5;
-        kShooter.kP = 0.15;
-        kShooter.kI = 0.0000;
-        kShooter.kD = 0.0;
-        kShooter.kF = 0.045;
+        kShooter.kDoubleClosedLoop.kFront.kP = 0.15;
+        kShooter.kDoubleClosedLoop.kFront.kI = 0.0000;
+        kShooter.kDoubleClosedLoop.kFront.kD = 0.0;
+        kShooter.kDoubleClosedLoop.kFront.kF = 0.045;
         kHopper.INVERTED = false;
         kShooter.KICKER_INVERSION = true;
         break;
       default:
-        kHopper.MOTOR_ID = 10;
+        kHopper.MOTOR_ID = 0;
         kIntake.MOTOR_ID = 9;
-        kIntake.LEFT_SOLENOID_FORWARD = 14;
-        kIntake.LEFT_SOLENOID_REVERSE = 15;
-        kIntake.RIGHT_SOLENOID_FORWARD = 2;
-        kIntake.RIGHT_SOLENOID_REVERSE = 1;
-        kDrive.FRONT_RIGHT_ID = 15;
-        kDrive.FRONT_LEFT_ID = 4;
-        kDrive.BACK_RIGHT_ID = 16;
-        kDrive.BACK_LEFT_ID = 3;
+        kIntake.LEFT_SOLENOID_FORWARD = 15;
+        kIntake.LEFT_SOLENOID_REVERSE = 1;
+        kIntake.RIGHT_SOLENOID_FORWARD = 0;
+        kIntake.RIGHT_SOLENOID_REVERSE = 14;
+        kDrive.FRONT_RIGHT_ID = 3;
+        kDrive.FRONT_LEFT_ID = 16;
+        kDrive.BACK_RIGHT_ID = 4;
+        kDrive.BACK_LEFT_ID = 15;
         kShooter.LEFT_MOTOR_ID = 5;
         kShooter.RIGHT_MOTOR_ID = 14;
-        kShooter.KICKER_MOTOR_ID = 0;
-        kShooter.kP = 0.20;
-        kShooter.kI = 0.0000;
-        kShooter.kD = 0.0;
-        kShooter.kF = 0.05;
+        kShooter.KICKER_MOTOR_ID = 10;
+        kShooter.BACK_MOTOR_ID = 19;
+        // kShooter.kDoubleClosedLoop.kFront.kP = 0.075;
+        kShooter.kDoubleClosedLoop.kFront.kP = 0.1;
+        kShooter.kDoubleClosedLoop.kFront.kI = 0.0000;
+        kShooter.kDoubleClosedLoop.kFront.kD = 0.0;
+        kShooter.kDoubleClosedLoop.kFront.kF = 0.05;
+        // kShooter.kDoubleClosedLoop.kBack.kP = 0.125;
+        kShooter.kDoubleClosedLoop.kBack.kP = 0.150;
+        kShooter.kDoubleClosedLoop.kBack.kI = 0;
+        kShooter.kDoubleClosedLoop.kBack.kD = 0;
+        kShooter.kDoubleClosedLoop.kBack.kF = 0.045;
+        kShooter.kDoubleClosedLoop.kBack.kS = voltageToPercent(0.0070982);
+        kShooter.kDoubleClosedLoop.kBack.kV = voltageToPercent(0.0011253);
+        kShooter.kDoubleClosedLoop.kBack.kA = voltageToPercent(0.000047908);
         kHopper.INVERTED = true;
         kShooter.KICKER_INVERSION = false;
         break;

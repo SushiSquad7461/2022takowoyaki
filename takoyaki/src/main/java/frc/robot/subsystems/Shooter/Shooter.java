@@ -17,11 +17,11 @@ public abstract class Shooter extends SubsystemBase {
 
   public abstract void reverseKicker();
 
-  public abstract void setSetpoint(double goal);
-
   public abstract void zeroSetpoint();
 
   public abstract void setSetpoint();
+
+  public abstract void setRangedSetpoint();
 
   public abstract boolean isAtSpeed();
 
