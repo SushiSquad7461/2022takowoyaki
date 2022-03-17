@@ -78,6 +78,10 @@ public class OpenLoopDoubleFalconShooter extends Shooter {
     return false;
   }
 
+  public void setRangedSetpoint() {
+
+  }
+
   @Override
   public void simulationPeriodic() {
   }

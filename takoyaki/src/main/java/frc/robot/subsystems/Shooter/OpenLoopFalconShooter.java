@@ -70,6 +70,10 @@ public class OpenLoopFalconShooter extends Shooter {
     return false;
   }
 
+  public void setRangedSetpoint() {
+
+  }
+  
   @Override
   public void periodic() {
     if (left.getSelectedSensorVelocity() > maxRPM) {

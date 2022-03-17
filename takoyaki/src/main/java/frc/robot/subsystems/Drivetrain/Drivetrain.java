@@ -53,4 +53,6 @@ public abstract class Drivetrain extends SubsystemBase {
   public abstract double getTurnRate();
 
   public abstract void invertDrive();
+
+  public abstract void configOpenloopRamp(double ramp);
 }

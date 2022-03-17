@@ -106,11 +106,15 @@ public class ClosedLoopSingleFalconShooter extends Shooter {
 
   public boolean isAtSpeed() {
     double difference = Math
-        .abs(left.getSelectedSensorVelocity() - Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT);
+        .abs(left.getSelectedSensorVelocity() - Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_RPM);
     if (difference <= Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE)
       return true;
     else
       return false;
+  }
+
+  public void setRangedSetpoint() {
+
   }
 
   @Override
