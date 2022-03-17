@@ -1,30 +1,10 @@
 {
   "NetworkTables": {
-    "CameraPublisher": {
-      "USB Camera 0": {
-        "open": true
-      },
-      "USB Camera 1": {
-        "open": true
-      }
-    },
     "SmartDashboard": {
-      "TunableNumbers": {
-        "open": true
-      },
-      "auto options": {
-        "open": true
-      },
       "open": true
     },
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/LiveWindow/FalconBrakeModeClimb": "Subsystem",
-<<<<<<< HEAD
-=======
-      "/LiveWindow/FalconDrivetrain": "Subsystem",
-      "/LiveWindow/TalonHopper": "Subsystem",
->>>>>>> main
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/PIDController[10]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[11]": "PIDController",
@@ -95,8 +75,6 @@
       "/LiveWindow/Ungrouped/PIDController[70]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[71]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[72]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[73]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[74]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[7]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[8]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[9]": "PIDController",
@@ -107,175 +85,6 @@
     }
   },
   "NetworkTables Settings": {
-    "mode": "Client",
-    "serverTeam": "7461"
-  },
-  "Plots": {
-    "Plot <0>": {
-      "plots": [
-        {
-<<<<<<< HEAD
-          "axis": [
-            {
-              "autoFit": true
-            }
-          ],
-          "height": 333,
-=======
-          "height": 706,
->>>>>>> main
-          "series": [
-            {
-              "color": [
-                0.2980392277240753,
-                0.44705885648727417,
-                0.6901960968971252,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/left position"
-            },
-            {
-              "color": [
-                0.8666667342185974,
-                0.5176470875740051,
-                0.32156863808631897,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/right position"
-            }
-          ]
-        }
-      ]
-    },
-    "Plot <1>": {
-      "plots": [
-        {
-          "axis": [
-            {
-              "autoFit": true
-            }
-          ],
-          "height": 326,
-          "series": [
-            {
-              "color": [
-                0.2980392277240753,
-                0.44705885648727417,
-                0.6901960968971252,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/left setpoint"
-            },
-            {
-              "color": [
-                0.8666667342185974,
-                0.5176470875740051,
-                0.32156863808631897,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/right setpoint"
-            }
-          ]
-        }
-      ],
-      "window": {
-        "visible": false
-      }
-    },
-    "Plot <1>": {
-      "plots": [
-        {
-          "height": -9,
-          "series": [
-            {
-              "color": [
-                0.2980392277240753,
-                0.44705885648727417,
-                0.6901960968971252,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/back shooter actual rpm"
-            },
-            {
-              "color": [
-                0.8666667342185974,
-                0.5176470875740051,
-                0.32156863808631897,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/front shooter actual rpm"
-            },
-            {
-              "color": [
-                0.3333333432674408,
-                0.658823549747467,
-                0.4078431725502014,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/TunableNumbers/back shooter rpm goal"
-            },
-            {
-              "color": [
-                0.7686275243759155,
-                0.30588236451148987,
-                0.32156863808631897,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/TunableNumbers/front shooter rpm goal"
-            }
-          ]
-        }
-      ]
-    },
-    "Plot <2>": {
-      "plots": [
-        {
-          "axis": [
-            {
-              "autoFit": true
-            }
-          ],
-          "height": 332,
-          "series": [
-            {
-              "color": [
-                0.2980392277240753,
-                0.44705885648727417,
-                0.6901960968971252,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/back shooter actual rpm"
-            },
-            {
-              "color": [
-                0.8666667342185974,
-                0.5176470875740051,
-                0.32156863808631897,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/front shooter actual rpm"
-            },
-            {
-              "color": [
-                0.3333333432674408,
-                0.658823549747467,
-                0.4078431725502014,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/TunableNumbers/back shooter rpm goal"
-            },
-            {
-              "color": [
-                0.7686275243759155,
-                0.30588236451148987,
-                0.32156863808631897,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/TunableNumbers/front shooter rpm goal"
-            }
-          ]
-        }
-      ]
-    }
+    "mode": "Client"
   }
 }

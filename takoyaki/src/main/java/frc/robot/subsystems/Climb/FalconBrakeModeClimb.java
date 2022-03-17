@@ -43,6 +43,9 @@ public class FalconBrakeModeClimb extends Climb {
     right.config_kD(0, Constants.kClimb.kD);
     right.config_kF(0, Constants.kClimb.kF);
 
+    // left.configNeutralDeadband(.2, 100);
+    // right.configNeutralDeadband(.2, 100);
+
     // right.follow(left);
 
     left.setInverted(TalonFXInvertType.CounterClockwise);

@@ -46,7 +46,7 @@ public class Constants {
 
     public static final double LEFT_TOP_SETPOINT = -330000;
     public static final double RIGHT_TOP_SETPOINT = -330000;
-    public static final double BOTTOM_SETPOINT = 0;
+    public static final double BOTTOM_SETPOINT = 1000;
     public static final double UNHOOK_DISTANCE = 10000;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
@@ -177,7 +177,7 @@ public class Constants {
     // ramsete parameters
     public static final double RAMSETE_B = 2;
     public static final double RAMSETE_ZETA = 0.7;
-    public static final double OPEN_LOOP_RAMP_RATE = 0.5; // 0.3
+    public static final double OPEN_LOOP_RAMP_RATE = 0.3; // 0.3
     public static final double CLOSED_LOOP_RAMP_RATE = 0.1;
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
   }

@@ -27,6 +27,8 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   private final SimpleMotorFeedforward frontFeedForward;
   private final SimpleMotorFeedforward backFeedForward;
 
+  private final boolean comp;
+
   private double frontChange;
   private double backChange;
   private double frontSetpointRPMWithOffset;
@@ -90,6 +92,8 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
         Constants.kShooter.kDoubleClosedLoop.kBack.kV, Constants.kShooter.kDoubleClosedLoop.kBack.kA);
 
     this.zeroSetpoint();
+
+    comp = false;
   }
 
   public void runShooter() {
@@ -121,10 +125,17 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public void setSetpoint() {
+    if(comp) {
     this.frontSetpointRPMWithOffset = frontSetpointRPM.get()
         + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
     this.backSetpointRPMWithOffset = backSetpointRPM.get()
         + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
+    } else {
+      this.frontSetpointRPMWithOffset = Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_RPM
+        + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
+      this.backSetpointRPMWithOffset = Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_RPM
+        + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
+    }
   }
 
   public void setRangedSetpoint() {
