@@ -18,6 +18,7 @@ import frc.robot.subsystems.Hopper.TalonHopper;
 import frc.robot.subsystems.Hopper.VictorHopper;
 import frc.robot.Ramsete.RamsetePath;
 import frc.robot.commands.AutoShoot;
+import frc.robot.commands.RangedAutoShoot;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
 import frc.robot.subsystems.Intake.FalconSolenoidIntake;
@@ -36,11 +37,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
 
         // The robot's subsystems and commands are defined here...
-        private final Hopper hopper;
-        private final Intake intake;
-        private final Shooter shooter;
-        private final Drivetrain drivetrain;
-        private final Climb climb;
+        public final Hopper hopper;
+        public final Intake intake;
+        public final Shooter shooter;
+        public final Drivetrain drivetrain;
+        // private final Climb climb;
 
         // controllers
         private final XboxController driveController;
@@ -62,7 +63,7 @@ public class RobotContainer {
                 intake = new FalconSolenoidIntake();
                 shooter = new ClosedLoopDoubleFalconShooter();
                 drivetrain = new FalconDrivetrain();
-                climb = new FalconBrakeModeClimb();
+                // climb = new FalconBrakeModeClimb();
 
                 // controllers
                 driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
@@ -125,20 +126,6 @@ public class RobotContainer {
                  * .whenPressed(new InstantCommand(climb::retractClimb, climb));
                  */
 
-                new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
-                                .whenPressed(new RunCommand(climb::runClimb, climb))
-                                .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
-                new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
-                                .whenPressed(new RunCommand(climb::climbDown, climb))
-                                .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
-                new JoystickButton(operatorController, Constants.kClimb.SEPARATE_CLIMB)
-                                .whenPressed(new InstantCommand(climb::separateClimb, climb));
-
-                new JoystickButton(operatorController, Constants.kClimb.REJOIN_CLIMB)
-                                .whenPressed(new InstantCommand(climb::rejoinClimb, climb));
-
                 // .whenPressed(new InstantCommand(climb::runOpenLoopClimb, climb))
                 // .whenReleased(new InstantCommand(climb::stopClimb, climb));
 
@@ -147,17 +134,39 @@ public class RobotContainer {
                 // .whenPressed(new InstantCommand(climb::reverseOpenLoopClimb, climb))
                 // .whenReleased(new InstantCommand(climb::stopClimb, climb));
 
-                new JoystickButton(operatorController, Constants.kClimb.CLIMB_ENCODER_RESET_BUTTON)
-                                .whenPressed(new RunCommand(climb::zeroClimbEncoders, climb));
+                // START OF CLIMB CODE!!!!
+                // new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
+                // .whenPressed(new RunCommand(climb::runClimb, climb))
+                // .whenReleased(new InstantCommand(climb::stopClimb, climb));
 
-                climb.setDefaultCommand(
-                                new RunCommand(() -> climb.defaultCommand(operatorController.getLeftY(),
-                                                operatorController.getRightY()),
-                                                climb));
+                // new JoystickButton(operatorController,
+                // Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
+                // .whenPressed(new RunCommand(climb::climbDown, climb))
+                // .whenReleased(new InstantCommand(climb::stopClimb, climb));
+
+                // new JoystickButton(operatorController, Constants.kClimb.SEPARATE_CLIMB)
+                // .whenPressed(new InstantCommand(climb::separateClimb, climb));
+
+                // new JoystickButton(operatorController, Constants.kClimb.REJOIN_CLIMB)
+                // .whenPressed(new InstantCommand(climb::rejoinClimb, climb));
+
+                // new JoystickButton(operatorController,
+                // Constants.kClimb.CLIMB_ENCODER_RESET_BUTTON)
+                // .whenPressed(new RunCommand(climb::zeroClimbEncoders, climb));
+
+                // climb.setDefaultCommand(
+                // new RunCommand(() -> climb.defaultCommand(operatorController.getLeftY(),
+                // operatorController.getRightY()),
+                // climb));
+                // END OF CLIMB CODE!!!
+
                 // run hopper
                 // new JoystickButton(driveController, Constants.kOI.RUN_HOPPER);
                 new JoystickButton(driveController, Constants.kOI.SHOOT)
                                 .whenHeld(new AutoShoot(shooter, hopper, intake));
+
+                new JoystickButton(driveController, XboxController.Button.kA.value)
+                                .whenHeld(new RangedAutoShoot(shooter, hopper, intake));
 
                 // shoot ball (hopper + kicker)
                 /*
@@ -184,7 +193,7 @@ public class RobotContainer {
                                                 new RunCommand(hopper::stop, hopper)));
 
                 // toggle intake
-                new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
+                new JoystickButton(driveController, XboxController.Button.kLeftBumper.value)
                                 .whenPressed(new InstantCommand(intake::toggleIntake, intake));
 
                 // reverse intake
