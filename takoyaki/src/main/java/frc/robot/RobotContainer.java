@@ -165,7 +165,7 @@ public class RobotContainer {
                 new JoystickButton(driveController, Constants.kOI.SHOOT)
                                 .whenHeld(new AutoShoot(shooter, hopper, intake));
 
-                new JoystickButton(driveController, XboxController.Button.kA.value)
+                new JoystickButton(driveController, Constants.kOI.RANGED_SHOOT)
                                 .whenHeld(new RangedAutoShoot(shooter, hopper, intake));
 
                 // shoot ball (hopper + kicker)
@@ -193,7 +193,7 @@ public class RobotContainer {
                                                 new RunCommand(hopper::stop, hopper)));
 
                 // toggle intake
-                new JoystickButton(driveController, XboxController.Button.kLeftBumper.value)
+                new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
                                 .whenPressed(new InstantCommand(intake::toggleIntake, intake));
 
                 // reverse intake

@@ -67,6 +67,7 @@ public class Constants {
 
     // hopper buttons
     public static final int SHOOT = XboxController.Button.kB.value;
+    public static final int RANGED_SHOOT = XboxController.Button.kLeftBumper.value;
     public static final int REVERSE_SHOOT = XboxController.Button.kBack.value;
 
     // intake buttons
