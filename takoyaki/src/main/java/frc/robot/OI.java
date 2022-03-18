@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class OI {
   // returns difference between Right trigger value and Left trigger value
@@ -23,6 +24,8 @@ public class OI {
       }
       lastTriggerSpeed = val;
     }
+    SmartDashboard.putNumber("val", val);
+    SmartDashboard.putNumber("lasttriggerspeed", lastTriggerSpeed);
     return Math.pow(val, 3);
   }
 
@@ -35,7 +38,7 @@ public class OI {
     }
     double toReturn = lastTriggerSpeed + change;
     lastTriggerSpeed = toReturn;
-    return Math.pow(toReturn, 3);
+    return Math.pow(toReturn, 1);
   }
 
   public static double getLeftStick(XboxController controller) {

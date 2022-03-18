@@ -122,7 +122,7 @@ public class RobotContainer {
                                 .whenPressed(climb::runClimb, climb).whenReleased(climb::stopClimb, climb);
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_LOWER_CLIMB)
                                 .whenPressed(climb::reverseClimb, climb).whenReleased(climb::stopClimb, climb);
-               
+
                 new JoystickButton(driveController, Constants.kOI.SHOOT)
                                 .whenHeld(new AutoShoot(shooter, hopper, intake));
 
@@ -158,9 +158,11 @@ public class RobotContainer {
         }
 
         public void teleopDrive() {
-                drivetrain.setTeleopRampRates();
-                drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
-                                OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
+                // drivetrain.setTeleopRampRates();
+                drivetrain.setDefaultCommand(new RunCommand(
+                                () -> drivetrain.curveDrive(OI.getTriggersLinearScaling(driveController),
+                                                OI.getLeftStick(driveController), driveController.getXButton()),
+                                drivetrain));
         }
 
         public Command getAutonomousCommand() {
