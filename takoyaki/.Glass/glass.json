@@ -1,28 +1,10 @@
 {
   "NetworkTables": {
-    "CameraPublisher": {
-      "USB Camera 0": {
-        "open": true
-      },
-      "USB Camera 1": {
-        "open": true
-      }
-    },
     "SmartDashboard": {
-      "TunableNumbers": {
-        "open": true
-      },
-      "auto options": {
-        "open": true
-      },
       "open": true
     },
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/LiveWindow/ClosedLoopDoubleFalconShooter": "Subsystem",
-      "/LiveWindow/FalconBrakeModeClimb": "Subsystem",
-      "/LiveWindow/FalconDrivetrain": "Subsystem",
-      "/LiveWindow/TalonHopper": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/PIDController[10]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[11]": "PIDController",
@@ -93,10 +75,6 @@
       "/LiveWindow/Ungrouped/PIDController[70]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[71]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[72]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[73]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[74]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[75]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[76]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[7]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[8]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[9]": "PIDController",
@@ -111,21 +89,10 @@
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/SmartDashboard/auto options": "String Chooser",
       "/SmartDashboard/field": "Field2d"
-    },
-    "windows": {
-      "/SmartDashboard/auto options": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/field": {
-        "window": {
-          "visible": true
-        }
-      }
     }
   },
   "NetworkTables Settings": {
+<<<<<<< HEAD
     "mode": "Client",
     "serverTeam": "7461"
   },
@@ -273,5 +240,8 @@
         }
       ]
     }
+=======
+    "mode": "Client"
+>>>>>>> traversal-climb
   }
 }

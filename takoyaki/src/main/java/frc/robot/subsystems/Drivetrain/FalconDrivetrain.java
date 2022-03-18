@@ -69,6 +69,11 @@ public class FalconDrivetrain extends Drivetrain {
     frontRight.setInverted(TalonFXInvertType.Clockwise);
     backRight.setInverted(TalonFXInvertType.Clockwise);
 
+    frontLeft.configSupplyCurrentLimit(Constants.currentLimit(40));
+    backLeft.configSupplyCurrentLimit(Constants.currentLimit(40));
+    frontRight.configSupplyCurrentLimit(Constants.currentLimit(40));
+    backRight.configSupplyCurrentLimit(Constants.currentLimit(40));
+
     // frontLeft.configOpenloopRamp(0.65);
     // backLeft.configOpenloopRamp(0.65);
     // frontRight.configOpenloopRamp(0.65);

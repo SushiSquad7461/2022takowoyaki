@@ -35,7 +35,7 @@ public class ClosedLoopSingleFalconShooter extends Shooter {
 
     left.setInverted(TalonFXInvertType.CounterClockwise);
     right.setInverted(TalonFXInvertType.Clockwise);
-    kicker.setInverted(Constants.kShooter.KICKER_INVERSION);
+    kicker.setInverted(Constants.kShooter.kKicker.KICKER_INVERSION);
 
     left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kSingleClosedLoop.kP,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
@@ -63,7 +63,7 @@ public class ClosedLoopSingleFalconShooter extends Shooter {
   }
 
   public void runKicker() {
-    kicker.set(ControlMode.PercentOutput, Constants.kShooter.SPEED_KICKER);
+    kicker.set(ControlMode.PercentOutput, Constants.kShooter.kKicker.MOTOR_SPEED);
     // double kickerOutput = Math.round(Math.sin(System.currentTimeMillis() /
     // Constants.kShooter.KICKER_PERIOD) + Constants.kShooter.KICKER_OFFSET);
     // if (kickerOutput <= 0) kicker.set(ControlMode.PercentOutput, 0);
@@ -75,7 +75,7 @@ public class ClosedLoopSingleFalconShooter extends Shooter {
   }
 
   public void reverseKicker() {
-    kicker.set(ControlMode.PercentOutput, -Constants.kShooter.SPEED_KICKER);
+    kicker.set(ControlMode.PercentOutput, -Constants.kShooter.kKicker.MOTOR_SPEED);
   }
 
   public void zeroSetpoint() {

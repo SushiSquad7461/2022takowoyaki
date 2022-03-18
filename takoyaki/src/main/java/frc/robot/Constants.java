@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -31,31 +32,35 @@ public class Constants {
     return voltage / 12.0;
   }
 
-  public static final class kClimb {
-    public static final int CLIMB_TO_TOP_BUTTON = XboxController.Button.kY.value;
-    public static final int CLIMB_TO_BOTTOM_BUTTON = XboxController.Button.kA.value;
-    public static final int CLIMB_LEFT_OPEN_LOOP_RAISE_BUTTON = XboxController.Button.kB.value;
-    public static final int CLIMB_RIGHT_OPEN_LOOP_LOWER_BUTTON = XboxController.Button.kX.value;
-    public static final int CLIMB_LEFT_OPEN_LOOP_LOWER_BUTTON = XboxController.Button.kX.value;
-    public static final int CLIMB_ENCODER_RESET_BUTTON = XboxController.Button.kStart.value;
-    public static final int SEPARATE_CLIMB = XboxController.Button.kLeftBumper.value;
-    public static final int REJOIN_CLIMB = XboxController.Button.kRightBumper.value;
+  public static SupplyCurrentLimitConfiguration currentLimit(int fuseAmps) {
+    return new SupplyCurrentLimitConfiguration(true, fuseAmps - 5, fuseAmps, 0.75);
+  }
 
-    // public static final int LEFT_MOTOR_CAN_ID = 15; // green climb
-    public static final int LEFT_MOTOR_CAN_ID = 2; // blue
+  public static final class kClimb {
+
+    public static final int LEFT_MOTOR_CAN_ID = 2;
     public static final int RIGHT_MOTOR_CAN_ID = 17;
 
-    public static final double OPEN_LOOP_UP_POWER = 1;
+    public static final double OPEN_LOOP_UP_POWER = 0.3;
     public static final double OPEN_LOOP_DOWN_POWER = -1;
 
-    public static final double CLOSED_LOOP_UP_POWER = -0.5;
-    public static final double CLOSED_LOOP_DOWN_POWER = 0.5;
+    public static final double LEFT_TOP_SETPOINT = -330000;
+    public static final double RIGHT_TOP_SETPOINT = -330000;
+    public static final double BOTTOM_SETPOINT = 1000;
+    public static final double UNHOOK_DISTANCE = 10000;
 
-    // TODO: identify correct setpoints
-    public static final int TOP_ENCODER_VAL = -165000;
-    public static final int BOTTOM_ENCODER_VAL = -3000;
+    public static final double OPEN_LOOP_RAMP_RATE = 0;
 
-    public static final double OPEN_LOOP_RAMP_RATE = 0.5;
+    // TODO: characterize
+    public static final double kP = 0.01;
+    public static final double kI = 0;
+    public static final double kD = 0;
+    public static final double kF = 0;
+
+    public static final double TRAVERSAL_PAUSE_ONE = 1;
+    public static final double TRAVERSAL_PAUSE_TWO = 1;
+    public static final double TRAVERSAL_PAUSE_THREE = 1;
+    public static final double TRAVERSAL_PAUSE_FOUR = 1;
   }
 
   public static final class kOI {
@@ -79,12 +84,20 @@ public class Constants {
     public static final int REV_SHOOTER = XboxController.Button.kB.value;
 
     public static final String TRAJECTORY_NAME = "path";
+
+    // climb buttons
+    public static final int TRAVERSAL_CLIMB = XboxController.Button.kX.value;
+    public static final int MID_CLIMB = XboxController.Button.kB.value;
+    public static final int OPEN_LOOP_RAISE_CLIMB = XboxController.Button.kA.value;
+    public static final int OPEN_LOOP_LOWER_CLIMB = XboxController.Button.kY.value;
+    public static final double TRIGGER_SPEED_DERIVATIVE = 0.01;
+    public static final double TRIGGER_SPEED_PROPORTIONAL = 0.08;
+    public static final double MAX_ACCELL = 1;
   }
 
   public static final class kHopper {
     public static int MOTOR_ID;
     public static boolean INVERTED;
-    public static final int CURRENT_LIMIT = 15;
     public static final double SPEED = 1;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
@@ -121,10 +134,6 @@ public class Constants {
 
     // to divide quick turn power by
     public static final double QUICK_TURN_DAMPENER = 3.0;
-
-    // current limits
-    public static final double SUPPLY_CURRENT_LIMIT = 30;
-    public static final double STATOR_CURRENT_LIMIT = 30;
 
     // char values for bear metal carpet
     public static final double ksVolts = 0.73018; // 0.71472 royals
@@ -228,15 +237,21 @@ public class Constants {
         public static double kS;
         public static double kV;
         public static double kA;
-
+        public static final double CURRENT_LIMIT = 15;
+        public static final double CURRENT_LIMIT_THRESHOLD = 20;
+        public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
       }
+    }
+
+    public static final class kKicker {
+      public static final double MOTOR_SPEED = 1;
+      public static boolean KICKER_INVERSION;
     }
 
     public static int LEFT_MOTOR_ID;
     public static int RIGHT_MOTOR_ID;
     public static int KICKER_MOTOR_ID;
     public static int BACK_MOTOR_ID;
-    public static final int CURRENT_LIMIT = 35;
     public static final int DEFAULT_PROFILE_SLOT = 0;
     public static final int DEFAULT_CONFIG_TIMEOUT = 100;
     public static final double ERROR_TOLERANCE_PERCENT = 0.97;
@@ -285,7 +300,7 @@ public class Constants {
         kShooter.kDoubleClosedLoop.kFront.kD = 0.0;
         kShooter.kDoubleClosedLoop.kFront.kF = 0.045;
         kHopper.INVERTED = false;
-        kShooter.KICKER_INVERSION = true;
+        kShooter.kKicker.KICKER_INVERSION = true;
         break;
       default:
         kHopper.MOTOR_ID = 0;
@@ -316,7 +331,7 @@ public class Constants {
         kShooter.kDoubleClosedLoop.kBack.kV = voltageToPercent(0.0011253);
         kShooter.kDoubleClosedLoop.kBack.kA = voltageToPercent(0.000047908);
         kHopper.INVERTED = true;
-        kShooter.KICKER_INVERSION = false;
+        kShooter.kKicker.KICKER_INVERSION = false;
         break;
     }
   }

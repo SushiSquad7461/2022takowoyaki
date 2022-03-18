@@ -10,6 +10,7 @@ import frc.robot.utils.TunableNumber;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -56,7 +57,12 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     left.setInverted(TalonFXInvertType.CounterClockwise);
     right.setInverted(TalonFXInvertType.Clockwise);
     back.setInverted(TalonFXInvertType.Clockwise);
-    kicker.setInverted(!Constants.kShooter.KICKER_INVERSION);
+    kicker.setInverted(!Constants.kShooter.kKicker.KICKER_INVERSION);
+
+    left.configSupplyCurrentLimit(Constants.currentLimit(40));
+    right.configSupplyCurrentLimit(Constants.currentLimit(40));
+    back.configSupplyCurrentLimit(Constants.currentLimit(40));
+    kicker.configSupplyCurrentLimit(Constants.currentLimit(30));
 
     left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, frontP.get(),
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
@@ -100,7 +106,7 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public void runKicker() {
-    kicker.set(ControlMode.PercentOutput, Constants.kShooter.SPEED_KICKER);
+    kicker.set(ControlMode.PercentOutput, Constants.kShooter.kKicker.MOTOR_SPEED);
   }
 
   public void stopKicker() {
@@ -108,7 +114,7 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public void reverseKicker() {
-    kicker.set(ControlMode.PercentOutput, -Constants.kShooter.SPEED_KICKER);
+    kicker.set(ControlMode.PercentOutput, -Constants.kShooter.kKicker.MOTOR_SPEED);
   }
 
   public void zeroSetpoint() {
@@ -142,14 +148,10 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   public void periodic() {
     // runKicker();
     SmartDashboard.putNumber("front shooter actual rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
-    // SmartDashboard.putNumber("front shooter setpoint",
-    // (frontSetpointRPMWithOffset -
-    // Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET) * 600.0 /
-    // 2048.0);
-    // SmartDashboard.putNumber("back shooter setpoint",
-    // (backSetpointRPMWithOffset -
-    // Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET) * 600.0 /
-    // 2048.0);
+    SmartDashboard.putNumber("front shooter setpoint",
+     (frontSetpointRPMWithOffset) * 600.0 / 2048.0);
+    SmartDashboard.putNumber("back shooter setpoint",
+     (backSetpointRPMWithOffset) * 600.0 / 2048.0);
     SmartDashboard.putNumber("back shooter actual rpm", back.getSelectedSensorVelocity()
         * 600.0 / 2048.0);
     // frontChange = left.getSelectedSensorPosition();
