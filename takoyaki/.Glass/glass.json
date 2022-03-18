@@ -101,6 +101,13 @@
       "/LiveWindow/Ungrouped/PIDController[8]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[9]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Talon FX [14]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [15]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [19]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [4]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [5]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon SRX [0]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon SRX [10]": "Motor Controller",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/SmartDashboard/auto options": "String Chooser",
       "/SmartDashboard/field": "Field2d"
@@ -174,7 +181,7 @@
     "Plot <1>": {
       "plots": [
         {
-          "height": -9,
+          "height": -12,
           "series": [
             {
               "color": [
@@ -224,7 +231,7 @@
               "autoFit": true
             }
           ],
-          "height": 332,
+          "height": -12,
           "series": [
             {
               "color": [

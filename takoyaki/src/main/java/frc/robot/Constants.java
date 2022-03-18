@@ -127,10 +127,10 @@ public class Constants {
     public static final double STATOR_CURRENT_LIMIT = 30;
 
     // char values for bear metal carpet
-    public static final double ksVolts = 0.79115; // 0.71472
-    public static final double kvVoltSecondsPerMeter = 2.252; // 2.3953
-    public static final double kaVoltSecondsSquaredPerMeter = 0.25205; // 0.21126
-    public static final double kPDriveVel = 0.000028952;
+    public static final double ksVolts = 0.73018; // 0.71472 royals
+    public static final double kvVoltSecondsPerMeter = 2.3505; // 2.3953
+    public static final double kaVoltSecondsSquaredPerMeter = 0.34896; // 0.21126
+    public static final double kPDriveVel = 0;// 0.0000051794;
     public static final double kIDrive = 0;
     public static final double kDDrive = 0;
 
@@ -172,7 +172,7 @@ public class Constants {
     // ramsete parameters
     public static final double RAMSETE_B = 2;
     public static final double RAMSETE_ZETA = 0.7;
-    public static final double OPEN_LOOP_RAMP_RATE = 0.5; // 0.3
+    public static final double OPEN_LOOP_RAMP_RATE = 0.3; // 0.3
     public static final double CLOSED_LOOP_RAMP_RATE = 0.1;
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
   }
