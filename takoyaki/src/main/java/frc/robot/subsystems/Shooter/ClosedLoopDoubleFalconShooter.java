@@ -30,6 +30,7 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   private double backChange;
   private double frontSetpointRPMWithOffset;
   private double backSetpointRPMWithOffset;
+  private boolean tunable;
   private TunableNumber frontSetpointRPM = new TunableNumber("front shooter rpm goal",
       Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_RPM);
   private TunableNumber backSetpointRPM = new TunableNumber("back shooter rpm goal",
@@ -83,6 +84,8 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     backFeedForward = new SimpleMotorFeedforward(Constants.kShooter.kDoubleClosedLoop.kBack.kS,
         Constants.kShooter.kDoubleClosedLoop.kBack.kV, Constants.kShooter.kDoubleClosedLoop.kBack.kA);
 
+    tunable = false;
+
     this.zeroSetpoint();
   }
 
@@ -115,10 +118,17 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public void setSetpoint() {
-    this.frontSetpointRPMWithOffset = frontSetpointRPM.get()
-        + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
-    this.backSetpointRPMWithOffset = backSetpointRPM.get()
-        + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
+    if (tunable) {
+      this.frontSetpointRPMWithOffset = frontSetpointRPM.get()
+          + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
+      this.backSetpointRPMWithOffset = backSetpointRPM.get()
+          + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
+    } else {
+      this.frontSetpointRPMWithOffset = Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_RPM
+          + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
+      this.backSetpointRPMWithOffset = Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_RPM
+          + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
+    }
   }
 
   public void setRangedSetpoint() {

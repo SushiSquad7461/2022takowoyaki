@@ -202,7 +202,7 @@ public class Constants {
         // OUTREACH CONSTANT
         public static final double SETPOINT_RPM = 1400.0; // 1100 // 1065 COMP CONSTANT
         public static final double RANGED_SETPOINT = 1480;
-        public static final double ERROR_TOLERANCE = 50;
+        public static final double ERROR_TOLERANCE = 100;
         // public static final double SETPOINT_OFFSET_RPM = -30 + 100;
         public static final double SETPOINT_OFFSET_RPM = 0;
         public static double kP;
@@ -216,9 +216,9 @@ public class Constants {
 
       public static final class kBack {
         // OUTREACH CONSTANT
-        public static final double SETPOINT_RPM = 3115.0; // 3250 // 3215 CCOMP CONSTANT
+        public static final double SETPOINT_RPM = 3165.0; // 3250 // 3215 CCOMP CONSTANT
         public static final double RANGED_SETPOINT = 3445;
-        public static final double ERROR_TOLERANCE = 50;
+        public static final double ERROR_TOLERANCE = 100;
         // public static final double SETPOINT_OFFSET_RPM = 100.0 + 170.0;
         public static final double SETPOINT_OFFSET_RPM = 0;
         public static double kP;
