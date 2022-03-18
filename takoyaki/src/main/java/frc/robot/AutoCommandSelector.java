@@ -132,7 +132,7 @@ public class AutoCommandSelector {
 
                 fiveBall = new SequentialCommandGroup(
                                 // shoot first ball
-                                getAutoShoot().withTimeout(0.5),
+                                getAutoShoot().withTimeout(1),
                                 // complete path to first ball and actuate intake
                                 ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_MIDBALL_1_REVERSE),
                                 // run intake and pick up mid ball and wall ball

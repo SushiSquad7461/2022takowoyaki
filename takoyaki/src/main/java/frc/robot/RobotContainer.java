@@ -41,7 +41,7 @@ public class RobotContainer {
         public final Intake intake;
         public final Shooter shooter;
         public final Drivetrain drivetrain;
-        // private final Climb climb;
+        private final Climb climb;
 
         // controllers
         private final XboxController driveController;
@@ -63,7 +63,7 @@ public class RobotContainer {
                 intake = new FalconSolenoidIntake();
                 shooter = new ClosedLoopDoubleFalconShooter();
                 drivetrain = new FalconDrivetrain();
-                // climb = new FalconBrakeModeClimb();
+                climb = new FalconBrakeModeClimb();
 
                 // controllers
                 driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
@@ -117,17 +117,13 @@ public class RobotContainer {
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
         private void configureButtonBindings() {
-                /*
-                 * new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
-                 * .whenPressed(new InstantCommand(climb::extendClimb, climb));
-                 * 
-                 * new JoystickButton(operatorController,
-                 * Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
-                 * .whenPressed(new InstantCommand(climb::retractClimb, climb));
-                 */
-
-                // .whenPressed(new InstantCommand(climb::runOpenLoopClimb, climb))
-                // .whenReleased(new InstantCommand(climb::stopClimb, climb));
+                
+                  new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
+                  .whenPressed(new InstantCommand(climb::extendClimb, climb));
+                  
+                  new JoystickButton(operatorController,
+                  Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
+                  .whenPressed(new InstantCommand(climb::retractClimb, climb));
 
                 // new JoystickButton(operatorController,
                 // Constants.kClimb.CLIMB_OPEN_LOOP_LOWER_BUTTON)
