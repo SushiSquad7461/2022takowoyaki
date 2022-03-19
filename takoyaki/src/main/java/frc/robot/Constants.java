@@ -181,7 +181,7 @@ public class Constants {
     // ramsete parameters
     public static final double RAMSETE_B = 2;
     public static final double RAMSETE_ZETA = 0.7;
-    public static final double OPEN_LOOP_RAMP_RATE = 0.4; // 0.3
+    public static final double OPEN_LOOP_RAMP_RATE = 0.5; // 0.3
     public static final double CLOSED_LOOP_RAMP_RATE = 0.1;
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
   }
@@ -209,9 +209,9 @@ public class Constants {
     public static final class kDoubleClosedLoop {
       public static final class kFront {
         // OUTREACH CONSTANT
-        public static final double SETPOINT_RPM = 1300.0; // 1325 sundome // 1065 gpk CONSTANT
+        public static final double SETPOINT_RPM = 1325.0;// 1300 prac field // 1325 sundome // 1065 gpk CONSTANT
         public static final double RANGED_SETPOINT = 1480;
-        public static final double ERROR_TOLERANCE = 30;
+        public static final double ERROR_TOLERANCE = 40; // 30
         // public static final double SETPOINT_OFFSET_RPM = -30 + 100;
         public static final double SETPOINT_OFFSET_RPM = 0;
         public static double kP;
@@ -225,11 +225,11 @@ public class Constants {
 
       public static final class kBack {
         // OUTREACH CONSTANT
-        public static final double SETPOINT_RPM = 3100.0; // 3350 sundome // 3215 CCOMP CONSTANT
+        public static final double SETPOINT_RPM = 3055.0; // 3350 sundome // 3215 CCOMP CONSTANT
         public static final double RANGED_SETPOINT = 3445;
-        public static final double ERROR_TOLERANCE = 30;
+        public static final double ERROR_TOLERANCE = 40; // 30
         // public static final double SETPOINT_OFFSET_RPM = 100.0 + 170.0;
-        public static final double SETPOINT_OFFSET_RPM = 0;
+        public static final double SETPOINT_OFFSET_RPM = -50;
         public static double kP;
         public static double kI;
         public static double kD;

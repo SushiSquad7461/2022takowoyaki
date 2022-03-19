@@ -150,9 +150,9 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     // runKicker();
     SmartDashboard.putNumber("front shooter actual rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
     SmartDashboard.putNumber("front shooter setpoint",
-        (frontSetpointRPMWithOffset) * 600.0 / 2048.0);
+        (Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_RPM));
     SmartDashboard.putNumber("back shooter setpoint",
-        (backSetpointRPMWithOffset) * 600.0 / 2048.0);
+        (Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_RPM));
     SmartDashboard.putNumber("back shooter actual rpm", back.getSelectedSensorVelocity()
         * 600.0 / 2048.0);
 
@@ -178,10 +178,10 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
           .abs(Constants.convertRPMtoTrans(frontSetpointRPM.get()) - left.getSelectedSensorVelocity());
       backDiff = Math.abs(Constants.convertRPMtoTrans(backSetpointRPM.get()) - back.getSelectedSensorVelocity());
     } else {
-      frontDiff = Math
-          .abs(Constants.convertRPMtoTrans(frontSetpointRPMWithOffset) - left.getSelectedSensorVelocity());
-      backDiff = Math
-          .abs(Constants.convertRPMtoTrans(backSetpointRPMWithOffset) - back.getSelectedSensorVelocity());
+      frontDiff = Math.abs(Constants.convertRPMtoTrans(Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_RPM)
+          - left.getSelectedSensorVelocity());
+      backDiff = Math.abs(Constants.convertRPMtoTrans(Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_RPM)
+          - back.getSelectedSensorVelocity());
     }
 
     return frontDiff <= Constants.convertRPMtoTrans(Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE)
