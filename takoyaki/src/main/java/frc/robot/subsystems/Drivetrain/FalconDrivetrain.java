@@ -107,6 +107,15 @@ public class FalconDrivetrain extends Drivetrain {
     diffDrive.curvatureDrive(linearVelocity * inverted, angularVelocity * inverted, isQuickturn);
   }
 
+  public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn, boolean slowMode) {
+    if (slowMode) {
+      curveDrive(Constants.kDrive.SLOW_MODE_VELOCITY, angularVelocity, isQuickturn);
+    } else {
+      curveDrive(linearVelocity, angularVelocity, isQuickturn);
+    }
+
+  }
+
   public void breakInGearboxes() {
     double speed = 0.001;
     double motorPower = Math.sin(System.currentTimeMillis() * speed);

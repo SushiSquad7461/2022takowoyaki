@@ -184,6 +184,7 @@ public class Constants {
     public static final double OPEN_LOOP_RAMP_RATE = 0.5; // 0.3
     public static final double CLOSED_LOOP_RAMP_RATE = 0.1;
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
+    public static final double SLOW_MODE_VELOCITY = -0.1;
   }
 
   public static final class kShooter {
