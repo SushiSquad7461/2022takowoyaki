@@ -114,7 +114,8 @@ public class AutoCommandSelector {
                                 getAutoShoot());
 
                 twoBallFar = new SequentialCommandGroup(
-                                new InstantCommand(intake::toggleIntake, intake),
+                                new InstantCommand(intake::intakeOut, intake),
+                                // new InstantCommand(intake::toggleIntake, intake),
                                 new WaitCommand(7),
                                 ramsete.createRamseteCommand(RamsetePath.TARMAC_FARBALL),
                                 new InstantCommand(intake::toggleIntake, intake),
@@ -132,24 +133,24 @@ public class AutoCommandSelector {
 
                 fiveBall = new SequentialCommandGroup(
                                 // shoot first ball
-                                getAutoShoot().withTimeout(1),
+                                getAutoShoot().withTimeout(2),
                                 // complete path to first ball and actuate intake
                                 ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_MIDBALL_1_REVERSE),
                                 // run intake and pick up mid ball and wall ball
                                 // WE NEED THIS // new ParallelCommandGroup(new
-                                // InstantCommand(intake::toggleIntake, intake),
+                                new InstantCommand(intake::toggleIntake, intake),
                                 // WE NEED THIS //
                                 ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_MIDBALL_2),
                                 // drive to the hub to shoot
-                                ramsete.createRamseteCommand(RamsetePath.GAMMA_WALLBALL_SHOOT),
-                                // WE NEED THIS // .andThen(new InstantCommand(intake::toggleIntake, intake)),
-                                getAutoShoot().withTimeout(1),
+                                ramsete.createRamseteCommand(RamsetePath.GAMMA_WALLBALL_SHOOT)
+                                                .andThen(new InstantCommand(intake::toggleIntake, intake)),
+                                getAutoShoot().withTimeout(2),
                                 ramsete.createRamseteCommand(RamsetePath.GAMMA_SHOOT_TERMINAL_STRAIGHT_1),
-                                // new ParallelCommandGroup(new InstantCommand(intake::toggleIntake, intake),
+                                new InstantCommand(intake::toggleIntake, intake),
                                 ramsete.createRamseteCommand(
                                                 RamsetePath.GAMMA_SHOOT_TERMINAL_STRAIGHT_2),
                                 new WaitCommand(0.5),
-                                // new ParallelCommandGroup(new InstantCommand(intake::toggleIntake, intake),
+                                new InstantCommand(intake::toggleIntake, intake),
                                 ramsete.createRamseteCommand(
                                                 RamsetePath.GAMMA_TERMINAL_SHOOT_STRAIGHT),
                                 getAutoShoot());

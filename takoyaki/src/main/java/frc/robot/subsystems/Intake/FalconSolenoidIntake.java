@@ -75,6 +75,12 @@ public class FalconSolenoidIntake extends Intake {
     }
   }
 
+  public void intakeOut() {
+    rightSolenoid.set(Value.kForward);
+    leftSolenoid.set(Value.kForward);
+    intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, Constants.kIntake.INTAKE_SPEED);
+  }
+
   @Override
   public void periodic() {
   }

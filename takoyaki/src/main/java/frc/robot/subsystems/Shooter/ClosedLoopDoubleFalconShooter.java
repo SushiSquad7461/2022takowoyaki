@@ -17,6 +17,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class ClosedLoopDoubleFalconShooter extends Shooter {
   private final WPI_TalonFX left = new WPI_TalonFX(Constants.kShooter.LEFT_MOTOR_ID);
@@ -149,11 +150,13 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     // runKicker();
     SmartDashboard.putNumber("front shooter actual rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
     SmartDashboard.putNumber("front shooter setpoint",
-     (frontSetpointRPMWithOffset) * 600.0 / 2048.0);
+        (frontSetpointRPMWithOffset) * 600.0 / 2048.0);
     SmartDashboard.putNumber("back shooter setpoint",
-     (backSetpointRPMWithOffset) * 600.0 / 2048.0);
+        (backSetpointRPMWithOffset) * 600.0 / 2048.0);
     SmartDashboard.putNumber("back shooter actual rpm", back.getSelectedSensorVelocity()
         * 600.0 / 2048.0);
+
+    SmartDashboard.putBoolean("at speed", isAtSpeed());
     // frontChange = left.getSelectedSensorPosition();
     // back.set(ControlMode.PercentOutput, Constants.kShooter.kOpenLoop.BACK_SPEED);
 
@@ -168,10 +171,22 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public boolean isAtSpeed() {
-    double frontDiff = Math.abs(Constants.convertRPMtoTrans(frontSetpointRPM.get()) - left.getSelectedSensorVelocity());
-    double backDiff = Math.abs(Constants.convertRPMtoTrans(backSetpointRPM.get()) - back.getSelectedSensorVelocity());
+    double frontDiff, backDiff;
+
+    if (tunable) {
+      frontDiff = Math
+          .abs(Constants.convertRPMtoTrans(frontSetpointRPM.get()) - left.getSelectedSensorVelocity());
+      backDiff = Math.abs(Constants.convertRPMtoTrans(backSetpointRPM.get()) - back.getSelectedSensorVelocity());
+    } else {
+      frontDiff = Math
+          .abs(Constants.convertRPMtoTrans(frontSetpointRPMWithOffset) - left.getSelectedSensorVelocity());
+      backDiff = Math
+          .abs(Constants.convertRPMtoTrans(backSetpointRPMWithOffset) - back.getSelectedSensorVelocity());
+    }
+
     return frontDiff <= Constants.convertRPMtoTrans(Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE)
         && backDiff <= Constants.convertRPMtoTrans(Constants.kShooter.kDoubleClosedLoop.kBack.ERROR_TOLERANCE);
+
   }
 
   @Override

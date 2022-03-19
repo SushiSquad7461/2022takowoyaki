@@ -41,6 +41,13 @@ public class AutoShoot extends CommandBase {
       hopper.runHopper();
       shooter.runKicker();
       intake.runIntake();
+
+      /*
+       * if (System.currentTimeMillis() % 1000 > 500)
+       * shooter.runKicker();
+       * else
+       * shooter.stopKicker();
+       */
     }
   }
 

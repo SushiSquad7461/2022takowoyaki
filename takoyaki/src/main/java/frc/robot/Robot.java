@@ -30,7 +30,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
 
-    CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+    // CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320,
+    // 240, 15);
   }
 
   @Override
@@ -70,7 +71,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    m_robotContainer.setDriveCoast();
+    m_robotContainer.setDriveBrake();
     m_robotContainer.teleopDrive();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
