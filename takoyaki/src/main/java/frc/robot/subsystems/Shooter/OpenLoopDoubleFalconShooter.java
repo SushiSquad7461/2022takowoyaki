@@ -30,7 +30,7 @@ public class OpenLoopDoubleFalconShooter extends Shooter {
     left.setInverted(TalonFXInvertType.CounterClockwise);
     right.setInverted(TalonFXInvertType.Clockwise);
     back.setInverted(TalonFXInvertType.CounterClockwise);
-    kicker.setInverted(Constants.kShooter.KICKER_INVERSION);
+    kicker.setInverted(Constants.kShooter.kKicker.KICKER_INVERSION);
 
     right.follow(left);
 
@@ -48,7 +48,7 @@ public class OpenLoopDoubleFalconShooter extends Shooter {
   }
 
   public void runKicker() {
-    kicker.set(ControlMode.PercentOutput, Constants.kShooter.SPEED_KICKER);
+    kicker.set(ControlMode.PercentOutput, Constants.kShooter.kKicker.MOTOR_SPEED);
   }
 
   public void stopKicker() {
@@ -56,7 +56,7 @@ public class OpenLoopDoubleFalconShooter extends Shooter {
   }
 
   public void reverseKicker() {
-    kicker.set(ControlMode.PercentOutput, -Constants.kShooter.SPEED_KICKER);
+    kicker.set(ControlMode.PercentOutput, -Constants.kShooter.kKicker.MOTOR_SPEED);
   }
 
   public void zeroSetpoint() {
@@ -76,6 +76,10 @@ public class OpenLoopDoubleFalconShooter extends Shooter {
 
   public boolean isAtSpeed() {
     return false;
+  }
+
+  public void setRangedSetpoint() {
+
   }
 
   @Override

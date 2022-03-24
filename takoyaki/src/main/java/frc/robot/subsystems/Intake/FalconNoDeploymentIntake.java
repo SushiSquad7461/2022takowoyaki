@@ -55,4 +55,8 @@ public class FalconNoDeploymentIntake extends Intake {
     // rightSolenoid.set(DoubleSolenoid.Value.kForward);
     intakeMotor.set(Constants.kIntake.kFalcon.CONTROL_MODE, Constants.kIntake.INTAKE_SPEED);
   }
+
+  public void intakeOut() {
+
+  }
 }

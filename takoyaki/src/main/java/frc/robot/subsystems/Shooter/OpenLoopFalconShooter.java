@@ -30,7 +30,7 @@ public class OpenLoopFalconShooter extends Shooter {
 
     left.setInverted(TalonFXInvertType.CounterClockwise);
     right.setInverted(TalonFXInvertType.Clockwise);
-    kicker.setInverted(Constants.kShooter.KICKER_INVERSION);
+    kicker.setInverted(Constants.kShooter.kKicker.KICKER_INVERSION);
     right.follow(left);
 
     this.zeroSetpoint();
@@ -47,7 +47,7 @@ public class OpenLoopFalconShooter extends Shooter {
   }
 
   public void runKicker() {
-    kicker.set(ControlMode.PercentOutput, Constants.kShooter.SPEED_KICKER);
+    kicker.set(ControlMode.PercentOutput, Constants.kShooter.kKicker.MOTOR_SPEED);
   }
 
   public void stopKicker() {
@@ -70,6 +70,10 @@ public class OpenLoopFalconShooter extends Shooter {
     return false;
   }
 
+  public void setRangedSetpoint() {
+
+  }
+  
   @Override
   public void periodic() {
     if (left.getSelectedSensorVelocity() > maxRPM) {
@@ -83,6 +87,3 @@ public class OpenLoopFalconShooter extends Shooter {
     // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
   }
 }
-
-
-  

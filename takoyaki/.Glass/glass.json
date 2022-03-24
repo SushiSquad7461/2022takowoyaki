@@ -18,8 +18,6 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/ClosedLoopDoubleFalconShooter": "Subsystem",
-      "/LiveWindow/FalconBrakeModeClimb": "Subsystem",
-      "/LiveWindow/TalonHopper": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/PIDController[10]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[11]": "PIDController",
@@ -90,10 +88,6 @@
       "/LiveWindow/Ungrouped/PIDController[70]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[71]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[72]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[73]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[74]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[75]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[76]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[7]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[8]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[9]": "PIDController",
@@ -101,18 +95,6 @@
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/SmartDashboard/auto options": "String Chooser",
       "/SmartDashboard/field": "Field2d"
-    },
-    "windows": {
-      "/SmartDashboard/auto options": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/field": {
-        "window": {
-          "visible": true
-        }
-      }
     }
   },
   "NetworkTables Settings": {
@@ -132,7 +114,7 @@
                 0.6901960968971252,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/back shooter rpm"
+              "id": "NT:/SmartDashboard/front shooter actual rpm"
             },
             {
               "color": [
@@ -141,7 +123,7 @@
                 0.32156863808631897,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/front shooter rpm"
+              "id": "NT:/SmartDashboard/front shooter setpoint"
             },
             {
               "color": [
@@ -150,7 +132,7 @@
                 0.4078431725502014,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/back shooter setpoint"
+              "id": "NT:/SmartDashboard/back shooter actual rpm"
             },
             {
               "color": [
@@ -159,7 +141,16 @@
                 0.32156863808631897,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/front shooter setpoint"
+              "id": "NT:/SmartDashboard/back shooter setpoint"
+            },
+            {
+              "color": [
+                0.5058823823928833,
+                0.44705885648727417,
+                0.7019608020782471,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/at speed"
             }
           ]
         }

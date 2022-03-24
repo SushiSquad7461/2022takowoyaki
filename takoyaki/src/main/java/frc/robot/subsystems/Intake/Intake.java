@@ -20,4 +20,6 @@ public abstract class Intake extends SubsystemBase {
 
   public abstract void intakeShoot();
 
+  public abstract void intakeOut();
+
 }

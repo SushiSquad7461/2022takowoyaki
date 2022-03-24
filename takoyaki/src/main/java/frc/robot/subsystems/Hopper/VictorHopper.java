@@ -4,9 +4,9 @@
 
 package frc.robot.subsystems.Hopper;
 
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -20,12 +20,14 @@ public class VictorHopper extends Hopper {
     floor.configFactoryDefault();
     floor.setInverted(!Constants.kHopper.INVERTED);
     floor.setNeutralMode(NeutralMode.Brake);
+    floor.configSupplyCurrentLimit(Constants.currentLimit(30));
   }
 
   public void runHopper() {
     SmartDashboard.putNumber("Hopper output", floor.getMotorOutputPercent());
     // floor.set(ControlMode.PercentOutput,
-    //     Constants.kHopper.SPEED * Math.abs(Math.sin(System.currentTimeMillis() / Constants.kHopper.JERKINESS)));
+    // Constants.kHopper.SPEED * Math.abs(Math.sin(System.currentTimeMillis() /
+    // Constants.kHopper.JERKINESS)));
     floor.set(ControlMode.PercentOutput, 1);
   }
 

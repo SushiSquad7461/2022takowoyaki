@@ -52,9 +52,9 @@ public class SparkSolenoidIntake extends Intake {
 
   public void toggleIntake() {
     // if (solenoid.get() == Value.kReverse) {
-    //   solenoid.set(Value.kForward);
+    // solenoid.set(Value.kForward);
     // } else {
-    //   solenoid.set(Value.kReverse);
+    // solenoid.set(Value.kReverse);
     // }
   }
 
@@ -69,5 +69,10 @@ public class SparkSolenoidIntake extends Intake {
   public void intakeShoot() {
     // leftSolenoid.set(DoubleSolenoid.Value.kForward);
     // rightSolenoid.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void intakeOut() {
+    rightSolenoid.set(Value.kForward);
+    leftSolenoid.set(Value.kForward);
   }
 }

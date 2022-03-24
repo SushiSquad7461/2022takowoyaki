@@ -10,7 +10,7 @@ import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
 
 /** An example command that uses an example subsystem. */
-public class AutoShoot extends CommandBase {
+public class RangedAutoShoot extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final Shooter shooter;
   private final Hopper hopper;
@@ -21,7 +21,7 @@ public class AutoShoot extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutoShoot(Shooter shooter, Hopper hopper, Intake intake) {
+  public RangedAutoShoot(Shooter shooter, Hopper hopper, Intake intake) {
     this.shooter = shooter;
     this.hopper = hopper;
     this.intake = intake;
@@ -31,7 +31,7 @@ public class AutoShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setSetpoint();
+    shooter.setRangedSetpoint();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,13 +41,6 @@ public class AutoShoot extends CommandBase {
       hopper.runHopper();
       shooter.runKicker();
       intake.runIntake();
-
-      /*
-       * if (System.currentTimeMillis() % 1000 > 500)
-       * shooter.runKicker();
-       * else
-       * shooter.stopKicker();
-       */
     }
   }
 
