@@ -29,6 +29,9 @@ public class AutoCommandSelector {
 
         // sequential command groups
         public final SequentialCommandGroup fiveBall;
+        public final SequentialCommandGroup twoBallFar;
+        public final SequentialCommandGroup oneBallFarMid;
+        public final SequentialCommandGroup oneBallFarFar;
 
         public final PathPlannerPath[] fiveBallPaths = {
             PathPlannerPath.SHOOT_MIDBALL,
@@ -37,6 +40,19 @@ public class AutoCommandSelector {
             PathPlannerPath.SHOOT_TERMINAL,
             PathPlannerPath.TERMINAL_SHOOT
         };
+
+        public final PathPlannerPath[] twoBallFarPaths = {
+            PathPlannerPath.TWO_BALL_FAR
+        };
+
+        public final PathPlannerPath[] oneBallFarMidPaths = {
+            PathPlannerPath.ONE_BALL_FAR_MID
+        };
+
+        public final PathPlannerPath[] oneBallFarFarPaths = {
+            PathPlannerPath.ONE_BALL_FAR_FAR
+        };
+        
 
         public final Map<SequentialCommandGroup, PathPlannerPath[]> pathArrayMap;
 
@@ -52,7 +68,7 @@ public class AutoCommandSelector {
                 this.intake = intake;
                 this.shooter = shooter;
                 this.hopper = hopper;
-                
+
                 this.pathArrayMap = new HashMap<SequentialCommandGroup, PathPlannerPath[]>();
 
 
@@ -72,7 +88,26 @@ public class AutoCommandSelector {
                                 ramsete.createRamseteCommand(PathPlannerPath.TERMINAL_SHOOT),
                                 getAutoShoot());
 
+                twoBallFar = new SequentialCommandGroup(
+                    new InstantCommand(intake::intakeOut),
+                    ramsete.createRamseteCommand(PathPlannerPath.TWO_BALL_FAR),
+                    getAutoShoot().withTimeout(5)
+                );
+
+                oneBallFarMid = new SequentialCommandGroup(
+                    getAutoShoot().withTimeout(5),
+                    ramsete.createRamseteCommand(PathPlannerPath.ONE_BALL_FAR_MID)
+                );
+
+                oneBallFarFar = new SequentialCommandGroup(
+                    getAutoShoot().withTimeout(5),
+                    ramsete.createRamseteCommand(PathPlannerPath.ONE_BALL_FAR_FAR)
+                );
+
                 pathArrayMap.put(fiveBall, fiveBallPaths);
+                pathArrayMap.put(twoBallFar, twoBallFarPaths);
+                pathArrayMap.put(oneBallFarFar, oneBallFarFarPaths);               
+                pathArrayMap.put(oneBallFarMid, oneBallFarMidPaths);
         }
 
         public void setInitialDrivePose(SequentialCommandGroup auto) {

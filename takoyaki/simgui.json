@@ -77,5 +77,10 @@
         }
       }
     }
+  },
+  "NetworkTables": {
+    "SmartDashboard": {
+      "open": true
+    }
   }
 }

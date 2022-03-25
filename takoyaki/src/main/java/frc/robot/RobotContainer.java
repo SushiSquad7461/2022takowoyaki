@@ -81,6 +81,9 @@ public class RobotContainer {
                 field = new Field2d();
 
                 autoChooser.setDefaultOption("five ball", autoSelector.fiveBall);
+                autoChooser.addOption("two ball far", autoSelector.twoBallFar);
+                autoChooser.addOption("one ball far mid", autoSelector.oneBallFarMid);
+                autoChooser.addOption("one ball far far", autoSelector.oneBallFarFar);
                 // put field object to dashboard
                 SmartDashboard.putData("field", field);
 
