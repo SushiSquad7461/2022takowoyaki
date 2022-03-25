@@ -86,8 +86,8 @@ public class Constants {
     public static final String TRAJECTORY_NAME = "path";
 
     // climb buttons
-    public static final int TRAVERSAL_CLIMB = XboxController.Button.kX.value;
-    public static final int MID_CLIMB = XboxController.Button.kB.value;
+    public static final int EXTEND_CLIMB = XboxController.Button.kX.value;
+    public static final int RETRACT_CLIMB = XboxController.Button.kB.value;
     public static final int OPEN_LOOP_RAISE_CLIMB = XboxController.Button.kA.value;
     public static final int OPEN_LOOP_LOWER_CLIMB = XboxController.Button.kY.value;
 
