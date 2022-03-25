@@ -118,9 +118,9 @@ public class RobotContainer {
                 new JoystickButton(driveController, Constants.kOI.SHOOT)
                                 .whenHeld(new AutoShoot(shooter, hopper, intake));
 
-                new JoystickButton(operatorController, Constants.kOI.TRAVERSAL_CLIMB)
+                new JoystickButton(operatorController, Constants.kOI.EXTEND_CLIMB)
                                 .whenPressed(new ExtendClimb(climb));
-                new JoystickButton(operatorController, Constants.kOI.MID_CLIMB)
+                new JoystickButton(operatorController, Constants.kOI.RETRACT_CLIMB)
                                 .whenPressed(new RetractClimb(climb));
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_RAISE_CLIMB)
                                 .whenPressed(climb::runClimb, climb).whenReleased(climb::stopClimb, climb);

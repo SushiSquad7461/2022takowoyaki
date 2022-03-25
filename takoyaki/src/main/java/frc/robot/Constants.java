@@ -90,6 +90,8 @@ public class Constants {
     public static final int MID_CLIMB = XboxController.Button.kB.value;
     public static final int OPEN_LOOP_RAISE_CLIMB = XboxController.Button.kA.value;
     public static final int OPEN_LOOP_LOWER_CLIMB = XboxController.Button.kY.value;
+
+    // slew constants
     public static final double TRIGGER_SPEED_DERIVATIVE = 0.01;
     public static final double TRIGGER_SPEED_PROPORTIONAL = 0.08;
     public static final double MAX_ACCELL = 1;
