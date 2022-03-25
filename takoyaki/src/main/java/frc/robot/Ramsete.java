@@ -13,61 +13,30 @@ import edu.wpi.first.wpilibj.Filesystem;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 
 public class Ramsete {
   private DifferentialDriveVoltageConstraint voltageConstraint;
   private Drivetrain drivetrain;
   private SimpleMotorFeedforward ramseteFF; 
-  
-  // path enums
-  public enum RamsetePath {
-    FARBALL_SHOOT("output/farball-shoot.wpilib.json"),
-    MIDBALL_SHOOT("output/midball-shoot.wpilib.json"),
-    MIDBALL_WALLBALL("output/midball-wallball.wpilib.json"),
-    SHOOT_MIDBALL_1_REVERSE("output/shoot-midball-1-reverse.wpilib.json"),
-    SHOOT_MIDBALL_2("output/shoot-midball-2.wpilib.json"),
-    SHOOT_TARMAC_REVERSE("output/shoot-tarmac-reverse.wpilib.json"),
-    SHOOT_TERMINAL_1_REVERSE("output/shoot-terminal-1-reverse.wpilib.json"),
-    SHOOT_TERMINAL_2("output/shoot-terminal-2.wpilib.json"),
-    TARMAC_FARBALL("output/tarmac-farball.wpilib.json"),
-    TARMAC_MIDBALL("output/tarmac-midball.wpilib.json"),
-    TARMAC_WALLBALL("output/tarmac-wallball.wpilib.json"),
-    TERMINAL_SHOOT_1_REVERSE("output/terminal-shoot-1-reverse.wpilib.json"),
-    TERMINAL_SHOOT_2("output/terminal-shoot-2.wpilib.json"),
-    WALLBALL_SHOOT("output/wallball-shoot.wpilib.json"),
-    IOTA_TERMINAL_SHOOT_1_REVERSE("output/iota-terminal-shoot-1-reverse.wpilib.json"),
-    IOTA_TERMINAL_SHOOT_2("output/iota-terminal-shoot-2.wpilib.json"),
-    ZETA_TERMINAL_SHOOT_1_REVERSE("output/zeta-terminal-shoot-1-reverse.wpilib.json"),
-    ZETA_TERMINAL_SHOOT_2("output/zeta-terminal-shoot-2.wpilib.json"),
-    GAMMA_SHOOT_MIDBALL_1_REVERSE("output/output/shoot-midball-1-reverse.wpilib.json"),
-    GAMMA_SHOOT_MIDBALL_2("output/output/shoot-midball-2.wpilib.json"),
-    GAMMA_WALLBALL_SHOOT("output/output/wallball-shoot.wpilib.json"),
-    GAMMA_SHOOT_TERMINAL_1_REVERSE("output/output/shoot-terminal-1-reverse.wpilib.json"),
-    GAMMA_SHOOT_TERMINAL_2("output/output/shoot-terminal-2.wpilib.json"),
-    GAMMA_TERMINAL_SHOOT_1_REVERSE("output/output/terminal-shoot-1-reverse.wpilib.json"),
-    GAMMA_TERMINAL_SHOOT_2("output/output/terminal-shoot-2.wpilib.json"),
-    GAMMA_TERMINAL_SHOOT_STRAIGHT("output/output/terminal-shoot-straight.wpilib.json"),
-    GAMMA_SHOOT_TERMINAL_STRAIGHT_1("output/output/shoot-terminal-straight-1.wpilib.json"),
-    GAMMA_SHOOT_TERMINAL_STRAIGHT_2("output/output/shoot-terminal-straight-2.wpilib.json"),
-    PATHPLANNER_SHOOT_MIDBALL("output/pathplanner/generatedJSON/shoot-midball.wpilib.json"),
-    PATHPLANNER_MIDBALL_WALLBALL("output/pathplanner/generatedJSON/midball-wallball.wpilib.json"),
-    PATHPLANNER_WALLBALL_SHOOT("output/pathplanner/generatedJSON/wallball-shoot.wpilib.json"),
-    PATHPLANNER_SHOOT_TERMINAL("output/pathplanner/generatedJSON/shoot-terminal.wpilib.json"),
-    PATHPLANNER_TERMINAL_SHOOT("output/pathplanner/generatedJSON/terminal-shoot.wpilib.json");
 
-    private String json;
-    RamsetePath(String json) {
-      this.json = json;
+  public enum PathPlannerPath {
+    SHOOT_MIDBALL(PathPlanner.loadPath("shoot-midball", 2, 2, true)),
+    MIDBALL_WALLBALL(PathPlanner.loadPath("midball-wallball", 2, 2, false)),
+    WALLBALL_SHOOT(PathPlanner.loadPath("wallball-shoot", 2, 2, false)),
+    SHOOT_TERMINAL(PathPlanner.loadPath("shoot-terminal", 2, 2, true)),
+    TERMINAL_SHOOT(PathPlanner.loadPath("terminal-shoot", 2, 2, false));
+
+    private PathPlannerTrajectory traj;
+    private PathPlannerPath(PathPlannerTrajectory traj) {
+      this.traj = traj;
     }
 
-    public Trajectory getTrajectory() {
-      try {
-        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(json);
-        return TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-      } catch (IOException ex) {
-        return new Trajectory(); 
-      }
+    public PathPlannerTrajectory getTrajectory() {
+      return traj;
     }
   }
 
@@ -85,7 +54,7 @@ public class Ramsete {
       Constants.kDrive.MAX_VOLTAGE);
   }
 
-  public RamseteCommand createRamseteCommand(RamsetePath path) {
+  public RamseteCommand createRamseteCommand(PathPlannerPath path) {
     return new RamseteCommand(
       path.getTrajectory(),
       drivetrain::getPose,

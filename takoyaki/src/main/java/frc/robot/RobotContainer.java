@@ -19,7 +19,7 @@ import frc.robot.subsystems.Climb.FalconBrakeModeClimb;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Hopper.TalonHopper;
 import frc.robot.subsystems.Hopper.VictorHopper;
-import frc.robot.Ramsete.RamsetePath;
+import frc.robot.Ramsete.PathPlannerPath;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.ExtendClimb;
 import frc.robot.commands.RetractClimb;
@@ -80,14 +80,7 @@ public class RobotContainer {
                 autoSelector = new AutoCommandSelector(drivetrain, ramsete, intake, shooter, hopper);
                 field = new Field2d();
 
-                autoChooser.setDefaultOption("two ball mid", autoSelector.twoBallMid);
-                autoChooser.addOption("two ball far", autoSelector.twoBallFar);
-                autoChooser.addOption("two ball wall", autoSelector.twoBallWall);
-                autoChooser.addOption("three ball", autoSelector.threeBall);
-                autoChooser.addOption("five ball", autoSelector.fiveBall);
-                autoChooser.addOption("reverse testig", autoSelector.reverseSpline);
-                autoChooser.addOption("iota five ball", autoSelector.iotaFiveBall);
-                autoChooser.addOption("zeta five ball", autoSelector.zetaFiveBall);
+                autoChooser.setDefaultOption("five ball", autoSelector.fiveBall);
                 // put field object to dashboard
                 SmartDashboard.putData("field", field);
 
@@ -97,7 +90,7 @@ public class RobotContainer {
                 new JoystickButton(driveController, Constants.kOI.SHOOT)
                                 .whenHeld(new AutoShoot(shooter, hopper, intake));
 
-                CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
+                // CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
 
                 configureButtonBindings();
 
@@ -174,7 +167,7 @@ public class RobotContainer {
 
         public void setFieldTrajectory() {
                 Trajectory concatTrajectory = new Trajectory();
-                for (RamsetePath p : autoSelector.pathArrayMap.get(autoChooser.getSelected())) {
+                for (PathPlannerPath p : autoSelector.pathArrayMap.get(autoChooser.getSelected())) {
                         concatTrajectory = concatTrajectory.concatenate(p.getTrajectory());
                 }
                 field.getObject(Constants.kOI.TRAJECTORY_NAME).setTrajectory(concatTrajectory);
