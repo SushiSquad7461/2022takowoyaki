@@ -23,8 +23,12 @@ public class Constants {
 
   // the unit of measurement for Talon FX encoder velocity is known as the "Tran"
   // encoder ticks per 100ms
-  public static double convertRPMtoTrans(double RPM) {
+  public static double convertRPMToTrans(double RPM) {
     return RPM * 2048.0 / 600.0;
+  }
+
+  public static double convertTransToRPM(double trans) {
+    return trans * 600.0 / 2048.0;
   }
 
   // used for unit conversions for ff constants on talon fx
@@ -90,11 +94,6 @@ public class Constants {
     public static final int RETRACT_CLIMB = XboxController.Button.kB.value;
     public static final int OPEN_LOOP_RAISE_CLIMB = XboxController.Button.kA.value;
     public static final int OPEN_LOOP_LOWER_CLIMB = XboxController.Button.kY.value;
-
-    // slew constants
-    public static final double TRIGGER_SPEED_DERIVATIVE = 0.01;
-    public static final double TRIGGER_SPEED_PROPORTIONAL = 0.08;
-    public static final double MAX_ACCELL = 1;
   }
 
   public static final class kHopper {
@@ -187,6 +186,14 @@ public class Constants {
     public static final double CLOSED_LOOP_RAMP_RATE = 0.1;
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
     public static final double SLOW_MODE_VELOCITY = -0.1;
+
+    // slew constants
+    public static final double TRIGGER_SPEED_DERIVATIVE = 0.025;
+    public static final double LINEAR_SCALING_MIN_SPEED = 0.1;
+    public static final double TRIGGER_SPEED_PROPORTIONAL = 0.03;
+    public static final double MAX_ACCELL = 1;
+    public static final double MINIMUM_SENSOR_VELOCITY = 100;
+
   }
 
   public static final class kShooter {
@@ -197,7 +204,7 @@ public class Constants {
     }
 
     public static final class kSingleClosedLoop {
-      public static final double SETPOINT = convertRPMtoTrans(3400.0);
+      public static final double SETPOINT = convertRPMToTrans(3400.0);
 
       public static double kP = 0.2;
       public static double kI = 0.0000;

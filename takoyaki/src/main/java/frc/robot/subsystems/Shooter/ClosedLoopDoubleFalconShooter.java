@@ -154,8 +154,8 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
       left.set(ControlMode.PercentOutput, 0);
       back.set(ControlMode.PercentOutput, 0);
     } else {
-      left.set(ControlMode.Velocity, Constants.convertRPMtoTrans(frontSetpointRPMWithOffset));
-      back.set(ControlMode.Velocity, Constants.convertRPMtoTrans(backSetpointRPMWithOffset));
+      left.set(ControlMode.Velocity, Constants.convertRPMToTrans(frontSetpointRPMWithOffset));
+      back.set(ControlMode.Velocity, Constants.convertRPMToTrans(backSetpointRPMWithOffset));
     }
     // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
   }
@@ -164,10 +164,10 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     double frontDiff, backDiff;
 
     frontDiff = Math
-        .abs(Constants.convertRPMtoTrans(frontSetpointRPM.get()) - left.getSelectedSensorVelocity());
-    backDiff = Math.abs(Constants.convertRPMtoTrans(backSetpointRPM.get()) - back.getSelectedSensorVelocity());
-    return frontDiff <= Constants.convertRPMtoTrans(Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE)
-        && backDiff <= Constants.convertRPMtoTrans(Constants.kShooter.kDoubleClosedLoop.kBack.ERROR_TOLERANCE);
+        .abs(Constants.convertRPMToTrans(frontSetpointRPM.get()) - left.getSelectedSensorVelocity());
+    backDiff = Math.abs(Constants.convertRPMToTrans(backSetpointRPM.get()) - back.getSelectedSensorVelocity());
+    return frontDiff <= Constants.convertRPMToTrans(Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE)
+        && backDiff <= Constants.convertRPMToTrans(Constants.kShooter.kDoubleClosedLoop.kBack.ERROR_TOLERANCE);
 
   }
 

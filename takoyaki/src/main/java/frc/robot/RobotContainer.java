@@ -75,11 +75,10 @@ public class RobotContainer {
                 driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
                 operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
                 // set up chooser
-                SmartDashboard.putData("auto options", autoChooser);
                 CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
                 ramsete = new Ramsete(drivetrain);
-                field = new Field2d();
                 autoSelector = new AutoCommandSelector(drivetrain, ramsete, intake, shooter, hopper);
+                field = new Field2d();
                 setupAutoSelector();
 
                 configureButtonBindings();
@@ -89,6 +88,7 @@ public class RobotContainer {
         private void setupAutoSelector() {
 
                 autoChooser = new SendableChooser<>();
+                SmartDashboard.putData("auto options", autoChooser);
 
                 autoChooser.setDefaultOption("two ball mid", autoSelector.twoBallMid);
                 autoChooser.addOption("two ball far", autoSelector.twoBallFar);
