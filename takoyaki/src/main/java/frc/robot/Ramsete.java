@@ -31,7 +31,8 @@ public class Ramsete {
     TERMINAL_SHOOT(PathPlanner.loadPath("terminal-shoot", 2, 2, false)),
     TWO_BALL_FAR(PathPlanner.loadPath("two-ball-far", 2, 2, false)),
     ONE_BALL_FAR_MID(PathPlanner.loadPath("one-ball-far-mid", 2, 2, false)),
-    ONE_BALL_FAR_FAR(PathPlanner.loadPath("one-ball-far-far", 2, 2, false));
+    ONE_BALL_FAR_FAR(PathPlanner.loadPath("one-ball-far-far", 2, 2, false)),
+    FAR_DEFENSE(PathPlanner.loadPath("far-defense", 2, 2, true));
 
     private PathPlannerTrajectory traj;
     private PathPlannerPath(PathPlannerTrajectory traj) {

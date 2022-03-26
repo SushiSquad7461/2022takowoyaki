@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import javax.management.InstanceAlreadyExistsException;
+
 import com.pathplanner.lib.PathPlanner;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,7 +44,8 @@ public class AutoCommandSelector {
         };
 
         public final PathPlannerPath[] twoBallFarPaths = {
-            PathPlannerPath.TWO_BALL_FAR
+            PathPlannerPath.TWO_BALL_FAR,
+            PathPlannerPath.FAR_DEFENSE
         };
 
         public final PathPlannerPath[] oneBallFarMidPaths = {
@@ -91,7 +94,12 @@ public class AutoCommandSelector {
                 twoBallFar = new SequentialCommandGroup(
                     new InstantCommand(intake::intakeOut),
                     ramsete.createRamseteCommand(PathPlannerPath.TWO_BALL_FAR),
-                    getAutoShoot().withTimeout(5)
+                    getAutoShoot().withTimeout(5),
+                    new ParallelCommandGroup(
+                        new InstantCommand(intake::toggleIntake, intake),
+                        ramsete.createRamseteCommand(PathPlannerPath.FAR_DEFENSE)
+                    ),
+                    new InstantCommand(intake::reverseIntake)
                 );
 
                 oneBallFarMid = new SequentialCommandGroup(
