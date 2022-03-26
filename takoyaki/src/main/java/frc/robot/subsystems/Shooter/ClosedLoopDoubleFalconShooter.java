@@ -5,6 +5,7 @@
 package frc.robot.subsystems.Shooter;
 
 import frc.robot.Constants;
+import frc.robot.utils.SliderAdjustableNumber;
 import frc.robot.utils.TunableNumber;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -32,6 +33,12 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   private double backChange;
   private double frontSetpointRPMWithOffset;
   private double backSetpointRPMWithOffset;
+  private SliderAdjustableNumber frontSetpointOffsetSlider = new SliderAdjustableNumber("Front shooter offset", 0, -100,
+      100, 25);
+
+  private SliderAdjustableNumber backSetpointOffsetSlider = new SliderAdjustableNumber("Back shooter offset", 0, -100,
+      100, 25);
+
   private TunableNumber frontSetpointRPM = new TunableNumber("front shooter rpm goal",
       Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_RPM);
   private TunableNumber backSetpointRPM = new TunableNumber("back shooter rpm goal",
@@ -122,9 +129,9 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public void setSetpoint() {
-    this.frontSetpointRPMWithOffset = frontSetpointRPM.get()
+    this.frontSetpointRPMWithOffset = getFrontSetpointGoal()
         + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
-    this.backSetpointRPMWithOffset = backSetpointRPM.get()
+    this.backSetpointRPMWithOffset = getBackSetpointGoal()
         + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
   }
 
@@ -164,11 +171,19 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     double frontDiff, backDiff;
 
     frontDiff = Math
-        .abs(Constants.convertRPMToTrans(frontSetpointRPM.get()) - left.getSelectedSensorVelocity());
-    backDiff = Math.abs(Constants.convertRPMToTrans(backSetpointRPM.get()) - back.getSelectedSensorVelocity());
+        .abs(Constants.convertRPMToTrans(getFrontSetpointGoal() - left.getSelectedSensorVelocity());
+    backDiff = Math.abs(Constants.convertRPMToTrans(getBackSetpointGoal()) - back.getSelectedSensorVelocity());
     return frontDiff <= Constants.convertRPMToTrans(Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE)
         && backDiff <= Constants.convertRPMToTrans(Constants.kShooter.kDoubleClosedLoop.kBack.ERROR_TOLERANCE);
 
+  }
+
+  private double getFrontSetpointGoal() {
+    return frontSetpointRPM.get() + frontSetpointOffsetSlider.get();
+  }
+
+  private double getBackSetpointGoal() {
+    return backSetpointRPM.get() + backSetpointOffsetSlider.get();
   }
 
   @Override
