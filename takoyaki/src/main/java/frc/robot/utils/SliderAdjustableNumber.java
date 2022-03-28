@@ -34,7 +34,7 @@ public class SliderAdjustableNumber {
      * 
      * @param dashboardKey Key on dashboard
      */
-    public SliderAdjustableNumber(String dashboardKey, double defaultValue, double maxOffset, double minOffset,
+    public SliderAdjustableNumber(String dashboardKey, double defaultValue, double minOffset, double maxOffset,
             double increment) {
         this.key = dashboardKey;
         this.defaultValue = defaultValue;
@@ -76,7 +76,7 @@ public class SliderAdjustableNumber {
      * @return The current value
      */
     public double get() {
-        return savedValue.getDouble(defaultValue);
+        return slider.getDouble(defaultValue);
     }
 
     // called in robot periodic
