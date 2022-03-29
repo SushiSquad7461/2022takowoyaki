@@ -48,8 +48,8 @@ public class Constants {
     public static final double OPEN_LOOP_UP_POWER = 0.3;
     public static final double OPEN_LOOP_DOWN_POWER = -1;
 
-    public static final double LEFT_TOP_SETPOINT = -300000; // -330000
-    public static final double RIGHT_TOP_SETPOINT = -300000;
+    public static final double LEFT_TOP_SETPOINT = -350000; // -330000
+    public static final double RIGHT_TOP_SETPOINT = -350000;
     public static final double BOTTOM_SETPOINT = 2500;
     public static final double UNHOOK_DISTANCE = 10000;
 
@@ -182,7 +182,7 @@ public class Constants {
     // ramsete parameters
     public static final double RAMSETE_B = 2;
     public static final double RAMSETE_ZETA = 0.7;
-    public static final double OPEN_LOOP_RAMP_RATE = 0.5; // 0.3
+    public static final double OPEN_LOOP_RAMP_RATE = 0; // 0.3
     public static final double CLOSED_LOOP_RAMP_RATE = 0.1;
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
     public static final double SLOW_MODE_VELOCITY = -0.1;
@@ -239,7 +239,7 @@ public class Constants {
         public static final double RANGED_SETPOINT = 3445;
         public static final double ERROR_TOLERANCE = 40; // 30
         // public static final double SETPOINT_OFFSET_RPM = 100.0 + 170.0;
-        public static final double SETPOINT_OFFSET_RPM = -50;
+        public static final double SETPOINT_OFFSET_RPM = 50;
         public static double kP;
         public static double kI;
         public static double kD;

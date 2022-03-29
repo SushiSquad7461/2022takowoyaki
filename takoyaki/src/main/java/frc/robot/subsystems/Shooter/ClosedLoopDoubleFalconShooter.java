@@ -186,6 +186,10 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     return backSetpointRPM.get() + backSetpointOffsetSlider.get();
   }
 
+  public double getKickerOutput() {
+    return kicker.getMotorOutputVoltage();
+  }
+
   @Override
   public void simulationPeriodic() {
   }

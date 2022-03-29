@@ -25,4 +25,6 @@ public abstract class Shooter extends SubsystemBase {
 
   public abstract boolean isAtSpeed();
 
+  public abstract double getKickerOutput();
+
 }
