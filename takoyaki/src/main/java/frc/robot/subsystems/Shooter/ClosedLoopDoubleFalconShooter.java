@@ -5,6 +5,7 @@
 package frc.robot.subsystems.Shooter;
 
 import frc.robot.Constants;
+import frc.robot.utils.SliderAdjustableNumber;
 import frc.robot.utils.TunableNumber;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -32,7 +33,12 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   private double backChange;
   private double frontSetpointRPMWithOffset;
   private double backSetpointRPMWithOffset;
-  private boolean tunable;
+  private SliderAdjustableNumber frontSetpointOffsetSlider = new SliderAdjustableNumber("Front shooter offset", 0, -100,
+      100, 25);
+
+  private SliderAdjustableNumber backSetpointOffsetSlider = new SliderAdjustableNumber("Back shooter offset", 0, -100,
+      100, 25);
+
   private TunableNumber frontSetpointRPM = new TunableNumber("front shooter rpm goal",
       Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_RPM);
   private TunableNumber backSetpointRPM = new TunableNumber("back shooter rpm goal",
@@ -91,8 +97,6 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     backFeedForward = new SimpleMotorFeedforward(Constants.kShooter.kDoubleClosedLoop.kBack.kS,
         Constants.kShooter.kDoubleClosedLoop.kBack.kV, Constants.kShooter.kDoubleClosedLoop.kBack.kA);
 
-    tunable = false;
-
     this.zeroSetpoint();
   }
 
@@ -125,17 +129,10 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public void setSetpoint() {
-    if (tunable) {
-      this.frontSetpointRPMWithOffset = frontSetpointRPM.get()
-          + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
-      this.backSetpointRPMWithOffset = backSetpointRPM.get()
-          + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
-    } else {
-      this.frontSetpointRPMWithOffset = Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_RPM
-          + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
-      this.backSetpointRPMWithOffset = Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_RPM
-          + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
-    }
+    this.frontSetpointRPMWithOffset = getFrontSetpointGoal()
+        + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
+    this.backSetpointRPMWithOffset = getBackSetpointGoal()
+        + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
   }
 
   public void setRangedSetpoint() {
@@ -150,9 +147,9 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     // runKicker();
     SmartDashboard.putNumber("front shooter actual rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
     SmartDashboard.putNumber("front shooter setpoint",
-        (Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_RPM));
+        (getFrontSetpointGoal()));
     SmartDashboard.putNumber("back shooter setpoint",
-        (Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_RPM));
+        (getBackSetpointGoal()));
     SmartDashboard.putNumber("back shooter actual rpm", back.getSelectedSensorVelocity()
         * 600.0 / 2048.0);
 
@@ -164,8 +161,8 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
       left.set(ControlMode.PercentOutput, 0);
       back.set(ControlMode.PercentOutput, 0);
     } else {
-      left.set(ControlMode.Velocity, Constants.convertRPMtoTrans(frontSetpointRPMWithOffset));
-      back.set(ControlMode.Velocity, Constants.convertRPMtoTrans(backSetpointRPMWithOffset));
+      left.set(ControlMode.Velocity, Constants.convertRPMToTrans(frontSetpointRPMWithOffset));
+      back.set(ControlMode.Velocity, Constants.convertRPMToTrans(backSetpointRPMWithOffset));
     }
     // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
   }
@@ -173,20 +170,24 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   public boolean isAtSpeed() {
     double frontDiff, backDiff;
 
-    if (tunable) {
-      frontDiff = Math
-          .abs(Constants.convertRPMtoTrans(frontSetpointRPM.get()) - left.getSelectedSensorVelocity());
-      backDiff = Math.abs(Constants.convertRPMtoTrans(backSetpointRPM.get()) - back.getSelectedSensorVelocity());
-    } else {
-      frontDiff = Math.abs(Constants.convertRPMtoTrans(Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_RPM)
-          - left.getSelectedSensorVelocity());
-      backDiff = Math.abs(Constants.convertRPMtoTrans(Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_RPM)
-          - back.getSelectedSensorVelocity());
-    }
+    frontDiff = Math
+        .abs(Constants.convertRPMToTrans(getFrontSetpointGoal()) - left.getSelectedSensorVelocity());
+    backDiff = Math.abs(Constants.convertRPMToTrans(getBackSetpointGoal())) - back.getSelectedSensorVelocity();
+    return frontDiff <= Constants.convertRPMToTrans(Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE)
+        && backDiff <= Constants.convertRPMToTrans(Constants.kShooter.kDoubleClosedLoop.kBack.ERROR_TOLERANCE);
 
-    return frontDiff <= Constants.convertRPMtoTrans(Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE)
-        && backDiff <= Constants.convertRPMtoTrans(Constants.kShooter.kDoubleClosedLoop.kBack.ERROR_TOLERANCE);
+  }
 
+  private double getFrontSetpointGoal() {
+    return frontSetpointRPM.get() + frontSetpointOffsetSlider.get();
+  }
+
+  private double getBackSetpointGoal() {
+    return backSetpointRPM.get() + backSetpointOffsetSlider.get();
+  }
+
+  public double getKickerOutput() {
+    return kicker.getMotorOutputVoltage();
   }
 
   @Override

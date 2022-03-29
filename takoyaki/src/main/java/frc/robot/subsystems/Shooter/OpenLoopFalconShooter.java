@@ -73,7 +73,11 @@ public class OpenLoopFalconShooter extends Shooter {
   public void setRangedSetpoint() {
 
   }
-  
+
+  public double getKickerOutput() {
+    return kicker.getMotorOutputVoltage();
+  }
+
   @Override
   public void periodic() {
     if (left.getSelectedSensorVelocity() > maxRPM) {

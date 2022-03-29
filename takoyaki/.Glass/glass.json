@@ -13,6 +13,9 @@
       "open": true
     },
     "SmartDashboard": {
+      "TunableNumbers": {
+        "open": true
+      },
       "open": true
     },
     "types": {
@@ -105,7 +108,7 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 332,
+          "height": 333,
           "series": [
             {
               "color": [

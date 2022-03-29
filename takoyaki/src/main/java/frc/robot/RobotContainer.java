@@ -74,11 +74,21 @@ public class RobotContainer {
                 // controllers
                 driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
                 operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
-
+                // set up chooser
+                CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
                 ramsete = new Ramsete(drivetrain);
-                autoChooser = new SendableChooser<>();
                 autoSelector = new AutoCommandSelector(drivetrain, ramsete, intake, shooter, hopper);
                 field = new Field2d();
+                setupAutoSelector();
+
+                configureButtonBindings();
+
+        }
+
+        private void setupAutoSelector() {
+
+                autoChooser = new SendableChooser<>();
+                SmartDashboard.putData("auto options", autoChooser);
 
                 autoChooser.setDefaultOption("five ball", autoSelector.fiveBall);
                 autoChooser.addOption("two ball far", autoSelector.twoBallFar);
@@ -87,15 +97,7 @@ public class RobotContainer {
                 // put field object to dashboard
                 SmartDashboard.putData("field", field);
 
-                // set up chooser
                 SmartDashboard.putData("auto options", autoChooser);
-
-                new JoystickButton(driveController, Constants.kOI.SHOOT)
-                                .whenHeld(new AutoShoot(shooter, hopper, intake));
-
-                // CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
-
-                configureButtonBindings();
 
         }
 
@@ -108,9 +110,13 @@ public class RobotContainer {
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
         private void configureButtonBindings() {
-                new JoystickButton(operatorController, Constants.kOI.TRAVERSAL_CLIMB)
+
+                new JoystickButton(driveController, Constants.kOI.SHOOT)
+                                .whenHeld(new AutoShoot(shooter, hopper, intake));
+
+                new JoystickButton(operatorController, Constants.kOI.EXTEND_CLIMB)
                                 .whenPressed(new ExtendClimb(climb));
-                new JoystickButton(operatorController, Constants.kOI.MID_CLIMB)
+                new JoystickButton(operatorController, Constants.kOI.RETRACT_CLIMB)
                                 .whenPressed(new RetractClimb(climb));
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_RAISE_CLIMB)
                                 .whenPressed(climb::runClimb, climb).whenReleased(climb::stopClimb, climb);

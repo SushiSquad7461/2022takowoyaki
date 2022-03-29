@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Intake.Intake;
@@ -16,6 +18,8 @@ public class AutoShoot extends CommandBase {
   private final Hopper hopper;
   private final Intake intake;
 
+  private Timer timer;
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -25,6 +29,7 @@ public class AutoShoot extends CommandBase {
     this.shooter = shooter;
     this.hopper = hopper;
     this.intake = intake;
+    timer = new Timer();
     addRequirements(shooter, hopper, intake);
   }
 
@@ -32,6 +37,7 @@ public class AutoShoot extends CommandBase {
   @Override
   public void initialize() {
     shooter.setSetpoint();
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,13 +47,13 @@ public class AutoShoot extends CommandBase {
       hopper.runHopper();
       shooter.runKicker();
       intake.runIntake();
+    }
 
-      /*
-       * if (System.currentTimeMillis() % 1000 > 500)
-       * shooter.runKicker();
-       * else
-       * shooter.stopKicker();
-       */
+    if ((timer.get() % 0.5) > 0.25) {
+      shooter.runKicker();
+      SmartDashboard.putNumber("kicker output", shooter.getKickerOutput());
+    } else {
+      shooter.stopKicker();
     }
   }
 
@@ -58,6 +64,7 @@ public class AutoShoot extends CommandBase {
     shooter.stopKicker();
     shooter.zeroSetpoint();
     intake.stop();
+    timer.stop();
   }
 
   // Returns true when the command should end.

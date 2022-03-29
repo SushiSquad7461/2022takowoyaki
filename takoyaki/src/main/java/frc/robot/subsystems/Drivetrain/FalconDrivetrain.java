@@ -102,11 +102,29 @@ public class FalconDrivetrain extends Drivetrain {
 
   }
 
+  double lastTriggerSpeed = 0;
+
   public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn) {
+    double val = linearVelocity;
+    if (val != lastTriggerSpeed) {
+      if (val < lastTriggerSpeed) {
+        val = lastTriggerSpeed - Constants.kDrive.TRIGGER_SPEED_DERIVATIVE;
+      } else {
+        val = lastTriggerSpeed + Constants.kDrive.TRIGGER_SPEED_DERIVATIVE;
+      }
+      lastTriggerSpeed = val;
+    }
+    double sensorVelocity = Constants.convertTransToRPM(frontLeft.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("sensor velocity", sensorVelocity);
+    SmartDashboard.putBoolean("min speed logic", false);
+    if (Math.abs(sensorVelocity) < Constants.kDrive.MINIMUM_SENSOR_VELOCITY && linearVelocity != 0) {
+      val = Constants.kDrive.LINEAR_SCALING_MIN_SPEED * (val > 0 ? 1 : -1);
+      SmartDashboard.putBoolean("min speed logic", true);
+    }
     if (isQuickturn) {
       angularVelocity /= Constants.kDrive.QUICK_TURN_DAMPENER;
     }
-    diffDrive.curvatureDrive(linearVelocity * inverted, angularVelocity * inverted, isQuickturn);
+    diffDrive.curvatureDrive(val * inverted, angularVelocity * inverted, isQuickturn);
   }
 
   public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn, boolean slowMode) {

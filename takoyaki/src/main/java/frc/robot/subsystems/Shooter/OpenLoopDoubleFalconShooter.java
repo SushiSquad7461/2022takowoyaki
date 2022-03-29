@@ -82,6 +82,10 @@ public class OpenLoopDoubleFalconShooter extends Shooter {
 
   }
 
+  public double getKickerOutput() {
+    return kicker.getMotorOutputVoltage();
+  }
+
   @Override
   public void simulationPeriodic() {
   }
