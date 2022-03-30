@@ -58,7 +58,6 @@ public class OpenLoopFalconShooter extends Shooter {
   }
 
   public void zeroSetpoint() {
-    SmartDashboard.putBoolean("Setpoint set", false);
     this.setpoint = 0;
   }
 

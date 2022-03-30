@@ -115,11 +115,8 @@ public class FalconDrivetrain extends Drivetrain {
       lastTriggerSpeed = val;
     }
     double sensorVelocity = Constants.convertTransToRPM(frontLeft.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("sensor velocity", sensorVelocity);
-    SmartDashboard.putBoolean("min speed logic", false);
     if (Math.abs(sensorVelocity) < Constants.kDrive.MINIMUM_SENSOR_VELOCITY && linearVelocity != 0) {
       val = Constants.kDrive.LINEAR_SCALING_MIN_SPEED * (val > 0 ? 1 : -1);
-      SmartDashboard.putBoolean("min speed logic", true);
     }
     if (isQuickturn) {
       angularVelocity /= Constants.kDrive.QUICK_TURN_DAMPENER;

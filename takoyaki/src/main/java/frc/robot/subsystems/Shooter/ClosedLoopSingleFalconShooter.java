@@ -79,7 +79,6 @@ public class ClosedLoopSingleFalconShooter extends Shooter {
   }
 
   public void zeroSetpoint() {
-    SmartDashboard.putBoolean("Setpoint set", false);
     this.setpoint = 0;
   }
 
@@ -93,7 +92,6 @@ public class ClosedLoopSingleFalconShooter extends Shooter {
     SmartDashboard.putNumber("Current rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
     SmartDashboard.putNumber("Setpoint", setpoint);
     SmartDashboard.putBoolean("at speed", isAtSpeed());
-    SmartDashboard.putNumber("kicker speed", kicker.getMotorOutputPercent());
     change = left.getSelectedSensorPosition();
 
     if (setpoint == 0) {

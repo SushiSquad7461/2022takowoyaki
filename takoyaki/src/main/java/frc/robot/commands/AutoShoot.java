@@ -47,7 +47,6 @@ public class AutoShoot extends CommandBase {
       hopper.runHopper();
       if ((timer.get() % 0.5) > 0.25) {
         shooter.runKicker();
-        SmartDashboard.putNumber("kicker output", shooter.getKickerOutput());
       } else {
         shooter.stopKicker();
       }

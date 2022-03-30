@@ -122,21 +122,18 @@ public class FalconBrakeModeClimb extends Climb {
     closedLoop = false;
     left.set(ControlMode.PercentOutput, 0);
     right.set(ControlMode.PercentOutput, 0);
-    SmartDashboard.putString("output", "forward");
   }
 
   public void runClimb() {
     closedLoop = false;
     left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
     right.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
-    SmartDashboard.putString("output", "reverse");
   }
 
   public void reverseClimb() {
     closedLoop = false;
     left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
     right.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
-    SmartDashboard.putString("output", "stopped");
   }
 
   public void releasePassiveHook() {

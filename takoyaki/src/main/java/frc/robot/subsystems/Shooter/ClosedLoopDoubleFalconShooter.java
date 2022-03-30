@@ -123,7 +123,6 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public void zeroSetpoint() {
-    SmartDashboard.putBoolean("Setpoint set", false);
     this.frontSetpointRPMWithOffset = 0;
     this.backSetpointRPMWithOffset = 0;
   }

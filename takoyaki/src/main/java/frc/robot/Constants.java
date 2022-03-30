@@ -359,13 +359,13 @@ public class Constants {
       reader.close();
     } catch (FileNotFoundException e) {
       errorMsg = "file not found exception";
-      SmartDashboard.putString("robot type status", errorMsg);
+      // SmartDashboard.putString("robot type status", errorMsg);
     }
     if (id == 1) {
-      SmartDashboard.putString("robot", "practice");
+      // SmartDashboard.putString("robot", "practice");
       return RobotType.PRACTICE;
     } else {
-      SmartDashboard.putString("robot", "comp");
+      // SmartDashboard.putString("robot", "comp");
       return RobotType.COMP;
     }
 
