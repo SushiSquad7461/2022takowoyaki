@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.SliderAdjustableNumber;
@@ -32,7 +33,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     // CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320,
-    //     240, 15);
+    // 240, 15);
   }
 
   @Override
@@ -44,7 +45,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    m_robotContainer.setDriveBrake();
+    Timer timer = new Timer();
+    timer.start();
+    timer.delay(1);
+    m_robotContainer.setDriveCoast();
   }
 
   @Override

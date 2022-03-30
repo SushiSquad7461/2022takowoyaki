@@ -45,16 +45,20 @@ public class AutoShoot extends CommandBase {
   public void execute() {
     if (shooter.isAtSpeed()) {
       hopper.runHopper();
-      shooter.runKicker();
+      if ((timer.get() % 0.5) > 0.25) {
+        shooter.runKicker();
+        SmartDashboard.putNumber("kicker output", shooter.getKickerOutput());
+      } else {
+        shooter.stopKicker();
+      }
       intake.runIntake();
-    }
-
-    if ((timer.get() % 0.5) > 0.25) {
-      shooter.runKicker();
-      SmartDashboard.putNumber("kicker output", shooter.getKickerOutput());
     } else {
+      hopper.stop();
+      intake.stop();
       shooter.stopKicker();
     }
+
+    
   }
 
   // Called once the command ends or is interrupted.

@@ -24,15 +24,20 @@ public class Ramsete {
   private SimpleMotorFeedforward ramseteFF; 
 
   public enum PathPlannerPath {
-    SHOOT_MIDBALL(PathPlanner.loadPath("shoot-midball", 2, 2, true)),
-    MIDBALL_WALLBALL(PathPlanner.loadPath("midball-wallball", 2, 2, false)),
-    WALLBALL_SHOOT(PathPlanner.loadPath("wallball-shoot", 2, 2, false)),
-    SHOOT_TERMINAL(PathPlanner.loadPath("shoot-terminal", 2, 2, true)),
-    TERMINAL_SHOOT(PathPlanner.loadPath("terminal-shoot", 2, 2, false)),
-    TWO_BALL_FAR(PathPlanner.loadPath("two-ball-far", 2, 2, false)),
+    // SHOOT_MIDBALL(PathPlanner.loadPath("shoot-midball", 2, 2, true)),
+    // MIDBALL_WALLBALL(PathPlanner.loadPath("midball-wallball", 2, 2, false)),
+    // WALLBALL_SHOOT(PathPlanner.loadPath("wallball-shoot", 2, 2, false)),
+    // SHOOT_TERMINAL(PathPlanner.loadPath("shoot-terminal", 2, 2, false)),
+    // TERMINAL_SHOOT(PathPlanner.loadPath("terminal-shoot", 2, 2, false)),
+    SHOOT_MIDBALL(PathPlanner.loadPath("shoot-midball", 6, 3, true)),
+    MIDBALL_WALLBALL(PathPlanner.loadPath("midball-wallball", 6, 2, false)),
+    WALLBALL_SHOOT(PathPlanner.loadPath("wallball-shoot", 8, 3.5, false)),
+    SHOOT_TERMINAL(PathPlanner.loadPath("shoot-terminal", 8, 4, false)),
+    TERMINAL_SHOOT(PathPlanner.loadPath("terminal-shoot", 8, 4, false)),
+    TWO_BALL_FAR(PathPlanner.loadPath("two-ball-far", 3, 2, false)),
     ONE_BALL_FAR_MID(PathPlanner.loadPath("one-ball-far-mid", 2, 2, false)),
     ONE_BALL_FAR_FAR(PathPlanner.loadPath("one-ball-far-far", 2, 2, false)),
-    FAR_DEFENSE(PathPlanner.loadPath("far-defense", 2, 2, true));
+    FAR_DEFENSE(PathPlanner.loadPath("far-defense", 3, 2, true));
 
     private PathPlannerTrajectory traj;
     private PathPlannerPath(PathPlannerTrajectory traj) {

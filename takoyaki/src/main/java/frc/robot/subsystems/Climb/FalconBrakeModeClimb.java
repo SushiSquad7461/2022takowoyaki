@@ -59,18 +59,11 @@ public class FalconBrakeModeClimb extends Climb {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("left output", left.getMotorOutputPercent());
-    SmartDashboard.putNumber("right output", right.getMotorOutputPercent());
     SmartDashboard.putNumber("left position", left.getSelectedSensorPosition());
     SmartDashboard.putNumber("right position", right.getSelectedSensorPosition());
     SmartDashboard.putNumber("left setpoint", leftSetpoint);
-    SmartDashboard.putNumber("left setpoint but cooler", left.getClosedLoopTarget());
-    SmartDashboard.putNumber("right setpoint but cooler", right.getClosedLoopTarget());
     SmartDashboard.putNumber("right setpoint", rightSetpoint);
-    SmartDashboard.putBoolean("closed loop", closedLoop);
-    SmartDashboard.putBoolean("isFinished", isFinished());
     if (closedLoop) {
-      SmartDashboard.putNumber("random", Math.random());
       left.set(ControlMode.Position, leftSetpoint);
       right.set(ControlMode.Position, rightSetpoint);
     }
@@ -115,6 +108,14 @@ public class FalconBrakeModeClimb extends Climb {
 
   public void retractClimb() {
     setSetpoint(Constants.kClimb.BOTTOM_SETPOINT);
+  }
+
+  public void latchPassive() {
+    setSetpoint(Constants.kClimb.UNHOOK_DISTANCE);
+  }
+
+  public void latchMain() {
+    setSetpoint(Constants.kClimb.LATCH_DISTANCE);
   }
 
   public void stopClimb() {

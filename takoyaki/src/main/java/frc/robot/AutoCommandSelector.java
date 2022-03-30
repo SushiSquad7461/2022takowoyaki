@@ -76,13 +76,13 @@ public class AutoCommandSelector {
 
 
                 fiveBall = new SequentialCommandGroup(
-                                getAutoShoot().withTimeout(2),
-                                ramsete.createRamseteCommand(PathPlannerPath.SHOOT_TERMINAL),
+                                getAutoShoot().withTimeout(1),
+                                ramsete.createRamseteCommand(PathPlannerPath.SHOOT_MIDBALL),
                                 new InstantCommand(intake::toggleIntake, intake),
                                 ramsete.createRamseteCommand(PathPlannerPath.MIDBALL_WALLBALL),
                                 ramsete.createRamseteCommand(PathPlannerPath.WALLBALL_SHOOT)
                                                 .andThen(new InstantCommand(intake::toggleIntake, intake)),
-                                getAutoShoot().withTimeout(2),
+                                getAutoShoot().withTimeout(1),
                                 new ParallelCommandGroup(
                                     ramsete.createRamseteCommand(PathPlannerPath.SHOOT_TERMINAL),
                                     new InstantCommand(intake::toggleIntake, intake)),
@@ -94,7 +94,7 @@ public class AutoCommandSelector {
                 twoBallFar = new SequentialCommandGroup(
                     new InstantCommand(intake::intakeOut),
                     ramsete.createRamseteCommand(PathPlannerPath.TWO_BALL_FAR),
-                    getAutoShoot().withTimeout(5),
+                    getAutoShoot().withTimeout(2),
                     new ParallelCommandGroup(
                         new InstantCommand(intake::toggleIntake, intake),
                         ramsete.createRamseteCommand(PathPlannerPath.FAR_DEFENSE)

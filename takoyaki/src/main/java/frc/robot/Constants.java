@@ -50,13 +50,14 @@ public class Constants {
 
     public static final double LEFT_TOP_SETPOINT = -350000; // -330000
     public static final double RIGHT_TOP_SETPOINT = -350000;
-    public static final double BOTTOM_SETPOINT = 2500;
-    public static final double UNHOOK_DISTANCE = 10000;
+    public static final double BOTTOM_SETPOINT = 0;
+    public static final double UNHOOK_DISTANCE = -42000;
+    public static final double LATCH_DISTANCE = -300000;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
 
     // TODO: characterize
-    public static final double kP = 0.01;
+    public static final double kP = 0.6;
     public static final double kI = 0;
     public static final double kD = 0;
     public static final double kF = 0;
@@ -99,7 +100,7 @@ public class Constants {
   public static final class kHopper {
     public static int MOTOR_ID;
     public static boolean INVERTED;
-    public static final double SPEED = 0.8;
+    public static final double SPEED = 0.7;
 
     public static final double OPEN_LOOP_RAMP_RATE = 0;
     public static final double JERKINESS = 100;
@@ -137,10 +138,10 @@ public class Constants {
     public static final double QUICK_TURN_DAMPENER = 3.0;
 
     // char values for bear metal carpet
-    public static final double ksVolts = 0.73018; // 0.71472 royals
-    public static final double kvVoltSecondsPerMeter = 2.3505; // 2.3953
-    public static final double kaVoltSecondsSquaredPerMeter = 0.34896; // 0.21126
-    public static final double kPDriveVel = 0;// 0.0000051794;
+    public static final double ksVolts = 0.77377; // 0.73018
+    public static final double kvVoltSecondsPerMeter = 2.3111; // 2.3505
+    public static final double kaVoltSecondsSquaredPerMeter = 0.23485; // 0.34896
+    public static final double kPDriveVel = 0.000020568; // 0.00055
     public static final double kIDrive = 0;
     public static final double kDDrive = 0;
 
@@ -150,7 +151,7 @@ public class Constants {
     // public static final double kaVoltSecondsSquaredPerMeter = 0.36796; // 0.23884
     // public static final double kPDriveVel = 0.0000015469;
     // public static final double kIDrive = 0;
-    // public static final double kDDrive = 0;
+    // public static final double kDDrive = 0;5
 
     // char values for garage
     // public static final double ksVolts = 0.54849;
@@ -188,7 +189,7 @@ public class Constants {
     public static final double SLOW_MODE_VELOCITY = -0.1;
 
     // slew constants
-    public static final double TRIGGER_SPEED_DERIVATIVE = 0.025;
+    public static final double TRIGGER_SPEED_DERIVATIVE = 0.04;
     public static final double LINEAR_SCALING_MIN_SPEED = 0.1;
     public static final double TRIGGER_SPEED_PROPORTIONAL = 0.03;
     public static final double MAX_ACCELL = 1;
@@ -221,7 +222,7 @@ public class Constants {
         // OUTREACH CONSTANT
         public static final double SETPOINT_RPM = 1325.0;// 1300 prac field // 1325 sundome // 1065 gpk CONSTANT
         public static final double RANGED_SETPOINT = 1480;
-        public static final double ERROR_TOLERANCE = 40; // 30
+        public static final double ERROR_TOLERANCE = 200; // 30
         // public static final double SETPOINT_OFFSET_RPM = -30 + 100;
         public static final double SETPOINT_OFFSET_RPM = 0;
         public static double kP;
@@ -237,7 +238,7 @@ public class Constants {
         // OUTREACH CONSTANT
         public static final double SETPOINT_RPM = 3055.0; // 3350 sundome // 3215 CCOMP CONSTANT
         public static final double RANGED_SETPOINT = 3445;
-        public static final double ERROR_TOLERANCE = 40; // 30
+        public static final double ERROR_TOLERANCE = 200; // 30
         // public static final double SETPOINT_OFFSET_RPM = 100.0 + 170.0;
         public static final double SETPOINT_OFFSET_RPM = 50;
         public static double kP;
@@ -333,7 +334,7 @@ public class Constants {
         kShooter.kDoubleClosedLoop.kFront.kD = 0.0;
         kShooter.kDoubleClosedLoop.kFront.kF = 0.05;
         // kShooter.kDoubleClosedLoop.kBack.kP = 0.125;
-        kShooter.kDoubleClosedLoop.kBack.kP = 0.150;
+        kShooter.kDoubleClosedLoop.kBack.kP = 0.180;
         kShooter.kDoubleClosedLoop.kBack.kI = 0;
         kShooter.kDoubleClosedLoop.kBack.kD = 0;
         kShooter.kDoubleClosedLoop.kBack.kF = 0.045;

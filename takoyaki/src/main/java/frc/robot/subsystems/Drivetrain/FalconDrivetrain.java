@@ -162,6 +162,7 @@ public class FalconDrivetrain extends Drivetrain {
     SmartDashboard.putNumber("heading", -(getHeading() - zeroOffset));
     SmartDashboard.putNumber("odometry x", odometry.getPoseMeters().getX());
     SmartDashboard.putNumber("odometry y", odometry.getPoseMeters().getY());
+    SmartDashboard.putNumber("gyro pitch", nav.getPitch());
   }
 
   @Override
@@ -258,8 +259,8 @@ public class FalconDrivetrain extends Drivetrain {
   public void setBrake() {
     frontLeft.setNeutralMode(NeutralMode.Brake);
     frontRight.setNeutralMode(NeutralMode.Brake);
-    backLeft.setNeutralMode(NeutralMode.Coast);
-    backRight.setNeutralMode(NeutralMode.Coast);
+    backLeft.setNeutralMode(NeutralMode.Brake);
+    backRight.setNeutralMode(NeutralMode.Brake);
   }
 
   // set motors to brake mode
