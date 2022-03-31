@@ -157,12 +157,9 @@ public class RobotContainer {
                                                 new WaitCommand(Constants.kClimb.HIGH_MAIN_LATCH_PAUSE),
                                                 new InstantCommand(climb::latchMain, climb)));
 
-                // (climb) pull up and latch passive hooks
+                // (climb) pull up
                 new JoystickButton(operatorController, Constants.kOI.CLIMB_LATCH_PASSIVE)
-                                .whenPressed(new SequentialCommandGroup(
-                                                new InstantCommand(climb::retractClimb, climb),
-                                                new WaitCommand(Constants.kClimb.MID_PASSIVE_LATCH_PAUSE),
-                                                new InstantCommand(climb::latchPassive, climb)));
+                                .whenPressed(new InstantCommand(climb::retractClimb, climb));
 
                 // open loop raise climb
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_RAISE_CLIMB)

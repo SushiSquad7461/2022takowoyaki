@@ -43,7 +43,11 @@ public class FalconBrakeModeClimb extends Climb {
     right.config_kD(0, Constants.kClimb.kD);
     right.config_kF(0, Constants.kClimb.kF);
 
+<<<<<<< HEAD
     left.setInverted(TalonFXInvertType.CounterClockwise);
+=======
+    left.setInverted(TalonFXInvertType.Clockwise);
+>>>>>>> method-revamp
     right.setInverted(TalonFXInvertType.CounterClockwise);
 
     closedLoop = true;

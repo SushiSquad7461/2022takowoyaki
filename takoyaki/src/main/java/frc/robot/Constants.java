@@ -51,7 +51,7 @@ public class Constants {
 
     public static final double LEFT_TOP_SETPOINT = -350000;
     public static final double RIGHT_TOP_SETPOINT = -350000;
-    public static final double BOTTOM_SETPOINT = 0;
+    public static final double BOTTOM_SETPOINT = -10000;
     public static final double LATCH_PASSIVE = -42000;
     public static final double LATCH_MAIN = -300000;
 
