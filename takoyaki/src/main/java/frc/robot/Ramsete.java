@@ -19,9 +19,8 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 
 public class Ramsete {
-  private DifferentialDriveVoltageConstraint voltageConstraint;
   private Drivetrain drivetrain;
-  private SimpleMotorFeedforward ramseteFF; 
+  private SimpleMotorFeedforward ramseteFF;
 
   public enum PathPlannerPath {
     // SHOOT_MIDBALL(PathPlanner.loadPath("shoot-midball", 2, 2, true)),
@@ -40,6 +39,7 @@ public class Ramsete {
     FAR_DEFENSE(PathPlanner.loadPath("far-defense", 3, 2, true));
 
     private PathPlannerTrajectory traj;
+
     private PathPlannerPath(PathPlannerTrajectory traj) {
       this.traj = traj;
     }
@@ -53,41 +53,31 @@ public class Ramsete {
     this.drivetrain = drivetrain;
 
     ramseteFF = new SimpleMotorFeedforward(
-      Constants.kDrive.ksVolts,
-      Constants.kDrive.kvVoltSecondsPerMeter,
-      Constants.kDrive.kaVoltSecondsSquaredPerMeter);
-
-    voltageConstraint = new DifferentialDriveVoltageConstraint(
-      ramseteFF,
-      Constants.kDrive.DRIVE_KINEMATICS,
-      Constants.kDrive.MAX_VOLTAGE);
+        Constants.kDrive.ksVolts,
+        Constants.kDrive.kvVoltSecondsPerMeter,
+        Constants.kDrive.kaVoltSecondsSquaredPerMeter);
   }
 
   public RamseteCommand createRamseteCommand(PathPlannerPath path) {
     return new RamseteCommand(
-      path.getTrajectory(),
-      drivetrain::getPose,
-      new RamseteController(
-        Constants.kDrive.RAMSETE_B,
-        Constants.kDrive.RAMSETE_ZETA),
-      ramseteFF,
-      Constants.kDrive.DRIVE_KINEMATICS,
-      drivetrain::getWheelSpeeds,
-      new PIDController(
-        Constants.kDrive.kPDriveVel,
-        Constants.kDrive.kIDrive,
-        Constants.kDrive.kDDrive),
-      new PIDController(
-        Constants.kDrive.kPDriveVel,
-        Constants.kDrive.kIDrive,
-        Constants.kDrive.kDDrive),
-      drivetrain::tankDriveVolts,
-      drivetrain);
-      //.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-  }
-
-  public DifferentialDriveVoltageConstraint getVoltageConstraint() {
-    return voltageConstraint;
+        path.getTrajectory(),
+        drivetrain::getPose,
+        new RamseteController(
+            Constants.kDrive.RAMSETE_B,
+            Constants.kDrive.RAMSETE_ZETA),
+        ramseteFF,
+        Constants.kDrive.DRIVE_KINEMATICS,
+        drivetrain::getWheelSpeeds,
+        new PIDController(
+            Constants.kDrive.kPDriveVel,
+            Constants.kDrive.kIDrive,
+            Constants.kDrive.kDDrive),
+        new PIDController(
+            Constants.kDrive.kPDriveVel,
+            Constants.kDrive.kIDrive,
+            Constants.kDrive.kDDrive),
+        drivetrain::tankDriveVolts,
+        drivetrain);
   }
 
 }

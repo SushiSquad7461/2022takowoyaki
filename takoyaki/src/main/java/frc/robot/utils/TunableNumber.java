@@ -14,7 +14,7 @@ public class TunableNumber {
     private String key;
     private double defaultValue;
     private double lastHasChangedValue = defaultValue;
-    private boolean tuningMode = Constants.TUNNING_MODE;
+    private boolean tuningMode = Constants.TUNING_MODE;
 
     /**
      * Create a new TunableNumber

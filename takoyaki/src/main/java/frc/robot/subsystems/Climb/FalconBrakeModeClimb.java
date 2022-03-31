@@ -30,8 +30,8 @@ public class FalconBrakeModeClimb extends Climb {
     left = new WPI_TalonFX(Constants.kClimb.LEFT_MOTOR_CAN_ID);
     right = new WPI_TalonFX(Constants.kClimb.RIGHT_MOTOR_CAN_ID);
 
-    motorConfig(left);
-    motorConfig(right);
+    configMotor(left);
+    configMotor(right);
 
     left.config_kP(0, Constants.kClimb.kP);
     left.config_kI(0, Constants.kClimb.kI);
@@ -42,11 +42,6 @@ public class FalconBrakeModeClimb extends Climb {
     right.config_kI(0, Constants.kClimb.kI);
     right.config_kD(0, Constants.kClimb.kD);
     right.config_kF(0, Constants.kClimb.kF);
-
-    // left.configNeutralDeadband(.2, 100);
-    // right.configNeutralDeadband(.2, 100);
-
-    // right.follow(left);
 
     left.setInverted(TalonFXInvertType.CounterClockwise);
     right.setInverted(TalonFXInvertType.CounterClockwise);
@@ -73,13 +68,11 @@ public class FalconBrakeModeClimb extends Climb {
   public void simulationPeriodic() {
   }
 
-  private void motorConfig(WPI_TalonFX motor) {
+  private void configMotor(WPI_TalonFX motor) {
     motor.configFactoryDefault();
     motor.setSelectedSensorPosition(0);
     motor.setNeutralMode(NeutralMode.Brake);
-    motor.configOpenloopRamp(Constants.kClimb.OPEN_LOOP_RAMP_RATE);
     motor.configSupplyCurrentLimit(Constants.currentLimit(40));
-
   }
 
   public boolean isFinished() {
@@ -111,11 +104,11 @@ public class FalconBrakeModeClimb extends Climb {
   }
 
   public void latchPassive() {
-    setSetpoint(Constants.kClimb.UNHOOK_DISTANCE);
+    setSetpoint(Constants.kClimb.LATCH_PASSIVE);
   }
 
   public void latchMain() {
-    setSetpoint(Constants.kClimb.LATCH_DISTANCE);
+    setSetpoint(Constants.kClimb.LATCH_MAIN);
   }
 
   public void stopClimb() {
@@ -134,11 +127,6 @@ public class FalconBrakeModeClimb extends Climb {
     closedLoop = false;
     left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
     right.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
-  }
-
-  public void releasePassiveHook() {
-    setSetpoint(Constants.kClimb.LEFT_TOP_SETPOINT - Constants.kClimb.UNHOOK_DISTANCE,
-        Constants.kClimb.RIGHT_TOP_SETPOINT - Constants.kClimb.UNHOOK_DISTANCE);
   }
 
   public void zeroClimbEncoders() {

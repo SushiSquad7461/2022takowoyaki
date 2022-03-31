@@ -21,8 +21,5 @@ public abstract class Climb extends SubsystemBase {
 
   public abstract void latchMain();
 
-  // public abstract double getLeftEncoder();
   public abstract boolean isFinished();
-
-  public abstract void releasePassiveHook();
 }
