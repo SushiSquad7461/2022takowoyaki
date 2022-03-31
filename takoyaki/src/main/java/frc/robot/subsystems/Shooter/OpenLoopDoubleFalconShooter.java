@@ -70,8 +70,6 @@ public class OpenLoopDoubleFalconShooter extends Shooter {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("front shooter current encoder ticks per 100 ms", left.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("front shooter current rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
   }
 
   public boolean isAtSpeed() {

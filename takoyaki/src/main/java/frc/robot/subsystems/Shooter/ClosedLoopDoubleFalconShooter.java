@@ -144,9 +144,9 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   @Override
   public void periodic() {
     // runKicker();
-    SmartDashboard.putNumber("front shooter actual rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
+    SmartDashboard.putNumber("front shooter rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
     SmartDashboard.putNumber("front shooter setpoint", getFrontSetpointGoal());
-    SmartDashboard.putNumber("back shooter actual rpm", back.getSelectedSensorVelocity()
+    SmartDashboard.putNumber("back shooter rpm", back.getSelectedSensorVelocity()
         * 600.0 / 2048.0);
     SmartDashboard.putNumber("back shooter setpoint", getBackSetpointGoal());
     SmartDashboard.putBoolean("at speed", isAtSpeed());

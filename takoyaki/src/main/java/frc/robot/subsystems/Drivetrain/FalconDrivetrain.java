@@ -156,9 +156,6 @@ public class FalconDrivetrain extends Drivetrain {
         frontLeft.getSelectedSensorPosition() * Constants.kDrive.TICKS_TO_METERS,
         frontRight.getSelectedSensorPosition() * Constants.kDrive.TICKS_TO_METERS);
 
-    SmartDashboard.putNumber("heading", -(getHeading() - zeroOffset));
-    SmartDashboard.putNumber("odometry x", odometry.getPoseMeters().getX());
-    SmartDashboard.putNumber("odometry y", odometry.getPoseMeters().getY());
     SmartDashboard.putNumber("gyro pitch", nav.getPitch());
   }
 

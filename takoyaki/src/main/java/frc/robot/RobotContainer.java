@@ -20,7 +20,6 @@ import frc.robot.subsystems.Climb.Climb;
 import frc.robot.subsystems.Climb.FalconBrakeModeClimb;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Hopper.TalonHopper;
-import frc.robot.subsystems.Hopper.VictorHopper;
 import frc.robot.Ramsete.PathPlannerPath;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.ExtendClimb;
@@ -116,18 +115,17 @@ public class RobotContainer {
                 new JoystickButton(driveController, Constants.kOI.SHOOT)
                                 .whenHeld(new AutoShoot(shooter, hopper, intake));
                 new JoystickButton(operatorController, XboxController.Button.kRightBumper.value)
-                        .whenPressed(new SequentialCommandGroup(
-                                new InstantCommand(climb::extendClimb, climb),
-                                new WaitCommand(1),
-                                new InstantCommand(climb::latchMain, climb)
-                        ));
+                                .whenPressed(new SequentialCommandGroup(
+                                                new InstantCommand(climb::extendClimb, climb),
+                                                new WaitCommand(1),
+                                                new InstantCommand(climb::latchMain, climb)));
                 new JoystickButton(operatorController, Constants.kOI.EXTEND_CLIMB)
                                 .whenPressed(new ExtendClimb(climb));
                 new JoystickButton(operatorController, Constants.kOI.RETRACT_CLIMB)
                                 .whenPressed(new SequentialCommandGroup(
-                                        new InstantCommand(climb::retractClimb, climb),
-                                        new WaitCommand(2.5),
-                                        new InstantCommand(climb::latchPassive, climb)));
+                                                new InstantCommand(climb::retractClimb, climb),
+                                                new WaitCommand(2.5),
+                                                new InstantCommand(climb::latchPassive, climb)));
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_RAISE_CLIMB)
                                 .whenPressed(climb::runClimb, climb).whenReleased(climb::stopClimb, climb);
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_LOWER_CLIMB)
