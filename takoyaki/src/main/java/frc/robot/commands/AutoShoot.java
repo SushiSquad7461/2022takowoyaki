@@ -50,14 +50,13 @@ public class AutoShoot extends CommandBase {
       } else {
         shooter.stopKicker();
       }
-      intake.runIntake();
+      intake.runIntakeMotor();
     } else {
       hopper.stop();
       intake.stop();
       shooter.stopKicker();
     }
 
-    
   }
 
   // Called once the command ends or is interrupted.

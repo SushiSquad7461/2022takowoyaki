@@ -40,7 +40,7 @@ public class RangedAutoShoot extends CommandBase {
     if (shooter.isAtSpeed()) {
       hopper.runHopper();
       shooter.runKicker();
-      intake.runIntake();
+      intake.runIntakeMotor();
     }
   }
 

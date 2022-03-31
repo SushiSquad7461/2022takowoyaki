@@ -26,14 +26,10 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  boolean hasRun = false;
-
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-
-    // CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320,
-    // 240, 15);
+    CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
   }
 
   @Override
@@ -54,18 +50,13 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     m_robotContainer.setFieldTrajectory();
-    if (!hasRun) {
-      m_robotContainer.setInitialPose();
-    }
+    m_robotContainer.setInitialPose();
   }
 
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    // m_robotContainer.autoDrive();
-    hasRun = true;
-    m_robotContainer.setDriveBrake();
-
+    m_robotContainer.autoDrive();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -77,7 +68,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    m_robotContainer.setDriveBrake();
     m_robotContainer.teleopDrive();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
@@ -86,7 +76,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    // m_robotContainer.tankDriveVolts(2, 2);
   }
 
   @Override

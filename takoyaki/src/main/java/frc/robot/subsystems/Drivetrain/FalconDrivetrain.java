@@ -41,8 +41,6 @@ public class FalconDrivetrain extends Drivetrain {
   boolean navZeroed;
   private int inverted; // 1 is forward, -1 is reverse
 
-  // private final DifferentialDrive diffDrive;
-
   public FalconDrivetrain() {
 
     // config motors
@@ -50,19 +48,16 @@ public class FalconDrivetrain extends Drivetrain {
     backLeft = new WPI_TalonFX(Constants.kDrive.BACK_LEFT_ID);
     frontRight = new WPI_TalonFX(Constants.kDrive.FRONT_RIGHT_ID);
     backRight = new WPI_TalonFX(Constants.kDrive.BACK_RIGHT_ID);
+    WPI_TalonFX[] motors = { frontLeft, backLeft, frontRight, backRight };
+
+    for (WPI_TalonFX motor : motors) {
+      configMotor(motor);
+    }
 
     // instantiate differential drive
     diffDrive = new DifferentialDrive(frontLeft, frontRight);
 
-    /* factory default values */
-    frontLeft.configFactoryDefault();
-    backLeft.configFactoryDefault();
-    frontRight.configFactoryDefault();
-    backRight.configFactoryDefault();
-
-    setBrake();
-
-    /* set up followers */
+    // config drive
     backLeft.follow(frontLeft);
     backRight.follow(frontRight);
 
@@ -70,23 +65,6 @@ public class FalconDrivetrain extends Drivetrain {
     backLeft.setInverted(TalonFXInvertType.CounterClockwise);
     frontRight.setInverted(TalonFXInvertType.Clockwise);
     backRight.setInverted(TalonFXInvertType.Clockwise);
-
-    frontLeft.configSupplyCurrentLimit(Constants.currentLimit(40));
-    backLeft.configSupplyCurrentLimit(Constants.currentLimit(40));
-    frontRight.configSupplyCurrentLimit(Constants.currentLimit(40));
-    backRight.configSupplyCurrentLimit(Constants.currentLimit(40));
-
-    // frontLeft.configOpenloopRamp(0.65);
-    // backLeft.configOpenloopRamp(0.65);
-    // frontRight.configOpenloopRamp(0.65);
-    // backRight.configOpenloopRamp(0.65);
-
-    this.configOpenloopRamp(0);
-
-    // frontLeft.configClosedloopRamp(Constants.kDrive.CLOSED_LOOP_RAMP_RATE);
-    // backLeft.configClosedloopRamp(Constants.kDrive.CLOSED_LOOP_RAMP_RATE);
-    // frontRight.configClosedloopRamp(Constants.kDrive.CLOSED_LOOP_RAMP_RATE);
-    // backRight.configClosedloopRamp(Constants.kDrive.CLOSED_LOOP_RAMP_RATE);
 
     inverted = 1;
 
@@ -99,7 +77,6 @@ public class FalconDrivetrain extends Drivetrain {
     navZeroed = false;
 
     odometry = new DifferentialDriveOdometry(nav.getRotation2d());
-
   }
 
   double lastTriggerSpeed = 0;
@@ -168,13 +145,6 @@ public class FalconDrivetrain extends Drivetrain {
     return odometry.getPoseMeters();
   }
 
-  public void configOpenloopRamp(double openLoopRamp) {
-    frontLeft.configOpenloopRamp(openLoopRamp);
-    backLeft.configOpenloopRamp(openLoopRamp);
-    frontRight.configOpenloopRamp(openLoopRamp);
-    backRight.configOpenloopRamp(openLoopRamp);
-  }
-
   // return current wheel speeds
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
@@ -210,7 +180,7 @@ public class FalconDrivetrain extends Drivetrain {
     return (frontLeft.getSelectedSensorPosition() + frontRight.getSelectedSensorPosition()) / 2.0;
   }
 
-  // scales maximum Drivetrain speed (0 to 1.0)
+  // scales maximum drivetrain speed (0 to 1.0)
   public void setMaxOutput(double maxOutput) {
     diffDrive.setMaxOutput(maxOutput);
   }
@@ -223,15 +193,6 @@ public class FalconDrivetrain extends Drivetrain {
   // return heading in degrees (-180 to 180)
   public double getHeading() {
     return -nav.getYaw();
-    // note: getAngle returns accumulated yaw (can be <0 or >360)
-    // getYaw has a 360 degree period
-    /*
-     * if (nav.getYaw() <= 0) {
-     * return nav.getYaw() + 180;
-     * } else {
-     * return nav.getYaw() - 180;
-     * }
-     */
   }
 
   // return turn rate deg/sec
@@ -241,12 +202,10 @@ public class FalconDrivetrain extends Drivetrain {
     return -nav.getRate();
   }
 
-  // set ramp rates for teleop
-  public void setTeleopRampRates() {
-    frontLeft.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
-    frontRight.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
-    backLeft.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
-    backRight.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
+  public void configMotor(WPI_TalonFX motor) {
+    motor.configFactoryDefault();
+    motor.configSupplyCurrentLimit(Constants.currentLimit(Constants.kDrive.CURRENT_LIMIT));
+    motor.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
   }
 
   // set motors to brake mode
