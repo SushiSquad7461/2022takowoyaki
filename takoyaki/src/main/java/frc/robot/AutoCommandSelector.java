@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Ramsete.PathPlannerPath;
+import frc.robot.commands.AutoAutoShoot;
 import frc.robot.commands.AutoShoot;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Hopper.Hopper;
@@ -62,6 +63,10 @@ public class AutoCommandSelector {
                 return new AutoShoot(shooter, hopper, intake);
         }
 
+        private AutoAutoShoot getAutoAutoShoot() {
+                return new AutoAutoShoot(shooter, hopper, intake);
+        }
+
         public AutoCommandSelector(Drivetrain drivetrain, Ramsete ramsete, Intake intake, Shooter shooter,
                         Hopper hopper) {
                 // instantiate dependencies
@@ -83,7 +88,7 @@ public class AutoCommandSelector {
                                 // ramsete.createRamseteCommand(PathPlannerPath.WALLBALL_SHOOT)
                                 // .andThen(new InstantCommand(intake::stop, intake)),
                                 new ParallelCommandGroup(
-                                                getAutoShoot().withTimeout(1.5),
+                                                getAutoAutoShoot().withTimeout(1.5),
                                                 new SequentialCommandGroup(
                                                                 new WaitCommand(1),
                                                                 ramsete.createRamseteCommand(PathPlannerPath.SHOOT_WALL)
@@ -96,7 +101,6 @@ public class AutoCommandSelector {
                                 // new SequentialCommandGroup(
                                 // new WaitCommand(1),
                                 // new InstantCommand(intake::intake, intake))),
-                                new WaitCommand(0.5),
                                 new InstantCommand(intake::stop, intake),
                                 // ramsete.createRamseteCommand(PathPlannerPath.TERMINAL_WALL),
                                 // ramsete.createRamseteCommand(PathPlannerPath.WALL_SHOOT),
@@ -104,7 +108,7 @@ public class AutoCommandSelector {
                                                 ramsete.createRamseteCommand(PathPlannerPath.TERMINAL_SHOOT),
                                                 new SequentialCommandGroup(
                                                                 new WaitCommand(2.5),
-                                                                getAutoShoot())));
+                                                                getAutoAutoShoot())));
 
                 twoBallFar = new SequentialCommandGroup(
                                 new InstantCommand(intake::intake),

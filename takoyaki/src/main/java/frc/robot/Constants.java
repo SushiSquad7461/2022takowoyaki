@@ -185,6 +185,7 @@ public class Constants {
       public static final class kFront {
         public static final double SETPOINT_RPM = 1325.0;// 1300 prac field // 1325 sundome // 1065 gpk CONSTANT
         public static final double RANGED_SETPOINT = 1480;
+        public static final double AUTO_SETPOINT = 1325;
         public static final double ERROR_TOLERANCE = 200; // 30
         public static final double SETPOINT_OFFSET_RPM = 0;
         public static double kP;
@@ -200,6 +201,7 @@ public class Constants {
         // OUTREACH CONSTANT
         public static final double SETPOINT_RPM = 3055.0; // 3350 sundome // 3215 CCOMP CONSTANT
         public static final double RANGED_SETPOINT = 3445;
+        public static final double AUTO_SETPOINT = 3055;
         public static final double ERROR_TOLERANCE = 200; // 30
         public static final double SETPOINT_OFFSET_RPM = 50;
         public static double kP;

@@ -141,6 +141,14 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
         + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
   }
 
+  public void setAutoSetpoint() {
+    frontSetpointRPMWithOffset = Constants.kShooter.kDoubleClosedLoop.kFront.AUTO_SETPOINT
+        + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
+    backSetpointRPMWithOffset = Constants.kShooter.kDoubleClosedLoop.kBack.AUTO_SETPOINT
+        + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
+
+  }
+
   @Override
   public void periodic() {
     // runKicker();

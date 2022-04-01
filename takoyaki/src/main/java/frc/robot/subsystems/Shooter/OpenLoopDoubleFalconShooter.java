@@ -80,6 +80,10 @@ public class OpenLoopDoubleFalconShooter extends Shooter {
 
   }
 
+  public void setAutoSetpoint() {
+
+  }
+
   public double getKickerOutput() {
     return kicker.getMotorOutputVoltage();
   }

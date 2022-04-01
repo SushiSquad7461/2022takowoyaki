@@ -23,6 +23,8 @@ public abstract class Shooter extends SubsystemBase {
 
   public abstract void setRangedSetpoint();
 
+  public abstract void setAutoSetpoint();
+
   public abstract boolean isAtSpeed();
 
   public abstract double getKickerOutput();
