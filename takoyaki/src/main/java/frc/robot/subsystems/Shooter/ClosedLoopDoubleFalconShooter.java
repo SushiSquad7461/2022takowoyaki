@@ -26,11 +26,6 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   private final WPI_TalonFX back = new WPI_TalonFX(Constants.kShooter.BACK_MOTOR_ID);
   private final WPI_TalonSRX kicker = new WPI_TalonSRX(Constants.kShooter.KICKER_MOTOR_ID);
 
-  private final SimpleMotorFeedforward frontFeedForward;
-  private final SimpleMotorFeedforward backFeedForward;
-
-  private double frontChange;
-  private double backChange;
   private double frontSetpointRPMWithOffset;
   private double backSetpointRPMWithOffset;
   private SliderAdjustableNumber frontSetpointOffsetSlider = new SliderAdjustableNumber("Front shooter offset", 0, -100,
@@ -90,12 +85,6 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
 
     right.follow(left);
-
-    frontFeedForward = new SimpleMotorFeedforward(Constants.kShooter.kDoubleClosedLoop.kFront.kS,
-        Constants.kShooter.kDoubleClosedLoop.kFront.kV, Constants.kShooter.kDoubleClosedLoop.kFront.kA);
-
-    backFeedForward = new SimpleMotorFeedforward(Constants.kShooter.kDoubleClosedLoop.kBack.kS,
-        Constants.kShooter.kDoubleClosedLoop.kBack.kV, Constants.kShooter.kDoubleClosedLoop.kBack.kA);
 
     this.zeroSetpoint();
   }
