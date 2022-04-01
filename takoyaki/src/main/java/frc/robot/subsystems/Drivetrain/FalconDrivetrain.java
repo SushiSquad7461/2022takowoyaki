@@ -205,9 +205,18 @@ public class FalconDrivetrain extends Drivetrain {
     motor.configFactoryDefault();
     motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(
         true, Constants.kDrive.SUPPLY_LIMIT - 5, Constants.kDrive.SUPPLY_LIMIT, 0.75));
-    motor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(
-        true, Constants.kDrive.STATOR_LIMIT - 5, Constants.kDrive.STATOR_LIMIT, 0.75));
     motor.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
+  }
+
+  public void setStatorLimits() {
+    frontLeft.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(
+        true, Constants.kDrive.STATOR_LIMIT - 5, Constants.kDrive.STATOR_LIMIT, 0.75));
+    frontRight.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(
+        true, Constants.kDrive.STATOR_LIMIT - 5, Constants.kDrive.STATOR_LIMIT, 0.75));
+    backLeft.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(
+        true, Constants.kDrive.STATOR_LIMIT - 5, Constants.kDrive.STATOR_LIMIT, 0.75));
+    backRight.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(
+        true, Constants.kDrive.STATOR_LIMIT - 5, Constants.kDrive.STATOR_LIMIT, 0.75));
   }
 
   // set motors to brake mode

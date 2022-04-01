@@ -127,7 +127,7 @@ public class Constants {
     public static int NUM_MOTORS = 4;
 
     // to divide quick turn power by
-    public static final double QUICK_TURN_DAMPENER = 3.0;
+    public static final double QUICK_TURN_DAMPENER = 2.0;
 
     // char values for bear metal carpet
     public static final double ksVolts = 0.73137;
@@ -164,7 +164,7 @@ public class Constants {
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
     public static final double SLOW_MODE_VELOCITY = -0.1;
     public static final int SUPPLY_LIMIT = 40;
-    public static final int STATOR_LIMIT = 60;
+    public static final int STATOR_LIMIT = 70;
 
     // slew constants
     public static final double TRIGGER_SPEED_DERIVATIVE = 0.04;

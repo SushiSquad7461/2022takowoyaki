@@ -172,6 +172,7 @@ public class RobotContainer {
 
         public void teleopDrive() {
                 setDriveBrake();
+                setDriveStators();
                 drivetrain.setDefaultCommand(new RunCommand(
                                 () -> drivetrain.curveDrive(OI.getTriggers(driveController),
                                                 OI.getLeftStick(driveController), driveController.getXButton()),
@@ -200,6 +201,10 @@ public class RobotContainer {
 
         public void setInitialPose() {
                 autoSelector.setInitialDrivePose(autoChooser.getSelected());
+        }
+
+        public void setDriveStators() {
+                drivetrain.setStatorLimits();
         }
 
         public void setDriveBrake() {

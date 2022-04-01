@@ -14,6 +14,8 @@ public abstract class Drivetrain extends SubsystemBase {
 
   public abstract void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn, boolean slowMode);
 
+  public abstract void setStatorLimits();
+
   public abstract void setBrake();
 
   public abstract void setCoast();
