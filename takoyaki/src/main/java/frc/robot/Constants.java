@@ -163,14 +163,15 @@ public class Constants {
     public static final double OPEN_LOOP_RAMP_RATE = 0; // 0.3
     public static final double QUICKTURN_DAMPENER = 3; // bigger number = slower turns
     public static final double SLOW_MODE_VELOCITY = -0.1;
-    public static final int CURRENT_LIMIT = 40;
+    public static final int SUPPLY_LIMIT = 40;
+    public static final int STATOR_LIMIT = 60;
 
     // slew constants
     public static final double TRIGGER_SPEED_DERIVATIVE = 0.04;
     public static final double LINEAR_SCALING_MIN_SPEED = 0.1;
     public static final double TRIGGER_SPEED_PROPORTIONAL = 0.03;
     public static final double MAX_ACCEL = 1;
-    public static final double MINIMUM_SENSOR_VELOCITY = 100;
+    public static final double MINIMUM_SENSOR_VELOCITY = 0;
 
   }
 

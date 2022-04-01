@@ -107,7 +107,6 @@ public class FalconDrivetrain extends Drivetrain {
     } else {
       curveDrive(linearVelocity, angularVelocity, isQuickturn);
     }
-
   }
 
   public void breakInGearboxes() {
@@ -204,7 +203,10 @@ public class FalconDrivetrain extends Drivetrain {
 
   public void configMotor(WPI_TalonFX motor) {
     motor.configFactoryDefault();
-    motor.configSupplyCurrentLimit(Constants.currentLimit(Constants.kDrive.CURRENT_LIMIT));
+    motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(
+        true, Constants.kDrive.SUPPLY_LIMIT - 5, Constants.kDrive.SUPPLY_LIMIT, 0.75));
+    motor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(
+        true, Constants.kDrive.STATOR_LIMIT - 5, Constants.kDrive.STATOR_LIMIT, 0.75));
     motor.configOpenloopRamp(Constants.kDrive.OPEN_LOOP_RAMP_RATE);
   }
 
