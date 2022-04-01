@@ -50,13 +50,13 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     m_robotContainer.setFieldTrajectory();
-    m_robotContainer.setInitialPose();
   }
 
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     m_robotContainer.autoDrive();
+    m_robotContainer.setInitialPose();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }

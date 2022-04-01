@@ -174,8 +174,7 @@ public class RobotContainer {
                 setDriveBrake();
                 drivetrain.setDefaultCommand(new RunCommand(
                                 () -> drivetrain.curveDrive(OI.getTriggers(driveController),
-                                                OI.getLeftStick(driveController), driveController.getXButton(),
-                                                driveController.getRightBumper()),
+                                                OI.getLeftStick(driveController), driveController.getXButton()),
                                 drivetrain));
         }
 

@@ -130,17 +130,25 @@ public class Constants {
     public static final double QUICK_TURN_DAMPENER = 3.0;
 
     // char values for bear metal carpet
-    public static final double ksVolts = 0.77377; // 0.73018
-    public static final double kvVoltSecondsPerMeter = 2.3111; // 2.3505
-    public static final double kaVoltSecondsSquaredPerMeter = 0.23485; // 0.34896
-    public static final double kPDriveVel = 0.000020568; // 0.00055
+    public static final double ksVolts = 0.73137;
+    public static final double kvVoltSecondsPerMeter = 2.388;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.52104;
+    public static final double kPDriveVel = 0.00006707;
     public static final double kIDrive = 0;
     public static final double kDDrive = 0;
+
+    // char values for royals carpet
+    // public static final double ksVolts = 0.77377;
+    // public static final double kvVoltSecondsPerMeter = 2.3111;
+    // public static final double kaVoltSecondsSquaredPerMeter = 0.23485;
+    // public static final double kPDriveVel = 0.000020568;
+    // public static final double kIDrive = 0;
+    // public static final double kDDrive = 0;
 
     public static final double MAX_VOLTAGE = 5;
 
     // odometry constants - drivetrain measurements
-    public static final double TRACK_WIDTH_METERS = 0.559; // width between sides of dt
+    public static final double TRACK_WIDTH_METERS = 0.71; // width between sides of dt // 0.603
     public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(
         TRACK_WIDTH_METERS);
 
