@@ -21,6 +21,9 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/ClosedLoopDoubleFalconShooter": "Subsystem",
+      "/LiveWindow/FalconBrakeModeClimb": "Subsystem",
+      "/LiveWindow/FalconSolenoidIntake": "Subsystem",
+      "/LiveWindow/TalonHopper": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/PIDController[10]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[11]": "PIDController",
@@ -106,6 +109,9 @@
         }
       },
       "/SmartDashboard/field": {
+        "path": {
+          "width": 0.009999999776482582
+        },
         "window": {
           "visible": true
         }

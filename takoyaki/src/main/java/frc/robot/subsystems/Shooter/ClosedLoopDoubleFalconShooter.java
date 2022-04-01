@@ -39,15 +39,27 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   private TunableNumber backSetpointRPM = new TunableNumber("back shooter rpm goal",
       Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_RPM);
 
-  private TunableNumber frontP = new TunableNumber("frontP", Constants.kShooter.kDoubleClosedLoop.kFront.kP);
-  private TunableNumber frontI = new TunableNumber("frontI", Constants.kShooter.kDoubleClosedLoop.kFront.kI);
-  private TunableNumber frontD = new TunableNumber("frontD", Constants.kShooter.kDoubleClosedLoop.kFront.kD);
-  private TunableNumber frontF = new TunableNumber("frontF", Constants.kShooter.kDoubleClosedLoop.kFront.kF);
+  private TunableNumber setpointAmplitude = new TunableNumber("amplitude",
+      Constants.kShooter.kDoubleClosedLoop.SETPOINT_AMPLITUDE);
+  private TunableNumber setpointRatio = new TunableNumber("ratio",
+      Constants.kShooter.kDoubleClosedLoop.SETPOINT_RATIO);
+  // private TunableNumber frontP = new TunableNumber("frontP",
+  // Constants.kShooter.kDoubleClosedLoop.kFront.kP);
+  // private TunableNumber frontI = new TunableNumber("frontI",
+  // Constants.kShooter.kDoubleClosedLoop.kFront.kI);
+  // private TunableNumber frontD = new TunableNumber("frontD",
+  // Constants.kShooter.kDoubleClosedLoop.kFront.kD);
+  // private TunableNumber frontF = new TunableNumber("frontF",
+  // Constants.kShooter.kDoubleClosedLoop.kFront.kF);
 
-  private TunableNumber backP = new TunableNumber("frontP", Constants.kShooter.kDoubleClosedLoop.kFront.kP);
-  private TunableNumber backI = new TunableNumber("frontI", Constants.kShooter.kDoubleClosedLoop.kFront.kI);
-  private TunableNumber backD = new TunableNumber("frontD", Constants.kShooter.kDoubleClosedLoop.kFront.kD);
-  private TunableNumber backF = new TunableNumber("frontF", Constants.kShooter.kDoubleClosedLoop.kFront.kF);
+  // private TunableNumber backP = new TunableNumber("frontP",
+  // Constants.kShooter.kDoubleClosedLoop.kFront.kP);
+  // private TunableNumber backI = new TunableNumber("frontI",
+  // Constants.kShooter.kDoubleClosedLoop.kFront.kI);
+  // private TunableNumber backD = new TunableNumber("frontD",
+  // Constants.kShooter.kDoubleClosedLoop.kFront.kD);
+  // private TunableNumber backF = new TunableNumber("frontF",
+  // Constants.kShooter.kDoubleClosedLoop.kFront.kF);
 
   public ClosedLoopDoubleFalconShooter() {
 
@@ -66,22 +78,22 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     back.configSupplyCurrentLimit(Constants.currentLimit(40));
     kicker.configSupplyCurrentLimit(Constants.currentLimit(30));
 
-    left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, frontP.get(),
+    left.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kFront.kP,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, frontI.get(),
+    left.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kFront.kI,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, frontD.get(),
+    left.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kFront.kD,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    left.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, frontF.get(),
+    left.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kFront.kF,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
 
-    back.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, backP.get(),
+    back.config_kP(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kBack.kP,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    back.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, backI.get(),
+    back.config_kI(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kBack.kI,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    back.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, backD.get(),
+    back.config_kD(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kBack.kD,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
-    back.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, backF.get(),
+    back.config_kF(Constants.kShooter.DEFAULT_PROFILE_SLOT, Constants.kShooter.kDoubleClosedLoop.kBack.kF,
         Constants.kShooter.DEFAULT_CONFIG_TIMEOUT);
 
     right.follow(left);
@@ -172,11 +184,13 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   private double getFrontSetpointGoal() {
-    return frontSetpointRPM.get() + frontSetpointOffsetSlider.get();
+    return (frontSetpointRPM.get() + frontSetpointOffsetSlider.get()) * setpointAmplitude.get();
   }
 
   private double getBackSetpointGoal() {
-    return backSetpointRPM.get() + backSetpointOffsetSlider.get();
+    return getFrontSetpointGoal() * setpointAmplitude.get() * setpointRatio.get();
+    // return (backSetpointRPM.get() + backSetpointOffsetSlider.get()) *
+    // setpointAmplitude.get() * setpointRatio.get();
   }
 
   public double getKickerOutput() {
