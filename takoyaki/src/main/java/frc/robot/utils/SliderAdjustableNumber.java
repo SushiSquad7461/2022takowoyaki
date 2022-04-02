@@ -11,9 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 /**
- * Class for a tunable number. Gets value from dashboard in tuning mode, returns
- * default if not or
- * value not in dashboard.
+ * Class for a slider adjustable number. Creates a slider, a save button, and a
+ * persistent NetworkTables entry for storage.
  */
 public class SliderAdjustableNumber {
     private static final String tabName = "Sliders";
@@ -43,7 +42,8 @@ public class SliderAdjustableNumber {
                 .withWidget(BuiltInWidgets.kNumberSlider)
                 .withProperties(Map.of("min", minOffset, "max", maxOffset, "block increment", increment)).getEntry();
 
-        this.button = Shuffleboard.getTab(tabName).add("Save " + key, false).getEntry();
+        this.button = Shuffleboard.getTab(tabName).add("Save " + key, false).withWidget(BuiltInWidgets.kToggleButton)
+                .getEntry();
         allSliders.add(this);
     }
 
