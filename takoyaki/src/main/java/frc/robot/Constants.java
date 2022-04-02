@@ -63,6 +63,9 @@ public class Constants {
     // timings in seconds for traversal
     public static final double MID_PASSIVE_LATCH_PAUSE = 3;
     public static final double HIGH_MAIN_LATCH_PAUSE = 3;
+
+    //current thresholds
+    public static final double CLIMBING_CURRENT = 5;
   }
 
   public static final class kOI {
