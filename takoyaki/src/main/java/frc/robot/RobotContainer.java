@@ -151,6 +151,10 @@ public class RobotContainer {
                                                 new RunCommand(hopper::stop, hopper),
                                                 new RunCommand(intake::stop, intake)));
 
+                climb.setDefaultCommand(new RunCommand(
+                                () -> climb.setPower(operatorController.getLeftY(), operatorController.getRightY()),
+                                climb));
+
                 // extend climber and latch main hooks
                 new JoystickButton(operatorController, Constants.kOI.EXTEND_LATCH_MAIN)
                                 .whenPressed(new SequentialCommandGroup(

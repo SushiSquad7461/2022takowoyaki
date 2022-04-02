@@ -55,6 +55,8 @@ public class Constants {
     public static final double LATCH_PASSIVE = -42000;
     public static final double LATCH_MAIN = -300000;
 
+    public static final double MAX_OPEN_LOOP_SPEED = 0.2;
+
     public static final double kP = 0.6;
     public static final double kI = 0;
     public static final double kD = 0;
@@ -86,6 +88,7 @@ public class Constants {
     public static final int CLIMB_LATCH_PASSIVE = XboxController.Button.kB.value;
     public static final int OPEN_LOOP_RAISE_CLIMB = XboxController.Button.kA.value;
     public static final int OPEN_LOOP_LOWER_CLIMB = XboxController.Button.kY.value;
+    public static final double OPEN_LOOP_CLIMB_JOYSTICK_THERSHOLD = 0.05;
 
     public static final String TRAJECTORY_NAME = "path";
   }

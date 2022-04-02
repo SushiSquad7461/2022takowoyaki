@@ -95,6 +95,17 @@ public class FalconBrakeModeClimb extends Climb {
     this.rightSetpoint = setpoint;
   }
 
+  public void setPower(double leftPower, double rightPower) {
+    if (Math.abs(leftPower) < Constants.kOI.OPEN_LOOP_CLIMB_JOYSTICK_THERSHOLD
+        || Math.abs(rightPower) < Constants.kOI.OPEN_LOOP_CLIMB_JOYSTICK_THERSHOLD) {
+      left.set(ControlMode.PercentOutput, leftPower * Constants.kClimb.MAX_OPEN_LOOP_SPEED);
+      right.set(ControlMode.PercentOutput, rightPower * Constants.kClimb.MAX_OPEN_LOOP_SPEED);
+      closedLoop = false;
+    } else {
+      closedLoop = true;
+    }
+  }
+
   public void extendClimb() {
     setSetpoint(Constants.kClimb.LEFT_TOP_SETPOINT, Constants.kClimb.RIGHT_TOP_SETPOINT);
   }
@@ -133,4 +144,5 @@ public class FalconBrakeModeClimb extends Climb {
     left.setSelectedSensorPosition(0);
     right.setSelectedSensorPosition(0);
   }
+
 }
