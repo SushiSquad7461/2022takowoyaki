@@ -23,6 +23,7 @@ import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.utils.SliderAdjustableNumber;
 
 public class AutoCommandSelector {
         private final Drivetrain drivetrain;
@@ -36,6 +37,8 @@ public class AutoCommandSelector {
         public final SequentialCommandGroup twoBallFar;
         public final SequentialCommandGroup oneBallFarMid;
         public final SequentialCommandGroup oneBallFarFar;
+
+        public final SliderAdjustableNumber oneBallTimeout;
 
         public final PathPlannerPath[] fiveBallPaths = {
                         PathPlannerPath.SHOOT_MIDBALL,
@@ -76,6 +79,8 @@ public class AutoCommandSelector {
                 this.intake = intake;
                 this.shooter = shooter;
                 this.hopper = hopper;
+
+                this.oneBallTimeout = new SliderAdjustableNumber("one ball timeout", 5, 0, 15, 0.5);
 
                 this.pathArrayMap = new HashMap<SequentialCommandGroup, PathPlannerPath[]>();
 
@@ -120,11 +125,11 @@ public class AutoCommandSelector {
                                 new InstantCommand(intake::outtake));
 
                 oneBallFarMid = new SequentialCommandGroup(
-                                getAutoShoot().withTimeout(5),
+                                getAutoShoot().withTimeout(oneBallTimeout.get()),
                                 ramsete.createRamseteCommand(PathPlannerPath.ONE_BALL_FAR_MID));
 
                 oneBallFarFar = new SequentialCommandGroup(
-                                getAutoShoot().withTimeout(5),
+                                getAutoShoot().withTimeout(oneBallTimeout.get()),
                                 ramsete.createRamseteCommand(PathPlannerPath.ONE_BALL_FAR_FAR));
 
                 pathArrayMap.put(fiveBall, fiveBallPaths);
