@@ -185,15 +185,6 @@ public class Constants {
     public static final class kDoubleClosedLoop {
       public static final double SETPOINT_RPM = 1325.0;// 1300 prac field // 1325 sundome // 1065 gpk CONSTANT
 
-      public static final double FENDER_AMP = 1;
-      public static final double FENDER_RATIO = 2.305;
-
-      public static final double RANGED_AMP = 0.8;
-      public static final double RANGED_RATIO = 5;
-
-      public static final double AUTO_AMP = 1;
-      public static final double AUTO_RATIO = 2.305;
-
       public static final class kFront {
         public static final double ERROR_TOLERANCE = 30; // 30
         public static final double SETPOINT_OFFSET_RPM = 0;

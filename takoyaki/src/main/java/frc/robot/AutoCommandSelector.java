@@ -16,13 +16,12 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Ramsete.PathPlannerPath;
-import frc.robot.commands.AutoAutoShoot;
 import frc.robot.commands.AutoShoot;
-import frc.robot.commands.RangedAutoShoot;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.subsystems.Shooter.Shooter.ShooterState;
 
 public class AutoCommandSelector {
         private final Drivetrain drivetrain;
@@ -64,8 +63,8 @@ public class AutoCommandSelector {
                 return new AutoShoot(shooter, hopper, intake);
         }
 
-        private RangedAutoShoot getAutoAutoShoot() {
-                return new RangedAutoShoot(shooter, hopper, intake);
+        private AutoShoot getRangedAutoShoot() {
+                return new AutoShoot(shooter, hopper, intake, ShooterState.RANGED);
         }
 
         public AutoCommandSelector(Drivetrain drivetrain, Ramsete ramsete, Intake intake, Shooter shooter,
@@ -80,7 +79,7 @@ public class AutoCommandSelector {
                 this.pathArrayMap = new HashMap<SequentialCommandGroup, PathPlannerPath[]>();
 
                 fiveBall = new SequentialCommandGroup(
-                                getAutoAutoShoot().withTimeout(0.75),
+                                getRangedAutoShoot().withTimeout(0.75),
                                 ramsete.createRamseteCommand(PathPlannerPath.SHOOT_MIDBALL),
                                 new InstantCommand(intake::intake, intake),
                                 new ParallelCommandGroup(
@@ -88,7 +87,7 @@ public class AutoCommandSelector {
                                                 new SequentialCommandGroup(
                                                                 new WaitCommand(3),
                                                                 new InstantCommand(intake::stop, intake),
-                                                                getAutoAutoShoot().withTimeout(1.5))),
+                                                                getRangedAutoShoot().withTimeout(1.5))),
                                 // ramsete.createRamseteCommand(PathPlannerPath.MIDBALL_WALLBALL),
                                 // ramsete.createRamseteCommand(PathPlannerPath.WALLBALL_SHOOT)
                                 // .andThen(new InstantCommand(intake::stop, intake)),
@@ -108,7 +107,7 @@ public class AutoCommandSelector {
                                                                 new WaitCommand(0.5),
                                                                 new InstantCommand(intake::stop, intake),
                                                                 new WaitCommand(2),
-                                                                getAutoAutoShoot())));
+                                                                getRangedAutoShoot())));
 
                 twoBallFar = new SequentialCommandGroup(
                                 new InstantCommand(intake::intake),

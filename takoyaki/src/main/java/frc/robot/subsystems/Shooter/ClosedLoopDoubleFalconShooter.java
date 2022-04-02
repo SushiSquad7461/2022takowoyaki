@@ -34,10 +34,6 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   private SliderAdjustableNumber ratioOffsetSlider = new SliderAdjustableNumber("ratio offset", 0, -3,
       3, 0.5);
 
-  private TunableNumber setpointAmplitude = new TunableNumber("amplitude",
-      Constants.kShooter.kDoubleClosedLoop.FENDER_AMP);
-  private TunableNumber setpointRatio = new TunableNumber("ratio",
-      Constants.kShooter.kDoubleClosedLoop.FENDER_RATIO);
   // private TunableNumber frontP = new TunableNumber("frontP",
   // Constants.kShooter.kDoubleClosedLoop.kFront.kP);
   // private TunableNumber frontI = new TunableNumber("frontI",
@@ -123,51 +119,18 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     this.backSetpointRPMWithOffset = 0;
   }
 
-  // this is tunable
-  public void setSetpoint() {
+  @Override
+  public void setState(ShooterState state) {
+    this.state = state;
     SmartDashboard.putBoolean("tuning enabled", true);
-    this.frontSetpointRPMWithOffset = getFrontSetpointGoal()
-        + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
-    this.backSetpointRPMWithOffset = getBackSetpointGoal()
-        + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
-  }
-
-  public void setFenderSetpoint() {
-    SmartDashboard.putBoolean("tuning enabled", false);
     this.frontSetpointRPMWithOffset = ((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
-        * (Constants.kShooter.kDoubleClosedLoop.FENDER_AMP + ampOffsetSlider.get()))
+        * (this.getAmp() + ampOffsetSlider.get()))
         + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
 
     this.backSetpointRPMWithOffset = (((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
-        * (Constants.kShooter.kDoubleClosedLoop.FENDER_AMP + ampOffsetSlider.get()))
-        * (Constants.kShooter.kDoubleClosedLoop.FENDER_AMP + ampOffsetSlider.get())
-        * (Constants.kShooter.kDoubleClosedLoop.FENDER_RATIO + ratioOffsetSlider.get()))
-        + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
-  }
-
-  public void setRangedSetpoint() {
-    SmartDashboard.putBoolean("tuning enabled", false);
-    this.frontSetpointRPMWithOffset = ((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
-        * (Constants.kShooter.kDoubleClosedLoop.RANGED_AMP + ampOffsetSlider.get()))
-        + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
-
-    this.backSetpointRPMWithOffset = (((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
-        * (Constants.kShooter.kDoubleClosedLoop.RANGED_AMP + ampOffsetSlider.get()))
-        * (Constants.kShooter.kDoubleClosedLoop.RANGED_AMP + ampOffsetSlider.get())
-        * (Constants.kShooter.kDoubleClosedLoop.RANGED_RATIO + ratioOffsetSlider.get()))
-        + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
-  }
-
-  public void setAutoSetpoint() {
-    SmartDashboard.putBoolean("tuning enabled", false);
-    this.frontSetpointRPMWithOffset = ((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
-        * (Constants.kShooter.kDoubleClosedLoop.AUTO_AMP + ampOffsetSlider.get()))
-        + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
-
-    this.backSetpointRPMWithOffset = (((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
-        * (Constants.kShooter.kDoubleClosedLoop.AUTO_AMP + ampOffsetSlider.get()))
-        * (Constants.kShooter.kDoubleClosedLoop.AUTO_AMP + ampOffsetSlider.get())
-        * (Constants.kShooter.kDoubleClosedLoop.AUTO_RATIO + ratioOffsetSlider.get()))
+        * (this.getAmp() + ampOffsetSlider.get()))
+        * (this.getAmp() + ampOffsetSlider.get())
+        * (this.getRatio() + ratioOffsetSlider.get()))
         + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
 
   }
@@ -206,11 +169,11 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
 
   private double getFrontSetpointGoal() {
     return (Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
-        * setpointAmplitude.get();
+        * getAmp();
   }
 
   private double getBackSetpointGoal() {
-    return getFrontSetpointGoal() * setpointAmplitude.get() * setpointRatio.get();
+    return getFrontSetpointGoal() * getAmp() * getRatio();
   }
 
   public double getKickerOutput() {

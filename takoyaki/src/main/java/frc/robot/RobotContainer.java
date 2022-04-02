@@ -24,13 +24,12 @@ import frc.robot.Ramsete.PathPlannerPath;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.ExtendClimb;
 import frc.robot.commands.RetractClimb;
-import frc.robot.commands.TunableAutoShoot;
-import frc.robot.commands.RangedAutoShoot;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
 import frc.robot.subsystems.Intake.FalconSolenoidIntake;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.subsystems.Shooter.Shooter.ShooterState;
 import frc.robot.subsystems.Shooter.ClosedLoopDoubleFalconShooter;
 import frc.robot.subsystems.Shooter.OpenLoopDoubleFalconShooter;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -125,7 +124,7 @@ public class RobotContainer {
 
                 // shoot far
                 new JoystickButton(driveController, Constants.kOI.RANGED_SHOOT)
-                                .whenHeld(new RangedAutoShoot(shooter, hopper, intake));
+                                .whenHeld(new AutoShoot(shooter, hopper, intake, ShooterState.RANGED));
 
                 // reverse shooter (hopper + kicker)
                 new JoystickButton(driveController, Constants.kOI.REVERSE_SHOOT)
