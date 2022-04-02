@@ -5,8 +5,11 @@
 package frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.utils.TunableNumber;
+import java.util.function.Supplier;
 
 public abstract class Shooter extends SubsystemBase {
+
   public abstract void runShooter();
 
   public abstract void stopShooter();
@@ -19,16 +22,53 @@ public abstract class Shooter extends SubsystemBase {
 
   public abstract void zeroSetpoint();
 
-  public abstract void setSetpoint();
-
-  public abstract void setFenderSetpoint();
-
-  public abstract void setRangedSetpoint();
-
-  public abstract void setAutoSetpoint();
-
   public abstract boolean isAtSpeed();
 
   public abstract double getKickerOutput();
 
+  public enum ShooterState {
+    FENDER(1.0, 2.305),
+    AUTO(1, 2.305),
+    RANGED(0.8, 5),
+    TUNABLE(new TunableNumber("Tunable shooter amp", 1.0), new TunableNumber("Tunable shooter ratio", 2.305));
+
+    private Supplier<Double> amp;
+    private Supplier<Double> ratio;
+
+    private ShooterState(double amp, double ratio) {
+      this.amp = () -> amp;
+      this.ratio = () -> ratio;
+    }
+
+    private ShooterState(TunableNumber amp, TunableNumber ratio) {
+      this.amp = () -> amp.get();
+      this.ratio = () -> ratio.get();
+    }
+
+    public double getAmp() {
+      return amp.get();
+    }
+
+    public double getRatio() {
+      return ratio.get();
+    }
+  }
+
+  protected ShooterState state;
+
+  public void setState(ShooterState state) {
+    this.state = state;
+  };
+
+  public ShooterState getState() {
+    return state;
+  };
+
+  protected double getAmp() {
+    return state.getAmp();
+  }
+
+  protected double getRatio() {
+    return state.getRatio();
+  }
 }
