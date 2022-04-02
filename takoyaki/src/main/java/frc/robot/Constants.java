@@ -195,7 +195,7 @@ public class Constants {
       public static final double AUTO_RATIO = 2.305;
 
       public static final class kFront {
-        public static final double ERROR_TOLERANCE = 200; // 30
+        public static final double ERROR_TOLERANCE = 30; // 30
         public static final double SETPOINT_OFFSET_RPM = 0;
         public static double kP;
         public static double kI;
@@ -207,7 +207,7 @@ public class Constants {
       }
 
       public static final class kBack {
-        public static final double ERROR_TOLERANCE = 200; // 30
+        public static final double ERROR_TOLERANCE = 100; // 30
         public static final double SETPOINT_OFFSET_RPM = 50;
         public static double kP;
         public static double kI;
