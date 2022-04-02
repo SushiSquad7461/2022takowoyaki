@@ -58,9 +58,21 @@ public class FalconBrakeModeClimb extends Climb {
     SmartDashboard.putNumber("right position", right.getSelectedSensorPosition());
     SmartDashboard.putNumber("left setpoint", leftSetpoint);
     SmartDashboard.putNumber("right setpoint", rightSetpoint);
+    SmartDashboard.putNumber("left current draw", left.getSupplyCurrent());
+    SmartDashboard.putNumber("right current draw", right.getSupplyCurrent());
     if (closedLoop) {
-      left.set(ControlMode.Position, leftSetpoint);
-      right.set(ControlMode.Position, rightSetpoint);
+      if (left.getSupplyCurrent() > Constants.kClimb.CLIMBING_CURRENT
+          && right.getSupplyCurrent() < Constants.kClimb.CLIMBING_CURRENT) {
+        left.set(ControlMode.PercentOutput, 0);
+        right.set(ControlMode.Position, rightSetpoint);
+      } else if (left.getSupplyCurrent() < Constants.kClimb.CLIMBING_CURRENT
+          && right.getSupplyCurrent() > Constants.kClimb.CLIMBING_CURRENT) {
+        right.set(ControlMode.PercentOutput, 0);
+        left.set(ControlMode.Position, leftSetpoint);
+      } else {
+        left.set(ControlMode.Position, leftSetpoint);
+        right.set(ControlMode.Position, rightSetpoint);
+      }
     }
   }
 
