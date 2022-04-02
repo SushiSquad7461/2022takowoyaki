@@ -36,7 +36,7 @@ public class AutoShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setSetpoint();
+    shooter.setFenderSetpoint();
     timer.start();
   }
 

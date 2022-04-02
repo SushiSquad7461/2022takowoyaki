@@ -34,15 +34,10 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   private SliderAdjustableNumber backSetpointOffsetSlider = new SliderAdjustableNumber("Back shooter offset", 0, -100,
       100, 25);
 
-  private TunableNumber frontSetpointRPM = new TunableNumber("front shooter rpm goal",
-      Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_RPM);
-  private TunableNumber backSetpointRPM = new TunableNumber("back shooter rpm goal",
-      Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_RPM);
-
   private TunableNumber setpointAmplitude = new TunableNumber("amplitude",
-      Constants.kShooter.kDoubleClosedLoop.SETPOINT_AMPLITUDE);
+      Constants.kShooter.kDoubleClosedLoop.FENDER_AMP);
   private TunableNumber setpointRatio = new TunableNumber("ratio",
-      Constants.kShooter.kDoubleClosedLoop.SETPOINT_RATIO);
+      Constants.kShooter.kDoubleClosedLoop.FENDER_RATIO);
   // private TunableNumber frontP = new TunableNumber("frontP",
   // Constants.kShooter.kDoubleClosedLoop.kFront.kP);
   // private TunableNumber frontI = new TunableNumber("frontI",
@@ -128,6 +123,7 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     this.backSetpointRPMWithOffset = 0;
   }
 
+  // this is tunable
   public void setSetpoint() {
     this.frontSetpointRPMWithOffset = getFrontSetpointGoal()
         + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
@@ -135,17 +131,45 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
         + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
   }
 
-  public void setRangedSetpoint() {
-    frontSetpointRPMWithOffset = Constants.kShooter.kDoubleClosedLoop.kFront.RANGED_SETPOINT
+  public void setFenderSetpoint() {
+    this.frontSetpointRPMWithOffset = ((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM
+        + frontSetpointOffsetSlider.get())
+        * Constants.kShooter.kDoubleClosedLoop.FENDER_AMP)
         + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
-    backSetpointRPMWithOffset = Constants.kShooter.kDoubleClosedLoop.kBack.RANGED_SETPOINT
+
+    this.backSetpointRPMWithOffset = (((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM
+        + frontSetpointOffsetSlider.get())
+        * Constants.kShooter.kDoubleClosedLoop.FENDER_AMP)
+        * Constants.kShooter.kDoubleClosedLoop.FENDER_AMP
+        * Constants.kShooter.kDoubleClosedLoop.FENDER_RATIO)
+        + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
+  }
+
+  public void setRangedSetpoint() {
+    this.frontSetpointRPMWithOffset = ((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM
+        + frontSetpointOffsetSlider.get())
+        * Constants.kShooter.kDoubleClosedLoop.RANGED_AMP)
+        + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
+
+    this.backSetpointRPMWithOffset = (((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM
+        + frontSetpointOffsetSlider.get())
+        * Constants.kShooter.kDoubleClosedLoop.RANGED_AMP)
+        * Constants.kShooter.kDoubleClosedLoop.RANGED_AMP
+        * Constants.kShooter.kDoubleClosedLoop.RANGED_RATIO)
         + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
   }
 
   public void setAutoSetpoint() {
-    frontSetpointRPMWithOffset = Constants.kShooter.kDoubleClosedLoop.kFront.AUTO_SETPOINT
+    this.frontSetpointRPMWithOffset = ((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM
+        + frontSetpointOffsetSlider.get())
+        * Constants.kShooter.kDoubleClosedLoop.AUTO_AMP)
         + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
-    backSetpointRPMWithOffset = Constants.kShooter.kDoubleClosedLoop.kBack.AUTO_SETPOINT
+
+    this.backSetpointRPMWithOffset = (((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM
+        + frontSetpointOffsetSlider.get())
+        * Constants.kShooter.kDoubleClosedLoop.AUTO_AMP)
+        * Constants.kShooter.kDoubleClosedLoop.AUTO_AMP
+        * Constants.kShooter.kDoubleClosedLoop.AUTO_RATIO)
         + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
 
   }
@@ -154,13 +178,11 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   public void periodic() {
     // runKicker();
     SmartDashboard.putNumber("front shooter rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
-    SmartDashboard.putNumber("front shooter setpoint", getFrontSetpointGoal());
+    SmartDashboard.putNumber("front shooter setpoint", frontSetpointRPMWithOffset);
     SmartDashboard.putNumber("back shooter rpm", back.getSelectedSensorVelocity()
         * 600.0 / 2048.0);
-    SmartDashboard.putNumber("back shooter setpoint", getBackSetpointGoal());
+    SmartDashboard.putNumber("back shooter setpoint", backSetpointRPMWithOffset);
     SmartDashboard.putBoolean("at speed", isAtSpeed());
-    // frontChange = left.getSelectedSensorPosition();
-    // back.set(ControlMode.PercentOutput, Constants.kShooter.kOpenLoop.BACK_SPEED);
 
     if (frontSetpointRPMWithOffset == 0) { // assume both setpoints are zero
       left.set(ControlMode.PercentOutput, 0);
@@ -169,22 +191,25 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
       left.set(ControlMode.Velocity, Constants.convertRPMToTrans(frontSetpointRPMWithOffset));
       back.set(ControlMode.Velocity, Constants.convertRPMToTrans(backSetpointRPMWithOffset));
     }
-    // left.set(ControlMode.PercentOutput, fForward.calculate(setpoint) / 12);
   }
 
   public boolean isAtSpeed() {
+    if (frontSetpointRPMWithOffset == 0 && backSetpointRPMWithOffset == 0)
+      return false;
+
     double frontDiff, backDiff;
 
     frontDiff = Math
-        .abs(Constants.convertRPMToTrans(getFrontSetpointGoal()) - left.getSelectedSensorVelocity());
-    backDiff = Math.abs(Constants.convertRPMToTrans(getBackSetpointGoal())) - back.getSelectedSensorVelocity();
+        .abs(Constants.convertRPMToTrans(frontSetpointRPMWithOffset) - left.getSelectedSensorVelocity());
+    backDiff = Math.abs(Constants.convertRPMToTrans(backSetpointRPMWithOffset)) - back.getSelectedSensorVelocity();
     return frontDiff <= Constants.convertRPMToTrans(Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE)
         && backDiff <= Constants.convertRPMToTrans(Constants.kShooter.kDoubleClosedLoop.kBack.ERROR_TOLERANCE);
 
   }
 
   private double getFrontSetpointGoal() {
-    return (frontSetpointRPM.get() + frontSetpointOffsetSlider.get()) * setpointAmplitude.get();
+    return (Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM + frontSetpointOffsetSlider.get())
+        * setpointAmplitude.get();
   }
 
   private double getBackSetpointGoal() {

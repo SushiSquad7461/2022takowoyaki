@@ -76,6 +76,10 @@ public class OpenLoopDoubleFalconShooter extends Shooter {
     return false;
   }
 
+  public void setFenderSetpoint() {
+
+  }
+
   public void setRangedSetpoint() {
 
   }
