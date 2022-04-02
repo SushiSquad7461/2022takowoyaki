@@ -24,6 +24,7 @@ import frc.robot.Ramsete.PathPlannerPath;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.ExtendClimb;
 import frc.robot.commands.RetractClimb;
+import frc.robot.commands.TunableAutoShoot;
 import frc.robot.commands.RangedAutoShoot;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;

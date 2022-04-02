@@ -28,11 +28,11 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
 
   private double frontSetpointRPMWithOffset;
   private double backSetpointRPMWithOffset;
-  private SliderAdjustableNumber frontSetpointOffsetSlider = new SliderAdjustableNumber("Front shooter offset", 0, -100,
-      100, 25);
+  private SliderAdjustableNumber ampOffsetSlider = new SliderAdjustableNumber("amp offset", 0, -1,
+      1, 0.1);
 
-  private SliderAdjustableNumber backSetpointOffsetSlider = new SliderAdjustableNumber("Back shooter offset", 0, -100,
-      100, 25);
+  private SliderAdjustableNumber ratioOffsetSlider = new SliderAdjustableNumber("ratio offset", 0, -3,
+      3, 0.5);
 
   private TunableNumber setpointAmplitude = new TunableNumber("amplitude",
       Constants.kShooter.kDoubleClosedLoop.FENDER_AMP);
@@ -125,6 +125,7 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
 
   // this is tunable
   public void setSetpoint() {
+    SmartDashboard.putBoolean("tuning enabled", true);
     this.frontSetpointRPMWithOffset = getFrontSetpointGoal()
         + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
     this.backSetpointRPMWithOffset = getBackSetpointGoal()
@@ -132,51 +133,47 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   public void setFenderSetpoint() {
-    this.frontSetpointRPMWithOffset = ((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM
-        + frontSetpointOffsetSlider.get())
-        * Constants.kShooter.kDoubleClosedLoop.FENDER_AMP)
+    SmartDashboard.putBoolean("tuning enabled", false);
+    this.frontSetpointRPMWithOffset = ((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
+        * (Constants.kShooter.kDoubleClosedLoop.FENDER_AMP + ampOffsetSlider.get()))
         + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
 
-    this.backSetpointRPMWithOffset = (((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM
-        + frontSetpointOffsetSlider.get())
-        * Constants.kShooter.kDoubleClosedLoop.FENDER_AMP)
-        * Constants.kShooter.kDoubleClosedLoop.FENDER_AMP
-        * Constants.kShooter.kDoubleClosedLoop.FENDER_RATIO)
+    this.backSetpointRPMWithOffset = (((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
+        * (Constants.kShooter.kDoubleClosedLoop.FENDER_AMP + ampOffsetSlider.get()))
+        * (Constants.kShooter.kDoubleClosedLoop.FENDER_AMP + ampOffsetSlider.get())
+        * (Constants.kShooter.kDoubleClosedLoop.FENDER_RATIO + ratioOffsetSlider.get()))
         + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
   }
 
   public void setRangedSetpoint() {
-    this.frontSetpointRPMWithOffset = ((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM
-        + frontSetpointOffsetSlider.get())
-        * Constants.kShooter.kDoubleClosedLoop.RANGED_AMP)
+    SmartDashboard.putBoolean("tuning enabled", false);
+    this.frontSetpointRPMWithOffset = ((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
+        * (Constants.kShooter.kDoubleClosedLoop.RANGED_AMP + ampOffsetSlider.get()))
         + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
 
-    this.backSetpointRPMWithOffset = (((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM
-        + frontSetpointOffsetSlider.get())
-        * Constants.kShooter.kDoubleClosedLoop.RANGED_AMP)
-        * Constants.kShooter.kDoubleClosedLoop.RANGED_AMP
-        * Constants.kShooter.kDoubleClosedLoop.RANGED_RATIO)
+    this.backSetpointRPMWithOffset = (((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
+        * (Constants.kShooter.kDoubleClosedLoop.RANGED_AMP + ampOffsetSlider.get()))
+        * (Constants.kShooter.kDoubleClosedLoop.RANGED_AMP + ampOffsetSlider.get())
+        * (Constants.kShooter.kDoubleClosedLoop.RANGED_RATIO + ratioOffsetSlider.get()))
         + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
   }
 
   public void setAutoSetpoint() {
-    this.frontSetpointRPMWithOffset = ((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM
-        + frontSetpointOffsetSlider.get())
-        * Constants.kShooter.kDoubleClosedLoop.AUTO_AMP)
+    SmartDashboard.putBoolean("tuning enabled", false);
+    this.frontSetpointRPMWithOffset = ((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
+        * (Constants.kShooter.kDoubleClosedLoop.AUTO_AMP + ampOffsetSlider.get()))
         + Constants.kShooter.kDoubleClosedLoop.kFront.SETPOINT_OFFSET_RPM;
 
-    this.backSetpointRPMWithOffset = (((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM
-        + frontSetpointOffsetSlider.get())
-        * Constants.kShooter.kDoubleClosedLoop.AUTO_AMP)
-        * Constants.kShooter.kDoubleClosedLoop.AUTO_AMP
-        * Constants.kShooter.kDoubleClosedLoop.AUTO_RATIO)
+    this.backSetpointRPMWithOffset = (((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
+        * (Constants.kShooter.kDoubleClosedLoop.AUTO_AMP + ampOffsetSlider.get()))
+        * (Constants.kShooter.kDoubleClosedLoop.AUTO_AMP + ampOffsetSlider.get())
+        * (Constants.kShooter.kDoubleClosedLoop.AUTO_RATIO + ratioOffsetSlider.get()))
         + Constants.kShooter.kDoubleClosedLoop.kBack.SETPOINT_OFFSET_RPM;
 
   }
 
   @Override
   public void periodic() {
-    // runKicker();
     SmartDashboard.putNumber("front shooter rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
     SmartDashboard.putNumber("front shooter setpoint", frontSetpointRPMWithOffset);
     SmartDashboard.putNumber("back shooter rpm", back.getSelectedSensorVelocity()
@@ -208,14 +205,12 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   }
 
   private double getFrontSetpointGoal() {
-    return (Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM + frontSetpointOffsetSlider.get())
+    return (Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
         * setpointAmplitude.get();
   }
 
   private double getBackSetpointGoal() {
     return getFrontSetpointGoal() * setpointAmplitude.get() * setpointRatio.get();
-    // return (backSetpointRPM.get() + backSetpointOffsetSlider.get()) *
-    // setpointAmplitude.get() * setpointRatio.get();
   }
 
   public double getKickerOutput() {
