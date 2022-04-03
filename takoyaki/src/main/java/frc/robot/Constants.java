@@ -232,6 +232,12 @@ public class Constants {
     public static final double KICKER_OFFSET = 0.3;
   }
 
+  public static class kTurnToTarget {
+    public static double kP = 0;
+    public static double kI = 0;
+    public static double kD = 0;
+  }
+
   enum RobotType {
     PRACTICE,
     COMP
