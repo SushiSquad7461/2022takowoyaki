@@ -44,7 +44,7 @@ public class FalconBrakeModeClimb extends Climb {
     right.config_kF(0, Constants.kClimb.kF);
 
     left.setInverted(TalonFXInvertType.Clockwise);
-    right.setInverted(TalonFXInvertType.CounterClockwise);
+    right.setInverted(TalonFXInvertType.Clockwise);
 
     closedLoop = false;
     zeroClimbEncoders();
@@ -104,7 +104,7 @@ public class FalconBrakeModeClimb extends Climb {
   }
 
   public void latchPassive() {
-    setSetpoint(Constants.kClimb.LATCH_PASSIVE);
+    setSetpoint(Constants.kClimb.LEFT_LATCH_PASSIVE, Constants.kClimb.RIGHT_LATCH_PASSIVE);
   }
 
   public void latchMain() {

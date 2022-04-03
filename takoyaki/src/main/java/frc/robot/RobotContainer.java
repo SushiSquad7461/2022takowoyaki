@@ -160,7 +160,8 @@ public class RobotContainer {
 
                 // (climb) pull up
                 new JoystickButton(operatorController, Constants.kOI.CLIMB_LATCH_PASSIVE)
-                                .whenPressed(new InstantCommand(climb::retractClimb, climb));
+                                .whenPressed(new SequentialCommandGroup(
+                                        new InstantCommand(climb::retractClimb, climb)));
 
                 // open loop raise climb
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_RAISE_CLIMB)
