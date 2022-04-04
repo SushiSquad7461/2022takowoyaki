@@ -41,6 +41,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
 
@@ -151,9 +152,13 @@ public class RobotContainer {
                                                 new RunCommand(hopper::stop, hopper),
                                                 new RunCommand(intake::stop, intake)));
 
-                climb.setDefaultCommand(new RunCommand(
-                                () -> climb.setPower(operatorController.getLeftY(), operatorController.getRightY()),
-                                climb));
+                new Trigger(() -> (OI.joystickActive(operatorController)))
+                        .whenActive(() -> climb.setPower(OI.getLeftStickY(operatorController), OI.getRightStickY(operatorController)), climb)
+                        .whenInactive(new InstantCommand(climb::stopClimb, climb));
+
+                new JoystickButton(operatorController, operatorController.getPOV(270))
+                        .whenPressed(new InstantCommand(climb::calibrationMode, climb))
+                        .whenReleased(new InstantCommand(climb::zeroClimbEncoders, climb));
 
                 // extend climber and latch main hooks
                 new JoystickButton(operatorController, Constants.kOI.EXTEND_LATCH_MAIN)
@@ -180,7 +185,7 @@ public class RobotContainer {
                 setDriveStators();
                 drivetrain.setDefaultCommand(new RunCommand(
                                 () -> drivetrain.curveDrive(OI.getTriggers(driveController),
-                                                OI.getLeftStick(driveController), driveController.getXButton()),
+                                                OI.getLeftStickX(driveController), driveController.getXButton()),
                                 drivetrain));
         }
 

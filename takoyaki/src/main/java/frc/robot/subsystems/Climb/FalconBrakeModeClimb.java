@@ -48,6 +48,16 @@ public class FalconBrakeModeClimb extends Climb {
 
     closedLoop = false;
     zeroClimbEncoders();
+
+    left.configForwardSoftLimitEnable(true);
+    left.configReverseSoftLimitEnable(true);
+    left.configForwardSoftLimitThreshold(Constants.kClimb.LEFT_MAX_HEIGHT);
+    left.configReverseSoftLimitThreshold(Constants.kClimb.LEFT_MIN_HEIGHT);
+    right.configForwardSoftLimitEnable(true);
+    right.configReverseSoftLimitEnable(true);
+    right.configForwardSoftLimitThreshold(Constants.kClimb.RIGHT_MAX_HEIGHT);
+    right.configReverseSoftLimitThreshold(Constants.kClimb.RIGHT_MIN_HEIGHT);
+
     leftSetpoint = Constants.kClimb.BOTTOM_SETPOINT;
     rightSetpoint = Constants.kClimb.BOTTOM_SETPOINT;
   }
@@ -96,14 +106,9 @@ public class FalconBrakeModeClimb extends Climb {
   }
 
   public void setPower(double leftPower, double rightPower) {
-    if (Math.abs(leftPower) < Constants.kOI.OPEN_LOOP_CLIMB_JOYSTICK_THERSHOLD
-        || Math.abs(rightPower) < Constants.kOI.OPEN_LOOP_CLIMB_JOYSTICK_THERSHOLD) {
-      left.set(ControlMode.PercentOutput, leftPower * Constants.kClimb.MAX_OPEN_LOOP_SPEED);
-      right.set(ControlMode.PercentOutput, rightPower * Constants.kClimb.MAX_OPEN_LOOP_SPEED);
-      closedLoop = false;
-    } else {
-      closedLoop = true;
-    }
+    closedLoop = false;
+    left.set(leftPower);
+    right.set(rightPower);
   }
 
   public void extendClimb() {
@@ -138,6 +143,15 @@ public class FalconBrakeModeClimb extends Climb {
     closedLoop = false;
     left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
     right.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
+  }
+
+  public void calibrationMode() {
+    left.configForwardSoftLimitEnable(false);
+    left.configReverseSoftLimitEnable(false);
+
+    
+    right.configForwardSoftLimitEnable(false);
+    right.configReverseSoftLimitEnable(false);
   }
 
   public void zeroClimbEncoders() {

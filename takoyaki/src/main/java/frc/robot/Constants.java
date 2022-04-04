@@ -65,6 +65,12 @@ public class Constants {
     // timings in seconds for traversal
     public static final double MID_PASSIVE_LATCH_PAUSE = 3;
     public static final double HIGH_MAIN_LATCH_PAUSE = 3;
+
+    // soft limit values
+    public static final double LEFT_MAX_HEIGHT = -300000;
+    public static final double LEFT_MIN_HEIGHT = 0;
+    public static final double RIGHT_MAX_HEIGHT = -300000;
+    public static final double RIGHT_MIN_HEIGHT = 0;
   }
 
   public static final class kOI {
