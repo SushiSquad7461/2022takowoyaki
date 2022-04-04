@@ -23,7 +23,7 @@ import frc.robot.subsystems.Climb.FalconBrakeModeClimb;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Hopper.TalonHopper;
 import frc.robot.Ramsete.PathPlannerPath;
-import frc.robot.commands.AutoShoot;
+import frc.robot.commands.AutoShootWithVision;
 import frc.robot.commands.ExtendClimb;
 import frc.robot.commands.RetractClimb;
 import frc.robot.subsystems.Drivetrain.Drivetrain;

@@ -233,6 +233,7 @@ public class Constants {
   }
 
   public static class kTurnToTarget {
+    public static final double ERROR_TOLLERANCE = 10;
     public static double kP = 0;
     public static double kI = 0;
     public static double kD = 0;

@@ -66,6 +66,10 @@ public class AutoCommandSelector {
                 return new AutoShoot(shooter, hopper, intake);
         }
 
+        private AutoShootWithVision getAutoShootWithVision() {
+                return new AutoShootWithVision(shooter, hopper, intake, drivetrain, camera);
+        }
+
         private AutoShoot getRangedAutoShoot() {
                 return new AutoShoot(shooter, hopper, intake, ShooterState.RANGED);
         }
@@ -110,8 +114,8 @@ public class AutoCommandSelector {
                                                 new SequentialCommandGroup(
                                                                 new WaitCommand(0.5),
                                                                 new InstantCommand(intake::stop, intake),
-                                                                new TurnToTarget(camera, drivetrain).withTimeout(2),
-                                                                getRangedAutoShoot())));
+                                                                new WaitCommand(2),
+                                                                getAutoShootWithVision())));
 
                 twoBallFar = new SequentialCommandGroup(
                                 new InstantCommand(intake::intake),
