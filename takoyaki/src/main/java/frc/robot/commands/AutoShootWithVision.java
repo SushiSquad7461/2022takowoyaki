@@ -28,7 +28,7 @@ public class AutoShootWithVision extends CommandBase {
   private final Shooter shooter;
   private final Hopper hopper;
   private final Intake intake;
-  private ShooterState state = ShooterState.FENDER;
+  private ShooterState state = ShooterState.RANGED;
 
   private Timer timer;
   private PhotonCamera camera;
