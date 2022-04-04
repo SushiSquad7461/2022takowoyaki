@@ -9,6 +9,8 @@ import javax.management.InstanceAlreadyExistsException;
 
 import com.pathplanner.lib.PathPlanner;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -16,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Ramsete.PathPlannerPath;
-import frc.robot.commands.AutoShoot;
+import frc.robot.commands.*;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Intake.Intake;
@@ -29,6 +31,7 @@ public class AutoCommandSelector {
         private final Intake intake;
         private final Shooter shooter;
         private final Hopper hopper;
+        private final PhotonCamera camera;
 
         // sequential command groups
         public final SequentialCommandGroup fiveBall;
@@ -68,13 +71,14 @@ public class AutoCommandSelector {
         }
 
         public AutoCommandSelector(Drivetrain drivetrain, Ramsete ramsete, Intake intake, Shooter shooter,
-                        Hopper hopper) {
+                        Hopper hopper, PhotonCamera camera) {
                 // instantiate dependencies
                 this.drivetrain = drivetrain;
                 this.ramsete = ramsete;
                 this.intake = intake;
                 this.shooter = shooter;
                 this.hopper = hopper;
+                this.camera = camera;
 
                 this.pathArrayMap = new HashMap<SequentialCommandGroup, PathPlannerPath[]>();
 
@@ -106,7 +110,7 @@ public class AutoCommandSelector {
                                                 new SequentialCommandGroup(
                                                                 new WaitCommand(0.5),
                                                                 new InstantCommand(intake::stop, intake),
-                                                                new WaitCommand(2),
+                                                                new TurnToTarget(camera, drivetrain).withTimeout(2),
                                                                 getRangedAutoShoot())));
 
                 twoBallFar = new SequentialCommandGroup(

@@ -8,6 +8,8 @@ import java.time.Instant;
 
 import javax.naming.ldap.ExtendedRequest;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -49,6 +51,7 @@ public class RobotContainer {
         public final Shooter shooter;
         public final Drivetrain drivetrain;
         private final Climb climb;
+        private final PhotonCamera photonCamera;
 
         // controllers
         private final XboxController driveController;
@@ -71,6 +74,7 @@ public class RobotContainer {
                 shooter = new ClosedLoopDoubleFalconShooter();
                 drivetrain = new FalconDrivetrain();
                 climb = new FalconBrakeModeClimb();
+                photonCamera = new PhotonCamera(Constants.kPhotonVision.CAMERA_NAME);
 
                 // controllers
                 driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
@@ -81,7 +85,7 @@ public class RobotContainer {
 
                 // set up chooser
                 ramsete = new Ramsete(drivetrain);
-                autoSelector = new AutoCommandSelector(drivetrain, ramsete, intake, shooter, hopper);
+                autoSelector = new AutoCommandSelector(drivetrain, ramsete, intake, shooter, hopper, photonCamera);
                 field = new Field2d();
                 setupAutoSelector();
 

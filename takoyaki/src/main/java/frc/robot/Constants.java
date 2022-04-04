@@ -238,6 +238,10 @@ public class Constants {
     public static double kD = 0;
   }
 
+  public static class kPhotonVision {
+    public static final String CAMERA_NAME = "sushicam";
+  }
+
   enum RobotType {
     PRACTICE,
     COMP
