@@ -153,23 +153,32 @@ public class RobotContainer {
                                                 new RunCommand(intake::stop, intake)));
 
                 new Trigger(() -> (OI.joystickActive(operatorController)))
-                        .whenActive(() -> climb.setPower(OI.getLeftStickY(operatorController), OI.getRightStickY(operatorController)), climb)
-                        .whenInactive(new InstantCommand(climb::stopClimb, climb));
-
-                new JoystickButton(operatorController, operatorController.getPOV(270))
-                        .whenPressed(new InstantCommand(climb::calibrationMode, climb))
-                        .whenReleased(new InstantCommand(climb::zeroClimbEncoders, climb));
+                                .whenActive(new RunCommand(() -> climb.setPower(OI.getLeftStickY(operatorController),
+                                                OI.getRightStickY(operatorController)), climb))
+                                .whenInactive(new InstantCommand(climb::stopClimb, climb));
 
                 // extend climber and latch main hooks
                 new JoystickButton(operatorController, Constants.kOI.EXTEND_LATCH_MAIN)
                                 .whenPressed(new SequentialCommandGroup(
-                                                new InstantCommand(climb::extendClimb, climb),
-                                                new WaitCommand(Constants.kClimb.HIGH_MAIN_LATCH_PAUSE),
-                                                new InstantCommand(climb::latchMain, climb)));
+                                        new InstantCommand(climb::extendClimb, climb)));
 
                 // (climb) pull up
                 new JoystickButton(operatorController, Constants.kOI.CLIMB_LATCH_PASSIVE)
-                                .whenPressed(new InstantCommand(climb::retractClimb, climb));
+                                .whenPressed(new SequentialCommandGroup(
+                                        new InstantCommand(climb::retractClimb, climb),
+                                        new WaitCommand(2),
+                                        new InstantCommand(climb::extendClimb),
+                                        new WaitCommand(2),
+                                        new InstantCommand(climb::retractClimb, climb),
+                                        new WaitCommand(0.5),
+                                        new InstantCommand(climb::extendClimb, climb),
+                                        new WaitCommand(2.2),
+                                        new InstantCommand(climb::latchMain)
+                                        // new WaitCommand(Constants.kClimb.MID_PASSIVE_LATCH_PAUSE),
+                                        // new InstantCommand(climb::latchPassive, climb)
+                                ));
+
+                // new JoystickButton(operatorController, XboxController.Button.kLeftBumper.)
 
                 // open loop raise climb
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_RAISE_CLIMB)

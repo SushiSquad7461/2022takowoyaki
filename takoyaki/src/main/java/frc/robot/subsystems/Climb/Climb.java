@@ -21,8 +21,6 @@ public abstract class Climb extends SubsystemBase {
 
   public abstract void latchMain();
 
-  public abstract void calibrationMode();
-
   public abstract void zeroClimbEncoders();
 
   public abstract boolean isFinished();

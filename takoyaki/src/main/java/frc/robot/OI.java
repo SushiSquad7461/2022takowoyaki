@@ -25,6 +25,6 @@ public class OI {
   }
 
   public static boolean joystickActive(XboxController controller) {
-    return (controller.getLeftY() < 0.1 || controller.getRightY() < 0.1);
+    return (Math.abs(controller.getLeftY()) > 0.1 || Math.abs(controller.getRightY()) > 0.1);
   }
 }
