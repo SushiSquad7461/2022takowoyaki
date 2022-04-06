@@ -46,16 +46,16 @@ public class Constants {
     public static final int LEFT_MOTOR_CAN_ID = 2;
     public static final int RIGHT_MOTOR_CAN_ID = 17;
 
-    public static final double OPEN_LOOP_UP_POWER = -0.3;
+    public static final double OPEN_LOOP_UP_POWER = -1;
     public static final double OPEN_LOOP_DOWN_POWER = 1;
     public static final double RIGHT_CLIMB_OFFSET = 15000;
     public static final double LEFT_TOP_SETPOINT = 320000;
-    public static final double RIGHT_TOP_SETPOINT = 320000 + RIGHT_CLIMB_OFFSET;
+    public static final double RIGHT_TOP_SETPOINT = 320000;
     public static final double BOTTOM_SETPOINT = 5000;
     public static final double LEFT_LATCH_PASSIVE = 51000;
-    public static final double RIGHT_LATCH_PASSIVE = 57000;
+    public static final double RIGHT_LATCH_PASSIVE = 51000;
     public static final double LEFT_LATCH_MAIN = 260000;
-    public static final double RIGHT_LATCH_MAIN = 270000;
+    public static final double RIGHT_LATCH_MAIN = 260000;
 
     public static final double MAX_OPEN_LOOP_SPEED = 0.2;
 

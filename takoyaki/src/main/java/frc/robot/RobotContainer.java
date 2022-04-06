@@ -167,15 +167,34 @@ public class RobotContainer {
                                 .whenPressed(new SequentialCommandGroup(
                                         new InstantCommand(climb::retractClimb, climb),
                                         new WaitCommand(2),
-                                        new InstantCommand(climb::extendClimb),
+                                        new InstantCommand(climb::extendClimb, climb),
+                                        new WaitCommand(2),
+                                        new InstantCommand(climb::latchMain, climb)
+                                        
+                                        // new WaitCommand(Constants.kClimb.MID_PASSIVE_LATCH_PAUSE),
+                                        // new InstantCommand(climb::latchPassive, climb)
+                                ));
+
+                new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value)
+                                .whenPressed(new SequentialCommandGroup(
+                                        new InstantCommand(climb::retractClimb, climb),
+                                        new WaitCommand(2.5),
+                                        new InstantCommand(climb::extendClimb, climb),
+                                        new WaitCommand(2),
+                                        new InstantCommand(climb::latchMain)
+                                ));
+
+                new JoystickButton(operatorController, XboxController.Button.kRightBumper.value)
+                                .whenPressed(new SequentialCommandGroup(
+                                        new InstantCommand(climb::retractClimb, climb),
+                                        new WaitCommand(2),
+                                        new InstantCommand(climb::extendClimb, climb),
                                         new WaitCommand(2),
                                         new InstantCommand(climb::retractClimb, climb),
                                         new WaitCommand(2.5),
                                         new InstantCommand(climb::extendClimb, climb),
-                                        new WaitCommand(2.2),
-                                        new InstantCommand(climb::latchMain)
-                                        // new WaitCommand(Constants.kClimb.MID_PASSIVE_LATCH_PAUSE),
-                                        // new InstantCommand(climb::latchPassive, climb)
+                                        new WaitCommand(2),
+                                        new InstantCommand(climb::retractClimb)
                                 ));
 
                 // new JoystickButton(operatorController, XboxController.Button.kLeftBumper.)
