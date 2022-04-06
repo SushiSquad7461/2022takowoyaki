@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.subsystems.Shooter.Shooter.ShooterState;
 
 /** An example command that uses an example subsystem. */
 public class AutoAutoShoot extends CommandBase {
@@ -36,7 +37,7 @@ public class AutoAutoShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setRangedSetpoint();
+    shooter.setState(ShooterState.RANGED);
     timer.start();
   }
 
@@ -57,7 +58,11 @@ public class AutoAutoShoot extends CommandBase {
     //   shooter.stopKicker();
     // }
 
-    
+    if(shooter.isAtSpeed()) {
+      
+    }
+
+
 
   }
 
