@@ -108,7 +108,7 @@ public class AutoCommandSelector {
                                                                 new WaitCommand(0.5),
                                                                 new InstantCommand(intake::stop, intake),
                                                                 new WaitCommand(2),
-                                                                getAutoAutoShoot())));
+                                                                getAutoShoot())));
 
                 twoBallFar = new SequentialCommandGroup(
                                 new InstantCommand(intake::intake),

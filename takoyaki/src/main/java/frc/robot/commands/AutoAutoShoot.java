@@ -43,19 +43,21 @@ public class AutoAutoShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (shooter.isAtSpeed()) {
-      hopper.runHopper();
-      if ((timer.get() % 0.5) > 0.25) {
-        shooter.runKicker();
-      } else {
-        shooter.stopKicker();
-      }
-      intake.runIntakeMotor();
-    } else {
-      hopper.stop();
-      intake.stop();
-      shooter.stopKicker();
-    }
+    // if (shooter.isAtSpeed()) {
+    //   hopper.runHopper();
+    //   if ((timer.get() % 0.5) > 0.25) {
+    //     shooter.runKicker();
+    //   } else {
+    //     shooter.stopKicker();
+    //   }
+    //   intake.runIntakeMotor();
+    // } else {
+    //   hopper.stop();
+    //   intake.stop();
+    //   shooter.stopKicker();
+    // }
+
+    
 
   }
 

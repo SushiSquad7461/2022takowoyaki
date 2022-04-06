@@ -125,7 +125,7 @@ public class Constants {
     public static final FieldConstants FIELD_CONSTANTS = FieldConstants.BEAR_METAL;
 
     public enum FieldConstants {
-      BEAR_METAL(0.73137, 2.388, 0.52104, 0.00006707, 0, 0, 0.04, 0.1, 1, 0),
+      BEAR_METAL(0.75058, 2.3131, 0.46187, 0.000084582, 0, 0, 0.04, 0.1, 1, 0),
       ROYALS(0.77377, 2.3111, 0.23485, 0.000020568, 0, 0, 0.04, 0.1, 1, 0);
 
       public double ksVolts;
