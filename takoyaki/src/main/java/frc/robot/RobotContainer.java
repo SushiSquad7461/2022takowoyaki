@@ -21,7 +21,6 @@ import frc.robot.subsystems.Climb.FalconBrakeModeClimb;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Hopper.TalonHopper;
 import frc.robot.Ramsete.PathPlannerPath;
-import frc.robot.commands.AutoAutoShoot;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.ExtendClimb;
 import frc.robot.commands.RetractClimb;
@@ -128,7 +127,7 @@ public class RobotContainer {
                                 .whenHeld(new AutoShoot(shooter, hopper, intake, ShooterState.RANGED));
 
                 new JoystickButton(driveController, XboxController.Button.kRightBumper.value)
-                                .whenHeld(new AutoAutoShoot(shooter, hopper, intake));
+                                .whenHeld(new AutoShoot(shooter, hopper, intake, ShooterState.TUNABLE));
 
                 // reverse shooter (hopper + kicker)
                 new JoystickButton(driveController, Constants.kOI.REVERSE_SHOOT)

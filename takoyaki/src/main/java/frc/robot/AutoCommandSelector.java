@@ -60,11 +60,11 @@ public class AutoCommandSelector {
         public final Map<SequentialCommandGroup, PathPlannerPath[]> pathArrayMap;
 
         private AutoShoot getAutoShoot() {
-                return new AutoShoot(shooter, hopper, intake);
+                return new AutoShoot(shooter, hopper, intake, ShooterState.FENDER);
         }
 
         private AutoShoot getRangedAutoShoot() {
-                return new AutoShoot(shooter, hopper, intake, ShooterState.RANGED);
+                return new AutoShoot(shooter, hopper, intake, ShooterState.AUTO);
         }
 
         public AutoCommandSelector(Drivetrain drivetrain, Ramsete ramsete, Intake intake, Shooter shooter,
@@ -106,8 +106,8 @@ public class AutoCommandSelector {
                                                 new SequentialCommandGroup(
                                                                 new WaitCommand(0.5),
                                                                 new InstantCommand(intake::stop, intake),
-                                                                new WaitCommand(2),
-                                                                getRangedAutoShoot())));
+                                                                new WaitCommand(2.2),
+                                                                getAutoShoot())));
 
                 twoBallFar = new SequentialCommandGroup(
                                 new InstantCommand(intake::intake),
