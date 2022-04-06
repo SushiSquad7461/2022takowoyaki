@@ -47,15 +47,18 @@ public class Constants {
     public static final int LEFT_MOTOR_CAN_ID = 2;
     public static final int RIGHT_MOTOR_CAN_ID = 17;
 
-    public static final double OPEN_LOOP_UP_POWER = 0.3;
-    public static final double OPEN_LOOP_DOWN_POWER = -1;
+    public static final double OPEN_LOOP_UP_POWER = -1;
+    public static final double OPEN_LOOP_DOWN_POWER = 1;
+    public static final double RIGHT_CLIMB_OFFSET = 15000;
+    public static final double LEFT_TOP_SETPOINT = 320000;
+    public static final double RIGHT_TOP_SETPOINT = 320000;
+    public static final double BOTTOM_SETPOINT = 5000;
+    public static final double LEFT_LATCH_PASSIVE = 51000;
+    public static final double RIGHT_LATCH_PASSIVE = 51000;
+    public static final double LEFT_LATCH_MAIN = 260000;
+    public static final double RIGHT_LATCH_MAIN = 260000;
 
-    public static final double LEFT_TOP_SETPOINT = -290000;
-    public static final double RIGHT_TOP_SETPOINT = -290000;
-    public static final double BOTTOM_SETPOINT = -5000;
-    public static final double LEFT_LATCH_PASSIVE = -41500;
-    public static final double RIGHT_LATCH_PASSIVE = -46200;
-    public static final double LATCH_MAIN = -300000;
+    public static final double MAX_OPEN_LOOP_SPEED = 0.2;
 
     public static final double kP = 0.6;
     public static final double kI = 0;
@@ -63,8 +66,15 @@ public class Constants {
     public static final double kF = 0;
 
     // timings in seconds for traversal
-    public static final double MID_PASSIVE_LATCH_PAUSE = 3;
+    public static final double MID_PASSIVE_LATCH_PAUSE =  3;
     public static final double HIGH_MAIN_LATCH_PAUSE = 3;
+    public static final double HIGH_PASSIVE_LATCH_PAUSE = 0;
+
+    // soft limit values
+    public static final double LEFT_MAX_HEIGHT = -1000000;
+    public static final double LEFT_MIN_HEIGHT = 0;
+    public static final double RIGHT_MAX_HEIGHT = -1000000;
+    public static final double RIGHT_MIN_HEIGHT = 0;
   }
 
   public static final class kOI {
@@ -88,6 +98,7 @@ public class Constants {
     public static final int CLIMB_LATCH_PASSIVE = XboxController.Button.kB.value;
     public static final int OPEN_LOOP_RAISE_CLIMB = XboxController.Button.kA.value;
     public static final int OPEN_LOOP_LOWER_CLIMB = XboxController.Button.kY.value;
+    public static final double OPEN_LOOP_CLIMB_JOYSTICK_THERSHOLD = 0.05;
 
     public static final String TRAJECTORY_NAME = "path";
   }

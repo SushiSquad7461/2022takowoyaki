@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj.XboxController;
 
 public class OI {
@@ -10,11 +12,19 @@ public class OI {
     return Math.pow(val, 1);
   }
 
-  public static double getLeftStick(XboxController controller) {
+  public static double getLeftStickX(XboxController controller) {
     return Math.pow(controller.getLeftX(), 3);
   }
 
-  public static double getRightStick(XboxController controller) {
-    return Math.pow(controller.getRightY(), 3);
+  public static double getLeftStickY(XboxController controller) {
+    return controller.getLeftY();
+  }
+
+  public static double getRightStickY(XboxController controller) {
+    return controller.getRightY();
+  }
+
+  public static boolean joystickActive(XboxController controller) {
+    return (Math.abs(controller.getLeftY()) > 0.1 || Math.abs(controller.getRightY()) > 0.1);
   }
 }

@@ -9,6 +9,7 @@ import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.fasterxml.jackson.databind.deser.std.NumberDeserializers.FloatDeserializer;
 
 import javax.imageio.spi.RegisterableService;
 import javax.naming.ldap.Control;
@@ -48,6 +49,16 @@ public class FalconBrakeModeClimb extends Climb {
 
     closedLoop = false;
     zeroClimbEncoders();
+
+    // left.configForwardSoftLimitEnable(true);
+    // left.configReverseSoftLimitEnable(true);
+    left.configReverseSoftLimitThreshold(Constants.kClimb.LEFT_MAX_HEIGHT);
+    left.configForwardSoftLimitThreshold(Constants.kClimb.LEFT_MIN_HEIGHT);
+    // right.configForwardSoftLimitEnable(true);
+    // right.configReverseSoftLimitEnable(true);
+    right.configReverseSoftLimitThreshold(Constants.kClimb.RIGHT_MAX_HEIGHT);
+    right.configForwardSoftLimitThreshold(Constants.kClimb.RIGHT_MIN_HEIGHT);
+
     leftSetpoint = Constants.kClimb.BOTTOM_SETPOINT;
     rightSetpoint = Constants.kClimb.BOTTOM_SETPOINT;
   }
@@ -95,6 +106,12 @@ public class FalconBrakeModeClimb extends Climb {
     this.rightSetpoint = setpoint;
   }
 
+  public void setPower(double leftPower, double rightPower) {
+    closedLoop = false;
+    left.set(leftPower);
+    right.set(rightPower);
+  }
+
   public void extendClimb() {
     setSetpoint(Constants.kClimb.LEFT_TOP_SETPOINT, Constants.kClimb.RIGHT_TOP_SETPOINT);
   }
@@ -108,7 +125,7 @@ public class FalconBrakeModeClimb extends Climb {
   }
 
   public void latchMain() {
-    setSetpoint(Constants.kClimb.LATCH_MAIN);
+    setSetpoint(Constants.kClimb.LEFT_LATCH_MAIN, Constants.kClimb.RIGHT_LATCH_MAIN);
   }
 
   public void stopClimb() {
@@ -133,4 +150,5 @@ public class FalconBrakeModeClimb extends Climb {
     left.setSelectedSensorPosition(0);
     right.setSelectedSensorPosition(0);
   }
+
 }
