@@ -50,10 +50,11 @@ public class Constants {
     public static final double OPEN_LOOP_UP_POWER = 0.3;
     public static final double OPEN_LOOP_DOWN_POWER = -1;
 
-    public static final double LEFT_TOP_SETPOINT = -350000;
-    public static final double RIGHT_TOP_SETPOINT = -350000;
-    public static final double BOTTOM_SETPOINT = -10000;
-    public static final double LATCH_PASSIVE = -42000;
+    public static final double LEFT_TOP_SETPOINT = -290000;
+    public static final double RIGHT_TOP_SETPOINT = -290000;
+    public static final double BOTTOM_SETPOINT = -5000;
+    public static final double LEFT_LATCH_PASSIVE = -41500;
+    public static final double RIGHT_LATCH_PASSIVE = -46200;
     public static final double LATCH_MAIN = -300000;
 
     public static final double kP = 0.6;

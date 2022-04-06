@@ -94,7 +94,9 @@ public class RobotContainer {
                 SmartDashboard.putData("auto options", autoChooser);
 
                 autoChooser.setDefaultOption("five ball", autoSelector.fiveBall);
-                autoChooser.addOption("two ball far", autoSelector.twoBallFar);
+                autoChooser.addOption("three ball", autoSelector.threeBall);
+                autoChooser.addOption("two ball", autoSelector.twoBallFar);
+                autoChooser.addOption("two ball defense", autoSelector.twoBallFarDefense);
                 autoChooser.addOption("one ball far mid", autoSelector.oneBallFarMid);
                 autoChooser.addOption("one ball far far", autoSelector.oneBallFarFar);
 
@@ -162,7 +164,8 @@ public class RobotContainer {
 
                 // (climb) pull up
                 new JoystickButton(operatorController, Constants.kOI.CLIMB_LATCH_PASSIVE)
-                                .whenPressed(new InstantCommand(climb::retractClimb, climb));
+                                .whenPressed(new SequentialCommandGroup(
+                                        new InstantCommand(climb::retractClimb, climb)));
 
                 // open loop raise climb
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_RAISE_CLIMB)
