@@ -170,7 +170,7 @@ public class RobotContainer {
                                         new InstantCommand(climb::extendClimb),
                                         new WaitCommand(2),
                                         new InstantCommand(climb::retractClimb, climb),
-                                        new WaitCommand(0.5),
+                                        new WaitCommand(2.5),
                                         new InstantCommand(climb::extendClimb, climb),
                                         new WaitCommand(2.2),
                                         new InstantCommand(climb::latchMain)
