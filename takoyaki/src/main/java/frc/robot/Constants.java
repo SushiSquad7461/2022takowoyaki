@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Field;
 import java.util.Scanner;
 
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
@@ -121,6 +122,57 @@ public class Constants {
   }
 
   public static final class kDrive {
+
+    public static final FieldConstants FIELD_CONSTANTS = FieldConstants.BEAR_METAL;
+
+    public enum FieldConstants {
+      BEAR_METAL(0.75058, 2.3131, 0.46187, 0.000084582, 0, 0, 0.04, 0.1, 1, 0),
+      ROYALS(0.77377, 2.3111, 0.23485, 0.000020568, 0, 0, 0.04, 0.1, 1, 0);
+
+      public double ksVolts;
+      public double kvVoltSecondsPerMeter;
+      public double kaVoltSecondsSquaredPerMeter;
+      public double kPDriveVel;
+      public double kIDrive;
+      public double kDDrive;
+
+      // slew constants
+      public double TRIGGER_SPEED_DERIVATIVE;
+      public double LINEAR_SCALING_MIN_SPEED;
+      public double MAX_ACCEL;
+      public double MINIMUM_SENSOR_VELOCITY;
+
+      private FieldConstants(double ksVolts, double kvVoltSecondsPerMeter, double kaVoltSecondsSquaredPerMeter,
+          double kPDriveVel, double kIDrive, double kDDrive, double TRIGGER_SPEED_DERIVATIVE,
+          double LINEAR_SCALING_MIN_SPEED, double MAX_ACCEL, double MINIMUM_SENSOR_VELOCITY) {
+        this.ksVolts = ksVolts;
+        this.kvVoltSecondsPerMeter = kvVoltSecondsPerMeter;
+        this.kaVoltSecondsSquaredPerMeter = kaVoltSecondsSquaredPerMeter;
+        this.kPDriveVel = kPDriveVel;
+        this.kIDrive = kIDrive;
+        this.kDDrive = kDDrive;
+
+        this.TRIGGER_SPEED_DERIVATIVE = TRIGGER_SPEED_DERIVATIVE;
+        this.LINEAR_SCALING_MIN_SPEED = LINEAR_SCALING_MIN_SPEED;
+        this.MAX_ACCEL = MAX_ACCEL;
+        this.MINIMUM_SENSOR_VELOCITY = MINIMUM_SENSOR_VELOCITY;
+      }
+    }
+
+    public static void setupFieldConstants() {
+      ksVolts = FIELD_CONSTANTS.ksVolts;
+      kvVoltSecondsPerMeter = FIELD_CONSTANTS.kvVoltSecondsPerMeter;
+      kaVoltSecondsSquaredPerMeter = FIELD_CONSTANTS.kaVoltSecondsSquaredPerMeter;
+      kPDriveVel = FIELD_CONSTANTS.kPDriveVel;
+      kIDrive = FIELD_CONSTANTS.kIDrive;
+      kDDrive = FIELD_CONSTANTS.kDDrive;
+
+      TRIGGER_SPEED_DERIVATIVE = FIELD_CONSTANTS.TRIGGER_SPEED_DERIVATIVE;
+      LINEAR_SCALING_MIN_SPEED = FIELD_CONSTANTS.TRIGGER_SPEED_DERIVATIVE;
+      MAX_ACCEL = FIELD_CONSTANTS.MAX_ACCEL;
+      MINIMUM_SENSOR_VELOCITY = FIELD_CONSTANTS.MINIMUM_SENSOR_VELOCITY;
+    }
+
     public static int FRONT_RIGHT_ID;
     public static int FRONT_LEFT_ID;
     public static int BACK_RIGHT_ID;
@@ -130,21 +182,18 @@ public class Constants {
     // to divide quick turn power by
     public static final double QUICK_TURN_DAMPENER = 2.0;
 
-    // char values for bear metal carpet
-    public static final double ksVolts = 0.73137;
-    public static final double kvVoltSecondsPerMeter = 2.388;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.52104;
-    public static final double kPDriveVel = 0.00006707;
-    public static final double kIDrive = 0;
-    public static final double kDDrive = 0;
+    public static double ksVolts;
+    public static double kvVoltSecondsPerMeter;
+    public static double kaVoltSecondsSquaredPerMeter;
+    public static double kPDriveVel;
+    public static double kIDrive;
+    public static double kDDrive;
 
-    // char values for royals carpet
-    // public static final double ksVolts = 0.77377;
-    // public static final double kvVoltSecondsPerMeter = 2.3111;
-    // public static final double kaVoltSecondsSquaredPerMeter = 0.23485;
-    // public static final double kPDriveVel = 0.000020568;
-    // public static final double kIDrive = 0;
-    // public static final double kDDrive = 0;
+    // slew constants
+    public static double TRIGGER_SPEED_DERIVATIVE;
+    public static double LINEAR_SCALING_MIN_SPEED;
+    public static double MAX_ACCEL;
+    public static double MINIMUM_SENSOR_VELOCITY;
 
     public static final double MAX_VOLTAGE = 5;
 
@@ -167,13 +216,6 @@ public class Constants {
     public static final int SUPPLY_LIMIT = 40;
     public static final int STATOR_LIMIT = 70;
 
-    // slew constants
-    public static final double TRIGGER_SPEED_DERIVATIVE = 0.04;
-    public static final double LINEAR_SCALING_MIN_SPEED = 0.1;
-    public static final double TRIGGER_SPEED_PROPORTIONAL = 0.03;
-    public static final double MAX_ACCEL = 1;
-    public static final double MINIMUM_SENSOR_VELOCITY = 0;
-
   }
 
   public static final class kShooter {
@@ -185,15 +227,6 @@ public class Constants {
 
     public static final class kDoubleClosedLoop {
       public static final double SETPOINT_RPM = 1325.0;// 1300 prac field // 1325 sundome // 1065 gpk CONSTANT
-
-      public static final double FENDER_AMP = 1;
-      public static final double FENDER_RATIO = 2.305;
-
-      public static final double RANGED_AMP = 0.8;
-      public static final double RANGED_RATIO = 5;
-
-      public static final double AUTO_AMP = 1;
-      public static final double AUTO_RATIO = 2.305;
 
       public static final class kFront {
         public static final double ERROR_TOLERANCE = 30; // 30
@@ -248,6 +281,8 @@ public class Constants {
   }
 
   public static void setup() {
+
+    kDrive.setupFieldConstants();
     RobotType robot = getRobotType();
     switch (robot) {
       case PRACTICE:
