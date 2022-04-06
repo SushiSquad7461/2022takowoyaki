@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.subsystems.Shooter.Shooter.ShooterState;
 
 /** An example command that uses an example subsystem. */
 public class AutoShoot extends CommandBase {
@@ -17,6 +18,7 @@ public class AutoShoot extends CommandBase {
   private final Shooter shooter;
   private final Hopper hopper;
   private final Intake intake;
+  private ShooterState state = ShooterState.FENDER;
 
   private Timer timer;
 
@@ -33,10 +35,15 @@ public class AutoShoot extends CommandBase {
     addRequirements(shooter, hopper, intake);
   }
 
+  public AutoShoot(Shooter shooter, Hopper hopper, Intake intake, ShooterState state) {
+    this(shooter, hopper, intake);
+    this.state = state;
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setSetpoint();
+    shooter.setState(state);
     timer.start();
   }
 
@@ -44,17 +51,17 @@ public class AutoShoot extends CommandBase {
   @Override
   public void execute() {
     // if (shooter.isAtSpeed()) {
-    //   hopper.runHopper();
-    //   if ((timer.get() % 0.5) > 0.25) {
-    //     shooter.runKicker();
-    //   } else {
-    //     shooter.stopKicker();
-    //   }
-    //   intake.runIntakeMotor();
+    // hopper.runHopper();
+    // if ((timer.get() % 0.5) > 0.25) {
+    // shooter.runKicker();
     // } else {
-    //   hopper.stop();
-    //   intake.stop();
-    //   shooter.stopKicker();
+    // shooter.stopKicker();
+    // }
+    // intake.runIntakeMotor();
+    // } else {
+    // hopper.stop();
+    // intake.stop();
+    // shooter.stopKicker();
     // }
     if (shooter.isAtSpeed()) {
       hopper.runHopper();
