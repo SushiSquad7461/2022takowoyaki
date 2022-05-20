@@ -30,6 +30,7 @@ public abstract class Shooter extends SubsystemBase {
     FENDER(1.0, 2.305),
     RANGED(1, 2.305),
     AUTO(0.8, 6.25),
+    OUTREACH(0.1, 5),
     TUNABLE(new TunableNumber("Tunable shooter amp", 1.0), new TunableNumber("Tunable shooter ratio", 2.305));
 
     private Supplier<Double> amp;

@@ -82,7 +82,15 @@ public class FalconDrivetrain extends Drivetrain {
   double lastTriggerSpeed = 0;
 
   public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn) {
+    if (Constants.OUTREACH_MODE) {
+      linearVelocity *= 0.3;
+      if (isQuickturn) {
+        angularVelocity *= 0.3;
+      }
+    }
+
     double val = linearVelocity;
+
     if (val != lastTriggerSpeed) {
       if (val < lastTriggerSpeed) {
         val = lastTriggerSpeed - Constants.kDrive.TRIGGER_SPEED_DERIVATIVE;

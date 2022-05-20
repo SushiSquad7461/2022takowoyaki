@@ -122,6 +122,9 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
   @Override
   public void setState(ShooterState state) {
     this.state = state;
+    if (Constants.OUTREACH_MODE) {
+      this.state = ShooterState.OUTREACH;
+    }
     SmartDashboard.putBoolean("tuning enabled", true);
     this.frontSetpointRPMWithOffset = ((Constants.kShooter.kDoubleClosedLoop.SETPOINT_RPM)
         * (this.getAmp() + ampOffsetSlider.get()))

@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Climb.Climb;
+import frc.robot.subsystems.Climb.ClimbIO;
 import frc.robot.subsystems.Climb.FalconBrakeModeClimb;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Hopper.TalonHopper;
@@ -70,7 +71,7 @@ public class RobotContainer {
                 intake = new FalconSolenoidIntake();
                 shooter = new ClosedLoopDoubleFalconShooter();
                 drivetrain = new FalconDrivetrain();
-                climb = new FalconBrakeModeClimb();
+                climb = new ClimbIO();
 
                 // controllers
                 driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
@@ -165,7 +166,7 @@ public class RobotContainer {
                 // (climb) pull up
                 new JoystickButton(operatorController, Constants.kOI.CLIMB_LATCH_PASSIVE)
                                 .whenPressed(new SequentialCommandGroup(
-                                        new InstantCommand(climb::retractClimb, climb)));
+                                                new InstantCommand(climb::retractClimb, climb)));
 
                 // open loop raise climb
                 new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_RAISE_CLIMB)

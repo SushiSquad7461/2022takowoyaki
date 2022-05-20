@@ -23,6 +23,10 @@ public class Constants {
   // set tuning mode to true to enable tuning values over NT
   public static final boolean TUNING_MODE = true;
 
+  // perma-sets shooter to outreach setpoint and
+  // slows down drivetrain
+  public static final boolean OUTREACH_MODE = true;
+
   // the unit of measurement for Talon FX encoder velocity is known as the "Tran"
   // encoder ticks per 100ms
   public static double convertRPMToTrans(double RPM) {
