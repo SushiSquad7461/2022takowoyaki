@@ -94,12 +94,12 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
 
   public void runShooter() {
     left.set(ControlMode.PercentOutput, Constants.kShooter.kOpenLoop.SPEED);
-    back.set(ControlMode.PercentOutput, Constants.kShooter.kOpenLoop.BACK_SPEED);
+    // back.set(ControlMode.PercentOutput, Constants.kShooter.kOpenLoop.BACK_SPEED);
   }
 
   public void stopShooter() {
     left.set(ControlMode.PercentOutput, 0);
-    back.set(ControlMode.PercentOutput, 0);
+    // back.set(ControlMode.PercentOutput, 0);
   }
 
   public void runKicker() {
@@ -149,10 +149,10 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
 
     if (frontSetpointRPMWithOffset == 0) { // assume both setpoints are zero
       left.set(ControlMode.PercentOutput, 0);
-      back.set(ControlMode.PercentOutput, 0);
+      //back.set(ControlMode.PercentOutput, 0);
     } else {
       left.set(ControlMode.Velocity, Constants.convertRPMToTrans(frontSetpointRPMWithOffset));
-      back.set(ControlMode.Velocity, Constants.convertRPMToTrans(backSetpointRPMWithOffset));
+      //back.set(ControlMode.Velocity, Constants.convertRPMToTrans(backSetpointRPMWithOffset));
     }
   }
 
@@ -165,8 +165,7 @@ public class ClosedLoopDoubleFalconShooter extends Shooter {
     frontDiff = Math
         .abs(Constants.convertRPMToTrans(frontSetpointRPMWithOffset) - left.getSelectedSensorVelocity());
     backDiff = Math.abs(Constants.convertRPMToTrans(backSetpointRPMWithOffset)) - back.getSelectedSensorVelocity();
-    return frontDiff <= Constants.convertRPMToTrans(Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE)
-        && backDiff <= Constants.convertRPMToTrans(Constants.kShooter.kDoubleClosedLoop.kBack.ERROR_TOLERANCE);
+    return frontDiff <= Constants.convertRPMToTrans(Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE);
 
   }
 

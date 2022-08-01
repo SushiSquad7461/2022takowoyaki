@@ -17,6 +17,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.kShooter.kDoubleClosedLoop.kFront;
 
 public class Constants {
 
@@ -233,7 +234,7 @@ public class Constants {
       public static final double SETPOINT_RPM = 1325.0;// 1300 prac field // 1325 sundome // 1065 gpk CONSTANT
 
       public static final class kFront {
-        public static final double ERROR_TOLERANCE = 30; // 30
+        public static final double ERROR_TOLERANCE = 150; // 30
         public static final double SETPOINT_OFFSET_RPM = 0;
         public static double kP;
         public static double kI;
@@ -259,6 +260,22 @@ public class Constants {
         public static final double CURRENT_LIMIT_THRESHOLD_TIME = 3;
       }
     }
+
+    public static final class kClosedLoopNeo {
+      public static final class kFront {
+        public static final double kP = 0.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double kF = 0.0; 
+      }
+      
+      public static final class kBack {
+        public static final double kP = 0.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double kF = 0.0;
+      }
+    };
 
     public static final class kKicker {
       public static final double MOTOR_SPEED = 1;
