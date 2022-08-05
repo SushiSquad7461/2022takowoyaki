@@ -1,7 +1,10 @@
 package frc.robot.subsystems.Shooter;
 
+import java.util.ResourceBundle.Control;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
@@ -14,16 +17,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.utils.SliderAdjustableNumber;
 
-public class ClosedLoopNeoShooter extends Shooter{
-    private final CANSparkMax left = new CANSparkMax(Constants.kShooter.LEFT_MOTOR_ID, MotorType.kBrushless);
-    private final CANSparkMax right = new CANSparkMax(Constants.kShooter.RIGHT_MOTOR_ID, MotorType.kBrushless);
+public class ClosedLoopNeoShooter extends Shooter {
+    private final WPI_TalonFX left = new WPI_TalonFX(Constants.kShooter.LEFT_MOTOR_ID);
+    private final WPI_TalonFX right = new WPI_TalonFX(Constants.kShooter.RIGHT_MOTOR_ID);
     private final CANSparkMax back = new CANSparkMax(Constants.kShooter.BACK_MOTOR_ID, MotorType.kBrushless);
     private final WPI_TalonSRX kicker = new WPI_TalonSRX(Constants.kShooter.KICKER_MOTOR_ID);
     private final RelativeEncoder backEncoder;
-    private final RelativeEncoder frontEncoder;
-    private final PIDController frontController;
     private final PIDController backController;
-
 
     private double frontSetpointRPMWithOffset;
     private double backSetpointRPMWithOffset;
@@ -55,8 +55,8 @@ public class ClosedLoopNeoShooter extends Shooter{
 
     public ClosedLoopNeoShooter() {
 
-        left.setIdleMode(IdleMode.kCoast);
-        right.setIdleMode(IdleMode.kCoast);
+        left.setNeutralMode(NeutralMode.Coast);
+        right.setNeutralMode(NeutralMode.Coast);
         back.setIdleMode(IdleMode.kCoast);
         kicker.setNeutralMode(NeutralMode.Brake);
 
@@ -65,18 +65,16 @@ public class ClosedLoopNeoShooter extends Shooter{
         back.setInverted(false);
         kicker.setInverted(!Constants.kShooter.kKicker.KICKER_INVERSION);
 
-        left.setSmartCurrentLimit(40);
-        right.setSmartCurrentLimit(40);
+        left.configSupplyCurrentLimit(Constants.currentLimit(40));
+        right.configSupplyCurrentLimit(Constants.currentLimit(40));
         back.setSmartCurrentLimit(40);
         kicker.configSupplyCurrentLimit(Constants.currentLimit(30));
 
-        frontController = new PIDController(Constants.kShooter.kClosedLoopNeo.kFront.kP, Constants.kShooter.kClosedLoopNeo.kFront.kI, Constants.kShooter.kClosedLoopNeo.kFront.kD);
         backController = new PIDController(Constants.kShooter.kClosedLoopNeo.kBack.kP,
                 Constants.kShooter.kClosedLoopNeo.kBack.kI, Constants.kShooter.kClosedLoopNeo.kBack.kD);
         right.follow(left);
 
         this.zeroSetpoint();
-        frontEncoder = left.getEncoder();
         backEncoder = back.getEncoder();
     }
 
@@ -128,7 +126,7 @@ public class ClosedLoopNeoShooter extends Shooter{
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("front shooter rpm", frontEncoder.getVelocity() * 600.0 / 2048.0);
+        SmartDashboard.putNumber("front shooter rpm", left.getSelectedSensorVelocity() * 600.0 / 2048.0);
         SmartDashboard.putNumber("front shooter setpoint", frontSetpointRPMWithOffset);
         SmartDashboard.putNumber("back shooter rpm", backEncoder.getVelocity()
                 * 600.0 / 2048.0);
@@ -136,12 +134,12 @@ public class ClosedLoopNeoShooter extends Shooter{
         SmartDashboard.putBoolean("at speed", isAtSpeed());
 
         if (frontSetpointRPMWithOffset == 0) { // assume both setpoints are zero
-            left.set(frontController.calculate(frontEncoder.getVelocity(), 0));
+            left.set(ControlMode.Velocity, 0);
             back.set(backController.calculate(backEncoder.getVelocity(), 0));
         } else {
-            left.set(frontController.calculate(frontEncoder.getVelocity(), Constants.convertRPMToTrans(frontSetpointRPMWithOffset)));
-            back.set(frontController.calculate(backEncoder.getVelocity(),
-            Constants.convertRPMToTrans(backSetpointRPMWithOffset)));
+            left.set(ControlMode.Velocity, Constants.convertRPMToTrans(frontSetpointRPMWithOffset));
+            back.set(backController.calculate(backEncoder.getVelocity(),
+                    Constants.convertRPMToTrans(backSetpointRPMWithOffset)));
         }
     }
 
@@ -152,11 +150,11 @@ public class ClosedLoopNeoShooter extends Shooter{
         double frontDiff, backDiff;
 
         frontDiff = Math
-                .abs(Constants.convertRPMToTrans(frontSetpointRPMWithOffset) - frontEncoder.getVelocity());
+                .abs(Constants.convertRPMToTrans(frontSetpointRPMWithOffset) - left.getSelectedSensorVelocity());
         backDiff = Math.abs(Constants.convertRPMToTrans(backSetpointRPMWithOffset))
                 - backEncoder.getVelocity();
         return frontDiff <= Constants
-                .convertRPMToTrans(Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE) 
+                .convertRPMToTrans(Constants.kShooter.kDoubleClosedLoop.kFront.ERROR_TOLERANCE)
                 && backDiff <= Constants.convertTransToRPM(Constants.kShooter.kDoubleClosedLoop.kBack.ERROR_TOLERANCE);
 
     }
