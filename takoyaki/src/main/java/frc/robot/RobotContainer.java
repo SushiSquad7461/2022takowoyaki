@@ -32,6 +32,7 @@ import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.Shooter.ShooterState;
 import frc.robot.subsystems.Shooter.ClosedLoopDoubleFalconShooter;
+import frc.robot.subsystems.Shooter.ClosedLoopNeoShooter;
 import frc.robot.subsystems.Shooter.OpenLoopDoubleFalconShooter;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -69,7 +70,7 @@ public class RobotContainer {
 
                 hopper = new TalonHopper();
                 intake = new FalconSolenoidIntake();
-                shooter = new ClosedLoopDoubleFalconShooter();
+                shooter = new ClosedLoopNeoShooter();
                 drivetrain = new FalconDrivetrain();
                 climb = new ClimbIO();
 
