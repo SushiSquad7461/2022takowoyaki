@@ -4,10 +4,15 @@
 
 package frc.robot;
 
+import java.time.Instant;
+
+import javax.naming.ldap.ExtendedRequest;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,19 +20,21 @@ import frc.robot.subsystems.Climb.Climb;
 import frc.robot.subsystems.Climb.FalconBrakeModeClimb;
 import frc.robot.subsystems.Hopper.Hopper;
 import frc.robot.subsystems.Hopper.TalonHopper;
-import frc.robot.subsystems.Hopper.VictorHopper;
-import frc.robot.Ramsete.RamsetePath;
+import frc.robot.Ramsete.PathPlannerPath;
 import frc.robot.commands.AutoShoot;
-import frc.robot.commands.RangedAutoShoot;
+import frc.robot.commands.ExtendClimb;
+import frc.robot.commands.RetractClimb;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Drivetrain.FalconDrivetrain;
 import frc.robot.subsystems.Intake.FalconSolenoidIntake;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.subsystems.Shooter.Shooter.ShooterState;
 import frc.robot.subsystems.Shooter.ClosedLoopDoubleFalconShooter;
 import frc.robot.subsystems.Shooter.OpenLoopDoubleFalconShooter;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -41,7 +48,7 @@ public class RobotContainer {
         public final Intake intake;
         public final Shooter shooter;
         public final Drivetrain drivetrain;
-        // private final Climb climb;
+        private final Climb climb;
 
         // controllers
         private final XboxController driveController;
@@ -63,49 +70,40 @@ public class RobotContainer {
                 intake = new FalconSolenoidIntake();
                 shooter = new ClosedLoopDoubleFalconShooter();
                 drivetrain = new FalconDrivetrain();
-                // climb = new FalconBrakeModeClimb();
+                climb = new FalconBrakeModeClimb();
 
                 // controllers
                 driveController = new XboxController(Constants.kOI.DRIVE_CONTROLLER);
                 operatorController = new XboxController(Constants.kOI.OPERATOR_CONTROLLER);
 
-                ramsete = new Ramsete(drivetrain);
-                autoChooser = new SendableChooser<>();
-                autoSelector = new AutoCommandSelector(drivetrain, ramsete, intake, shooter, hopper);
-                field = new Field2d();
-
-                autoChooser.setDefaultOption("two ball mid", autoSelector.twoBallMid);
-                autoChooser.addOption("two ball far", autoSelector.twoBallFar);
-                autoChooser.addOption("two ball wall", autoSelector.twoBallWall);
-                autoChooser.addOption("three ball", autoSelector.threeBall);
-                autoChooser.addOption("five ball", autoSelector.fiveBall);
-                autoChooser.addOption("reverse testig", autoSelector.reverseSpline);
-                autoChooser.addOption("iota five ball", autoSelector.iotaFiveBall);
-                autoChooser.addOption("zeta five ball", autoSelector.zetaFiveBall);
-                // put field object to dashboard
-                SmartDashboard.putData("field", field);
-
-                // set up chooser
-                SmartDashboard.putData("auto options", autoChooser);
-
-                new JoystickButton(driveController, Constants.kOI.SHOOT)
-                                .whenHeld(new AutoShoot(shooter, hopper, intake));
-
+                // camera
                 CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
 
-                // shoot ball (hopper + kicker)
-                /*
-                 * new JoystickButton(driveController, Constants.kOI.SHOOT)
-                 * .whenPressed(new ParallelCommandGroup(
-                 * new RunCommand(shooter::runKicker, shooter),
-                 * new RunCommand(hopper::runHopper, hopper)))
-                 * .whenReleased(new ParallelCommandGroup(
-                 * new RunCommand(shooter::stopKicker, intake),
-                 * new RunCommand(hopper::stop, hopper)));
-                 */
-                // subsystems
+                // set up chooser
+                ramsete = new Ramsete(drivetrain);
+                autoSelector = new AutoCommandSelector(drivetrain, ramsete, intake, shooter, hopper);
+                field = new Field2d();
+                setupAutoSelector();
+
                 configureButtonBindings();
 
+        }
+
+        private void setupAutoSelector() {
+                autoChooser = new SendableChooser<>();
+                SmartDashboard.putData("auto options", autoChooser);
+
+                autoChooser.setDefaultOption("five ball", autoSelector.fiveBall);
+                autoChooser.addOption("three ball", autoSelector.threeBall);
+                autoChooser.addOption("two ball", autoSelector.twoBallFar);
+                autoChooser.addOption("two ball defense", autoSelector.twoBallFarDefense);
+                autoChooser.addOption("one ball far mid", autoSelector.oneBallFarMid);
+                autoChooser.addOption("one ball far far", autoSelector.oneBallFarFar);
+
+                SmartDashboard.putData("auto options", autoChooser);
+
+                // put field object to dashboard
+                SmartDashboard.putData("field", field);
         }
 
         /**
@@ -117,73 +115,23 @@ public class RobotContainer {
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
         private void configureButtonBindings() {
-                /*
-                 * new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
-                 * .whenPressed(new InstantCommand(climb::extendClimb, climb));
-                 * 
-                 * new JoystickButton(operatorController,
-                 * Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
-                 * .whenPressed(new InstantCommand(climb::retractClimb, climb));
-                 */
 
-                // .whenPressed(new InstantCommand(climb::runOpenLoopClimb, climb))
-                // .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
-                // new JoystickButton(operatorController,
-                // Constants.kClimb.CLIMB_OPEN_LOOP_LOWER_BUTTON)
-                // .whenPressed(new InstantCommand(climb::reverseOpenLoopClimb, climb))
-                // .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
-                // START OF CLIMB CODE!!!!
-                // new JoystickButton(operatorController, Constants.kClimb.CLIMB_TO_TOP_BUTTON)
-                // .whenPressed(new RunCommand(climb::runClimb, climb))
-                // .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
-                // new JoystickButton(operatorController,
-                // Constants.kClimb.CLIMB_TO_BOTTOM_BUTTON)
-                // .whenPressed(new RunCommand(climb::climbDown, climb))
-                // .whenReleased(new InstantCommand(climb::stopClimb, climb));
-
-                // new JoystickButton(operatorController, Constants.kClimb.SEPARATE_CLIMB)
-                // .whenPressed(new InstantCommand(climb::separateClimb, climb));
-
-                // new JoystickButton(operatorController, Constants.kClimb.REJOIN_CLIMB)
-                // .whenPressed(new InstantCommand(climb::rejoinClimb, climb));
-
-                // new JoystickButton(operatorController,
-                // Constants.kClimb.CLIMB_ENCODER_RESET_BUTTON)
-                // .whenPressed(new RunCommand(climb::zeroClimbEncoders, climb));
-
-                // climb.setDefaultCommand(
-                // new RunCommand(() -> climb.defaultCommand(operatorController.getLeftY(),
-                // operatorController.getRightY()),
-                // climb));
-                // END OF CLIMB CODE!!!
-
-                // run hopper
-                // new JoystickButton(driveController, Constants.kOI.RUN_HOPPER);
-                new JoystickButton(driveController, Constants.kOI.SHOOT)
-                                .whenHeld(new AutoShoot(shooter, hopper, intake));
-
-                new JoystickButton(driveController, XboxController.Button.kA.value)
-                                .whenHeld(new RangedAutoShoot(shooter, hopper, intake));
-
-                // shoot ball (hopper + kicker)
-                /*
-                 * new JoystickButton(driveController, Constants.kOI.SHOOT)
-                 * .whenPressed(new ParallelCommandGroup(
-                 * new RunCommand(shooter::runKicker, shooter),
-                 * new RunCommand(hopper::runHopper, hopper)))
-                 * .whenReleased(new ParallelCommandGroup(
-                 * new RunCommand(shooter::stopKicker, intake),
-                 * new RunCommand(hopper::stop, hopper)));
-                 */
-
-                // invert drive direction
+                // invert drive
                 new JoystickButton(driveController, Constants.kOI.INVERT_DRIVE)
                                 .whenPressed(new InstantCommand(drivetrain::invertDrive, drivetrain));
 
-                // reverse shoot (hopper + kicker)
+                // shoot close
+                new JoystickButton(driveController, Constants.kOI.SHOOT)
+                                .whenHeld(new AutoShoot(shooter, hopper, intake));
+
+                // shoot far
+                new JoystickButton(driveController, Constants.kOI.RANGED_SHOOT)
+                                .whenHeld(new AutoShoot(shooter, hopper, intake, ShooterState.RANGED));
+
+                new JoystickButton(driveController, XboxController.Button.kRightBumper.value)
+                                .whenHeld(new AutoShoot(shooter, hopper, intake, ShooterState.TUNABLE));
+
+                // reverse shooter (hopper + kicker)
                 new JoystickButton(driveController, Constants.kOI.REVERSE_SHOOT)
                                 .whenPressed(new ParallelCommandGroup(
                                                 new RunCommand(shooter::reverseKicker, shooter),
@@ -193,54 +141,76 @@ public class RobotContainer {
                                                 new RunCommand(hopper::stop, hopper)));
 
                 // toggle intake
-                new JoystickButton(driveController, XboxController.Button.kLeftBumper.value)
+                new JoystickButton(driveController, Constants.kOI.TOGGLE_INTAKE)
                                 .whenPressed(new InstantCommand(intake::toggleIntake, intake));
 
-                // reverse intake
+                // reverse intake (outtake)
                 new JoystickButton(driveController, Constants.kOI.REVERSE_INTAKE)
                                 .whenPressed(new ParallelCommandGroup(
                                                 new RunCommand(shooter::reverseKicker, shooter),
                                                 new RunCommand(hopper::reverseHopper, hopper),
-                                                new RunCommand(intake::reverseIntake, intake)))
+                                                new RunCommand(intake::outtake, intake)))
                                 .whenReleased(new ParallelCommandGroup(
                                                 new RunCommand(shooter::stopKicker, shooter),
                                                 new RunCommand(hopper::stop, hopper),
                                                 new RunCommand(intake::stop, intake)));
 
-                // drivetrain.setDefaultCommand(new RunCommand(() ->
-                // drivetrain.curveDrive(OI.getTriggers(driveController),
-                // OI.getLeftStick(driveController), driveController.getXButton()),
-                // drivetrain));
+                // extend climber and latch main hooks
+                new JoystickButton(operatorController, Constants.kOI.EXTEND_LATCH_MAIN)
+                                .whenPressed(new SequentialCommandGroup(
+                                                new InstantCommand(climb::extendClimb, climb),
+                                                new WaitCommand(Constants.kClimb.HIGH_MAIN_LATCH_PAUSE),
+                                                new InstantCommand(climb::latchMain, climb)));
+
+                // (climb) pull up
+                new JoystickButton(operatorController, Constants.kOI.CLIMB_LATCH_PASSIVE)
+                                .whenPressed(new SequentialCommandGroup(
+                                        new InstantCommand(climb::retractClimb, climb)));
+
+                // open loop raise climb
+                new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_RAISE_CLIMB)
+                                .whenPressed(climb::runClimb, climb).whenReleased(climb::stopClimb, climb);
+
+                // open loop lower climb
+                new JoystickButton(operatorController, Constants.kOI.OPEN_LOOP_LOWER_CLIMB)
+                                .whenPressed(climb::reverseClimb, climb).whenReleased(climb::stopClimb, climb);
         }
 
         public void teleopDrive() {
-                drivetrain.setTeleopRampRates();
-                drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.curveDrive(OI.getTriggers(driveController),
-                                OI.getLeftStick(driveController), driveController.getXButton()), drivetrain));
+                setDriveBrake();
+                setDriveStators();
+                drivetrain.setDefaultCommand(new RunCommand(
+                                () -> drivetrain.curveDrive(OI.getTriggers(driveController),
+                                                OI.getLeftStick(driveController), driveController.getXButton()),
+                                drivetrain));
         }
 
-        // public void autoDrive() {
-        // drivetrain.setDefaultCommand(null);
-        // }
+        public void autoDrive() {
+                setDriveBrake();
+        }
 
         public Command getAutonomousCommand() {
                 return autoChooser.getSelected();
+        }
+
+        public void setFieldTrajectory() {
+                Trajectory concatTrajectory = new Trajectory();
+                for (PathPlannerPath p : autoSelector.pathArrayMap.get(autoChooser.getSelected())) {
+                        concatTrajectory = concatTrajectory.concatenate(p.getTrajectory());
+                }
+                field.getObject(Constants.kOI.TRAJECTORY_NAME).setTrajectory(concatTrajectory);
         }
 
         public void updateRobotPose() {
                 field.setRobotPose(drivetrain.getPose());
         }
 
-        public void setFieldTrajectory() {
-                Trajectory concatTrajectory = new Trajectory();
-                for (RamsetePath p : autoSelector.pathArrayMap.get(autoChooser.getSelected())) {
-                        concatTrajectory = concatTrajectory.concatenate(p.getTrajectory());
-                }
-                field.getObject(Constants.kOI.TRAJECTORY_NAME).setTrajectory(concatTrajectory);
-        }
-
         public void setInitialPose() {
                 autoSelector.setInitialDrivePose(autoChooser.getSelected());
+        }
+
+        public void setDriveStators() {
+                drivetrain.setStatorLimits();
         }
 
         public void setDriveBrake() {
@@ -249,10 +219,6 @@ public class RobotContainer {
 
         public void setDriveCoast() {
                 drivetrain.setCoast();
-        }
-
-        public void tankDriveVolts(int left, int right) {
-                drivetrain.tankDriveVolts(left, right);
         }
 
 }

@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public abstract class Drivetrain extends SubsystemBase {
   public abstract void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn);
 
-  public abstract void setTeleopRampRates();
+  public abstract void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickturn, boolean slowMode);
+
+  public abstract void setStatorLimits();
 
   public abstract void setBrake();
 
@@ -53,6 +55,4 @@ public abstract class Drivetrain extends SubsystemBase {
   public abstract double getTurnRate();
 
   public abstract void invertDrive();
-
-  public abstract void configOpenloopRamp(double ramp);
 }

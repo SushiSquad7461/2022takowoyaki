@@ -5,8 +5,9 @@
 package frc.robot.subsystems.Climb;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
+import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import javax.imageio.spi.RegisterableService;
@@ -14,118 +15,100 @@ import javax.naming.ldap.Control;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 
 public class FalconBrakeModeClimb extends Climb {
 
   private final WPI_TalonFX left;
   private final WPI_TalonFX right;
+  private double leftSetpoint;
+  private double rightSetpoint;
   private boolean closedLoop;
-  private boolean goingUp;
-  private boolean separate;
 
   public FalconBrakeModeClimb() {
-
-    closedLoop = false;
-    separate = false;
-
     left = new WPI_TalonFX(Constants.kClimb.LEFT_MOTOR_CAN_ID);
     right = new WPI_TalonFX(Constants.kClimb.RIGHT_MOTOR_CAN_ID);
 
-    motorConfig(left);
-    motorConfig(right);
+    configMotor(left);
+    configMotor(right);
 
-    // right.follow(left);
+    left.config_kP(0, Constants.kClimb.kP);
+    left.config_kI(0, Constants.kClimb.kI);
+    left.config_kD(0, Constants.kClimb.kD);
+    left.config_kF(0, Constants.kClimb.kF);
+
+    right.config_kP(0, Constants.kClimb.kP);
+    right.config_kI(0, Constants.kClimb.kI);
+    right.config_kD(0, Constants.kClimb.kD);
+    right.config_kF(0, Constants.kClimb.kF);
 
     left.setInverted(TalonFXInvertType.Clockwise);
     right.setInverted(TalonFXInvertType.Clockwise);
-  }
 
-  public void zeroClimbEncoders() {
-    left.setSelectedSensorPosition(0);
-    right.setSelectedSensorPosition(0);
+    closedLoop = false;
+    zeroClimbEncoders();
+    leftSetpoint = Constants.kClimb.BOTTOM_SETPOINT;
+    rightSetpoint = Constants.kClimb.BOTTOM_SETPOINT;
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("output", left.getMotorOutputPercent());
-    SmartDashboard.putNumber("position", left.getSelectedSensorPosition());
-
-  }
-
-  public void separateClimb() {
-    separate = true;
-  }
-
-  public void rejoinClimb() {
-    separate = false;
-  }
-
-  public void runClimb() {
-    if (!separate) {
-      left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
-      right.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
+    SmartDashboard.putNumber("left position", left.getSelectedSensorPosition());
+    SmartDashboard.putNumber("right position", right.getSelectedSensorPosition());
+    SmartDashboard.putNumber("left setpoint", leftSetpoint);
+    SmartDashboard.putNumber("right setpoint", rightSetpoint);
+    if (closedLoop) {
+      left.set(ControlMode.Position, leftSetpoint);
+      right.set(ControlMode.Position, rightSetpoint);
     }
-  }
-
-  public void climbDown() {
-    if (!separate) {
-      left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
-      right.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
-    }
-  }
-
-  public void defaultCommand(double openLoopLeft, double openLoopRight) {
-    if (separate) {
-      if (!closedLoop) {
-        left.set(ControlMode.PercentOutput, normalizeInput(openLoopLeft));
-        right.set(ControlMode.PercentOutput, normalizeInput(openLoopRight));
-      }
-    }
-    /*
-     * else {
-     * if (goingUp) {
-     * if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
-     * left.set(ControlMode.PercentOutput, 0);
-     * }
-     * if (right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
-     * right.set(ControlMode.PercentOutput, 0);
-     * }
-     * if (left.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL
-     * && right.getSelectedSensorPosition() <= Constants.kClimb.TOP_ENCODER_VAL) {
-     * closedLoop = false;
-     * }
-     * } else {
-     * if (left.getSelectedSensorPosition() >= Constants.kClimb.BOTTOM_ENCODER_VAL)
-     * {
-     * left.set(ControlMode.PercentOutput, 0);
-     * }
-     * if (right.getSelectedSensorPosition() >= Constants.kClimb.BOTTOM_ENCODER_VAL)
-     * {
-     * right.set(ControlMode.PercentOutput, 0);
-     * }
-     * if (left.getSelectedSensorPosition() >= Constants.kClimb.TOP_ENCODER_VAL
-     * && right.getSelectedSensorPosition() >= Constants.kClimb.TOP_ENCODER_VAL) {
-     * closedLoop = false;
-     * }
-     * }
-     * 
-     * }
-     */
-
-  }
-
-  public double normalizeInput(double joystickInput) {
-    if (joystickInput > 0.5) {
-      return Constants.kClimb.OPEN_LOOP_UP_POWER;
-    } else if (joystickInput < -0.5) {
-      return Constants.kClimb.OPEN_LOOP_DOWN_POWER;
-    }
-    return 0;
   }
 
   @Override
   public void simulationPeriodic() {
+  }
+
+  private void configMotor(WPI_TalonFX motor) {
+    motor.configFactoryDefault();
+    motor.setSelectedSensorPosition(0);
+    motor.setNeutralMode(NeutralMode.Brake);
+    motor.configSupplyCurrentLimit(Constants.currentLimit(40));
+  }
+
+  public boolean isFinished() {
+    if (leftSetpoint == Constants.kClimb.LEFT_TOP_SETPOINT) {
+      return left.getSelectedSensorPosition() <= leftSetpoint && right.getSelectedSensorPosition() <= rightSetpoint;
+    } else {
+      return left.getSelectedSensorPosition() >= leftSetpoint && right.getSelectedSensorPosition() >= rightSetpoint;
+    }
+  }
+
+  private void setSetpoint(double left, double right) {
+    closedLoop = true;
+    this.leftSetpoint = left;
+    this.rightSetpoint = right;
+  }
+
+  private void setSetpoint(double setpoint) {
+    closedLoop = true;
+    this.leftSetpoint = setpoint;
+    this.rightSetpoint = setpoint;
+  }
+
+  public void extendClimb() {
+    setSetpoint(Constants.kClimb.LEFT_TOP_SETPOINT, Constants.kClimb.RIGHT_TOP_SETPOINT);
+  }
+
+  public void retractClimb() {
+    setSetpoint(Constants.kClimb.BOTTOM_SETPOINT);
+  }
+
+  public void latchPassive() {
+    setSetpoint(Constants.kClimb.LEFT_LATCH_PASSIVE, Constants.kClimb.RIGHT_LATCH_PASSIVE);
+  }
+
+  public void latchMain() {
+    setSetpoint(Constants.kClimb.LATCH_MAIN);
   }
 
   public void stopClimb() {
@@ -134,25 +117,20 @@ public class FalconBrakeModeClimb extends Climb {
     right.set(ControlMode.PercentOutput, 0);
   }
 
-  public void extendClimb() {
-    closedLoop = true;
-    goingUp = true;
-    left.set(ControlMode.PercentOutput, Constants.kClimb.CLOSED_LOOP_UP_POWER);
-    right.set(ControlMode.PercentOutput, Constants.kClimb.CLOSED_LOOP_UP_POWER);
+  public void runClimb() {
+    closedLoop = false;
+    left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
+    right.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_UP_POWER);
   }
 
-  public void retractClimb() {
-    closedLoop = true;
-    goingUp = false;
-    left.set(ControlMode.PercentOutput, Constants.kClimb.CLOSED_LOOP_DOWN_POWER);
-    right.set(ControlMode.PercentOutput, Constants.kClimb.CLOSED_LOOP_DOWN_POWER);
+  public void reverseClimb() {
+    closedLoop = false;
+    left.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
+    right.set(ControlMode.PercentOutput, Constants.kClimb.OPEN_LOOP_DOWN_POWER);
   }
 
-  private void motorConfig(WPI_TalonFX motor) {
-    motor.configFactoryDefault();
-    motor.setSelectedSensorPosition(0);
-    motor.setNeutralMode(NeutralMode.Brake);
-    motor.configOpenloopRamp(Constants.kClimb.OPEN_LOOP_RAMP_RATE);
-
+  public void zeroClimbEncoders() {
+    left.setSelectedSensorPosition(0);
+    right.setSelectedSensorPosition(0);
   }
 }

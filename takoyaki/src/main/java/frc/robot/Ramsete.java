@@ -13,56 +13,46 @@ import edu.wpi.first.wpilibj.Filesystem;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 
 public class Ramsete {
-  private DifferentialDriveVoltageConstraint voltageConstraint;
   private Drivetrain drivetrain;
-  private SimpleMotorFeedforward ramseteFF; 
-  
-  // path enums
-  public enum RamsetePath {
-    FARBALL_SHOOT("output/farball-shoot.wpilib.json"),
-    MIDBALL_SHOOT("output/midball-shoot.wpilib.json"),
-    MIDBALL_WALLBALL("output/midball-wallball.wpilib.json"),
-    SHOOT_MIDBALL_1_REVERSE("output/shoot-midball-1-reverse.wpilib.json"),
-    SHOOT_MIDBALL_2("output/shoot-midball-2.wpilib.json"),
-    SHOOT_TARMAC_REVERSE("output/shoot-tarmac-reverse.wpilib.json"),
-    SHOOT_TERMINAL_1_REVERSE("output/shoot-terminal-1-reverse.wpilib.json"),
-    SHOOT_TERMINAL_2("output/shoot-terminal-2.wpilib.json"),
-    TARMAC_FARBALL("output/tarmac-farball.wpilib.json"),
-    TARMAC_MIDBALL("output/tarmac-midball.wpilib.json"),
-    TARMAC_WALLBALL("output/tarmac-wallball.wpilib.json"),
-    TERMINAL_SHOOT_1_REVERSE("output/terminal-shoot-1-reverse.wpilib.json"),
-    TERMINAL_SHOOT_2("output/terminal-shoot-2.wpilib.json"),
-    WALLBALL_SHOOT("output/wallball-shoot.wpilib.json"),
-    IOTA_TERMINAL_SHOOT_1_REVERSE("output/iota-terminal-shoot-1-reverse.wpilib.json"),
-    IOTA_TERMINAL_SHOOT_2("output/iota-terminal-shoot-2.wpilib.json"),
-    ZETA_TERMINAL_SHOOT_1_REVERSE("output/zeta-terminal-shoot-1-reverse.wpilib.json"),
-    ZETA_TERMINAL_SHOOT_2("output/zeta-terminal-shoot-2.wpilib.json"),
-    GAMMA_SHOOT_MIDBALL_1_REVERSE("output/output/shoot-midball-1-reverse.wpilib.json"),
-    GAMMA_SHOOT_MIDBALL_2("output/output/shoot-midball-2.wpilib.json"),
-    GAMMA_WALLBALL_SHOOT("output/output/wallball-shoot.wpilib.json"),
-    GAMMA_SHOOT_TERMINAL_1_REVERSE("output/output/shoot-terminal-1-reverse.wpilib.json"),
-    GAMMA_SHOOT_TERMINAL_2("output/output/shoot-terminal-2.wpilib.json"),
-    GAMMA_TERMINAL_SHOOT_1_REVERSE("output/output/terminal-shoot-1-reverse.wpilib.json"),
-    GAMMA_TERMINAL_SHOOT_2("output/output/terminal-shoot-2.wpilib.json"),
-    GAMMA_TERMINAL_SHOOT_STRAIGHT("output/output/terminal-shoot-straight.wpilib.json"),
-    GAMMA_SHOOT_TERMINAL_STRAIGHT_1("output/output/shoot-terminal-straight-1.wpilib.json"),
-    GAMMA_SHOOT_TERMINAL_STRAIGHT_2("output/output/shoot-terminal-straight-2.wpilib.json");
+  private SimpleMotorFeedforward ramseteFF;
 
-    private String json;
-    RamsetePath(String json) {
-      this.json = json;
+  public enum PathPlannerPath {
+    // SHOOT_MIDBALL(PathPlanner.loadPath("shoot-midball", 2, 2, true)),
+    // MIDBALL_WALLBALL(PathPlanner.loadPath("midball-wallball", 2, 2, false)),
+    // WALLBALL_SHOOT(PathPlanner.loadPath("wallball-shoot", 2, 2, false)),
+    // SHOOT_TERMINAL(PathPlanner.loadPath("shoot-terminal", 2, 2, false)),
+    // TERMINAL_SHOOT(PathPlanner.loadPath("terminal-shoot", 2, 2, false)),
+    SHOOT_MIDBALL(PathPlanner.loadPath("shoot-midball", 8, 3.5, true)),
+    MIDBALL_WALLBALL(PathPlanner.loadPath("midball-wallball", 8, 2.5, false)),
+    MIDBALL_SHOOT(PathPlanner.loadPath("midball-shoot", 8, 3, false)),
+    WALLBALL_SHOOT(PathPlanner.loadPath("wallball-shoot", 7, 4, false)),
+    SHOOT_TERMINAL(PathPlanner.loadPath("shoot-terminal", 6, 3, false)),
+    SHOOT_WALL(PathPlanner.loadPath("shoot-wall", 6, 4, true)),
+    WALL_TERMINAL(PathPlanner.loadPath("wall-terminal", 7, 2.5, false)),
+    TERMINAL_WALL(PathPlanner.loadPath("terminal-wall", 5, 3, true)),
+    WALL_SHOOT(PathPlanner.loadPath("wall-shoot", 6, 3, false)),
+    TERMINAL_SHOOT(PathPlanner.loadPath("terminal-shoot", 7, 3, false)),
+    TWO_BALL_FAR(PathPlanner.loadPath("two-ball-far", 3, 2, false)),
+    ONE_BALL_FAR_MID(PathPlanner.loadPath("one-ball-far-mid", 2, 2, false)),
+    ONE_BALL_FAR_FAR(PathPlanner.loadPath("one-ball-far-far", 2, 2, false)),
+    FAR_DEFENSE(PathPlanner.loadPath("far-defense", 3, 2, true)),
+    THREE_BALL_SHOOT_MIDBALL(PathPlanner.loadPath("three-ball-shoot-midball", 2, 2, true)),
+    THREE_BALL_MIDBALL_FARBALL_SHOOT(PathPlanner.loadPath("three-ball-midball-wallball-shoot", 2, 2, false)),;
+
+    private PathPlannerTrajectory traj;
+
+    private PathPlannerPath(PathPlannerTrajectory traj) {
+      this.traj = traj;
     }
 
-    public Trajectory getTrajectory() {
-      try {
-        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(json);
-        return TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-      } catch (IOException ex) {
-        return new Trajectory(); 
-      }
+    public PathPlannerTrajectory getTrajectory() {
+      return traj;
     }
   }
 
@@ -70,41 +60,31 @@ public class Ramsete {
     this.drivetrain = drivetrain;
 
     ramseteFF = new SimpleMotorFeedforward(
-      Constants.kDrive.ksVolts,
-      Constants.kDrive.kvVoltSecondsPerMeter,
-      Constants.kDrive.kaVoltSecondsSquaredPerMeter);
-
-    voltageConstraint = new DifferentialDriveVoltageConstraint(
-      ramseteFF,
-      Constants.kDrive.DRIVE_KINEMATICS,
-      Constants.kDrive.MAX_VOLTAGE);
+        Constants.kDrive.ksVolts,
+        Constants.kDrive.kvVoltSecondsPerMeter,
+        Constants.kDrive.kaVoltSecondsSquaredPerMeter);
   }
 
-  public RamseteCommand createRamseteCommand(RamsetePath path) {
+  public RamseteCommand createRamseteCommand(PathPlannerPath path) {
     return new RamseteCommand(
-      path.getTrajectory(),
-      drivetrain::getPose,
-      new RamseteController(
-        Constants.kDrive.RAMSETE_B,
-        Constants.kDrive.RAMSETE_ZETA),
-      ramseteFF,
-      Constants.kDrive.DRIVE_KINEMATICS,
-      drivetrain::getWheelSpeeds,
-      new PIDController(
-        Constants.kDrive.kPDriveVel,
-        Constants.kDrive.kIDrive,
-        Constants.kDrive.kDDrive),
-      new PIDController(
-        Constants.kDrive.kPDriveVel,
-        Constants.kDrive.kIDrive,
-        Constants.kDrive.kDDrive),
-      drivetrain::tankDriveVolts,
-      drivetrain);
-      //.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-  }
-
-  public DifferentialDriveVoltageConstraint getVoltageConstraint() {
-    return voltageConstraint;
+        path.getTrajectory(),
+        drivetrain::getPose,
+        new RamseteController(
+            Constants.kDrive.RAMSETE_B,
+            Constants.kDrive.RAMSETE_ZETA),
+        ramseteFF,
+        Constants.kDrive.DRIVE_KINEMATICS,
+        drivetrain::getWheelSpeeds,
+        new PIDController(
+            Constants.kDrive.kPDriveVel,
+            Constants.kDrive.kIDrive,
+            Constants.kDrive.kDDrive),
+        new PIDController(
+            Constants.kDrive.kPDriveVel,
+            Constants.kDrive.kIDrive,
+            Constants.kDrive.kDDrive),
+        drivetrain::tankDriveVolts,
+        drivetrain);
   }
 
 }

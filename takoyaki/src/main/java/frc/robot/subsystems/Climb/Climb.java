@@ -4,19 +4,12 @@
 
 package frc.robot.subsystems.Climb;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 
 public abstract class Climb extends SubsystemBase {
+  public abstract void runClimb();
 
-  public abstract void zeroClimbEncoders();
-
-  public abstract void defaultCommand(double leftTrigger, double rightTrigger);
+  public abstract void reverseClimb();
 
   public abstract void stopClimb();
 
@@ -24,11 +17,9 @@ public abstract class Climb extends SubsystemBase {
 
   public abstract void retractClimb();
 
-  public abstract void rejoinClimb();
+  public abstract void latchPassive();
 
-  public abstract void separateClimb();
+  public abstract void latchMain();
 
-  public abstract void runClimb();
-
-  public abstract void climbDown();
+  public abstract boolean isFinished();
 }

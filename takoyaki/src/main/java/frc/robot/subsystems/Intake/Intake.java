@@ -8,16 +8,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class Intake extends SubsystemBase {
 
-  public abstract void runIntake();
+  // run only the motor
+  public abstract void runIntakeMotor();
 
+  // run only the motor in reverse
+  public abstract void runIntakeMotorBackwards();
+
+  // extend and intake
+  public abstract void intake();
+
+  // retract and stop
   public abstract void stop();
 
-  public abstract void reverseIntake();
+  // extend and reverse
+  public abstract void outtake();
 
-  public abstract void runIntakeBackwards();
-
+  // toggle the intake state (extended or stopped)
   public abstract void toggleIntake();
-
-  public abstract void intakeShoot();
-
 }

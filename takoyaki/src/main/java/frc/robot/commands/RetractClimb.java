@@ -5,57 +5,45 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Hopper.Hopper;
-import frc.robot.subsystems.Intake.Intake;
-import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.Constants;
+import frc.robot.subsystems.Climb.Climb;
 
 /** An example command that uses an example subsystem. */
-public class RangedAutoShoot extends CommandBase {
+public class RetractClimb extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private final Shooter shooter;
-  private final Hopper hopper;
-  private final Intake intake;
+  private final Climb climb;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public RangedAutoShoot(Shooter shooter, Hopper hopper, Intake intake) {
-    this.shooter = shooter;
-    this.hopper = hopper;
-    this.intake = intake;
-    addRequirements(shooter, hopper, intake);
+  public RetractClimb(Climb climb) {
+    this.climb = climb;
+    addRequirements(climb);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setRangedSetpoint();
+    climb.retractClimb();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (shooter.isAtSpeed()) {
-      hopper.runHopper();
-      shooter.runKicker();
-      intake.runIntake();
-    }
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    hopper.stop();
-    shooter.stopKicker();
-    shooter.zeroSetpoint();
-    intake.stop();
+    climb.stopClimb();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return climb.isFinished();
   }
 }

@@ -7,8 +7,10 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.utils.SliderAdjustableNumber;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,12 +26,9 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  boolean hasRun = false;
-
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-
     CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 320, 240, 15);
   }
 
@@ -37,28 +36,27 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     m_robotContainer.updateRobotPose();
+    SliderAdjustableNumber.checkAllButtons();
   }
 
   @Override
   public void disabledInit() {
-    m_robotContainer.setDriveBrake();
+    Timer timer = new Timer();
+    timer.start();
+    timer.delay(1);
+    m_robotContainer.setDriveCoast();
   }
 
   @Override
   public void disabledPeriodic() {
     m_robotContainer.setFieldTrajectory();
-    if (!hasRun) {
-      m_robotContainer.setInitialPose();
-    }
   }
 
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    // m_robotContainer.autoDrive();
-    hasRun = true;
-    m_robotContainer.setDriveBrake();
-
+    m_robotContainer.autoDrive();
+    m_robotContainer.setInitialPose();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -70,7 +68,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    m_robotContainer.setDriveBrake();
     m_robotContainer.teleopDrive();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
@@ -79,7 +76,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    // m_robotContainer.tankDriveVolts(2, 2);
   }
 
   @Override
